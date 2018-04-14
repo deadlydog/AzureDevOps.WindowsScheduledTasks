@@ -1,0 +1,36 @@
+{
+    "manifestVersion": 1,
+    "id": "WindowsScheduledTasksBuildAndReleaseTasks",
+    "name": "Windows Scheduled Tasks",
+    "version": "0.0.1",
+    "publisher": "deadlydog",
+    "targets": [
+        {
+            "id": "Microsoft.VisualStudio.Services"
+        }
+    ],
+    "description": "Tasks for installing and uninstalling Windows Scheduled Tasks.",
+    "categories": [
+        "Build and release"
+    ],
+    "icons": {
+        "default": "images/extension-icon.png"
+    },
+    "files": [
+        {
+            "path": "InstallWindowsScheduledTaskTask"
+        }
+    ],
+    "contributions": [
+        {
+            "id": "InstallWindowsScheduledTaskTask",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "InstallWindowsScheduledTaskTask"
+            }
+        }
+    ]
+}
