@@ -15,8 +15,14 @@
 	],
 	"tags": [
         "utility",
-		"tasks"
-	],
+        "task",
+        "scheduled task",
+        "task scheduler"
+    ],
+    "content": {
+        "details": {
+            "path": "Docs/Overview.md"
+        },
 	"links": {
         "getstarted": {
             "uri": "https://github.com/deadlydog/VSTS.WindowsScheduledTasks/blob/master/ReadMe.md"
