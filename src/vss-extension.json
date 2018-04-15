@@ -12,8 +12,8 @@
     "description": "Tasks for installing and uninstalling Windows Scheduled Tasks.",
     "categories": [
         "Build and release"
-	],
-	"tags": [
+    ],
+    "tags": [
         "utility",
         "task",
         "scheduled task",
@@ -22,8 +22,9 @@
     "content": {
         "details": {
             "path": "Docs/Overview.md"
-        },
-	"links": {
+        }
+    },
+    "links": {
         "getstarted": {
             "uri": "https://github.com/deadlydog/VSTS.WindowsScheduledTasks/blob/master/ReadMe.md"
         },
@@ -31,12 +32,13 @@
             "uri": "https://github.com/deadlydog/VSTS.WindowsScheduledTasks/issues"
         },
         "repository": {
-			"uri": "https://github.com/deadlydog/VSTS.WindowsScheduledTasks"
-		},
+            "uri": "https://github.com/deadlydog/VSTS.WindowsScheduledTasks"
+        }
+    },
     "icons": {
         "default": "Images/ExtensionIcon.png"
-	},
-	"repository": {
+    },
+    "repository": {
         "type": "git",
         "uri": "https://github.com/deadlydog/VSTS.WindowsScheduledTasks"
     },
