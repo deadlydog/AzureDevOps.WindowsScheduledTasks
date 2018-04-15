@@ -51,8 +51,10 @@
         }
     ],
     "execution": {
-        "Node": {
-            "target": "index.js"
+        "PowerShell": {
+            "target": "$(currentDirectory)/task.ps1",
+            "argumentFormat": "",
+            "workingDirectory": "$(currentDirectory)"
         }
     }
 }
