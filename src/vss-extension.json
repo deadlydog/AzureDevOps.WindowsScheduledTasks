@@ -44,18 +44,28 @@
     },
     "files": [
         {
-            "path": "Tasks/InstallWindowsScheduledTaskTask"
+            "path": "Tasks/InstallWindowsScheduledTask"
         }
     ],
     "contributions": [
         {
-            "id": "InstallWindowsScheduledTaskTask",
+            "id": "InstallWindowsScheduledTask",
             "type": "ms.vss-distributed-task.task",
             "targets": [
                 "ms.vss-distributed-task.tasks"
             ],
             "properties": {
-                "name": "Tasks/InstallWindowsScheduledTaskTask"
+                "name": "Tasks/InstallWindowsScheduledTask"
+            }
+        },
+        {
+            "id": "UninstallWindowsScheduledTask",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "Tasks/UninstallWindowsScheduledTask"
             }
         }
     ]
