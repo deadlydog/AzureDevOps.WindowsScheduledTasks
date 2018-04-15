@@ -28,12 +28,6 @@
         "getstarted": {
             "uri": "https://github.com/deadlydog/VSTS.WindowsScheduledTasks/blob/master/ReadMe.md"
         },
-        "issues": {
-            "uri": "https://github.com/deadlydog/VSTS.WindowsScheduledTasks/issues"
-        },
-        "repository": {
-            "uri": "https://github.com/deadlydog/VSTS.WindowsScheduledTasks"
-        },
         "license": {
             "uri": "https://github.com/deadlydog/VSTS.WindowsScheduledTasks/blob/master/License.md"
         }
