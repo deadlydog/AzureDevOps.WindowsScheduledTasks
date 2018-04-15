@@ -2,8 +2,8 @@
     "id": "86718630-D8A5-128F-9C17-1C99F7C7CAD0",
     "name": "InstallWindowsScheduledTask",
     "friendlyName": "Install Windows Scheduled Task",
-    "description": "Install Windows Scheduled Task",
-    "helpMarkDown": "",
+    "description": "Installs a Windows Scheduled Task",
+    "helpMarkDown": "https://github.com/deadlydog/VSTS.WindowsScheduledTasks",
     "category": "Utility",
     "visibility": [
         "Build",
@@ -15,7 +15,7 @@
         "Minor": 1,
         "Patch": 0
     },
-    "instanceNameFormat": "Windows Scheduled Tasks",
+    "instanceNameFormat": "Install Windows Scheduled Task",
     "groups": [
         {
             "name": "advanced",
