@@ -44,7 +44,7 @@
     },
     "files": [
         {
-            "path": "InstallWindowsScheduledTaskTask"
+            "path": "Tasks/InstallWindowsScheduledTaskTask"
         }
     ],
     "contributions": [
@@ -55,7 +55,7 @@
                 "ms.vss-distributed-task.tasks"
             ],
             "properties": {
-                "name": "InstallWindowsScheduledTaskTask"
+                "name": "Tasks/InstallWindowsScheduledTaskTask"
             }
         }
     ]
