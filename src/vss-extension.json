@@ -33,6 +33,9 @@
         },
         "repository": {
             "uri": "https://github.com/deadlydog/VSTS.WindowsScheduledTasks"
+        },
+        "license": {
+            "uri": "https://github.com/deadlydog/VSTS.WindowsScheduledTasks/blob/master/License.md"
         }
     },
     "icons": {
@@ -45,6 +48,9 @@
     "files": [
         {
             "path": "Tasks/InstallWindowsScheduledTask"
+        },
+        {
+            "path": "Tasks/UninstallWindowsScheduledTask"
         }
     ],
     "contributions": [
