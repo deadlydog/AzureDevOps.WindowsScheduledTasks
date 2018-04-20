@@ -35,6 +35,13 @@ Begin
 	{
 # TODO - Write unit test to see if $null or an empty array are returned when no computersNames are given
 		[string[]] $computers = $computerNames -split ','
+
+		[bool] $arrayContainsOneBlankElement = ($computers.Count -eq 1 -and [string]::IsNullOrWhiteSpace($computers[0]))
+		if ($arrayContainsOneBlankElement)
+		{
+			$computers = [string[]]::new(0)
+		}
+
 		return $computers
 	}
 
@@ -54,13 +61,21 @@ Begin
 	function Invoke-WindowsScheduledTaskUninstallOnComputers([hashtable] $scheduledTaskSettings, [string[]] $computers, [PSCredential] $credential)
 	{
 		[bool] $noComputersWereSpecified = ($computers -eq $null -or $computers.Count -eq 0)
+		[bool] $noCredentialWasSpecified = ($credential -eq $null)
+
 		if ($noComputersWereSpecified)
 		{
-			Invoke-Command -ScriptBlock $uninstallScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Verbose
+			if ($noCredentialWasSpecified)
+			{
+				Invoke-Command -ScriptBlock $uninstallScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Verbose
+			}
+			else
+			{
+				Invoke-Command -Credential $credential -ScriptBlock $uninstallScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Verbose
+			}
 		}
 		else
 		{
-			[bool] $noCredentialWasSpecified = ($credential -eq $null)
 			if ($noCredentialWasSpecified)
 			{
 				Invoke-Command -ComputerName $computers -ScriptBlock $uninstallScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Verbose
