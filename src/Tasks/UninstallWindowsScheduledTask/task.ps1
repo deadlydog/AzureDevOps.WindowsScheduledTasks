@@ -1,35 +1,47 @@
-[string] $serverNames = '$(Servers)'
-[string] $scheduledTaskName = '$(ScheduledTaskName)'
-[string] $username = '$(UsernameToConnectToServersWith)'
-[SecureString] $password = '$(PasswordToConnectToServersWith)' | ConvertTo-SecureString -AsPlainText -Force
-Write-Host "Uninstalling Scheduled Task '$scheduledTaskName' on '$serverNames'."
+param
+(
+	[string] $serverNames,
+	[string] $scheduledTaskName,
+	[string] $username,
+	[string] $password
+)
 
-[string[]] $servers = $serverNames -split ','
-$credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $username,$password
+Process
+{
+	Write-Host "Uninstalling Scheduled Task '$scheduledTaskName' on '$serverNames'."
 
-[hashtable] $scheduledTaskSettings = @{
-	TaskName = $scheduledTaskName
+	[string[]] $servers = $serverNames -split ','
+	$credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $username,$password
+
+	Invoke-Command -ComputerName $servers -Credential $credential -ScriptBlock $uninstallScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Verbose
 }
 
-$uninstallScheduledTaskScriptBlock = {
-	param ([hashtable] $scheduledTaskSettings)
-	$serverName = $Env:COMPUTERNAME
+Begin
+{
+	[SecureString] $securePassword = [SecureString] $password = '$(PasswordToConnectToServersWith)' | ConvertTo-SecureString -AsPlainText -Force
 
-	$taskNameParts = $scheduledTaskSettings.TaskName -split '\\'
-	$taskName = $taskNameParts | Select-Object -Last 1
-	$taskPath = '\' + $scheduledTaskSettings.TaskName.Substring(0, $scheduledTaskSettings.TaskName.Length - $taskName.Length)
-
-	$task = Get-ScheduledTask -TaskName $taskName -TaskPath $taskPath -ErrorAction SilentlyContinue
-	if ($task -eq $null)
-	{
-		Write-Host "A scheduled task with the path '$taskPath' and name '$taskName' was not found on server '$serverName', so no scheduled tasks will be uninstalled."
-		return
+	[hashtable] $scheduledTaskSettings = @{
+		TaskName = $scheduledTaskName
 	}
 
-	Write-Host "Uninstalling Scheduled Task '$taskName' on server '$serverName'."
-	$task | Disable-ScheduledTask
-	$task | Stop-ScheduledTask
-	$task | Unregister-ScheduledTask -Confirm:$false
-}
+	$uninstallScheduledTaskScriptBlock = {
+		param ([hashtable] $scheduledTaskSettings)
+		$serverName = $Env:COMPUTERNAME
 
-Invoke-Command -ComputerName $servers -Credential $credential -ScriptBlock $uninstallScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Verbose
+		$taskNameParts = $scheduledTaskSettings.TaskName -split '\\'
+		$taskName = $taskNameParts | Select-Object -Last 1
+		$taskPath = '\' + $scheduledTaskSettings.TaskName.Substring(0, $scheduledTaskSettings.TaskName.Length - $taskName.Length)
+
+		$task = Get-ScheduledTask -TaskName $taskName -TaskPath $taskPath -ErrorAction SilentlyContinue
+		if ($task -eq $null)
+		{
+			Write-Host "A scheduled task with the path '$taskPath' and name '$taskName' was not found on server '$serverName', so no scheduled tasks will be uninstalled."
+			return
+		}
+
+		Write-Host "Uninstalling Scheduled Task '$taskName' on server '$serverName'."
+		$task | Disable-ScheduledTask
+		$task | Stop-ScheduledTask
+		$task | Unregister-ScheduledTask -Confirm:$false
+	}
+}
