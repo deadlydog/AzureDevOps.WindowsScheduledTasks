@@ -33,10 +33,10 @@ Begin
 	$codeDirectoryPath = Join-Path -Path $srcDirectoryPath -ChildPath 'Code'
 
 	$utilitiesFilePath = Join-Path -Path $codeDirectoryPath -ChildPath 'Utilities.ps1'
-	Write-Verbose "Importing the file '$utilitiesFilePath'." -Verbose
+	Write-Verbose "Importing file '$utilitiesFilePath'." -Verbose
 	. $utilitiesFilePath
 
 	$uninstallWindowsScheduledTaskFilePath = Join-Path -Path $codeDirectoryPath -ChildPath 'Uninstall-WindowsScheduledTask.psm1'
-	Write-Verbose "Importing the module '$uninstallWindowsScheduledTaskFilePath'." -Verbose
+	Write-Verbose "Importing module '$uninstallWindowsScheduledTaskFilePath'." -Verbose
 	Import-Module -Name $uninstallWindowsScheduledTaskFilePath -Force
 }
