@@ -19,7 +19,7 @@ Process
 {
 	Write-Verbose "About to uninstall Windows Scheduled Task '$scheduledTaskName' on '$computerNames'." -Verbose
 
-	[string[]] $computers = Get-ComputersToConnectTo -computerNames $computerNames
+	[string[]] $computers = Get-ComputersToConnectToOrNull -computerNames $computerNames
 	[PSCredential] $credential = Convert-UsernameAndPasswordToCredentialsOrNull -username $username -password $password
 
 	[hashtable] $scheduledTaskSettings = @{
@@ -31,7 +31,7 @@ Process
 
 Begin
 {
-	function Get-ComputersToConnectTo([string] $computerNames)
+	function Get-ComputersToConnectToOrNull([string] $computerNames)
 	{
 # TODO - Write unit test to see if $null or an empty array are returned when no computersNames are given
 		[string[]] $computers = $computerNames -split ','
@@ -39,7 +39,8 @@ Begin
 		[bool] $arrayContainsOneBlankElement = ($computers.Count -eq 1 -and [string]::IsNullOrWhiteSpace($computers[0]))
 		if ($arrayContainsOneBlankElement)
 		{
-			$computers = [string[]]::new(0)
+			# $computers = [string[]]::new(0)
+			$computers = $null
 		}
 
 		return $computers
