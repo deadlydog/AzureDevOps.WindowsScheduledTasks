@@ -30,3 +30,23 @@ Describe 'Get-ComputersToConnectToOrNull' {
 		$computers | Should -Be $computerNamesArray
 	}
 }
+
+Describe 'Convert-UsernameAndPasswordToCredentialsOrNull' {
+	It 'Returns null when no username is supplied' {
+		[string] $username = ''
+		[string] $password = 'secret'
+
+		$credential = Convert-UsernameAndPasswordToCredentialsOrNull -username $username -password $password
+
+		$credential | Should -Be $null
+	}
+
+	It 'Returns null when no password is supplied' {
+		[string] $username = 'Dan'
+		[string] $password = ''
+
+		$credential = Convert-UsernameAndPasswordToCredentialsOrNull -username $username -password $password
+
+		$credential | Should -Be $null
+	}
+}

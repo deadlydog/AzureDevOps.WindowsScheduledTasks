@@ -13,11 +13,11 @@ function Get-ComputersToConnectToOrNull([string] $computerNames)
 
 function Convert-UsernameAndPasswordToCredentialsOrNull([string] $username, [string] $password)
 {
-	if ([string]::IsNullOrWhiteSpace($username))
+	if ([string]::IsNullOrWhiteSpace($username) -or [string]::IsNullOrWhiteSpace($password))
 	{
 		return $null
 	}
-# TODO - Write unit test to see what happens with a blank password
+
 	[SecureString] $securePassword = ($password | ConvertTo-SecureString -AsPlainText -Force)
 
 	$credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $username,$securePassword
