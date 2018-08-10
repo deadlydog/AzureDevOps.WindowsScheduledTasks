@@ -23,7 +23,7 @@
             "label": "Scheduled Task Name",
             "defaultValue": "",
             "required": true,
-            "helpMarkDown": "The name of the Scheduled Task to uninstall from the server(s)."
+            "helpMarkDown": "The full path of the Scheduled Task to uninstall from the server(s). If the Scheduled Task is installed in a directory, the directory (or directories) must also be included in the path. e.g. MyTasks\\TaskToRemove"
         },
         {
             "name": "ComputerNames",
