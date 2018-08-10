@@ -16,11 +16,12 @@ param
 
 Process
 {
-	Write-Verbose "About to attempt to uninstall Windows Scheduled Task '$ScheduledTaskName' on '$ComputerNames'." -Verbose
+	[string] $powerShellVersion = Get-PowerShellVersion
+	Write-Verbose "Using PowerShell version '$powerShellVersion'." -Verbose
 
+	Write-Verbose "About to attempt to uninstall Windows Scheduled Task '$ScheduledTaskName' on '$ComputerNames'." -Verbose
 	[string[]] $computers = Get-ComputersToConnectToOrNull -computerNames $ComputerNames
 	[PSCredential] $credential = Convert-UsernameAndPasswordToCredentialsOrNull -username $Username -password $Password
-
 	Uninstall-WindowsScheduledTask -ScheduledTaskName $ScheduledTaskName -ComputerName $computers -Credential $credential
 }
 

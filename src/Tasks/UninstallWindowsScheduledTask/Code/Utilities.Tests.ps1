@@ -50,3 +50,13 @@ Describe 'Convert-UsernameAndPasswordToCredentialsOrNull' {
 		$credential | Should -Be $null
 	}
 }
+
+Describe 'Get-PowerShellVersion' {
+	It 'Returns a version number' {
+		[string] $versionNumber = Get-PowerShellVersion
+
+		[System.Version] $version = $null
+		[bool] $isValidVersionNumber = [System.Version]::TryParse($versionNumber, [ref] $version)
+		$isValidVersionNumber | Should -Be $true
+	}
+}
