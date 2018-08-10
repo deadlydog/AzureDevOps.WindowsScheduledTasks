@@ -19,7 +19,7 @@ function Uninstall-WindowsScheduledTask
 	Process
 	{
 		[hashtable] $scheduledTaskSettings = @{
-			TaskName = $ScheduledTaskName
+			TaskName = $ScheduledTaskName.Trim('\')
 		}
 
 		Invoke-WindowsScheduledTaskUninstallOnComputers -scheduledTaskSettings $scheduledTaskSettings -computers $ComputerName -credential $Credential
