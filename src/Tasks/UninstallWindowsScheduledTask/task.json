@@ -26,26 +26,33 @@
             "helpMarkDown": "The name of the Scheduled Task to uninstall from the server(s)."
         },
         {
-            "name": "samplestring",
+            "name": "ComputerNames",
             "type": "string",
-            "label": "Sample String",
+            "label": "Computer Names",
             "defaultValue": "",
             "required": false,
-            "helpMarkDown": "A sample string"
+            "helpMarkDown": "A comma-separated list of computers to connect to and remove the Scheduled Task from. Leave blank to have it run on the agent's local computer."
         },
         {
-            "name": "samplebool",
-            "type": "boolean",
-            "label": "Sample Boolean",
-            "defaultValue": "false",
+            "name": "Username",
+            "type": "string",
+            "label": "Username",
+            "defaultValue": "",
             "required": false,
-            "helpMarkDown": "If this is true, this task will fail if any errors are written to the StandardError stream.",
-            "groupName": "advanced"
+            "helpMarkDown": "The username to use when connecting to the computers and removing the Scheduled Task. Leave blank to use the identity that the agent is running as."
+        },
+        {
+            "name": "Password",
+            "type": "string",
+            "label": "Password",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "The password to use when connecting to the computers and removing the Scheduled Task. As a best practice, a secret variable should be passed in here so that other users cannot see the password in plain text. Leave blank to use the identity that the agent is running as."
         }
     ],
     "execution": {
         "PowerShell": {
-            "target": "$(currentDirectory)/task.ps1",
+            "target": "$(currentDirectory)/Code/UninstallWindowsScheduledTask-TaskEntryPoint.ps1",
             "argumentFormat": "",
             "workingDirectory": "$(currentDirectory)"
         }

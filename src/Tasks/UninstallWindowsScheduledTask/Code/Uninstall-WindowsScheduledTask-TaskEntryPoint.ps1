@@ -5,7 +5,6 @@ param
 	[string] $ScheduledTaskName,
 
 	[parameter(Mandatory=$false,HelpMessage="Comma-separated list of the computer(s) to uninstall the scheduled task from.")]
-	[ValidateNotNullOrEmpty()]
 	[string] $ComputerNames,
 
 	[parameter(Mandatory=$false,HelpMessage="The username to use to connect to the computer(s).")]
@@ -27,9 +26,9 @@ Process
 
 Begin
 {
-	# Build paths to files/modules to import, and then import them.
+	# Build paths to modules to import, and then import them.
 	[string] $THIS_SCRIPTS_DIRECTORY_PATH = $PSScriptRoot
-	[string] $codeDirectoryPath = Join-Path -Path $THIS_SCRIPTS_DIRECTORY_PATH -ChildPath 'Code'
+	[string] $codeDirectoryPath = $THIS_SCRIPTS_DIRECTORY_PATH
 
 	[string] $utilitiesModuleFilePath = Join-Path -Path $codeDirectoryPath -ChildPath 'Utilities.psm1'
 	Write-Verbose "Importing module '$utilitiesModuleFilePath'." -Verbose
