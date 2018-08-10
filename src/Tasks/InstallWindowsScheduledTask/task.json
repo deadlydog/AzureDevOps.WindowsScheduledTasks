@@ -3,7 +3,7 @@
     "name": "InstallWindowsScheduledTask",
     "friendlyName": "Install Windows Scheduled Task",
     "description": "Installs a Windows Scheduled Task",
-    "helpMarkDown": "https://github.com/deadlydog/VSTS.WindowsScheduledTasks",
+    "helpMarkDown": "[More Information](https://github.com/deadlydog/VSTS.WindowsScheduledTasks)",
     "category": "Utility",
     "visibility": [
         "Build",
