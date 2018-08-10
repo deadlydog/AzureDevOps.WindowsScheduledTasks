@@ -64,22 +64,32 @@ function Uninstall-WindowsScheduledTask
 			[string] $powerShellVersion = $PSVersionTable.PSVersion
 			Write-Verbose "Connected to computer '$computerName' as user '$username'. It is running operating system '$operatingSystemVersion' and PowerShell version '$powerShellVersion'." -Verbose
 
-			$taskNameParts = $scheduledTaskSettings.TaskName -split '\\'
+			$taskNameParts = $scheduledTaskSettings.TaskName -split '\'
 			$taskName = $taskNameParts | Select-Object -Last 1
 			$taskPath = '\' + $scheduledTaskSettings.TaskName.Substring(0, $scheduledTaskSettings.TaskName.Length - $taskName.Length)
 
-			Write-Verbose "Searching for a Scheduled Task with the path '$taskPath' and name '$taskName'." -Verbose
-			$task = Get-ScheduledTask -TaskName $taskName -TaskPath $taskPath -ErrorAction SilentlyContinue
-			if ($task -eq $null)
+			# If the task path ends with a wildcard, remove the trailing slash so that tasks in the root directory will be included in the search as well.
+			if ($taskPath.EndsWith('*\'))
 			{
-				Write-Warning "A scheduled task with the path '$taskPath' and name '$taskName' was not found on computer '$computerName', so no scheduled tasks will be uninstalled."
+				$taskPath = $taskPath.TrimEnd('\')
+			}
+
+			Write-Verbose "Searching for a Scheduled Task with the path '$taskPath' and name '$taskName'." -Verbose
+			$tasks = Get-ScheduledTask -TaskName $taskName -TaskPath $taskPath -ErrorAction SilentlyContinue
+			if ($tasks -eq $null)
+			{
+				Write-Warning "A scheduled task with the name '$($scheduledTaskSettings.TaskName)' was not found on computer '$computerName', so no scheduled tasks will be uninstalled."
 				return
 			}
 
-			Write-Output "Uninstalling Scheduled Task '$taskName' on computer '$computerName'."
-			$task | Disable-ScheduledTask > $null
-			$task | Stop-ScheduledTask
-			$task | Unregister-ScheduledTask -Confirm:$false
+			foreach ($task in $tasks)
+			{
+				[string] $fullTaskName = $task.TaskPath + $task.TaskName
+				Write-Output "Uninstalling Scheduled Task '$fullTaskName' on computer '$computerName'."
+				$task | Disable-ScheduledTask > $null
+				$task | Stop-ScheduledTask
+				$task | Unregister-ScheduledTask -Confirm:$false
+			}
 		}
 	}
 }
