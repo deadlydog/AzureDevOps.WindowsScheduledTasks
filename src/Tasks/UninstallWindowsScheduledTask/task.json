@@ -52,7 +52,7 @@
     ],
     "execution": {
         "PowerShell": {
-            "target": "$(currentDirectory)/Code/UninstallWindowsScheduledTask-TaskEntryPoint.ps1",
+            "target": "$(currentDirectory)/Code/Uninstall-WindowsScheduledTask-TaskEntryPoint.ps1",
             "argumentFormat": "",
             "workingDirectory": "$(currentDirectory)"
         }
