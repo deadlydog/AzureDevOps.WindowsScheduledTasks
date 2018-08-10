@@ -37,11 +37,6 @@
     "icons": {
         "default": "Images/ExtensionIcon.png"
     },
-    "screenshots": [
-        {
-            "path": "Images/Screenshot.png"
-        }
-    ],
     "repository": {
         "type": "git",
         "uri": "https://github.com/deadlydog/VSTS.WindowsScheduledTasks"
