@@ -28,15 +28,15 @@ Process
 Begin
 {
 	# Build paths to files/modules to import, and then import them.
-	$THIS_SCRIPTS_DIRECTORY_PATH = $PSScriptRoot
-	$srcDirectoryPath = Split-Path -Path (Split-Path -Path $THIS_SCRIPTS_DIRECTORY_PATH -Parent) -Parent
-	$codeDirectoryPath = Join-Path -Path $srcDirectoryPath -ChildPath 'Code'
+	[string] $THIS_SCRIPTS_DIRECTORY_PATH = $PSScriptRoot
+	[string] $srcDirectoryPath = Split-Path -Path (Split-Path -Path $THIS_SCRIPTS_DIRECTORY_PATH -Parent) -Parent
+	[string] $codeDirectoryPath = Join-Path -Path $srcDirectoryPath -ChildPath 'Code'
 
-	$utilitiesFilePath = Join-Path -Path $codeDirectoryPath -ChildPath 'Utilities.ps1'
-	Write-Verbose "Importing file '$utilitiesFilePath'." -Verbose
-	. $utilitiesFilePath
+	[string] $utilitiesModuleFilePath = Join-Path -Path $codeDirectoryPath -ChildPath 'Utilities.psm1'
+	Write-Verbose "Importing module '$utilitiesModuleFilePath'." -Verbose
+	Import-Module -Name $utilitiesModuleFilePath -Force
 
-	$uninstallWindowsScheduledTaskFilePath = Join-Path -Path $codeDirectoryPath -ChildPath 'Uninstall-WindowsScheduledTask.psm1'
-	Write-Verbose "Importing module '$uninstallWindowsScheduledTaskFilePath'." -Verbose
-	Import-Module -Name $uninstallWindowsScheduledTaskFilePath -Force
+	[string] $uninstallWindowsScheduledTaskModuleFilePath = Join-Path -Path $codeDirectoryPath -ChildPath 'Uninstall-WindowsScheduledTask.psm1'
+	Write-Verbose "Importing module '$uninstallWindowsScheduledTaskModuleFilePath'." -Verbose
+	Import-Module -Name $uninstallWindowsScheduledTaskModuleFilePath -Force
 }

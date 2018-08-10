@@ -23,3 +23,6 @@ function Convert-UsernameAndPasswordToCredentialsOrNull([string] $username, [str
 	$credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $username,$securePassword
 	return $credential
 }
+
+Export-ModuleMember -Function Get-ComputersToConnectToOrNull
+Export-ModuleMember -Function Convert-UsernameAndPasswordToCredentialsOrNull

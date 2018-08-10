@@ -1,8 +1,8 @@
-# Dot-source the file we want to test
-$THIS_SCRIPTS_PATH = $PSCommandPath
-$filePathToTest = $THIS_SCRIPTS_PATH.Replace('.Tests', '')
-Write-Verbose "Dot-sourcing the file '$filePathToTest' to run tests against it." -Verbose
-. $filePathToTest
+# Import the module to test.
+[string] $THIS_SCRIPTS_PATH = $PSCommandPath
+[string] $moduleFilePathToTest = $THIS_SCRIPTS_PATH.Replace('.Tests.ps1', '.psm1') | Resolve-Path
+Write-Verbose "Importing the module file '$moduleFilePathToTest' to run tests against it." -Verbose
+Import-Module -Name $moduleFilePathToTest -Force
 
 Describe 'Get-ComputersToConnectToOrNull' {
 	It 'ReturnsNullWhenNoComputersAreSpecified' {
@@ -23,7 +23,7 @@ Describe 'Get-ComputersToConnectToOrNull' {
 
 	It 'ReturnsAllComputersWhenMultipleAreSpecified' {
 		[string] $computerNames = 'localhost,DansPc'
-		$computerNamesArray = $computerNames -split ','
+		[string[]] $computerNamesArray = $computerNames -split ','
 
 		$computers = Get-ComputersToConnectToOrNull -computerNames $computerNames
 
