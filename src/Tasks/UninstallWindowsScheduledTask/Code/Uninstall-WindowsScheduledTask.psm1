@@ -64,7 +64,7 @@ function Uninstall-WindowsScheduledTask
 			[string] $powerShellVersion = $PSVersionTable.PSVersion
 			Write-Verbose "Connected to computer '$computerName' as user '$username'. It is running operating system '$operatingSystemVersion' and PowerShell version '$powerShellVersion'." -Verbose
 
-			$taskNameParts = $scheduledTaskSettings.TaskName -split '\'
+			$taskNameParts = $scheduledTaskSettings.TaskName -split '\\'
 			$taskName = $taskNameParts | Select-Object -Last 1
 			$taskPath = '\' + $scheduledTaskSettings.TaskName.Substring(0, $scheduledTaskSettings.TaskName.Length - $taskName.Length)
 
