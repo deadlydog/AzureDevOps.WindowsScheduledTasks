@@ -17,7 +17,9 @@
         "utility",
         "task",
         "scheduled task",
-        "task scheduler"
+        "task scheduler",
+        "install",
+        "uninstall"
     ],
     "content": {
         "details": {
@@ -25,7 +27,7 @@
         }
     },
     "links": {
-        "getstarted": {
+        "support": {
             "uri": "https://github.com/deadlydog/VSTS.WindowsScheduledTasks/blob/master/ReadMe.md"
         },
         "license": {
@@ -35,6 +37,11 @@
     "icons": {
         "default": "Images/ExtensionIcon.png"
     },
+    "screenshots": [
+        {
+            "path": "Images/Screenshot.png"
+        }
+    ],
     "repository": {
         "type": "git",
         "uri": "https://github.com/deadlydog/VSTS.WindowsScheduledTasks"
@@ -67,6 +74,23 @@
             "properties": {
                 "name": "Tasks/UninstallWindowsScheduledTask"
             }
+        }
+    ],
+    "_internalCommentForMyself": [
+        {
+            "Absent" : "When the 'galleryFlags' element is missing, this extension is only visible to the publisher. When ready, move the `galleryFlags` section out of this '_comment' section.",
+            "Preview" : "Will put this extension on the marketplace, but mark it as beta.",
+            "Public" : "Will make this extension available on the marketplace as ready."
+        },
+        {
+            "galleryFlags": [
+                "Preview"
+            ]
+        },
+        {
+            "galleryFlags": [
+                "Public"
+            ]
         }
     ]
 }
