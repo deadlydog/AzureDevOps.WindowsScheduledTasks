@@ -16,9 +16,6 @@ param
 
 Process
 {
-	[string] $powerShellVersion = Get-PowerShellVersion
-	Write-Verbose "Using PowerShell version '$powerShellVersion'." -Verbose
-
 	Write-Verbose "About to attempt to uninstall Windows Scheduled Task '$ScheduledTaskName' on '$ComputerNames'." -Verbose
 	[string[]] $computers = Get-ComputersToConnectToOrNull -computerNames $ComputerNames
 	[PSCredential] $credential = Convert-UsernameAndPasswordToCredentialsOrNull -username $Username -password $Password
@@ -27,6 +24,11 @@ Process
 
 Begin
 {
+	# Display environmental information before doing anything else in case we encounter errors.
+	[string] $operatingSystemVersion = [System.Environment]::OSVersion
+	[string] $powerShellVersion = $PSVersionTable.PSVersion
+	Write-Verbose "Running on Windows version '$operatingSystemVersion' and PowerShell version '$powerShellVersion'." -Verbose
+
 	# Build paths to modules to import, and then import them.
 	[string] $THIS_SCRIPTS_DIRECTORY_PATH = $PSScriptRoot
 	[string] $codeDirectoryPath = $THIS_SCRIPTS_DIRECTORY_PATH

@@ -24,11 +24,5 @@ function Convert-UsernameAndPasswordToCredentialsOrNull([string] $username, [str
 	return $credential
 }
 
-function Get-PowerShellVersion
-{
-	return $PSVersionTable.PSVersion
-}
-
 Export-ModuleMember -Function Get-ComputersToConnectToOrNull
 Export-ModuleMember -Function Convert-UsernameAndPasswordToCredentialsOrNull
-Export-ModuleMember -Function Get-PowerShellVersion
