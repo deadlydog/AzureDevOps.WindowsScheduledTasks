@@ -27,9 +27,9 @@ Begin
 	# Display environmental information before doing anything else in case we encounter errors.
 	[string] $operatingSystemVersion = [System.Environment]::OSVersion
 	[string] $powerShellVersion = $PSVersionTable.PSVersion
-	Write-Verbose "Running on Windows version '$operatingSystemVersion' and PowerShell version '$powerShellVersion'." -Verbose
+	Write-Verbose "Running on operating system '$operatingSystemVersion' and PowerShell version '$powerShellVersion'." -Verbose
 
-	# Build paths to modules to import, and then import them.
+	# Build paths to modules to import and import them.
 	[string] $THIS_SCRIPTS_DIRECTORY_PATH = $PSScriptRoot
 	[string] $codeDirectoryPath = $THIS_SCRIPTS_DIRECTORY_PATH
 
