@@ -29,8 +29,7 @@ Begin
 {
 	# Build paths to files/modules to import, and then import them.
 	[string] $THIS_SCRIPTS_DIRECTORY_PATH = $PSScriptRoot
-	[string] $srcDirectoryPath = Split-Path -Path (Split-Path -Path $THIS_SCRIPTS_DIRECTORY_PATH -Parent) -Parent
-	[string] $codeDirectoryPath = Join-Path -Path $srcDirectoryPath -ChildPath 'Code'
+	[string] $codeDirectoryPath = Join-Path -Path $THIS_SCRIPTS_DIRECTORY_PATH -ChildPath 'Code'
 
 	[string] $utilitiesModuleFilePath = Join-Path -Path $codeDirectoryPath -ChildPath 'Utilities.psm1'
 	Write-Verbose "Importing module '$utilitiesModuleFilePath'." -Verbose
