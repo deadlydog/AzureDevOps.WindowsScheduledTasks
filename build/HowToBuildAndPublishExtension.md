@@ -12,7 +12,7 @@ npm i -g tfx-cli
 
 ## Creating the VSIX package
 
-Before creating the VSIX package be sure to update the `version` element in the `vss-extension.json` file appropriately.
+Before creating the VSIX package be sure to update the `version` element in the `vss-extension.json` and `task.json` files appropriately.
 
 To create the VSIX package file, run the following command from the directory containing the `vss-extension.json` file:
 
