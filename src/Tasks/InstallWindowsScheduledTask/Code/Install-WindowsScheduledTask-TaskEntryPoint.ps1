@@ -16,10 +16,10 @@ param
 
 Process
 {
-	Write-Verbose "About to attempt to uninstall Windows Scheduled Task '$ScheduledTaskName' on '$ComputerNames'." -Verbose
+	Write-Verbose "About to attempt to install Windows Scheduled Task '$ScheduledTaskName' on '$ComputerNames'." -Verbose
 	[string[]] $computers = Get-ComputersToConnectToOrNull -computerNames $ComputerNames
 	[PSCredential] $credential = Convert-UsernameAndPasswordToCredentialsOrNull -username $Username -password $Password
-	Uninstall-WindowsScheduledTask -ScheduledTaskName $ScheduledTaskName -ComputerName $computers -Credential $credential
+	Install-WindowsScheduledTask -ScheduledTaskName $ScheduledTaskName -ComputerName $computers -Credential $credential
 }
 
 Begin
@@ -37,7 +37,7 @@ Begin
 	Write-Verbose "Importing module '$utilitiesModuleFilePath'." -Verbose
 	Import-Module -Name $utilitiesModuleFilePath -Force
 
-	[string] $uninstallWindowsScheduledTaskModuleFilePath = Join-Path -Path $codeDirectoryPath -ChildPath 'Uninstall-WindowsScheduledTask.psm1'
-	Write-Verbose "Importing module '$uninstallWindowsScheduledTaskModuleFilePath'." -Verbose
-	Import-Module -Name $uninstallWindowsScheduledTaskModuleFilePath -Force
+	[string] $installWindowsScheduledTaskModuleFilePath = Join-Path -Path $codeDirectoryPath -ChildPath 'Install-WindowsScheduledTask.psm1'
+	Write-Verbose "Importing module '$installWindowsScheduledTaskModuleFilePath'." -Verbose
+	Import-Module -Name $installWindowsScheduledTaskModuleFilePath -Force
 }

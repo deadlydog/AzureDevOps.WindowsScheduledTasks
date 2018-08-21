@@ -22,12 +22,12 @@ function Uninstall-WindowsScheduledTask
 			TaskName = $ScheduledTaskName.Trim('\')
 		}
 
-		Invoke-WindowsScheduledTaskUninstallOnComputers -scheduledTaskSettings $scheduledTaskSettings -computers $ComputerName -credential $Credential
+		Invoke-UninstallWindowsScheduledTaskFromComputers -scheduledTaskSettings $scheduledTaskSettings -computers $ComputerName -credential $Credential
 	}
 
 	Begin
 	{
-		function Invoke-WindowsScheduledTaskUninstallOnComputers([hashtable] $scheduledTaskSettings, [string[]] $computers, [PSCredential] $credential)
+		function Invoke-UninstallWindowsScheduledTaskFromComputers([hashtable] $scheduledTaskSettings, [string[]] $computers, [PSCredential] $credential)
 		{
 			[bool] $noComputersWereSpecified = ($computers -eq $null -or $computers.Count -eq 0)
 			[bool] $noCredentialWasSpecified = ($credential -eq $null)
