@@ -11,7 +11,37 @@ param
 	[string] $Username,
 
 	[parameter(Mandatory=$false,HelpMessage="The password to use to connect to the computer(s).")]
-	[string] $Password
+	[string] $Password,
+
+	[parameter(Mandatory=$true,HelpMessage="The description for the Scheduled Task.")]
+	[string] $ScheduledTaskDescription,
+
+	[parameter(Mandatory=$true,HelpMessage="The full path to the application executable file to run.")]
+	[ValidateNotNullOrEmpty()]
+	[string] $ApplicationPathToRun,
+
+	[parameter(Mandatory=$false,HelpMessage="The arguments to pass to the application executable to run.")]
+	[string] $ApplicationArguments,
+
+	[parameter(Mandatory=$true,HelpMessage="How often the Scheduled Task should run.")]
+	[ValidateNotNullOrEmpty()]
+	[string] $ScheduleFrequency,
+
+	[parameter(Mandatory=$true,HelpMessage="When the Scheduled Task should start running.")]
+	[ValidateNotNullOrEmpty()]
+	[string] $ScheduleStartTime,
+
+	[parameter(Mandatory=$false,HelpMessage="How much potential delay to wait for after the Scheduled Tasks specified start time.")]
+	[string] $ScheduleStartTimeRandomDelayInMinutes,
+
+	[parameter(Mandatory=$false,HelpMessage="How long to wait between each running of the Scheduled Task.")]
+	[string] $ScheduleRepeatIntervalInMinutes,
+
+	[parameter(Mandatory=$false,HelpMessage="How long the Scheduled Task should keep repeating at the specified interval for.")]
+	[string] $ScheduleRepeatIntervalDurationInMinutes = '$(ScheduledTaskRepeatIntervalDurationInMinutes)',
+
+	[parameter(Mandatory=$false,HelpMessage="If the Scheduled Task should be ran immediately after installation or not.")]
+	[bool] $RunScheduledTaskAfterInstallation
 )
 
 Process
