@@ -41,7 +41,14 @@ param
 	[string] $ScheduleRepeatIntervalDurationInMinutes = '$(ScheduledTaskRepeatIntervalDurationInMinutes)',
 
 	[parameter(Mandatory=$false,HelpMessage="If the Scheduled Task should be ran immediately after installation or not.")]
-	[bool] $RunScheduledTaskAfterInstallation
+	[bool] $RunScheduledTaskAfterInstallation,
+
+	[parameter(Mandatory=$false,HelpMessage="If CredSSP should be used when connecting to remote computers or not.")]
+	[bool] $UseCredSsp = $false,
+
+	[string] $UserToRunScheduledTaskAs = 'NETWORK SERVICE',
+
+	[string] $UserPasswordToRunScheduledTaskAs = ''
 )
 
 Process
@@ -49,7 +56,7 @@ Process
 	Write-Verbose "About to attempt to install Windows Scheduled Task '$ScheduledTaskName' on '$ComputerNames'." -Verbose
 	[string[]] $computers = Get-ComputersToConnectToOrNull -computerNames $ComputerNames
 	[PSCredential] $credential = Convert-UsernameAndPasswordToCredentialsOrNull -username $Username -password $Password
-	Install-WindowsScheduledTask -ScheduledTaskName $ScheduledTaskName -ComputerName $computers -Credential $credential
+	Install-WindowsScheduledTask -ScheduledTaskName $ScheduledTaskName -ComputerName $computers -Credential $credential -ScheduledTaskDescription $ScheduledTaskDescription
 }
 
 Begin
