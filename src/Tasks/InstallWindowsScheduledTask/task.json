@@ -84,6 +84,54 @@
             "required": false,
             "helpMarkDown": "If this is true, this task will fail if any errors are written to the StandardError stream.",
             "groupName": "advanced"
+        },
+        {
+            "name": "targetType",
+            "type": "radio",
+            "label": "Type",
+            "required": false,
+            "defaultValue": "filePath",
+            "helpMarkDown": "Target script type: File Path or Inline",
+            "options": {
+                "filePath": "File Path",
+                "inline": "Inline"
+            }
+        },
+        {
+            "name": "filePath",
+            "type": "filePath",
+            "label": "Script Path",
+            "visibleRule": "targetType = filePath",
+            "required": true,
+            "defaultValue": "",
+            "helpMarkDown": "Path of the script to execute. Must be a fully qualified path or relative to $(System.DefaultWorkingDirectory)."
+        },
+        {
+            "name": "script",
+            "type": "multiLine",
+            "label": "Script",
+            "visibleRule": "targetType = inline",
+            "required": true,
+            "defaultValue": "# Write your powershell commands here.\n\nWrite-Host \"Hello World\"\n\n# Use the environment variables input below to pass secret variables to this script.",
+            "properties": {
+                "resizable": "true",
+                "rows": "10",
+                "maxLength": "5000"
+            },
+            "helpMarkDown": ""
+        },
+        {
+            "name": "errorActionPreference",
+            "type": "pickList",
+            "label": "ErrorActionPreference",
+            "required": false,
+            "defaultValue": "stop",
+            "options": {
+                "stop": "Stop",
+                "continue": "Continue",
+                "silentlyContinue": "SilentlyContinue"
+            },
+            "helpMarkDown": "Prepends the line `$ErrorActionPreference = 'VALUE'` at the top of your script."
         }
     ],
     "execution": {
