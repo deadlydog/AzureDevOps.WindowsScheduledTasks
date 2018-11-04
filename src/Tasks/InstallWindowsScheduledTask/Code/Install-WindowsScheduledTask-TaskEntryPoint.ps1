@@ -16,11 +16,11 @@ param
 	[parameter(Mandatory=$true,HelpMessage="The description for the Scheduled Task.")]
 	[string] $ScheduledTaskDescription,
 
-	[parameter(Mandatory=$true,HelpMessage="The full path to the application executable file to run.")]
+	[parameter(Mandatory=$true,HelpMessage="The full path to the application executable or script file to run.")]
 	[ValidateNotNullOrEmpty()]
 	[string] $ApplicationPathToRun,
 
-	[parameter(Mandatory=$false,HelpMessage="The arguments to pass to the application executable to run.")]
+	[parameter(Mandatory=$false,HelpMessage="The arguments to pass to the application executable or script to run.")]
 	[string] $ApplicationArguments,
 
 	[parameter(Mandatory=$true,HelpMessage="How often the Scheduled Task should run.")]
