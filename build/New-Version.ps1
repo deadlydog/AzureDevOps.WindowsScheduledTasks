@@ -86,7 +86,7 @@ Begin
 
 	function Write-JsonToFile([string] $jsonFilePath, [PSCustomObject] $json)
 	{
-		[string] $jsonText = ConvertTo-Json -InputObject $json
+		[string] $jsonText = ConvertTo-Json -InputObject $json -Depth 99
 		Set-Content -Path $jsonFilePath -Value $jsonText
 	}
 
