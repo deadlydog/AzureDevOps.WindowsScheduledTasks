@@ -18,20 +18,13 @@
     "instanceNameFormat": "Uninstall Windows Scheduled Task '$(ScheduledTaskName)'",
     "inputs": [
         {
-            "name": "ScheduledTaskName",
-            "type": "string",
-            "label": "Scheduled Task Name",
-            "defaultValue": "",
-            "required": true,
-            "helpMarkDown": "The full path of the Scheduled Task to uninstall from the server(s).<br />If the Scheduled Task is installed in a directory, the directory (or directories) must also be included in the path.<br />e.g. `MyTasks\\TaskToRemove`<br /><br />Wildcards are supported as well.<br />For example, the following would all match on the `MyTasks\\TaskToRemove` task:<br />`*\\TaskToRemove`<br />`MyTasks\\TaskTo*`<br />`*\\*Remove`<br />`MyTasks\\Task*Remove`<br /><br />NOTE: Be very careful when using wildcards, since if multiple Scheduled Tasks are found to match they pattern, they will all be uninstalled."
-        },
-        {
             "name": "ComputerNames",
             "type": "string",
             "label": "Computer Names",
             "defaultValue": "",
             "required": false,
-            "helpMarkDown": "A comma-separated list of computers to connect to and remove the Scheduled Task from.<br /><br />Leave blank to have it run on the agent's local computer."
+            "helpMarkDown": "A comma-separated list of computers to connect to and remove the Scheduled Task from.<br /><br />Leave blank to have it run on the agent's local computer.",
+            "groupName": "Server Settings"
         },
         {
             "name": "Username",
@@ -39,7 +32,8 @@
             "label": "Username",
             "defaultValue": "",
             "required": false,
-            "helpMarkDown": "The username to use when connecting to the computers and removing the Scheduled Task.<br /><br />Leave blank to use the identity that the agent is running as."
+            "helpMarkDown": "The username to use when connecting to the computers and removing the Scheduled Task.<br /><br />Leave blank to use the identity that the agent is running as.",
+            "groupName": "Server Settings"
         },
         {
             "name": "Password",
@@ -47,7 +41,17 @@
             "label": "Password",
             "defaultValue": "",
             "required": false,
-            "helpMarkDown": "The password to use when connecting to the computers and removing the Scheduled Task. As a best practice, a secret variable should be passed in here so that other users cannot see the password in plain text.<br /><br />Leave blank to use the identity that the agent is running as."
+            "helpMarkDown": "The password to use when connecting to the computers and removing the Scheduled Task. As a best practice, a secret variable should be passed in here so that other users cannot see the password in plain text.<br /><br />Leave blank to use the identity that the agent is running as.",
+            "groupName": "Server Settings"
+        },
+        {
+            "name": "ScheduledTaskName",
+            "type": "string",
+            "label": "Scheduled Task Name",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "The full path of the Scheduled Task to uninstall from the server(s).<br />If the Scheduled Task is installed in a directory, the directory (or directories) must also be included in the path.<br />e.g. `MyTasks\\TaskToRemove`<br /><br />Wildcards are supported as well.<br />For example, the following would all match on the `MyTasks\\TaskToRemove` task:<br />`*\\TaskToRemove`<br />`MyTasks\\TaskTo*`<br />`*\\*Remove`<br />`MyTasks\\Task*Remove`<br /><br />NOTE: Be very careful when using wildcards, since if multiple Scheduled Tasks are found to match they pattern, they will all be uninstalled.",
+            "groupName": "Scheduled Task Settings"
         }
     ],
     "execution": {
