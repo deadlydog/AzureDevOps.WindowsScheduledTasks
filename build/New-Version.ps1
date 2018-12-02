@@ -25,6 +25,10 @@ Process
 	Set-TaskVersionNumber -taskJsonFilePaths $taskJsonFilePaths -versionNumber $newVersionNumberToUse
 
 	Write-Output "The version field of all files has been updated to '$newVersionNumberToUse'."
+
+	Write-Verbose "Creating new vsix extension package file." -Verbose
+	Set-Location $srcDirectoryPath
+	tfx extension create --manifest-globs "$extensionJsonFilePath"
 }
 
 Begin
@@ -87,7 +91,7 @@ Begin
 			$newVersionNumber = [VersionNumber]::new($newVersionToUse)
 		}
 
-		Write-Verbose "New version to use is: $newVersionNumber" -Verbose
+		Write-Verbose "New version specified to use is: $newVersionNumber" -Verbose
 
 		return $newVersionNumber
 	}
