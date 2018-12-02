@@ -9,31 +9,45 @@ Process
 		Join-Path -Path $srcDirectoryPath -ChildPath 'Tasks\UninstallWindowsScheduledTask\task.json'
 	)
 
-	# Ensure required file paths exist.
-	if (!(Test-Path -Path $extensionJsonFilePath -PathType Leaf)) { throw "The file '$extensionJsonFilePath' does not exist, so exiting."}
-	$taskJsonFilePaths | ForEach-Object {
-		$taskJsonFilePath = $_
-		if (!(Test-Path -Path $taskJsonFilePath -PathType Leaf)) { throw "The file '$taskJsonFilePath' does not exist, so exiting."}
-	}
+	Confirm-RequiredFilesExist -extensionJsonFilePath $extensionJsonFilePath -taskJsonFilePaths $taskJsonFilePaths
 
-	# Get the current version and new version to use.
-	[VersionNumber] $extensionVersionNumber = Get-ExtensionVersionNumber -extensionJsonFilePath $extensionJsonFilePath
-	[VersionNumber] $newVersionNumberToUse = Prompt-UserForNewVersionNumber -currentVersion $extensionVersionNumber
+	Set-VersionNumberInFiles -extensionJsonFilePath $extensionJsonFilePath -taskJsonFilePaths $taskJsonFilePaths
 
-	# Update the version in the files.
-	Set-ExtensionVersionNumber -extensionJsonFilePath $extensionJsonFilePath -versionNumber $newVersionNumberToUse
-	Set-TaskVersionNumber -taskJsonFilePaths $taskJsonFilePaths -versionNumber $newVersionNumberToUse
-
-	Write-Output "The version field of all files has been updated to '$newVersionNumberToUse'."
-
-	Write-Verbose "Creating new vsix extension package file." -Verbose
-	Set-Location $srcDirectoryPath
-	tfx extension create --manifest-globs "$extensionJsonFilePath"
+	New-VsixPackage -newPackageDirectoryPath $srcDirectoryPath -extensionJsonFilePath $extensionJsonFilePath
 }
 
 Begin
 {
 	[string] $THIS_SCRIPTS_DIRECTORY_PATH = $PSScriptRoot
+
+	function Confirm-RequiredFilesExist([string] $extensionJsonFilePath, [string[]] $taskJsonFilePaths)
+	{
+		if (!(Test-Path -Path $extensionJsonFilePath -PathType Leaf))
+		{
+			throw "The file '$extensionJsonFilePath' does not exist, so exiting."
+		}
+
+		$taskJsonFilePaths | ForEach-Object {
+			$taskJsonFilePath = $_
+			if (!(Test-Path -Path $taskJsonFilePath -PathType Leaf))
+			{
+				throw "The file '$taskJsonFilePath' does not exist, so exiting."
+			}
+		}
+	}
+
+	function Set-VersionNumberInFiles([string] $extensionJsonFilePath, [string[]] $taskJsonFilePaths)
+	{
+		# Get the current version and new version to use.
+		[VersionNumber] $extensionVersionNumber = Get-ExtensionVersionNumber -extensionJsonFilePath $extensionJsonFilePath
+		[VersionNumber] $newVersionNumberToUse = Read-NewVersionNumberFromUser -currentVersion $extensionVersionNumber
+
+		# Update the version in the files.
+		Set-ExtensionVersionNumber -extensionJsonFilePath $extensionJsonFilePath -versionNumber $newVersionNumberToUse
+		Set-TaskVersionNumber -taskJsonFilePaths $taskJsonFilePaths -versionNumber $newVersionNumberToUse
+
+		Write-Output "The version field of all files has been updated to '$newVersionNumberToUse'."
+	}
 
 	function Get-ExtensionVersionNumber([ValidateScript({Test-Path -Path $_ -PathType Leaf})][string] $extensionJsonFilePath)
 	{
@@ -76,7 +90,7 @@ Begin
 		Set-Content -Path $jsonFilePath -Value $jsonText
 	}
 
-	function Prompt-UserForNewVersionNumber([VersionNumber] $currentVersion)
+	function Read-NewVersionNumberFromUser([VersionNumber] $currentVersion)
 	{
 		[string] $newVersionToUse = Read-Host -Prompt "What should the new version be? Current version is '$currentVersion'. Version must have 3 parts (e.g. Major.Minor.Patch). Leave blank to just increment Patch version"
 
@@ -94,6 +108,13 @@ Begin
 		Write-Verbose "New version specified to use is: $newVersionNumber" -Verbose
 
 		return $newVersionNumber
+	}
+
+	function New-VsixPackage([string] $newPackageDirectoryPath, [string] $extensionJsonFilePath)
+	{
+		Write-Verbose "Creating new vsix extension package file." -Verbose
+		Set-Location $srcDirectoryPath
+		tfx extension create --manifest-globs "$extensionJsonFilePath"
 	}
 
 	class VersionNumber
