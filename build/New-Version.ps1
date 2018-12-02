@@ -13,7 +13,7 @@ Process
 
 	Set-VersionNumberInFiles -extensionJsonFilePath $extensionJsonFilePath -taskJsonFilePaths $taskJsonFilePaths
 
-	New-VsixPackage -newPackageDirectoryPath $srcDirectoryPath -extensionJsonFilePath $extensionJsonFilePath
+	New-VsixPackage -extensionJsonFilePath $extensionJsonFilePath
 }
 
 Begin
@@ -110,10 +110,11 @@ Begin
 		return $newVersionNumber
 	}
 
-	function New-VsixPackage([string] $newPackageDirectoryPath, [string] $extensionJsonFilePath)
+	function New-VsixPackage([ValidateScript({Test-Path -Path $_ -PathType Leaf})][string] $extensionJsonFilePath)
 	{
 		Write-Verbose "Creating new vsix extension package file." -Verbose
-		Set-Location $srcDirectoryPath
+		[string] $parentDirectoryPath = Split-Path -Path $extensionJsonFilePath -Parent
+		Set-Location $parentDirectoryPath
 		tfx extension create --manifest-globs "$extensionJsonFilePath"
 	}
 
