@@ -1,92 +1,92 @@
 {
-    "manifestVersion": 1,
-    "id": "WindowsScheduledTasksBuildAndReleaseTasks",
-    "name": "Windows Scheduled Tasks",
-    "version": "0.0.16",
-    "publisher": "deadlydog",
-    "targets": [
-        {
-            "id": "Microsoft.VisualStudio.Services"
-        }
-    ],
-    "description": "Tasks for installing and uninstalling Windows Scheduled Tasks.",
-    "categories": [
-        "Build and release"
-    ],
-    "tags": [
-        "utility",
-        "task",
-        "schedule",
-        "scheduled task",
-        "task scheduler",
-        "install",
-        "uninstall"
-    ],
-    "content": {
-        "details": {
-            "path": "MarketplaceDocs/Overview.md"
-        }
+  "manifestVersion": 1,
+  "id": "WindowsScheduledTasksBuildAndReleaseTasks",
+  "name": "Windows Scheduled Tasks",
+  "version": "0.0.16",
+  "publisher": "deadlydog",
+  "targets": [
+    {
+      "id": "Microsoft.VisualStudio.Services"
+    }
+  ],
+  "description": "Tasks for installing and uninstalling Windows Scheduled Tasks.",
+  "categories": [
+    "Build and release"
+  ],
+  "tags": [
+    "utility",
+    "task",
+    "schedule",
+    "scheduled task",
+    "task scheduler",
+    "install",
+    "uninstall"
+  ],
+  "content": {
+    "details": {
+      "path": "MarketplaceDocs/Overview.md"
+    }
+  },
+  "links": {
+    "support": {
+      "uri": "https://github.com/deadlydog/VSTS.WindowsScheduledTasks/blob/master/ReadMe.md"
     },
-    "links": {
-        "support": {
-            "uri": "https://github.com/deadlydog/VSTS.WindowsScheduledTasks/blob/master/ReadMe.md"
-        },
-        "license": {
-            "uri": "https://github.com/deadlydog/VSTS.WindowsScheduledTasks/blob/master/License.md"
-        }
+    "license": {
+      "uri": "https://github.com/deadlydog/VSTS.WindowsScheduledTasks/blob/master/License.md"
+    }
+  },
+  "icons": {
+    "default": "Images/ExtensionIcon.png"
+  },
+  "repository": {
+    "type": "git",
+    "uri": "https://github.com/deadlydog/VSTS.WindowsScheduledTasks"
+  },
+  "files": [
+    {
+      "path": "Tasks/InstallWindowsScheduledTask"
     },
-    "icons": {
-        "default": "Images/ExtensionIcon.png"
+    {
+      "path": "Tasks/UninstallWindowsScheduledTask"
+    }
+  ],
+  "contributions": [
+    {
+      "id": "InstallWindowsScheduledTask",
+      "type": "ms.vss-distributed-task.task",
+      "targets": [
+        "ms.vss-distributed-task.tasks"
+      ],
+      "properties": {
+        "name": "Tasks/InstallWindowsScheduledTask"
+      }
     },
-    "repository": {
-        "type": "git",
-        "uri": "https://github.com/deadlydog/VSTS.WindowsScheduledTasks"
+    {
+      "id": "UninstallWindowsScheduledTask",
+      "type": "ms.vss-distributed-task.task",
+      "targets": [
+        "ms.vss-distributed-task.tasks"
+      ],
+      "properties": {
+        "name": "Tasks/UninstallWindowsScheduledTask"
+      }
+    }
+  ],
+  "_internalCommentForMyself": [
+    {
+      "Absent": "When the 'galleryFlags' element is missing, this extension is only visible to the publisher. When ready, move the `galleryFlags` section out of this '_comment' section.",
+      "Preview": "Will put this extension on the marketplace, but mark it as beta.",
+      "Public": "Will make this extension available on the marketplace as ready."
     },
-    "files": [
-        {
-            "path": "Tasks/InstallWindowsScheduledTask"
-        },
-        {
-            "path": "Tasks/UninstallWindowsScheduledTask"
-        }
-    ],
-    "contributions": [
-        {
-            "id": "InstallWindowsScheduledTask",
-            "type": "ms.vss-distributed-task.task",
-            "targets": [
-                "ms.vss-distributed-task.tasks"
-            ],
-            "properties": {
-                "name": "Tasks/InstallWindowsScheduledTask"
-            }
-        },
-        {
-            "id": "UninstallWindowsScheduledTask",
-            "type": "ms.vss-distributed-task.task",
-            "targets": [
-                "ms.vss-distributed-task.tasks"
-            ],
-            "properties": {
-                "name": "Tasks/UninstallWindowsScheduledTask"
-            }
-        }
-    ],
-    "_internalCommentForMyself": [
-        {
-            "Absent" : "When the 'galleryFlags' element is missing, this extension is only visible to the publisher. When ready, move the `galleryFlags` section out of this '_comment' section.",
-            "Preview" : "Will put this extension on the marketplace, but mark it as beta.",
-            "Public" : "Will make this extension available on the marketplace as ready."
-        },
-        {
-            "galleryFlags": [
-                "Preview"
-            ]
-        },
-        {
-            "galleryFlags": [
-                "Public"
-            ]
-        }
-    ]
+    {
+      "galleryFlags": [
+        "Preview"
+      ]
+    },
+    {
+      "galleryFlags": [
+        "Public"
+      ]
+    }
+  ]
 }
