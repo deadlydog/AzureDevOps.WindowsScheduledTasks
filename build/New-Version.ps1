@@ -86,7 +86,7 @@ Begin
 
 	function Write-JsonToFile([string] $jsonFilePath, [PSCustomObject] $json)
 	{
-		[string] $jsonText = ConvertTo-Json -InputObject $json -Depth 99
+		[string] $jsonText = (ConvertTo-Json -InputObject $json -Depth 99) | Format-Json
 		Set-Content -Path $jsonFilePath -Value $jsonText
 	}
 
@@ -108,6 +108,25 @@ Begin
 		Write-Verbose "New version specified to use is: $newVersionNumber" -Verbose
 
 		return $newVersionNumber
+	}
+
+	# Formats JSON in a nicer format than the built-in ConvertTo-Json does.
+	# Code take from: https://github.com/PowerShell/PowerShell/issues/2736
+	function Format-Json([Parameter(Mandatory, ValueFromPipeline)][String] $json) {
+		$indent = 0;
+		($json -Split '\n' |
+		% {
+			if ($_ -match '[\}\]]') {
+			# This line contains  ] or }, decrement the indentation level
+			$indent--
+			}
+			$line = (' ' * $indent * 2) + $_.TrimStart().Replace(':  ', ': ')
+			if ($_ -match '[\{\[]') {
+			# This line contains [ or {, increment the indentation level
+			$indent++
+			}
+			$line
+		}) -Join "`n"
 	}
 
 	function New-VsixPackage([ValidateScript({Test-Path -Path $_ -PathType Leaf})][string] $extensionJsonFilePath)
