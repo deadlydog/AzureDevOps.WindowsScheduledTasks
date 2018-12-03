@@ -2,7 +2,7 @@
   "manifestVersion": 1,
   "id": "WindowsScheduledTasksBuildAndReleaseTasks",
   "name": "Windows Scheduled Tasks",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "publisher": "deadlydog",
   "targets": [
     {
@@ -74,7 +74,7 @@
   ],
   "_internalCommentForMyself": [
     {
-      "Absent": "When the 'galleryFlags' element is missing, this extension is only visible to the publisher. When ready, move the `galleryFlags` section out of this '_comment' section.",
+      "Absent": "When the \u0027galleryFlags\u0027 element is missing, this extension is only visible to the publisher. When ready, move the `galleryFlags` section out of this \u0027_comment\u0027 section.",
       "Preview": "Will put this extension on the marketplace, but mark it as beta.",
       "Public": "Will make this extension available on the marketplace as ready."
     },
