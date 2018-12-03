@@ -114,7 +114,7 @@ Begin
 	# Code take from: https://github.com/PowerShell/PowerShell/issues/2736
 	function Format-Json([Parameter(Mandatory, ValueFromPipeline)][String] $json) {
 		$indent = 0;
-		($json -Split '\n' |
+		($json -Split [System.Environment]::NewLine |
 		% {
 			if ($_ -match '[\}\]]') {
 			# This line contains  ] or }, decrement the indentation level
@@ -126,7 +126,7 @@ Begin
 			$indent++
 			}
 			$line
-		}) -Join "`n"
+		}) -Join [System.Environment]::NewLine
 	}
 
 	function New-VsixPackage([ValidateScript({Test-Path -Path $_ -PathType Leaf})][string] $extensionJsonFilePath)
