@@ -79,7 +79,7 @@ Begin
 
 	function Read-JsonFromFile([ValidateScript({Test-Path -Path $_ -PathType Leaf})][string] $jsonFilePath)
 	{
-		[string] $jsonText = Get-Content -Path $extensionJsonFilePath -Raw
+		[string] $jsonText = Get-Content -Path $jsonFilePath -Raw
 		[PSCustomObject] $jsonContents = ConvertFrom-Json -InputObject $jsonText
 		return $jsonContents
 	}
