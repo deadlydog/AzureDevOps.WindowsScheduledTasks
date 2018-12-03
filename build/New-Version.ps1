@@ -112,18 +112,20 @@ Begin
 
 	# Formats JSON in a nicer format than the built-in ConvertTo-Json does.
 	# Code take from: https://github.com/PowerShell/PowerShell/issues/2736
-	function Format-Json([Parameter(Mandatory, ValueFromPipeline)][String] $json) {
+	function Format-Json([Parameter(Mandatory, ValueFromPipeline)][String] $json)
+	{
 		$indent = 0;
-		($json -Split [System.Environment]::NewLine |
-		% {
-			if ($_ -match '[\}\]]') {
-			# This line contains  ] or }, decrement the indentation level
-			$indent--
+		($json -Split [System.Environment]::NewLine | ForEach-Object {
+			if ($_ -match '[\}\]]')
+			{
+				# This line contains  ] or }, decrement the indentation level
+				$indent--
 			}
 			$line = (' ' * $indent * 2) + $_.TrimStart().Replace(':  ', ': ')
-			if ($_ -match '[\{\[]') {
-			# This line contains [ or {, increment the indentation level
-			$indent++
+			if ($_ -match '[\{\[]')
+			{
+				# This line contains [ or {, increment the indentation level
+				$indent++
 			}
 			$line
 		}) -Join [System.Environment]::NewLine
