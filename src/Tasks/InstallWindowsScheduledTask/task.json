@@ -13,7 +13,7 @@
   "version": {
     "Major": 0,
     "Minor": 0,
-    "Patch": 21
+    "Patch": 24
   },
   "instanceNameFormat": "Install Windows Scheduled Task \u0027$(ScheduledTaskName)\u0027",
   "groups": [
@@ -75,7 +75,8 @@
       "options": {
         "ApplicationDirectoryPath": "Application Directory Path",
         "CustomDirectoryPath": "Custom Directory Path"
-      }
+      },
+      "groupName": "ScheduledTaskSettings"
     },
     {
       "name": "WorkingDirectory",
@@ -89,7 +90,7 @@
     },
     {
       "name": "ScheduleTriggerType",
-      "type": "pickList",
+      "type": "radio",
       "label": "Schedule Trigger",
       "required": true,
       "defaultValue": "DateTime",
@@ -113,7 +114,7 @@
     },
     {
       "name": "ScheduleFrequencyOptions",
-      "type": "pickList",
+      "type": "radio",
       "label": "Schedule Frequency",
       "visibleRule": "ScheduleTriggerType = DateTime",
       "required": true,
@@ -266,7 +267,7 @@
     },
     {
       "name": "ScheduldTaskUserToRunAsOptions",
-      "type": "pickList",
+      "type": "radio",
       "label": "User To Run As",
       "required": true,
       "defaultValue": "System",
