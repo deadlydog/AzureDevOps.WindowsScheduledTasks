@@ -74,7 +74,7 @@
       "helpMarkDown": "What event should trigger the Scheduled Task to run.",
       "options": {
         "DateTime": "A specific date and time",
-        "AtLogOn": "When a user log on (At Log On)",
+        "AtLogOn": "When a user logs on (At Log On)",
         "AtStartup": "When the system is started (At Startup)"
       },
       "groupName": "ScheduledTaskSettings"
