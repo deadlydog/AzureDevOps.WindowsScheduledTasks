@@ -66,10 +66,23 @@
       "groupName": "ScheduledTaskSettings"
     },
     {
+      "name": "WorkingDirectoryOptions",
+      "type": "radio",
+      "label": "Working Directory To Use",
+      "required": true,
+      "defaultValue": "ApplicationDirectoryPath",
+      "helpMarkDown": "The working directory that the application or script should be ran from.",
+      "options": {
+        "ApplicationDirectoryPath": "Application Directory Path",
+        "CustomDirectoryPath": "Custom Directory Path"
+      }
+    },
+    {
       "name": "WorkingDirectory",
       "type": "string",
       "label": "Working Directory",
-      "required": false,
+      "visibleRule": "WorkingDirectoryOptions = CustomDirectoryPath",
+      "required": true,
       "defaultValue": "",
       "helpMarkDown": "The working directory that the application or script should be ran from.",
       "groupName": "ScheduledTaskSettings"
