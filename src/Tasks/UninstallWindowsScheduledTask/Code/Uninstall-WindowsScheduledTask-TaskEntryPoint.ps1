@@ -11,7 +11,10 @@ param
 	[string] $Username,
 
 	[parameter(Mandatory=$false,HelpMessage="The password to use to connect to the computer(s).")]
-	[string] $Password
+	[string] $Password,
+
+	[parameter(Mandatory=$false,HelpMessage="If CredSSP should be used when connecting to remote computers or not.")]
+	[bool] $UseCredSsp = $false
 )
 
 Process

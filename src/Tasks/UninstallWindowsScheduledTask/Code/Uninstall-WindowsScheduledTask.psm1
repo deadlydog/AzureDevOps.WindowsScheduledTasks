@@ -13,7 +13,10 @@ function Uninstall-WindowsScheduledTask
 		[string[]] $ComputerName,
 
 		[parameter(Mandatory=$false,HelpMessage="The credential to use to connect to the computer(s).")]
-		[PSCredential] $Credential
+		[PSCredential] $Credential,
+
+		[parameter(Mandatory=$false,HelpMessage="If CredSSP should be used when connecting to remote computers or not.")]
+		[bool] $UseCredSsp = $false
 	)
 
 	Process

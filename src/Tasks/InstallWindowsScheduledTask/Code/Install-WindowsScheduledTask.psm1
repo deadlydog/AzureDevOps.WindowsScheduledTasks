@@ -9,13 +9,7 @@ function Install-WindowsScheduledTask
 		[ValidateNotNullOrEmpty()]
 		[string] $ScheduledTaskName,
 
-		[parameter(Mandatory=$false,HelpMessage="List of the computer(s) to uninstall the scheduled task from. If null localhost will be used.")]
-		[string[]] $ComputerName,
-
-		[parameter(Mandatory=$false,HelpMessage="The credential to use to connect to the computer(s).")]
-		[PSCredential] $Credential,
-
-		[parameter(Mandatory=$true,HelpMessage="The description for the Scheduled Task.")]
+		[parameter(Mandatory=$false,HelpMessage="The description for the Scheduled Task.")]
 		[string] $ScheduledTaskDescription,
 
 		[parameter(Mandatory=$true,HelpMessage="The full path to the application executable or script file to run.")]
@@ -43,7 +37,13 @@ function Install-WindowsScheduledTask
 		[string] $ScheduleRepeatIntervalDurationInMinutes = '$(ScheduledTaskRepeatIntervalDurationInMinutes)',
 
 		[parameter(Mandatory=$false,HelpMessage="If the Scheduled Task should be ran immediately after installation or not.")]
-		[bool] $RunScheduledTaskAfterInstallation
+		[bool] $RunScheduledTaskAfterInstallation,
+
+		[parameter(Mandatory=$false,HelpMessage="List of the computer(s) to uninstall the scheduled task from. If null localhost will be used.")]
+		[string[]] $ComputerName,
+
+		[parameter(Mandatory=$false,HelpMessage="The credential to use to connect to the computer(s).")]
+		[PSCredential] $Credential,
 	)
 
 	Process

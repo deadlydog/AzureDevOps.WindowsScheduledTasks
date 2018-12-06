@@ -4,7 +4,7 @@ param
 	[ValidateNotNullOrEmpty()]
 	[string] $ScheduledTaskName,
 
-	[parameter(Mandatory=$true,HelpMessage="The description for the Scheduled Task.")]
+	[parameter(Mandatory=$false,HelpMessage="The description for the Scheduled Task.")]
 	[string] $ScheduledTaskDescription,
 
 	[parameter(Mandatory=$true,HelpMessage="The full path to the application executable or script file to run.")]
@@ -34,9 +34,6 @@ param
 	[parameter(Mandatory=$false,HelpMessage="If the Scheduled Task should be ran immediately after installation or not.")]
 	[bool] $RunScheduledTaskAfterInstallation,
 
-	[parameter(Mandatory=$false,HelpMessage="If CredSSP should be used when connecting to remote computers or not.")]
-	[bool] $UseCredSsp = $false,
-
 	[string] $UserToRunScheduledTaskAs = 'NETWORK SERVICE',
 
 	[string] $UserPasswordToRunScheduledTaskAs = '',
@@ -48,7 +45,10 @@ param
 	[string] $Username,
 
 	[parameter(Mandatory=$false,HelpMessage="The password to use to connect to the computer(s).")]
-	[string] $Password
+	[string] $Password,
+
+	[parameter(Mandatory=$false,HelpMessage="If CredSSP should be used when connecting to remote computers or not.")]
+	[bool] $UseCredSsp = $false,
 )
 
 Process
