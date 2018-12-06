@@ -16,6 +16,18 @@
     "Patch": 17
   },
   "instanceNameFormat": "Uninstall Windows Scheduled Task \u0027$(ScheduledTaskName)\u0027",
+  "groups": [
+    {
+      "name": "ServerSettings",
+      "displayName": "Server Settings",
+      "isExpanded": true
+    },
+    {
+      "name": "ScheduledTaskSettings",
+      "displayName": "Scheduled Task Settings",
+      "isExpanded": true
+    }
+],
   "inputs": [
     {
       "name": "ComputerNames",
@@ -24,7 +36,7 @@
       "defaultValue": "",
       "required": false,
       "helpMarkDown": "A comma-separated list of computers to connect to and remove the Scheduled Task from.\u003cbr /\u003e\u003cbr /\u003eLeave blank to have it run on the agent\u0027s local computer.",
-      "groupName": "Server Settings"
+      "groupName": "ServerSettings"
     },
     {
       "name": "Username",
@@ -33,7 +45,7 @@
       "defaultValue": "",
       "required": false,
       "helpMarkDown": "The username to use when connecting to the computers and removing the Scheduled Task.\u003cbr /\u003e\u003cbr /\u003eLeave blank to use the identity that the agent is running as.",
-      "groupName": "Server Settings"
+      "groupName": "ServerSettings"
     },
     {
       "name": "Password",
@@ -42,7 +54,7 @@
       "defaultValue": "",
       "required": false,
       "helpMarkDown": "The password to use when connecting to the computers and removing the Scheduled Task. As a best practice, a secret variable should be passed in here so that other users cannot see the password in plain text.\u003cbr /\u003e\u003cbr /\u003eLeave blank to use the identity that the agent is running as.",
-      "groupName": "Server Settings"
+      "groupName": "ServerSettings"
     },
     {
       "name": "ScheduledTaskName",
@@ -51,7 +63,7 @@
       "defaultValue": "",
       "required": true,
       "helpMarkDown": "The full path of the Scheduled Task to uninstall from the server(s).\u003cbr /\u003eIf the Scheduled Task is installed in a directory, the directory (or directories) must also be included in the path.\u003cbr /\u003ee.g. `MyTasks\\TaskToRemove`\u003cbr /\u003e\u003cbr /\u003eWildcards are supported as well.\u003cbr /\u003eFor example, the following would all match on the `MyTasks\\TaskToRemove` task:\u003cbr /\u003e`*\\TaskToRemove`\u003cbr /\u003e`MyTasks\\TaskTo*`\u003cbr /\u003e`*\\*Remove`\u003cbr /\u003e`MyTasks\\Task*Remove`\u003cbr /\u003e\u003cbr /\u003eNOTE: Be very careful when using wildcards, since if multiple Scheduled Tasks are found to match they pattern, they will all be uninstalled.",
-      "groupName": "Scheduled Task Settings"
+      "groupName": "ScheduledTaskSettings"
     }
   ],
   "execution": {
