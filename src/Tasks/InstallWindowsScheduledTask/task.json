@@ -66,6 +66,15 @@
       "groupName": "ScheduledTaskSettings"
     },
     {
+      "name": "WorkingDirectory",
+      "type": "string",
+      "label": "Working Directory",
+      "required": false,
+      "defaultValue": "",
+      "helpMarkDown": "The working directory that the application or script should be ran from.",
+      "groupName": "ScheduledTaskSettings"
+    },
+    {
       "name": "ScheduleTriggerType",
       "type": "pickList",
       "label": "Schedule Trigger",

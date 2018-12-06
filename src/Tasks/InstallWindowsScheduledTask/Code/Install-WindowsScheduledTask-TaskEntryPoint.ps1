@@ -14,6 +14,9 @@ param
 	[parameter(Mandatory=$false,HelpMessage="The arguments to pass to the application executable or script to run.")]
 	[string] $ApplicationArguments,
 
+	[parameter(Mandatory=$false,HelpMessage="The working directory to run the application executable or script from.")]
+	[string] $WorkingDirectory,
+
 	[parameter(Mandatory=$true,HelpMessage="How often the Scheduled Task should run.")]
 	[ValidateNotNullOrEmpty()]
 	[string] $ScheduleFrequency,
