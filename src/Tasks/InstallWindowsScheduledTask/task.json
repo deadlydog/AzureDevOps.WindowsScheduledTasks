@@ -107,9 +107,9 @@
       "type": "string",
       "label": "Start Time",
       "visibleRule": "ScheduleTriggerType = DateTime",
-      "required": false,
+      "required": true,
       "defaultValue": "",
-      "helpMarkDown": "The time that the Scheduled Task should start at.",
+      "helpMarkDown": "The time that the Scheduled Task should start at. e.g. '3am', '6pm', '12pm' (noon), '12am' (midnight).",
       "groupName": "ScheduledTaskSettings"
     },
     {
