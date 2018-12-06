@@ -13,7 +13,7 @@
   "version": {
     "Major": 0,
     "Minor": 0,
-    "Patch": 18
+    "Patch": 21
   },
   "instanceNameFormat": "Install Windows Scheduled Task \u0027$(ScheduledTaskName)\u0027",
   "groups": [
@@ -76,7 +76,8 @@
         "DateTime": "A specific date and time",
         "AtLogOn": "When a user log on (At Log On)",
         "AtStartup": "When the system is started (At Startup)"
-      }
+      },
+      "groupName": "ScheduledTaskSettings"
     },
     {
       "name": "ScheduleStartTime",
@@ -100,7 +101,8 @@
         "Once": "Once",
         "Daily": "Daily",
         "Weekly": "Weekly"
-      }
+      },
+      "groupName": "ScheduledTaskSettings"
     },
     {
       "name": "ScheduleFrequencyDailyInterval",
@@ -109,7 +111,8 @@
       "visibleRule": "ScheduleFrequencyOptions = Daily",
       "required": true,
       "defaultValue": "1",
-      "helpMarkDown": "How many days between running the Scheduled Task. e.g. 1 = every day, 2 = every other day, 3 = every third day, etc."
+      "helpMarkDown": "How many days between running the Scheduled Task. e.g. 1 = every day, 2 = every other day, 3 = every third day, etc.",
+      "groupName": "ScheduledTaskSettings"
     },
     {
       "name": "ScheduleFrequencyWeeklyInterval",
@@ -118,7 +121,8 @@
       "visibleRule": "ScheduleFrequencyOptions = Weekly",
       "required": true,
       "defaultValue": "1",
-      "helpMarkDown": "How many weeks between running the Scheduled Task. e.g. 1 = every week, 2 = every other week, 3 = every third week, etc."
+      "helpMarkDown": "How many weeks between running the Scheduled Task. e.g. 1 = every week, 2 = every other week, 3 = every third week, etc.",
+      "groupName": "ScheduledTaskSettings"
     },
     {
       "name": "ScheduleFrequencyWeeklyRunMulipleTimesAWeek",
@@ -127,7 +131,8 @@
       "visibleRule": "ScheduleFrequencyOptions = Weekly",
       "required": true,
       "defaultValue": "false",
-      "helpMarkDown": "Select to have the Scheduled Task run on specific days of the week."
+      "helpMarkDown": "Select to have the Scheduled Task run on specific days of the week.",
+      "groupName": "ScheduledTaskSettings"
     },
     {
       "name": "ScheduleFrequencyWeeklyRunOnMondays",
@@ -136,7 +141,8 @@
       "visibleRule": "ScheduleFrequencyWeeklyRunMulipleTimesAWeek = true",
       "required": true,
       "defaultValue": "false",
-      "helpMarkDown": "Select to have the Scheduled Task run on Mondays."
+      "helpMarkDown": "Select to have the Scheduled Task run on Mondays.",
+      "groupName": "ScheduledTaskSettings"
     },
     {
       "name": "ScheduleFrequencyWeeklyRunOnTuesdays",
@@ -145,7 +151,8 @@
       "visibleRule": "ScheduleFrequencyWeeklyRunMulipleTimesAWeek = true",
       "required": true,
       "defaultValue": "false",
-      "helpMarkDown": "Select to have the Scheduled Task run on Tuesdays."
+      "helpMarkDown": "Select to have the Scheduled Task run on Tuesdays.",
+      "groupName": "ScheduledTaskSettings"
     },
     {
       "name": "ScheduleFrequencyWeeklyRunOnWednesdays",
@@ -154,7 +161,8 @@
       "visibleRule": "ScheduleFrequencyWeeklyRunMulipleTimesAWeek = true",
       "required": true,
       "defaultValue": "false",
-      "helpMarkDown": "Select to have the Scheduled Task run on Wednesdays."
+      "helpMarkDown": "Select to have the Scheduled Task run on Wednesdays.",
+      "groupName": "ScheduledTaskSettings"
     },
     {
       "name": "ScheduleFrequencyWeeklyRunOnThursdays",
@@ -163,7 +171,8 @@
       "visibleRule": "ScheduleFrequencyWeeklyRunMulipleTimesAWeek = true",
       "required": true,
       "defaultValue": "false",
-      "helpMarkDown": "Select to have the Scheduled Task run on Thursdays."
+      "helpMarkDown": "Select to have the Scheduled Task run on Thursdays.",
+      "groupName": "ScheduledTaskSettings"
     },
     {
       "name": "ScheduleFrequencyWeeklyRunOnFridays",
@@ -172,7 +181,8 @@
       "visibleRule": "ScheduleFrequencyWeeklyRunMulipleTimesAWeek = true",
       "required": true,
       "defaultValue": "false",
-      "helpMarkDown": "Select to have the Scheduled Task run on Fridays."
+      "helpMarkDown": "Select to have the Scheduled Task run on Fridays.",
+      "groupName": "ScheduledTaskSettings"
     },
     {
       "name": "ScheduleFrequencyWeeklyRunOnSaturdays",
@@ -181,7 +191,8 @@
       "visibleRule": "ScheduleFrequencyWeeklyRunMulipleTimesAWeek = true",
       "required": true,
       "defaultValue": "false",
-      "helpMarkDown": "Select to have the Scheduled Task run on Saturdays."
+      "helpMarkDown": "Select to have the Scheduled Task run on Saturdays.",
+      "groupName": "ScheduledTaskSettings"
     },
     {
       "name": "ScheduleFrequencyWeeklyRunOnSundays",
@@ -190,7 +201,8 @@
       "visibleRule": "ScheduleFrequencyWeeklyRunMulipleTimesAWeek = true",
       "required": true,
       "defaultValue": "false",
-      "helpMarkDown": "Select to have the Scheduled Task run on Sundays."
+      "helpMarkDown": "Select to have the Scheduled Task run on Sundays.",
+      "groupName": "ScheduledTaskSettings"
     },
     {
       "name": "ScheduleShouldRepeat",
@@ -198,7 +210,8 @@
       "label": "Repeat the Scheduled Task",
       "required": true,
       "defaultValue": "false",
-      "helpMarkDown": "Select to have the Scheduled Task run repeatedly again after being triggered."
+      "helpMarkDown": "Select to have the Scheduled Task run repeatedly again after being triggered.",
+      "groupName": "ScheduledTaskSettings"
     },
     {
       "name": "ScheduleRepetitionInterval",
@@ -230,23 +243,6 @@
       "groupName": "ScheduledTaskSettings"
     },
     {
-      "name": "ScheduledTaskShouldBeEnabled",
-      "type": "boolean",
-      "label": "Enabled",
-      "required": true,
-      "defaultValue": "true",
-      "helpMarkDown": "Select to have the Scheduled Task be enabled after it is installed; Unselect this to have it be installed as disabled."
-    },
-    {
-      "name": "ScheduledTaskShouldRunAfterInstall",
-      "type": "boolean",
-      "label": "Enabled",
-      "visibleRule": "ScheduledTaskShouldBeEnabled = true",
-      "required": true,
-      "defaultValue": "false",
-      "helpMarkDown": "Select to have the Scheduled Task run immediately after it is installed."
-    },
-    {
       "name": "ScheduldTaskUserToRunAsOptions",
       "type": "pickList",
       "label": "User To Run As",
@@ -257,7 +253,8 @@
         "System": "System",
         "NetworkService": "Network Service",
         "CustomAccount": "Custom User or Service Account"
-      }
+      },
+      "groupName": "ScheduledTaskSettings"
     },
     {
       "name": "ScheduledTaskUserToRunAs",
@@ -266,7 +263,8 @@
       "visibleRule": "ScheduldTaskUserToRunAsOptions = CustomAccount",
       "required": true,
       "defaultValue": "",
-      "helpMarkDown": "The name of the user or system account that the Scheduled Task should run as."
+      "helpMarkDown": "The name of the user or system account that the Scheduled Task should run as.",
+      "groupName": "ScheduledTaskSettings"
     },
     {
       "name": "ScheduledTaskUserToRunAsPassword",
@@ -275,13 +273,28 @@
       "visibleRule": "ScheduldTaskUserToRunAsOptions = CustomAccount",
       "required": false,
       "defaultValue": "",
-      "helpMarkDown": "The password of the user or system account that the Scheduled Task should run as."
+      "helpMarkDown": "The password of the user or system account that the Scheduled Task should run as.",
+      "groupName": "ScheduledTaskSettings"
     },
-
-
-
-
-
+    {
+      "name": "ScheduledTaskShouldBeEnabled",
+      "type": "boolean",
+      "label": "Enabled",
+      "required": true,
+      "defaultValue": "true",
+      "helpMarkDown": "Select to have the Scheduled Task be enabled after it is installed; Unselect this to have it be installed as disabled.",
+      "groupName": "ScheduledTaskSettings"
+    },
+    {
+      "name": "ScheduledTaskShouldRunAfterInstall",
+      "type": "boolean",
+      "label": "Run after installed",
+      "visibleRule": "ScheduledTaskShouldBeEnabled = true",
+      "required": true,
+      "defaultValue": "false",
+      "helpMarkDown": "Select to have the Scheduled Task run immediately after it is installed.",
+      "groupName": "ScheduledTaskSettings"
+    },
     {
       "name": "ComputerNames",
       "type": "string",
@@ -309,11 +322,6 @@
       "helpMarkDown": "The password to use when connecting to the computers and installing the Scheduled Task. As a best practice, a secret variable should be passed in here so that other users cannot see the password in plain text.\u003cbr /\u003e\u003cbr /\u003eLeave blank to use the identity that the agent is running as.",
       "groupName": "ServerSettings"
     },
-
-
-
-
-
     {
       "name": "samplepathinput",
       "type": "filePath",
