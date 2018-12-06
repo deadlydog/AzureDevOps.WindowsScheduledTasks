@@ -18,27 +18,25 @@
   "instanceNameFormat": "Install Windows Scheduled Task \u0027$(ScheduledTaskName)\u0027",
   "groups": [
     {
-      "name": "advanced",
-      "displayName": "Advanced",
-      "isExpanded": false
+      "name": "ServerSettings",
+      "displayName": "Server Settings",
+      "isExpanded": true
+    },
+    {
+      "name": "ScheduledTaskSettings",
+      "displayName": "Scheduled Task Settings",
+      "isExpanded": true
     }
   ],
   "inputs": [
-    {
-      "name": "ScheduledTaskName",
-      "type": "string",
-      "label": "Scheduled Task Name",
-      "defaultValue": "",
-      "required": true,
-      "helpMarkDown": "The full path of the Scheduled Task to install on the server(s).\u003cbr /\u003eIf the Scheduled Task is to be installed in a directory, the directory (or directories) must also be included in the path.\u003cbr /\u003ee.g. `MyTasks\\TaskToInstall`"
-    },
     {
       "name": "ComputerNames",
       "type": "string",
       "label": "Computer Names",
       "defaultValue": "",
       "required": false,
-      "helpMarkDown": "A comma-separated list of computers to connect to and install the Scheduled Task on.\u003cbr /\u003e\u003cbr /\u003eLeave blank to have it run on the agent\u0027s local computer."
+      "helpMarkDown": "A comma-separated list of computers to connect to and install the Scheduled Task on.\u003cbr /\u003e\u003cbr /\u003eLeave blank to have it run on the agent\u0027s local computer.",
+      "groupName": "ServerSettings"
     },
     {
       "name": "Username",
@@ -46,7 +44,8 @@
       "label": "Username",
       "defaultValue": "",
       "required": false,
-      "helpMarkDown": "The username to use when connecting to the computers and installing the Scheduled Task.\u003cbr /\u003e\u003cbr /\u003eLeave blank to use the identity that the agent is running as."
+      "helpMarkDown": "The username to use when connecting to the computers and installing the Scheduled Task.\u003cbr /\u003e\u003cbr /\u003eLeave blank to use the identity that the agent is running as.",
+      "groupName": "ServerSettings"
     },
     {
       "name": "Password",
@@ -54,8 +53,24 @@
       "label": "Password",
       "defaultValue": "",
       "required": false,
-      "helpMarkDown": "The password to use when connecting to the computers and installing the Scheduled Task. As a best practice, a secret variable should be passed in here so that other users cannot see the password in plain text.\u003cbr /\u003e\u003cbr /\u003eLeave blank to use the identity that the agent is running as."
+      "helpMarkDown": "The password to use when connecting to the computers and installing the Scheduled Task. As a best practice, a secret variable should be passed in here so that other users cannot see the password in plain text.\u003cbr /\u003e\u003cbr /\u003eLeave blank to use the identity that the agent is running as.",
+      "groupName": "ServerSettings"
     },
+    {
+      "name": "ScheduledTaskName",
+      "type": "string",
+      "label": "Scheduled Task Name",
+      "defaultValue": "",
+      "required": true,
+      "helpMarkDown": "The full path of the Scheduled Task to install on the server(s).\u003cbr /\u003eIf the Scheduled Task is to be installed in a directory, the directory (or directories) must also be included in the path.\u003cbr /\u003ee.g. `MyTasks\\TaskToInstall`",
+      "groupName": "ScheduledTaskSettings"
+    },
+    
+
+
+
+
+
     {
       "name": "samplepathinput",
       "type": "filePath",
