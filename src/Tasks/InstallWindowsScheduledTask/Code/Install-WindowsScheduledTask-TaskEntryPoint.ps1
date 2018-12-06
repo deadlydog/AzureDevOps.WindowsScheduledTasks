@@ -4,15 +4,6 @@ param
 	[ValidateNotNullOrEmpty()]
 	[string] $ScheduledTaskName,
 
-	[parameter(Mandatory=$false,HelpMessage="Comma-separated list of the computer(s) to uninstall the scheduled task from.")]
-	[string] $ComputerNames,
-
-	[parameter(Mandatory=$false,HelpMessage="The username to use to connect to the computer(s).")]
-	[string] $Username,
-
-	[parameter(Mandatory=$false,HelpMessage="The password to use to connect to the computer(s).")]
-	[string] $Password,
-
 	[parameter(Mandatory=$true,HelpMessage="The description for the Scheduled Task.")]
 	[string] $ScheduledTaskDescription,
 
@@ -48,7 +39,16 @@ param
 
 	[string] $UserToRunScheduledTaskAs = 'NETWORK SERVICE',
 
-	[string] $UserPasswordToRunScheduledTaskAs = ''
+	[string] $UserPasswordToRunScheduledTaskAs = '',
+
+	[parameter(Mandatory=$false,HelpMessage="Comma-separated list of the computer(s) to uninstall the scheduled task from.")]
+	[string] $ComputerNames,
+
+	[parameter(Mandatory=$false,HelpMessage="The username to use to connect to the computer(s).")]
+	[string] $Username,
+
+	[parameter(Mandatory=$false,HelpMessage="The password to use to connect to the computer(s).")]
+	[string] $Password
 )
 
 Process
