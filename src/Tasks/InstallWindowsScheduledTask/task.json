@@ -50,10 +50,10 @@
     {
       "name": "ApplicationPathToRun",
       "type": "string",
-      "label": "Application Path",
+      "label": "Application or Script Path",
       "required": true,
       "defaultValue": "",
-      "helpMarkDown": "The full path of the application or script to run on the server.",
+      "helpMarkDown": "The full path of the application or script that the Scheduled Task should run on the server.",
       "groupName": "ScheduledTaskSettings"
     },
     {
@@ -73,8 +73,8 @@
       "defaultValue": "ApplicationDirectoryPath",
       "helpMarkDown": "The working directory that the application or script should be ran from.",
       "options": {
-        "ApplicationDirectoryPath": "Application Directory Path",
-        "CustomDirectoryPath": "Custom Directory Path"
+        "ApplicationDirectory": "Application's Directory",
+        "CustomDirectory": "Custom Directory"
       },
       "groupName": "ScheduledTaskSettings"
     },
@@ -82,10 +82,10 @@
       "name": "WorkingDirectory",
       "type": "string",
       "label": "Working Directory",
-      "visibleRule": "WorkingDirectoryOptions = CustomDirectoryPath",
+      "visibleRule": "WorkingDirectoryOptions = CustomDirectory",
       "required": true,
       "defaultValue": "",
-      "helpMarkDown": "The working directory that the application or script should be ran from.",
+      "helpMarkDown": "The full working directory path that the application or script should be ran from.",
       "groupName": "ScheduledTaskSettings"
     },
     {
@@ -134,7 +134,7 @@
       "visibleRule": "ScheduleFrequencyOptions = Daily",
       "required": true,
       "defaultValue": "1",
-      "helpMarkDown": "How many days between running the Scheduled Task. e.g. 1 = every day, 2 = every other day, 3 = every third day, etc.",
+      "helpMarkDown": "How many days between running the Scheduled Task. e.g. 1 = run every day, 2 = run every other day, 3 = run every third day, etc.",
       "groupName": "ScheduledTaskSettings"
     },
     {
@@ -144,7 +144,7 @@
       "visibleRule": "ScheduleFrequencyOptions = Weekly",
       "required": true,
       "defaultValue": "1",
-      "helpMarkDown": "How many weeks between running the Scheduled Task. e.g. 1 = every week, 2 = every other week, 3 = every third week, etc.",
+      "helpMarkDown": "How many weeks between running the Scheduled Task. e.g. 1 = run every week, 2 = run every other week, 3 = run every third week, etc.",
       "groupName": "ScheduledTaskSettings"
     },
     {
