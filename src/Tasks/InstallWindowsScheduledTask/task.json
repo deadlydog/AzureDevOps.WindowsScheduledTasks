@@ -273,7 +273,7 @@
       "visibleRule": "ScheduldTaskUserToRunAsOptions = CustomAccount",
       "required": false,
       "defaultValue": "",
-      "helpMarkDown": "The password of the user or system account that the Scheduled Task should run as.",
+      "helpMarkDown": "The password of the user or system account that the Scheduled Task should run as.\u003cbr /\u003e\u003cbr /\u003eAs a best practice, a secret variable should be passed in here so that other users cannot see the password in plain text.",
       "groupName": "ScheduledTaskSettings"
     },
     {
@@ -319,7 +319,7 @@
       "label": "Password",
       "required": false,
       "defaultValue": "",
-      "helpMarkDown": "The password to use when connecting to the computers and installing the Scheduled Task. As a best practice, a secret variable should be passed in here so that other users cannot see the password in plain text.\u003cbr /\u003e\u003cbr /\u003eLeave blank to use the identity that the agent is running as.",
+      "helpMarkDown": "The password to use when connecting to the computers and installing the Scheduled Task.\u003cbr /\u003e\u003cbr /\u003eAs a best practice, a secret variable should be passed in here so that other users cannot see the password in plain text.\u003cbr /\u003e\u003cbr /\u003eLeave blank to use the identity that the agent is running as.",
       "groupName": "ServerSettings"
     },
     {

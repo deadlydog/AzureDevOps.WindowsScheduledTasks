@@ -62,7 +62,7 @@
       "label": "Password",
       "required": false,
       "defaultValue": "",
-      "helpMarkDown": "The password to use when connecting to the computers and removing the Scheduled Task. As a best practice, a secret variable should be passed in here so that other users cannot see the password in plain text.\u003cbr /\u003e\u003cbr /\u003eLeave blank to use the identity that the agent is running as.",
+      "helpMarkDown": "The password to use when connecting to the computers and removing the Scheduled Task.\u003cbr /\u003e\u003cbr /\u003eAs a best practice, a secret variable should be passed in here so that other users cannot see the password in plain text.\u003cbr /\u003e\u003cbr /\u003eLeave blank to use the identity that the agent is running as.",
       "groupName": "ServerSettings"
     }
   ],
