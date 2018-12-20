@@ -32,31 +32,29 @@ function Uninstall-WindowsScheduledTask
 	{
 		function Invoke-UninstallWindowsScheduledTaskFromComputers([hashtable] $scheduledTaskSettings, [string[]] $computers, [PSCredential] $credential, [bool] $useCredSsp)
 		{
-			[bool] $noComputersWereSpecified = ($computers -eq $null -or $computers.Count -eq 0)
-			[bool] $noCredentialWasSpecified = ($credential -eq $null)
+			[bool] $computersWereSpecified = ($computers -ne $null -and $computers.Count -gt 0)
+			[bool] $credentialWasSpecified = ($credential -ne $null)
 
-			if ($noComputersWereSpecified)
+			[string] $uninstallTaskCommand = 'Invoke-Command -ScriptBlock $uninstallScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Verbose'
+
+			if ($computersWereSpecified)
 			{
-				if ($noCredentialWasSpecified)
-				{
-					Invoke-Command -ScriptBlock $uninstallScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Verbose
-				}
-				else
-				{
-					Invoke-Command -Credential $credential -ScriptBlock $uninstallScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Verbose
-				}
+				$uninstallTaskCommand += ' -ComputerName $computers'
 			}
-			else
+
+			if ($credentialWasSpecified)
 			{
-				if ($noCredentialWasSpecified)
-				{
-					Invoke-Command -ComputerName $computers -ScriptBlock $uninstallScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Verbose
-				}
-				else
-				{
-					Invoke-Command -ComputerName $computers -Credential $credential -ScriptBlock $uninstallScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Verbose
-				}
+				$uninstallTaskCommand += ' -Credential $credential'
 			}
+
+			if ($useCredSsp)
+			{
+				$uninstallTaskCommand += ' -Authentication Credssp'
+			}
+
+			[string] $uninstallTaskCommandWithVariablesExpanded = $ExecutionContext.InvokeCommand.ExpandString($uninstallTaskCommand)
+			Write-Debug "About to invoke expression '$uninstallTaskCommandWithVariablesExpanded'."
+			Invoke-Expression -Command $uninstallTaskCommand -Verbose
 		}
 
 		$uninstallScheduledTaskScriptBlock = {
