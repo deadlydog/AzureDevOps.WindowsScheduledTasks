@@ -32,16 +32,15 @@ function Uninstall-WindowsScheduledTask
 	{
 		function Invoke-UninstallWindowsScheduledTaskFromComputers([hashtable] $scheduledTaskSettings, [string[]] $computers, [PSCredential] $credential, [bool] $useCredSsp)
 		{
-			[bool] $computersWereSpecified = ($computers -ne $null -and $computers.Count -gt 0)
-			[bool] $credentialWasSpecified = ($credential -ne $null)
-
 			[string] $uninstallTaskCommand = 'Invoke-Command -ScriptBlock $uninstallScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Verbose'
 
+			[bool] $computersWereSpecified = ($computers -ne $null -and $computers.Count -gt 0)
 			if ($computersWereSpecified)
 			{
 				$uninstallTaskCommand += ' -ComputerName $computers'
 			}
 
+			[bool] $credentialWasSpecified = ($credential -ne $null)
 			if ($credentialWasSpecified)
 			{
 				$uninstallTaskCommand += ' -Credential $credential'
