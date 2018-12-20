@@ -16,7 +16,7 @@ function Uninstall-WindowsScheduledTask
 		[PSCredential] $Credential,
 
 		[parameter(Mandatory=$false,HelpMessage="If CredSSP should be used when connecting to remote computers or not.")]
-		[bool] $UseCredSsp = $false
+		[bool] $UseCredSsp
 	)
 
 	Process
@@ -25,12 +25,12 @@ function Uninstall-WindowsScheduledTask
 			TaskName = $ScheduledTaskName.Trim('\')
 		}
 
-		Invoke-UninstallWindowsScheduledTaskFromComputers -scheduledTaskSettings $scheduledTaskSettings -computers $ComputerName -credential $Credential
+		Invoke-UninstallWindowsScheduledTaskFromComputers -scheduledTaskSettings $scheduledTaskSettings -computers $ComputerName -credential $Credential -useCredSsp $UseCredSsp
 	}
 
 	Begin
 	{
-		function Invoke-UninstallWindowsScheduledTaskFromComputers([hashtable] $scheduledTaskSettings, [string[]] $computers, [PSCredential] $credential)
+		function Invoke-UninstallWindowsScheduledTaskFromComputers([hashtable] $scheduledTaskSettings, [string[]] $computers, [PSCredential] $credential, [bool] $useCredSsp)
 		{
 			[bool] $noComputersWereSpecified = ($computers -eq $null -or $computers.Count -eq 0)
 			[bool] $noCredentialWasSpecified = ($credential -eq $null)

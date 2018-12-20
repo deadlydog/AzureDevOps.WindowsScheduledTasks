@@ -65,6 +65,16 @@
       "helpMarkDown": "The password to use when connecting to the computers and removing the Scheduled Task.\u003cbr /\u003e\u003cbr /\u003eAs a best practice, a secret variable should be passed in here so that other users cannot see the password in plain text.\u003cbr /\u003e\u003cbr /\u003eLeave blank to use the identity that the agent is running as.",
       "groupName": "ServerSettings"
     }
+    ,
+    {
+      "name": "UseCredSsp",
+      "type": "boolean",
+      "label": "Use CredSSP",
+      "required": false,
+      "defaultValue": false,
+      "helpMarkDown": "Select this to use CredSSP when connecting to remote servers.\u003cbr /\u003e\u003cbr /\u003eCredSSP lets an application delegate the credentials from the client to the target server for remote authentication.\u003cbr /\u003e\u003cbr /\u003eIn order to use this setting, you may need to first run the PowerShell command 'Enable-WSManCredSSP -Role Server -Force' on the remote servers to enable them to accept requests that use CredSSP. If this is not enabled on the remote server the task may get 'Access is denied' or 'Authentication mechanism' errors when connecting to the remote server.",
+      "groupName": "ServerSettings"
+    }
   ],
   "execution": {
     "PowerShell": {
