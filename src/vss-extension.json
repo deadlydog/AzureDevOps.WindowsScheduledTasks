@@ -2,7 +2,7 @@
   "manifestVersion": 1,
   "id": "WindowsScheduledTasksBuildAndReleaseTasks",
   "name": "Windows Scheduled Tasks",
-  "version": "0.0.27",
+  "version": "0.0.30",
   "publisher": "deadlydog",
   "targets": [
     {
