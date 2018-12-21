@@ -13,7 +13,7 @@
   "version": {
     "Major": 0,
     "Minor": 0,
-    "Patch": 24
+    "Patch": 27
   },
   "instanceNameFormat": "Install Windows Scheduled Task \u0027$(ScheduledTaskName)\u0027",
   "groups": [
@@ -49,7 +49,7 @@
       "visibleRule": "ScheduledTaskDefinitionOptions = ImportFromXmlFile",
       "required": true,
       "defaultValue": "",
-      "helpMarkDown": "The XML file defining the properties to use for this Scheduled Task.\u003cbr /\u003eThis file can be obtained by creating a Scheduled Task in the Windows Task Scheduler and then exporting it. See [the help documentation](https://github.com/deadlydog/VSTS.WindowsScheduledTasks) for more info.",
+    "helpMarkDown": "The XML file defining the properties to use for this Scheduled Task.\u003cbr /\u003eThis file can be obtained by creating a Scheduled Task in the Windows Task Scheduler and then exporting it. See [the help documentation](https://github.com/deadlydog/VSTS.WindowsScheduledTasks) for more info.",
       "groupName": "ScheduledTaskSettings"
     },
     {
@@ -97,7 +97,7 @@
       "defaultValue": "ApplicationDirectoryPath",
       "helpMarkDown": "The working directory that the application or script should be ran from.",
       "options": {
-        "ApplicationDirectory": "Application's Directory",
+        "ApplicationDirectory": "Application\u0027s Directory",
         "CustomDirectory": "Custom Directory"
       },
       "groupName": "ScheduledTaskSettings"
@@ -133,7 +133,7 @@
       "visibleRule": "ScheduleTriggerType = DateTime",
       "required": true,
       "defaultValue": "",
-      "helpMarkDown": "The time that the Scheduled Task should start at. e.g. '3am', '6pm', '12pm' (noon), '12am' (midnight).",
+      "helpMarkDown": "The time that the Scheduled Task should start at. e.g. \u00273am\u0027, \u00276pm\u0027, \u002712pm\u0027 (noon), \u002712am\u0027 (midnight).",
       "groupName": "ScheduledTaskSettings"
     },
     {
@@ -368,79 +368,6 @@
       "defaultValue": "",
       "helpMarkDown": "The password to use when connecting to the computers and installing the Scheduled Task.\u003cbr /\u003e\u003cbr /\u003eAs a best practice, a secret variable should be passed in here so that other users cannot see the password in plain text.\u003cbr /\u003e\u003cbr /\u003eLeave blank to use the identity that the agent is running as.",
       "groupName": "ServerSettings"
-    },
-    {
-      "name": "samplepathinput",
-      "type": "filePath",
-      "label": "Sample Path",
-      "defaultValue": "",
-      "required": true,
-      "helpMarkDown": "A sample path which is relative to root of repo if empty"
-    },
-    {
-      "name": "samplestring",
-      "type": "string",
-      "label": "Sample String",
-      "defaultValue": "",
-      "required": false,
-      "helpMarkDown": "A sample string"
-    },
-    {
-      "name": "samplebool",
-      "type": "boolean",
-      "label": "Sample Boolean",
-      "defaultValue": "false",
-      "required": false,
-      "helpMarkDown": "If this is true, this task will fail if any errors are written to the StandardError stream.",
-      "groupName": "advanced"
-    },
-    {
-      "name": "targetType",
-      "type": "radio",
-      "label": "Type",
-      "required": false,
-      "defaultValue": "filePath",
-      "helpMarkDown": "Target script type: File Path or Inline",
-      "options": {
-        "filePath": "File Path",
-        "inline": "Inline"
-      }
-    },
-    {
-      "name": "filePath",
-      "type": "filePath",
-      "label": "Script Path",
-      "visibleRule": "targetType = filePath",
-      "required": true,
-      "defaultValue": "",
-      "helpMarkDown": "Path of the script to execute. Must be a fully qualified path or relative to $(System.DefaultWorkingDirectory)."
-    },
-    {
-      "name": "script",
-      "type": "multiLine",
-      "label": "Script",
-      "visibleRule": "targetType = inline",
-      "required": true,
-      "defaultValue": "# Write your powershell commands here.\n\nWrite-Host \"Hello World\"\n\n# Use the environment variables input below to pass secret variables to this script.",
-      "properties": {
-        "resizable": "true",
-        "rows": "10",
-        "maxLength": "5000"
-      },
-      "helpMarkDown": ""
-    },
-    {
-      "name": "errorActionPreference",
-      "type": "pickList",
-      "label": "ErrorActionPreference",
-      "required": false,
-      "defaultValue": "stop",
-      "options": {
-        "stop": "Stop",
-        "continue": "Continue",
-        "silentlyContinue": "SilentlyContinue"
-      },
-      "helpMarkDown": "Prepends the line `$ErrorActionPreference = \u0027VALUE\u0027` at the top of your script."
     }
   ],
   "execution": {
