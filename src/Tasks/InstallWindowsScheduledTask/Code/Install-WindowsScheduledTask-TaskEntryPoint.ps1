@@ -14,34 +14,83 @@ param
 	[parameter(Mandatory=$false,HelpMessage="The arguments to pass to the application executable or script to run.")]
 	[string] $ApplicationArguments,
 
-	[parameter(Mandatory=$false,HelpMessage="The working directory to run the application executable or script from.")]
-	[string] $WorkingDirectory,
+	[parameter(Mandatory=$false,HelpMessage="The options for the working directory to run the application executable or script from.")]
+	[ValidateSet('ApplicationDirectory', 'CustomDirectory')]
+	[string] $WorkingDirectoryOptions,
 
-	[parameter(Mandatory=$true,HelpMessage="How often the Scheduled Task should run.")]
-	[ValidateNotNullOrEmpty()]
-	[string] $ScheduleFrequency,
+	[parameter(Mandatory=$false,HelpMessage="The custom working directory to run the application executable or script from.")]
+	[string] $CustomWorkingDirectory,
 
-	[parameter(Mandatory=$true,HelpMessage="When the Scheduled Task should start running.")]
-	[ValidateNotNullOrEmpty()]
-	[string] $ScheduleStartTime,
+	[parameter(Mandatory=$false,HelpMessage="The type of event that should trigger the Scheduled Task to run.")]
+	[ValidateSet('DateTime', 'AtLogOn', 'AtStartup')]
+	[string] $ScheduleTriggerType,
 
-	[parameter(Mandatory=$false,HelpMessage="How much potential delay to wait for after the Scheduled Tasks specified start time.")]
-	[string] $ScheduleStartTimeRandomDelayInMinutes,
+	[parameter(Mandatory=$false,HelpMessage="The time that the Scheduled Task should start running at.")]
+	[string] $DateTimeScheduleStartTime,
 
-	[parameter(Mandatory=$false,HelpMessage="How long to wait between each running of the Scheduled Task.")]
-	[string] $ScheduleRepeatIntervalInMinutes,
+	[parameter(Mandatory=$false,HelpMessage="How often the Scheduled Task should run.")]
+	[ValidateSet('Once', 'Daily', 'Weekly')]
+	[string] $DateTimeScheduleFrequencyOptions,
+
+	[parameter(Mandatory=$false,HelpMessage="The number of days between running the Scheduled Task again when on a Daily frequency.")]
+	[string] $DateTimeScheduleFrequencyDailyInterval,
+
+	[parameter(Mandatory=$false,HelpMessage="The number of weeks between running the Scheduled Task again when on a Weekly frequency.")]
+	[string] $DateTimeScheduleFrequencyWeeklyInterval,
+
+	[parameter(Mandatory=$false,HelpMessage="Should the Scheduled Task on a Weekly frequency be ran multiple days a week or not.")]
+	[bool] $ShouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek,
+
+	[parameter(Mandatory=$false,HelpMessage="Should the Scheduled Task on a Weekly frequency be ran on Mondays or not.")]
+	[bool] $ShouldDateTimeScheduleFrequencyWeeklyRunOnMondays,
+
+	[parameter(Mandatory=$false,HelpMessage="Should the Scheduled Task on a Weekly frequency be ran on Tuesdays or not.")]
+	[bool] $ShouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays,
+
+	[parameter(Mandatory=$false,HelpMessage="Should the Scheduled Task on a Weekly frequency be ran on Wednesdays or not.")]
+	[bool] $ShouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays,
+
+	[parameter(Mandatory=$false,HelpMessage="Should the Scheduled Task on a Weekly frequency be ran on Thursdays or not.")]
+	[bool] $ShouldDateTimeScheduleFrequencyWeeklyRunOnThursdays,
+
+	[parameter(Mandatory=$false,HelpMessage="Should the Scheduled Task on a Weekly frequency be ran on Fridays or not.")]
+	[bool] $ShouldDateTimeScheduleFrequencyWeeklyRunOnFridays,
+
+	[parameter(Mandatory=$false,HelpMessage="Should the Scheduled Task on a Weekly frequency be ran on Saturdays or not.")]
+	[bool] $ShouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays,
+
+	[parameter(Mandatory=$false,HelpMessage="Should the Scheduled Task on a Weekly frequency be ran on Sundays or not.")]
+	[bool] $ShouldDateTimeScheduleFrequencyWeeklyRunOnSundays,
+
+	[parameter(Mandatory=$false,HelpMessage="Should the Scheduled Task run repeatedly again after being triggered.")]
+	[bool] $ShouldScheduledTaskRunRepeatedly,
+
+	[parameter(Mandatory=$false,HelpMessage="How long to wait before running the Scheduled Task again.")]
+	[string] $ScheduleRepetitionIntervalInMinutes,
 
 	[parameter(Mandatory=$false,HelpMessage="How long the Scheduled Task should keep repeating at the specified interval for.")]
-	[string] $ScheduleRepeatIntervalDurationInMinutes = '$(ScheduledTaskRepeatIntervalDurationInMinutes)',
+	[string] $ScheduleRepetitionDurationInMinutes,
 
-	[parameter(Mandatory=$false,HelpMessage="If the Scheduled Task should be ran immediately after installation or not.")]
-	[bool] $RunScheduledTaskAfterInstallation,
+	[parameter(Mandatory=$false,HelpMessage="How much potential delay after the Scheduled Tasks specified start time to wait for before starting the Scheduled Task.")]
+	[string] $ScheduleStartTimeRandomDelayInMinutes,
 
-	[string] $UserToRunScheduledTaskAs = 'NETWORK SERVICE',
+	[parameter(Mandatory=$false,HelpMessage="Options for the account that the Scheduled Task should run as.")]
+	[ValidateSet('System', 'NetworkService', 'CustomAccount')]
+	[string] $ScheduldTaskAccountToRunAsOptions,
 
-	[string] $UserPasswordToRunScheduledTaskAs = '',
+	[parameter(Mandatory=$false,HelpMessage="The Username of the custom account that the Scheduled Task should run as.")]
+	[string] $CustomAccountToRunScheduledTaskAsUsername,
 
-	[parameter(Mandatory=$false,HelpMessage="Comma-separated list of the computer(s) to uninstall the scheduled task from.")]
+	[parameter(Mandatory=$false,HelpMessage="The Password of the custom account that the Scheduled Task should run as.")]
+	[string] $CustomAccountToRunScheduledTaskAsPassword,
+
+	[parameter(Mandatory=$false,HelpMessage="Should the Scheduled Task be enabled when it's installed or not.")]
+	[bool] $ShouldScheduledTaskBeEnabled,
+
+	[parameter(Mandatory=$false,HelpMessage="Should the Scheduled Task be run immediately after it's installed or not.")]
+	[bool] $ShouldScheduledTaskRunAfterInstall,
+
+	[parameter(Mandatory=$false,HelpMessage="Comma-separated list of the computer(s) to install the scheduled task on.")]
 	[string] $ComputerNames,
 
 	[parameter(Mandatory=$false,HelpMessage="The username to use to connect to the computer(s).")]
@@ -51,7 +100,7 @@ param
 	[string] $Password,
 
 	[parameter(Mandatory=$false,HelpMessage="If CredSSP should be used when connecting to remote computers or not.")]
-	[bool] $UseCredSsp = $false,
+	[bool] $UseCredSsp
 )
 
 Process

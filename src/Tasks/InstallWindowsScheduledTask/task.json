@@ -30,9 +30,32 @@
   ],
   "inputs": [
     {
+      "name": "ScheduledTaskDefinitionOptions",
+      "type": "radio",
+      "label": "Scheduled Task Definition",
+      "required": true,
+      "defaultValue": "ApplicationDirectoryPath",
+      "helpMarkDown": "The working directory that the application or script should be ran from.",
+      "options": {
+        "ImportFromXmlFile": "Import from XML file",
+        "Inline": "Inline"
+      },
+      "groupName": "ScheduledTaskSettings"
+    },
+    {
+      "name": "ScheduledTaskXmlFileToImportFrom",
+      "type": "filePath",
+      "label": "Scheduled Task XML file to import from",
+      "visibleRule": "ScheduledTaskDefinitionOptions = ImportFromXmlFile",
+      "required": true,
+      "defaultValue": "",
+      "helpMarkDown": "The XML file defining the properties to use for this Scheduled Task.\u003cbr /\u003eThis file can be obtained by creating a Scheduled Task in the Windows Task Scheduler and then exporting it. See [the help documentation](https://github.com/deadlydog/VSTS.WindowsScheduledTasks) for more info."
+    },
+    {
       "name": "ScheduledTaskName",
       "type": "string",
       "label": "Scheduled Task Name",
+      "visibleRule": "ScheduledTaskDefinitionOptions = Inline",
       "required": true,
       "defaultValue": "",
       "helpMarkDown": "The full path of the Scheduled Task to install on the server(s).\u003cbr /\u003eIf the Scheduled Task is to be installed in a directory, the directory (or directories) must also be included in the path.\u003cbr /\u003ee.g. `MyTasks\\TaskToInstall`",
@@ -79,7 +102,7 @@
       "groupName": "ScheduledTaskSettings"
     },
     {
-      "name": "WorkingDirectory",
+      "name": "CustomWorkingDirectory",
       "type": "string",
       "label": "Working Directory",
       "visibleRule": "WorkingDirectoryOptions = CustomDirectory",
@@ -103,7 +126,7 @@
       "groupName": "ScheduledTaskSettings"
     },
     {
-      "name": "ScheduleStartTime",
+      "name": "DateTimeScheduleStartTime",
       "type": "string",
       "label": "Start Time",
       "visibleRule": "ScheduleTriggerType = DateTime",
@@ -113,7 +136,7 @@
       "groupName": "ScheduledTaskSettings"
     },
     {
-      "name": "ScheduleFrequencyOptions",
+      "name": "DateTimeScheduleFrequencyOptions",
       "type": "radio",
       "label": "Schedule Frequency",
       "visibleRule": "ScheduleTriggerType = DateTime",
@@ -128,107 +151,107 @@
       "groupName": "ScheduledTaskSettings"
     },
     {
-      "name": "ScheduleFrequencyDailyInterval",
+      "name": "DateTimeScheduleFrequencyDailyInterval",
       "type": "string",
       "label": "Daily Interval",
-      "visibleRule": "ScheduleFrequencyOptions = Daily",
+      "visibleRule": "DateTimeScheduleFrequencyOptions = Daily",
       "required": true,
       "defaultValue": "1",
       "helpMarkDown": "How many days between running the Scheduled Task. e.g. 1 = run every day, 2 = run every other day, 3 = run every third day, etc.",
       "groupName": "ScheduledTaskSettings"
     },
     {
-      "name": "ScheduleFrequencyWeeklyInterval",
+      "name": "DateTimeScheduleFrequencyWeeklyInterval",
       "type": "string",
       "label": "Weekly Interval",
-      "visibleRule": "ScheduleFrequencyOptions = Weekly",
+      "visibleRule": "DateTimeScheduleFrequencyOptions = Weekly",
       "required": true,
       "defaultValue": "1",
       "helpMarkDown": "How many weeks between running the Scheduled Task. e.g. 1 = run every week, 2 = run every other week, 3 = run every third week, etc.",
       "groupName": "ScheduledTaskSettings"
     },
     {
-      "name": "ScheduleFrequencyWeeklyRunMulipleTimesAWeek",
+      "name": "ShouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek",
       "type": "boolean",
       "label": "Run multiple times a week",
-      "visibleRule": "ScheduleFrequencyOptions = Weekly",
+      "visibleRule": "DateTimeScheduleFrequencyOptions = Weekly",
       "required": true,
       "defaultValue": "false",
       "helpMarkDown": "Select to have the Scheduled Task run on specific days of the week.",
       "groupName": "ScheduledTaskSettings"
     },
     {
-      "name": "ScheduleFrequencyWeeklyRunOnMondays",
+      "name": "ShouldDateTimeScheduleFrequencyWeeklyRunOnMondays",
       "type": "boolean",
       "label": "Monday",
-      "visibleRule": "ScheduleFrequencyWeeklyRunMulipleTimesAWeek = true",
+      "visibleRule": "ShouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = true",
       "required": true,
       "defaultValue": "false",
       "helpMarkDown": "Select to have the Scheduled Task run on Mondays.",
       "groupName": "ScheduledTaskSettings"
     },
     {
-      "name": "ScheduleFrequencyWeeklyRunOnTuesdays",
+      "name": "ShouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays",
       "type": "boolean",
       "label": "Tuesday",
-      "visibleRule": "ScheduleFrequencyWeeklyRunMulipleTimesAWeek = true",
+      "visibleRule": "ShouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = true",
       "required": true,
       "defaultValue": "false",
       "helpMarkDown": "Select to have the Scheduled Task run on Tuesdays.",
       "groupName": "ScheduledTaskSettings"
     },
     {
-      "name": "ScheduleFrequencyWeeklyRunOnWednesdays",
+      "name": "ShouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays",
       "type": "boolean",
       "label": "Wednesday",
-      "visibleRule": "ScheduleFrequencyWeeklyRunMulipleTimesAWeek = true",
+      "visibleRule": "ShouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = true",
       "required": true,
       "defaultValue": "false",
       "helpMarkDown": "Select to have the Scheduled Task run on Wednesdays.",
       "groupName": "ScheduledTaskSettings"
     },
     {
-      "name": "ScheduleFrequencyWeeklyRunOnThursdays",
+      "name": "ShouldDateTimeScheduleFrequencyWeeklyRunOnThursdays",
       "type": "boolean",
       "label": "Thursday",
-      "visibleRule": "ScheduleFrequencyWeeklyRunMulipleTimesAWeek = true",
+      "visibleRule": "ShouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = true",
       "required": true,
       "defaultValue": "false",
       "helpMarkDown": "Select to have the Scheduled Task run on Thursdays.",
       "groupName": "ScheduledTaskSettings"
     },
     {
-      "name": "ScheduleFrequencyWeeklyRunOnFridays",
+      "name": "ShouldDateTimeScheduleFrequencyWeeklyRunOnFridays",
       "type": "boolean",
       "label": "Friday",
-      "visibleRule": "ScheduleFrequencyWeeklyRunMulipleTimesAWeek = true",
+      "visibleRule": "ShouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = true",
       "required": true,
       "defaultValue": "false",
       "helpMarkDown": "Select to have the Scheduled Task run on Fridays.",
       "groupName": "ScheduledTaskSettings"
     },
     {
-      "name": "ScheduleFrequencyWeeklyRunOnSaturdays",
+      "name": "ShouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays",
       "type": "boolean",
       "label": "Saturday",
-      "visibleRule": "ScheduleFrequencyWeeklyRunMulipleTimesAWeek = true",
+      "visibleRule": "ShouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = true",
       "required": true,
       "defaultValue": "false",
       "helpMarkDown": "Select to have the Scheduled Task run on Saturdays.",
       "groupName": "ScheduledTaskSettings"
     },
     {
-      "name": "ScheduleFrequencyWeeklyRunOnSundays",
+      "name": "ShouldDateTimeScheduleFrequencyWeeklyRunOnSundays",
       "type": "boolean",
       "label": "Sunday",
-      "visibleRule": "ScheduleFrequencyWeeklyRunMulipleTimesAWeek = true",
+      "visibleRule": "ShouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = true",
       "required": true,
       "defaultValue": "false",
       "helpMarkDown": "Select to have the Scheduled Task run on Sundays.",
       "groupName": "ScheduledTaskSettings"
     },
     {
-      "name": "ScheduleShouldRepeat",
+      "name": "ShouldScheduledTaskRunRepeatedly",
       "type": "boolean",
       "label": "Repeat the Scheduled Task",
       "required": true,
@@ -237,27 +260,27 @@
       "groupName": "ScheduledTaskSettings"
     },
     {
-      "name": "ScheduleRepetitionInterval",
+      "name": "ScheduleRepetitionIntervalInMinutes",
       "type": "string",
       "label": "Repetition Interval (in Minutes)",
-      "visibleRule": "ScheduleShouldRepeat = true",
+      "visibleRule": "ShouldScheduledTaskRunRepeatedly = true",
       "required": true,
       "defaultValue": "60",
       "helpMarkDown": "How long to wait after the Scheduled Task is triggered before triggering it again. e.g. A value of 60 will trigger the Scheduled Task every hour.",
       "groupName": "ScheduledTaskSettings"
     },
     {
-      "name": "ScheduleRepetitionDuration",
+      "name": "ScheduleRepetitionDurationInMinutes",
       "type": "string",
       "label": "Repetition Duration (in Minutes)",
-      "visibleRule": "ScheduleShouldRepeat = true",
+      "visibleRule": "ShouldScheduledTaskRunRepeatedly = true",
       "required": true,
       "defaultValue": "1440",
       "helpMarkDown": "The maximum number of minutes to continue triggering the Scheduled Task for after it was initially triggered. e.g. A value of 1440 would allow the Repetition Interval to retrigger the task for 24 hours.",
       "groupName": "ScheduledTaskSettings"
     },
     {
-      "name": "ScheduleStartTimeRandomDelay",
+      "name": "ScheduleStartTimeRandomDelayInMinutes",
       "type": "string",
       "label": "Start Time Random Delay (in Minutes)",
       "required": false,
@@ -266,7 +289,7 @@
       "groupName": "ScheduledTaskSettings"
     },
     {
-      "name": "ScheduldTaskUserToRunAsOptions",
+      "name": "ScheduldTaskAccountToRunAsOptions",
       "type": "radio",
       "label": "User To Run As",
       "required": true,
@@ -280,27 +303,27 @@
       "groupName": "ScheduledTaskSettings"
     },
     {
-      "name": "ScheduledTaskUserToRunAs",
+      "name": "CustomAccountToRunScheduledTaskAsUsername",
       "type": "string",
       "label": "Scheduled Task Username",
-      "visibleRule": "ScheduldTaskUserToRunAsOptions = CustomAccount",
+      "visibleRule": "ScheduldTaskAccountToRunAsOptions = CustomAccount",
       "required": true,
       "defaultValue": "",
       "helpMarkDown": "The name of the user or system account that the Scheduled Task should run as.",
       "groupName": "ScheduledTaskSettings"
     },
     {
-      "name": "ScheduledTaskUserToRunAsPassword",
+      "name": "CustomAccountToRunScheduledTaskAsPassword",
       "type": "string",
       "label": "Scheduled Task Password",
-      "visibleRule": "ScheduldTaskUserToRunAsOptions = CustomAccount",
+      "visibleRule": "ScheduldTaskAccountToRunAsOptions = CustomAccount",
       "required": false,
       "defaultValue": "",
       "helpMarkDown": "The password of the user or system account that the Scheduled Task should run as.\u003cbr /\u003e\u003cbr /\u003eAs a best practice, a secret variable should be passed in here so that other users cannot see the password in plain text.",
       "groupName": "ScheduledTaskSettings"
     },
     {
-      "name": "ScheduledTaskShouldBeEnabled",
+      "name": "ShouldScheduledTaskBeEnabled",
       "type": "boolean",
       "label": "Enabled",
       "required": true,
@@ -309,10 +332,10 @@
       "groupName": "ScheduledTaskSettings"
     },
     {
-      "name": "ScheduledTaskShouldRunAfterInstall",
+      "name": "ShouldScheduledTaskRunAfterInstall",
       "type": "boolean",
       "label": "Run after installed",
-      "visibleRule": "ScheduledTaskShouldBeEnabled = true",
+      "visibleRule": "ShouldScheduledTaskBeEnabled = true",
       "required": true,
       "defaultValue": "false",
       "helpMarkDown": "Select to have the Scheduled Task run immediately after it is installed.",
