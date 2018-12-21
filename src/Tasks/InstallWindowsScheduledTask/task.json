@@ -75,7 +75,7 @@
     {
       "name": "ApplicationPathToRun",
       "type": "string",
-      "label": "Application or Script Path",
+      "label": "Application Path",
       "visibleRule": "ScheduledTaskDefinitionOptions = Inline",
       "required": true,
       "defaultValue": "",
@@ -98,7 +98,7 @@
       "label": "Working Directory To Use",
       "visibleRule": "ScheduledTaskDefinitionOptions = Inline",
       "required": true,
-      "defaultValue": "ApplicationDirectoryPath",
+      "defaultValue": "ApplicationDirectory",
       "helpMarkDown": "The working directory that the application or script should be ran from.",
       "options": {
         "ApplicationDirectory": "Application\u0027s Directory",
@@ -183,7 +183,7 @@
       "visibleRule": "DateTimeScheduleFrequencyOptions = Weekly",
       "required": true,
       "defaultValue": "false",
-      "helpMarkDown": "Select to have the Scheduled Task run on specific days of the week.",
+      "helpMarkDown": "Select this to have the Scheduled Task run on specific days of the week.",
       "groupName": "ScheduledTaskSettings"
     },
     {
@@ -193,7 +193,7 @@
       "visibleRule": "ShouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = true",
       "required": true,
       "defaultValue": "false",
-      "helpMarkDown": "Select to have the Scheduled Task run on Mondays.",
+      "helpMarkDown": "Select this to have the Scheduled Task run on Mondays.",
       "groupName": "ScheduledTaskSettings"
     },
     {
@@ -203,7 +203,7 @@
       "visibleRule": "ShouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = true",
       "required": true,
       "defaultValue": "false",
-      "helpMarkDown": "Select to have the Scheduled Task run on Tuesdays.",
+      "helpMarkDown": "Select this to have the Scheduled Task run on Tuesdays.",
       "groupName": "ScheduledTaskSettings"
     },
     {
@@ -213,7 +213,7 @@
       "visibleRule": "ShouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = true",
       "required": true,
       "defaultValue": "false",
-      "helpMarkDown": "Select to have the Scheduled Task run on Wednesdays.",
+      "helpMarkDown": "Select this to have the Scheduled Task run on Wednesdays.",
       "groupName": "ScheduledTaskSettings"
     },
     {
@@ -223,7 +223,7 @@
       "visibleRule": "ShouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = true",
       "required": true,
       "defaultValue": "false",
-      "helpMarkDown": "Select to have the Scheduled Task run on Thursdays.",
+      "helpMarkDown": "Select this to have the Scheduled Task run on Thursdays.",
       "groupName": "ScheduledTaskSettings"
     },
     {
@@ -233,7 +233,7 @@
       "visibleRule": "ShouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = true",
       "required": true,
       "defaultValue": "false",
-      "helpMarkDown": "Select to have the Scheduled Task run on Fridays.",
+      "helpMarkDown": "Select this to have the Scheduled Task run on Fridays.",
       "groupName": "ScheduledTaskSettings"
     },
     {
@@ -243,7 +243,7 @@
       "visibleRule": "ShouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = true",
       "required": true,
       "defaultValue": "false",
-      "helpMarkDown": "Select to have the Scheduled Task run on Saturdays.",
+      "helpMarkDown": "Select this to have the Scheduled Task run on Saturdays.",
       "groupName": "ScheduledTaskSettings"
     },
     {
@@ -253,7 +253,7 @@
       "visibleRule": "ShouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = true",
       "required": true,
       "defaultValue": "false",
-      "helpMarkDown": "Select to have the Scheduled Task run on Sundays.",
+      "helpMarkDown": "Select this to have the Scheduled Task run on Sundays.",
       "groupName": "ScheduledTaskSettings"
     },
     {
@@ -263,7 +263,7 @@
       "visibleRule": "ScheduledTaskDefinitionOptions = Inline",
       "required": true,
       "defaultValue": "false",
-      "helpMarkDown": "Select to have the Scheduled Task run repeatedly again after being triggered.",
+      "helpMarkDown": "Select this to have the Scheduled Task run repeatedly again after being triggered.",
       "groupName": "ScheduledTaskSettings"
     },
     {
@@ -293,7 +293,7 @@
       "visibleRule": "ScheduledTaskDefinitionOptions = Inline",
       "required": false,
       "defaultValue": "0",
-      "helpMarkDown": "The maximum amount of minutes to delay the start time of the trigger. The delay will be a random value between zero and the number of minutes specified here.",
+      "helpMarkDown": "The maximum amount of minutes to delay the start time of the trigger. The delay will be a random value between zero and the number of minutes specified here.\u003cbr /\u003e\u003cbr /\u003eYou may want to use this to stagger when the job starts if you have many jobs set to start at the same time.",
       "groupName": "ScheduledTaskSettings"
     },
     {
@@ -338,7 +338,7 @@
       "visibleRule": "ScheduledTaskDefinitionOptions = Inline",
       "required": true,
       "defaultValue": "true",
-      "helpMarkDown": "Select to have the Scheduled Task be enabled after it is installed; Unselect this to have it be installed as disabled.",
+      "helpMarkDown": "Select this to have the Scheduled Task be enabled after it is installed; Unselect this to have it be installed as disabled.",
       "groupName": "ScheduledTaskSettings"
     },
     {
@@ -348,7 +348,7 @@
       "visibleRule": "ShouldScheduledTaskBeEnabled = true",
       "required": true,
       "defaultValue": "false",
-      "helpMarkDown": "Select to have the Scheduled Task run immediately after it is installed.",
+      "helpMarkDown": "Select this to have the Scheduled Task run immediately after it is installed.",
       "groupName": "ScheduledTaskSettings"
     },
     {
