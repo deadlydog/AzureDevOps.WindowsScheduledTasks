@@ -1,6 +1,14 @@
 param
 (
-	[parameter(Mandatory=$true,HelpMessage="The name of the Windows Scheduled Task to uninstall.")]
+	[parameter(Mandatory=$false,HelpMessage="Where the new Scheduled Task properties should be retrieved from.")]
+	[ValidateSet('ImportFromXmlFile', 'Inline')]
+	[string] $ScheduledTaskDefinitionSource,
+
+	[parameter(Mandatory=$true,HelpMessage="The XML file defining the properties of the Scheduled Task to install.")]
+	[ValidateNotNullOrEmpty()]
+	[string] $ScheduledTaskXmlFileToImportFrom,
+
+	[parameter(Mandatory=$true,HelpMessage="The name of the Windows Scheduled Task to install.")]
 	[ValidateNotNullOrEmpty()]
 	[string] $ScheduledTaskName,
 
