@@ -119,7 +119,7 @@ Process
 
 	[hashtable] $accountCredentialsToRunScheduledTaskAs = Get-AccountCredentialsToRunScheduledTaskAs -scheduldTaskAccountToRunAsOptions $ScheduldTaskAccountToRunAsOptions -customAccountToRunScheduledTaskAsUsername $CustomAccountToRunScheduledTaskAsUsername -customAccountToRunScheduledTaskAsPassword $CustomAccountToRunScheduledTaskAsPassword
 
-
+	[hashtable] $taskNameAndPath = Get-ScheduledTaskNameAndPath -fullTaskName $ScheduledTaskName
 
 	if ($ScheduledTaskDefinitionSource -eq 'ImportFromXmlFile')
 	{
@@ -178,5 +178,18 @@ Begin
 			Password = $password
 		}
 		return $accountCredentials
+	}
+
+	function Get-ScheduledTaskNameAndPath([string] $fullTaskName)
+	{
+		[string[]] $taskNameParts = $fullTaskName -split '\\'
+		[string] $taskName = $taskNameParts | Select-Object -Last 1
+		[string] $taskPath = '\' + $fullTaskName.Substring(0, $fullTaskName.Length - $taskName.Length)
+
+		[hashtable] $taskNameAndPath = @{
+			Name = $taskName
+			Path = $taskPath
+		}
+		return $taskNameAndPath
 	}
 }
