@@ -306,6 +306,7 @@
       "helpMarkDown": "The user that the Scheduled Task should run as.",
       "options": {
         "System": "System",
+        "LocalService": "Local Service",
         "NetworkService": "Network Service",
         "CustomAccount": "Custom User or Service Account"
       },

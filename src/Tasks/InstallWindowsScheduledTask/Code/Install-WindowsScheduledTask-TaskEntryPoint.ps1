@@ -83,7 +83,7 @@ param
 	[string] $ScheduleStartTimeRandomDelayInMinutes,
 
 	[parameter(Mandatory=$false,HelpMessage="Options for the account that the Scheduled Task should run as.")]
-	[ValidateSet('System', 'NetworkService', 'CustomAccount')]
+	[ValidateSet('System', 'LocalService', 'NetworkService', 'CustomAccount')]
 	[string] $ScheduldTaskAccountToRunAsOptions,
 
 	[parameter(Mandatory=$false,HelpMessage="The Username of the custom account that the Scheduled Task should run as.")]
@@ -116,6 +116,16 @@ Process
 	Write-Verbose "About to attempt to install Windows Scheduled Task '$ScheduledTaskName' on '$ComputerNames'." -Verbose
 	[string[]] $computers = Get-ComputersToConnectToOrNull -computerNames $ComputerNames
 	[PSCredential] $credential = Convert-UsernameAndPasswordToCredentialsOrNull -username $Username -password $Password
+
+	[hashtable] $accountCredentialsToRunScheduledTaskAs = Get-AccountCredentialsToRunScheduledTaskAs -scheduldTaskAccountToRunAsOptions $ScheduldTaskAccountToRunAsOptions -customAccountToRunScheduledTaskAsUsername $CustomAccountToRunScheduledTaskAsUsername -customAccountToRunScheduledTaskAsPassword $CustomAccountToRunScheduledTaskAsPassword
+
+
+
+	if ($ScheduledTaskDefinitionSource -eq 'ImportFromXmlFile')
+	{
+
+	}
+
 	Install-WindowsScheduledTask -ScheduledTaskName $ScheduledTaskName -ComputerName $computers -Credential $credential -ScheduledTaskDescription $ScheduledTaskDescription
 }
 
@@ -137,4 +147,36 @@ Begin
 	[string] $installWindowsScheduledTaskModuleFilePath = Join-Path -Path $codeDirectoryPath -ChildPath 'Install-WindowsScheduledTask.psm1'
 	Write-Verbose "Importing module '$installWindowsScheduledTaskModuleFilePath'." -Verbose
 	Import-Module -Name $installWindowsScheduledTaskModuleFilePath -Force
+
+	function Get-AccountCredentialsToRunScheduledTaskAs
+	{
+		param
+		(
+			[ValidateSet('System', 'LocalService', 'NetworkService', 'CustomAccount')]
+			[string] $scheduldTaskAccountToRunAsOptions,
+			[string] $customAccountToRunScheduledTaskAsUsername,
+			[string] $customAccountToRunScheduledTaskAsPassword
+		)
+
+		[string] $username = [string]::Empty
+		[string] $password = [string]::Empty
+		switch ($scheduldTaskAccountToRunAsOptions)
+		{
+			"System" { $username = 'NT AUTHORITY\SYSTEM'; break }
+			"LocalService" { $username = 'NT AUTHORITY\LOCALSERVICE'; break }
+			"NetworkService" { $username = 'NT AUTHORITY\NETWORKSERVICE'; break }
+			default
+			{
+				$username = $customAccountToRunScheduledTaskAsUsername
+				$password = $customAccountToRunScheduledTaskAsPassword
+				break
+			}
+		}
+
+		[hashtable] $accountCredentials = @{
+			Username = $username
+			Password = $password
+		}
+		return $accountCredentials
+	}
 }
