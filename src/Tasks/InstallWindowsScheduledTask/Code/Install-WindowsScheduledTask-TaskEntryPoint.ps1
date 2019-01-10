@@ -123,8 +123,11 @@ Process
 
 	if ($ScheduledTaskDefinitionSource -eq 'ImportFromXmlFile')
 	{
-
+		Install-WindowsScheduledTask -ScheduledTaskNameAndPath $taskNameAndPath -AccountCredentialsToRunScheduledTaskAs $accountCredentialsToRunScheduledTaskAs -ComputerName $computers -Credential $credential
+		return
 	}
+
+	
 
 	Install-WindowsScheduledTask -ScheduledTaskName $ScheduledTaskName -ComputerName $computers -Credential $credential -ScheduledTaskDescription $ScheduledTaskDescription
 }
