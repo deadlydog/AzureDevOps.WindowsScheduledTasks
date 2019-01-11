@@ -127,9 +127,13 @@ Process
 		return
 	}
 
-	
+	[string] $workingDirectory = Get-WorkingDirectory -workingDirectoryOptions $WorkingDirectoryOptions -customWorkingDirectory $CustomWorkingDirectory -applicationPath $ApplicationPathToRun
 
-	Install-WindowsScheduledTask -ScheduledTaskName $ScheduledTaskName -ComputerName $computers -Credential $credential -ScheduledTaskDescription $ScheduledTaskDescription
+
+
+
+
+	Install-WindowsScheduledTask -ScheduledTaskName $ScheduledTaskName -ComputerName $computers -Credential $credential -ScheduledTaskDescription $ScheduledTaskDescription -ApplicationPathToRun $ApplicationPathToRun -ApplicationArguments $ApplicationArguments -WorkingDirectory $workingDirectory
 }
 
 Begin
@@ -194,5 +198,15 @@ Begin
 			Path = $taskPath
 		}
 		return $taskNameAndPath
+	}
+
+	function Get-WorkingDirectory([string] $workingDirectoryOptions, [string] $customWorkingDirectory, [string] $applicationPath)
+	{
+		[string] $workingDirectory = $customWorkingDirectory
+		if ($workingDirectoryOptions -eq 'ApplicationDirectory')
+		{
+			$workingDirectory = Split-Path -Path $applicationPath -Parent
+		}
+		return $workingDirectory
 	}
 }
