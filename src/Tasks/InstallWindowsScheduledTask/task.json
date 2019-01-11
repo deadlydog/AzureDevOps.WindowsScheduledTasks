@@ -59,7 +59,7 @@
       "visibleRule": "ScheduledTaskDefinitionSource = Inline",
       "required": true,
       "defaultValue": "",
-      "helpMarkDown": "The full path of the Scheduled Task to install on the server(s).\u003cbr /\u003eIf the Scheduled Task is to be installed in a directory, the directory (or directories) must also be included in the path.\u003cbr /\u003ee.g. `MyTasks\\TaskToInstall`",
+      "helpMarkDown": "The full path of the Scheduled Task to install on the server(s).\u003cbr /\u003eIf the Scheduled Task is to be installed in a directory, the directory (or directories) must also be included in the path.\u003cbr /\u003e\u003cbr /\u003eExamples:\u003cbr /\u003e`TaskToInstall`\u003cbr /\u003e`MyTasks\\TaskToInstall`\u003cbr /\u003e`MyTasks\\AnotherDirectory\\TaskToInstall`",
       "groupName": "ScheduledTaskSettings"
     },
     {
