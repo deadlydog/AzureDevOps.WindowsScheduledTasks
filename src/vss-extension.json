@@ -30,10 +30,10 @@
   },
   "links": {
     "support": {
-      "uri": "https://github.com/deadlydog/VSTS.WindowsScheduledTasks/blob/master/ReadMe.md"
+      "uri": "https://github.com/deadlydog/AzureDevOps.WindowsScheduledTasks/blob/master/ReadMe.md"
     },
     "license": {
-      "uri": "https://github.com/deadlydog/VSTS.WindowsScheduledTasks/blob/master/License.md"
+      "uri": "https://github.com/deadlydog/AzureDevOps.WindowsScheduledTasks/blob/master/License.md"
     }
   },
   "icons": {
@@ -41,7 +41,7 @@
   },
   "repository": {
     "type": "git",
-    "uri": "https://github.com/deadlydog/VSTS.WindowsScheduledTasks"
+    "uri": "https://github.com/deadlydog/AzureDevOps.WindowsScheduledTasks"
   },
   "files": [
     {

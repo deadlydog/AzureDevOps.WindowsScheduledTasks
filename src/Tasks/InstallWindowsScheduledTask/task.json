@@ -3,7 +3,7 @@
   "name": "InstallWindowsScheduledTask",
   "friendlyName": "Install Windows Scheduled Task",
   "description": "Installs a Windows Scheduled Task",
-"helpMarkDown": "[More Information](https://github.com/deadlydog/VSTS.WindowsScheduledTasks)",
+"helpMarkDown": "[More Information](https://github.com/deadlydog/AzureDevOps.WindowsScheduledTasks)",
   "category": "Utility",
   "visibility": [
     "Build",
@@ -49,7 +49,7 @@
       "visibleRule": "ScheduledTaskDefinitionSource = ImportFromXmlFile",
       "required": true,
       "defaultValue": "",
-    "helpMarkDown": "The XML file defining the properties to use for this Scheduled Task.\u003cbr /\u003eThis file can be obtained by creating a Scheduled Task in the Windows Task Scheduler and then exporting it. See [the help documentation](https://github.com/deadlydog/VSTS.WindowsScheduledTasks) for more info.",
+    "helpMarkDown": "The XML file defining the properties to use for this Scheduled Task.\u003cbr /\u003eThis file can be obtained by creating a Scheduled Task in the Windows Task Scheduler and then exporting it. See [the help documentation](https://github.com/deadlydog/AzureDevOps.WindowsScheduledTasks) for more info.",
       "groupName": "ScheduledTaskSettings"
     },
     {

@@ -1,6 +1,6 @@
-# Windows Scheduled Tasks VSTS Extension
+# Windows Scheduled Tasks Azure DevOps Extension
 
-This is an VSTS extension that allows Windows Scheduled Tasks to easily be installed and uninstalled.
+This is an Azure DevOps extension that allows Windows Scheduled Tasks to easily be installed and uninstalled.
 
 
 ## Implementation

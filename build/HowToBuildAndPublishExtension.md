@@ -1,4 +1,4 @@
-# How to build and publish the VSTS extension's VSIX package
+# How to build and publish the Azure DevOps extension's VSIX package
 
 ## Prerequisites
 
@@ -22,8 +22,8 @@ tfx extension create --manifest-globs vss-extension.json
 
 ## Publishing the VSIX package
 
-For now this must be done manually via your TFS instance or the [VSTS Marketplace][VstsMarketplaceUrl].
+For now this must be done manually via your TFS instance or the [Azure DevOps Marketplace][AzureDevOpsMarketplaceUrl].
 
 
 <!-- Links -->
-[VstsMarketplaceUrl]: https://marketplace.visualstudio.com/vsts
+[AzureDevOpsMarketplaceUrl]: https://marketplace.visualstudio.com/azuredevops

@@ -3,7 +3,7 @@
   "name": "UninstallWindowsScheduledTask",
   "friendlyName": "Uninstall Windows Scheduled Task",
   "description": "Uninstalls a Windows Scheduled Task",
-"helpMarkDown": "[More Information](https://github.com/deadlydog/VSTS.WindowsScheduledTasks)",
+"helpMarkDown": "[More Information](https://github.com/deadlydog/AzureDevOps.WindowsScheduledTasks)",
   "category": "Utility",
   "visibility": [
     "Build",
