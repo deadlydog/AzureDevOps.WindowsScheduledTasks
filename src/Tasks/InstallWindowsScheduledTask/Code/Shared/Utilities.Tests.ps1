@@ -49,4 +49,13 @@ Describe 'Convert-UsernameAndPasswordToCredentialsOrNull' {
 
 		$credential | Should -Be $null
 	}
+
+	It 'Returns a credential object when both a username and password are supplied' {
+		[string] $username = 'Dan'
+		[string] $password = 'secret'
+
+		$credential = Convert-UsernameAndPasswordToCredentialsOrNull -username $username -password $password
+
+		$credential | Should -Not -Be $null
+	}
 }
