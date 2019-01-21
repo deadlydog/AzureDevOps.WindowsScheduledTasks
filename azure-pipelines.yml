@@ -6,14 +6,16 @@
 trigger:
 - master
 
-pool:
-  vmImage: 'Ubuntu-16.04'
+resources:
+- repo: self
+  clean: true
+
+queue:
+  name: Hosted
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- task: richardfennellBM.BM-VSTS-PesterRunner-Task.Pester-Task.Pester@8
+  displayName: 'Pester Test Runner'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+- task: PublishTestResults@2
+  displayName: 'Publish Test Results **/TEST-*.xml'
