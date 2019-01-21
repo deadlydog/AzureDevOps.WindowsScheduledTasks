@@ -123,7 +123,7 @@ Process
 
 	if ($ScheduledTaskDefinitionSource -eq 'ImportFromXmlFile')
 	{
-		Install-WindowsScheduledTask -ScheduledTaskNameAndPath $taskNameAndPath -AccountCredentialsToRunScheduledTaskAs $accountCredentialsToRunScheduledTaskAs -ComputerName $computers -Credential $credential
+		Install-WindowsScheduledTask -ScheduledTaskName $taskNameAndPath.Name -ScheduledTaskPath $taskNameAndPath.Path -AccountCredentialsToRunScheduledTaskAs $accountCredentialsToRunScheduledTaskAs -ComputerName $computers -Credential $credential
 		return
 	}
 
@@ -150,6 +150,10 @@ Begin
 	[string] $utilitiesModuleFilePath = Join-Path -Path $codeDirectoryPath -ChildPath 'Shared\Utilities.psm1'
 	Write-Verbose "Importing module '$utilitiesModuleFilePath'." -Verbose
 	Import-Module -Name $utilitiesModuleFilePath -Force
+
+	[string] $scheduledTaskMapperModuleFilePath = Join-Path -Path $codeDirectoryPath -ChildPath 'Shared\ScheduledTaskMapper.psm1'
+	Write-Verbose "Importing module '$scheduledTaskMapperModuleFilePath'." -Verbose
+	Import-Module -Name $scheduledTaskMapperModuleFilePath -Force
 
 	[string] $installWindowsScheduledTaskModuleFilePath = Join-Path -Path $codeDirectoryPath -ChildPath 'Install-WindowsScheduledTask.psm1'
 	Write-Verbose "Importing module '$installWindowsScheduledTaskModuleFilePath'." -Verbose
@@ -185,19 +189,6 @@ Begin
 			Password = $password
 		}
 		return $accountCredentials
-	}
-
-	function Get-ScheduledTaskNameAndPath([string] $fullTaskName)
-	{
-		[string[]] $taskNameParts = $fullTaskName -split '\\'
-		[string] $taskName = $taskNameParts | Select-Object -Last 1
-		[string] $taskPath = '\' + $fullTaskName.Substring(0, $fullTaskName.Length - $taskName.Length)
-
-		[hashtable] $taskNameAndPath = @{
-			Name = $taskName
-			Path = $taskPath
-		}
-		return $taskNameAndPath
 	}
 
 	function Get-WorkingDirectory([string] $workingDirectoryOptions, [string] $customWorkingDirectory, [string] $applicationPath)
