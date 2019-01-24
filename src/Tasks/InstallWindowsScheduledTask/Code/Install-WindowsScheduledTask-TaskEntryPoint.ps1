@@ -84,7 +84,7 @@ param
 
 	[parameter(Mandatory=$false,HelpMessage="Options for the account that the Scheduled Task should run as.")]
 	[ValidateSet('System', 'LocalService', 'NetworkService', 'CustomAccount')]
-	[string] $ScheduldTaskAccountToRunAsOptions,
+	[string] $ScheduledTaskAccountToRunAsOptions,
 
 	[parameter(Mandatory=$false,HelpMessage="The Username of the custom account that the Scheduled Task should run as.")]
 	[string] $CustomAccountToRunScheduledTaskAsUsername,
@@ -127,9 +127,9 @@ Process
 		return
 	}
 
-	[string] $workingDirectory = Get-WorkingDirectory -workingDirectoryOptions $WorkingDirectoryOptions -customWorkingDirectory $CustomWorkingDirectory -applicationPath $ApplicationPathToRun
+	[string] $workingDirectory = Get-WorkingDirectory -workingDirectoryOption $WorkingDirectoryOptions -customWorkingDirectory $CustomWorkingDirectory -applicationPath $ApplicationPathToRun
 
-
+	$scheduledTaskTrigger = Get-ScheduledTaskTrigger -triggerType $ScheduleTriggerType -dateTimeScheduleStartTime $DateTimeScheduleStartTime -dateTimeScheduleFrequencyOptions $DateTimeScheduleFrequencyOptions -dateTimeScheduleFrequencyDailyInterval $DateTimeScheduleFrequencyDailyInterval -dateTimeScheduleFrequencyWeeklyInterval $DateTimeScheduleFrequencyWeeklyInterval -shouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek $ShouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek -shouldDateTimeScheduleFrequencyWeeklyRunOnMondays $ShouldDateTimeScheduleFrequencyWeeklyRunOnMondays -shouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays $ShouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays -shouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays $ShouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays -shouldDateTimeScheduleFrequencyWeeklyRunOnThursdays $ShouldDateTimeScheduleFrequencyWeeklyRunOnThursdays -shouldDateTimeScheduleFrequencyWeeklyRunOnFridays $ShouldDateTimeScheduleFrequencyWeeklyRunOnFridays -shouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays $ShouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays -shouldDateTimeScheduleFrequencyWeeklyRunOnSundays $ShouldDateTimeScheduleFrequencyWeeklyRunOnSundays -shouldScheduledTaskRunRepeatedly $ShouldScheduledTaskRunRepeatedly -scheduleRepetitionIntervalInMinutes $ScheduleRepetitionIntervalInMinutes -scheduleRepetitionDurationInMinutes $ScheduleRepetitionDurationInMinutes -scheduleStartTimeRandomDelayInMinutes $ScheduleStartTimeRandomDelayInMinutes
 
 
 
@@ -158,46 +158,4 @@ Begin
 	[string] $installWindowsScheduledTaskModuleFilePath = Join-Path -Path $codeDirectoryPath -ChildPath 'Install-WindowsScheduledTask.psm1'
 	Write-Verbose "Importing module '$installWindowsScheduledTaskModuleFilePath'." -Verbose
 	Import-Module -Name $installWindowsScheduledTaskModuleFilePath -Force
-
-	function Get-AccountCredentialsToRunScheduledTaskAs
-	{
-		param
-		(
-			[ValidateSet('System', 'LocalService', 'NetworkService', 'CustomAccount')]
-			[string] $scheduldTaskAccountToRunAsOptions,
-			[string] $customAccountToRunScheduledTaskAsUsername,
-			[string] $customAccountToRunScheduledTaskAsPassword
-		)
-
-		[string] $username = [string]::Empty
-		[string] $password = [string]::Empty
-		switch ($scheduldTaskAccountToRunAsOptions)
-		{
-			"System" { $username = 'NT AUTHORITY\SYSTEM'; break }
-			"LocalService" { $username = 'NT AUTHORITY\LOCALSERVICE'; break }
-			"NetworkService" { $username = 'NT AUTHORITY\NETWORKSERVICE'; break }
-			default
-			{
-				$username = $customAccountToRunScheduledTaskAsUsername
-				$password = $customAccountToRunScheduledTaskAsPassword
-				break
-			}
-		}
-
-		[hashtable] $accountCredentials = @{
-			Username = $username
-			Password = $password
-		}
-		return $accountCredentials
-	}
-
-	function Get-WorkingDirectory([string] $workingDirectoryOptions, [string] $customWorkingDirectory, [string] $applicationPath)
-	{
-		[string] $workingDirectory = $customWorkingDirectory
-		if ($workingDirectoryOptions -eq 'ApplicationDirectory')
-		{
-			$workingDirectory = Split-Path -Path $applicationPath -Parent
-		}
-		return $workingDirectory
-	}
 }

@@ -297,7 +297,7 @@
       "groupName": "ScheduledTaskSettings"
     },
     {
-      "name": "ScheduldTaskAccountToRunAsOptions",
+      "name": "ScheduledTaskAccountToRunAsOptions",
       "type": "radio",
       "label": "User To Run As",
       "visibleRule": "ScheduledTaskDefinitionSource = Inline",
