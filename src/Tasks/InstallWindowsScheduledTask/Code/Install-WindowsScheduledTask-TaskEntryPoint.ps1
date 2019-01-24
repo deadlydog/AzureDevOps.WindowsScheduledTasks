@@ -151,9 +151,9 @@ Begin
 	Write-Verbose "Importing module '$utilitiesModuleFilePath'." -Verbose
 	Import-Module -Name $utilitiesModuleFilePath -Force
 
-	[string] $scheduledTaskMapperModuleFilePath = Join-Path -Path $codeDirectoryPath -ChildPath 'Shared\ScheduledTaskMapper.psm1'
-	Write-Verbose "Importing module '$scheduledTaskMapperModuleFilePath'." -Verbose
-	Import-Module -Name $scheduledTaskMapperModuleFilePath -Force
+	[string] $userInputToScheduledTaskMapperModuleFilePath = Join-Path -Path $codeDirectoryPath -ChildPath 'Shared\UserInputToScheduledTaskMapper.psm1'
+	Write-Verbose "Importing module '$userInputToScheduledTaskMapperModuleFilePath'." -Verbose
+	Import-Module -Name $userInputToScheduledTaskMapperModuleFilePath -Force
 
 	[string] $installWindowsScheduledTaskModuleFilePath = Join-Path -Path $codeDirectoryPath -ChildPath 'Install-WindowsScheduledTask.psm1'
 	Write-Verbose "Importing module '$installWindowsScheduledTaskModuleFilePath'." -Verbose
