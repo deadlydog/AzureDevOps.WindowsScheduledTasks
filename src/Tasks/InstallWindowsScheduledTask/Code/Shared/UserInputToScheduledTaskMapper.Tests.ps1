@@ -94,7 +94,7 @@ Describe 'Get-AccountCredentialsToRunScheduledTaskAs' {
 	}
 }
 
-# Commenting out for now as these are duplicated below in a different coding style, and I'm not certain which one I want to go with yet.
+# # Commenting out for now as these are duplicated below in a different coding style, and I'm not certain which one I want to go with yet.
 # Describe 'Get-WorkingDirectory' {
 # 	function Assert-GetWorkingDirectoryReturnsCorrectResult
 # 	{
@@ -130,42 +130,93 @@ Describe 'Get-AccountCredentialsToRunScheduledTaskAs' {
 # 	}
 # }
 
-Describe 'Get-WorkingDirectory' {
-	Context 'When requesting the Application Directory' {
-		It 'Returns the correct working directory' -TestCases @(
-			@{ workingDirectoryOption = 'ApplicationDirectory'; customWorkingDirectory = ''; applicationPath = 'C:\AppDirectory\MyApp.exe'; expectedWorkingDirectory = 'C:\AppDirectory' }
-			@{ workingDirectoryOption = 'ApplicationDirectory'; customWorkingDirectory = 'C:\SomeDirectory'; applicationPath = 'C:\AppDirectory\MyApp.exe'; expectedWorkingDirectory = 'C:\AppDirectory' }
-		) {
-			param
-			(
-				[string] $workingDirectoryOption,
-				[string] $customWorkingDirectory,
-				[string] $applicationPath,
-				[string] $expectedWorkingDirectory
-			)
+# # Commenting out for now as these are duplicated below in a different coding style, and I'm not certain which one I want to go with yet.
+# Describe 'Get-WorkingDirectory' {
+# 	Context 'When requesting the Application Directory' {
+# 		It 'Returns the correct working directory' -TestCases @(
+# 			@{ workingDirectoryOption = 'ApplicationDirectory'; customWorkingDirectory = ''; applicationPath = 'C:\AppDirectory\MyApp.exe'; expectedWorkingDirectory = 'C:\AppDirectory' }
+# 			@{ workingDirectoryOption = 'ApplicationDirectory'; customWorkingDirectory = 'C:\SomeDirectory'; applicationPath = 'C:\AppDirectory\MyApp.exe'; expectedWorkingDirectory = 'C:\AppDirectory' }
+# 		) {
+# 			param
+# 			(
+# 				[string] $workingDirectoryOption,
+# 				[string] $customWorkingDirectory,
+# 				[string] $applicationPath,
+# 				[string] $expectedWorkingDirectory
+# 			)
 
+# 			$result = Get-WorkingDirectory -workingDirectoryOption $workingDirectoryOption -customWorkingDirectory $customWorkingDirectory -applicationPath $applicationPath
+
+# 			$result | Should -Be $expectedWorkingDirectory
+# 		}
+# 	}
+
+# 	Context 'When requesting a Custom Directory' {
+# 		It 'Returns the correct working directory' -TestCases @(
+# 			@{ workingDirectoryOption = 'CustomDirectory'; customWorkingDirectory = ''; applicationPath = 'C:\AppDirectory\MyApp.exe'; expectedWorkingDirectory = '' }
+# 			@{ workingDirectoryOption = 'CustomDirectory'; customWorkingDirectory = 'C:\SomeDirectory'; applicationPath = 'C:\AppDirectory\MyApp.exe'; expectedWorkingDirectory = 'C:\SomeDirectory' }
+# 		) {
+# 			param
+# 			(
+# 				[string] $workingDirectoryOption,
+# 				[string] $customWorkingDirectory,
+# 				[string] $applicationPath,
+# 				[string] $expectedWorkingDirectory
+# 			)
+
+# 			$result = Get-WorkingDirectory -workingDirectoryOption $workingDirectoryOption -customWorkingDirectory $customWorkingDirectory -applicationPath $applicationPath
+
+# 			$result | Should -Be $expectedWorkingDirectory
+# 		}
+# 	}
+# }
+
+Describe 'Get-WorkingDirectory' {
+	function Assert-GetWorkingDirectoryReturnsCorrectResult
+	{
+		param
+		(
+			[string] $testDescription,
+			[string] $workingDirectoryOption,
+			[string] $customWorkingDirectory,
+			[string] $applicationPath,
+			[string] $expectedWorkingDirectory
+		)
+
+		It $testDescription {
 			$result = Get-WorkingDirectory -workingDirectoryOption $workingDirectoryOption -customWorkingDirectory $customWorkingDirectory -applicationPath $applicationPath
 
 			$result | Should -Be $expectedWorkingDirectory
 		}
 	}
 
-	Context 'When requesting a Custom Directory' {
-		It 'Returns the correct working directory' -TestCases @(
-			@{ workingDirectoryOption = 'CustomDirectory'; customWorkingDirectory = ''; applicationPath = 'C:\AppDirectory\MyApp.exe'; expectedWorkingDirectory = '' }
-			@{ workingDirectoryOption = 'CustomDirectory'; customWorkingDirectory = 'C:\SomeDirectory'; applicationPath = 'C:\AppDirectory\MyApp.exe'; expectedWorkingDirectory = 'C:\SomeDirectory' }
-		) {
-			param
-			(
-				[string] $workingDirectoryOption,
-				[string] $customWorkingDirectory,
-				[string] $applicationPath,
-				[string] $expectedWorkingDirectory
-			)
+	Context 'When requesting the Application Directory as the working directory' {
+		[hashtable[]] $tests = @(
+			@{	testDescription = 'Returns the applications directory when no Custom Working Directory is given'
+				workingDirectoryOption = 'ApplicationDirectory'; customWorkingDirectory = ''; applicationPath = 'C:\AppDirectory\MyApp.exe'; expectedWorkingDirectory = 'C:\AppDirectory'
+			}
+			@{	testDescription = 'Returns the applications directory when a Custom Working Directory is given'
+				workingDirectoryOption = 'ApplicationDirectory'; customWorkingDirectory = 'C:\SomeDirectory'; applicationPath = 'C:\AppDirectory\MyApp.exe'; expectedWorkingDirectory = 'C:\AppDirectory'
+			}
+		)
+		$tests | ForEach-Object {
+			[hashtable] $parameters = $_
+			Assert-GetWorkingDirectoryReturnsCorrectResult @parameters
+		}
+	}
 
-			$result = Get-WorkingDirectory -workingDirectoryOption $workingDirectoryOption -customWorkingDirectory $customWorkingDirectory -applicationPath $applicationPath
-
-			$result | Should -Be $expectedWorkingDirectory
+	Context 'When requesting a custom working directory' {
+		[hashtable[]] $tests = @(
+			@{	testDescription = 'Returns the custom directory'
+				workingDirectoryOption = 'CustomDirectory'; customWorkingDirectory = 'C:\SomeDirectory'; applicationPath = 'C:\AppDirectory\MyApp.exe'; expectedWorkingDirectory = 'C:\SomeDirectory'
+			}
+			@{	testDescription = 'Returns the custom directory even if its blank'
+				workingDirectoryOption = 'CustomDirectory'; customWorkingDirectory = ''; applicationPath = 'C:\AppDirectory\MyApp.exe'; expectedWorkingDirectory = ''
+			}
+		)
+		$tests | ForEach-Object {
+			[hashtable] $parameters = $_
+			Assert-GetWorkingDirectoryReturnsCorrectResult @parameters
 		}
 	}
 }
