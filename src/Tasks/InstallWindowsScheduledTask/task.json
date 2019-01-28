@@ -132,7 +132,7 @@
       "groupName": "ScheduledTaskSettings"
     },
     {
-      "name": "AtLogOnTriggerUser",
+      "name": "AtLogOnTriggerUsername",
       "type": "string",
       "label": "Trigger Username",
       "visibleRule": "ScheduleTriggerType = AtLogOn",
