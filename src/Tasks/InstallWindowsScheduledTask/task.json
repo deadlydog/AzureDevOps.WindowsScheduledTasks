@@ -132,6 +132,16 @@
       "groupName": "ScheduledTaskSettings"
     },
     {
+      "name": "AtLogOnTriggerUser",
+      "type": "string",
+      "label": "Trigger Username",
+      "visibleRule": "ScheduleTriggerType = AtLogOn",
+      "required": true,
+      "defaultValue": "",
+      "helpMarkDown": "The user that must log on to the computer in order for the Scheduled Task to be triggered to run.",
+      "groupName": "ScheduledTaskSettings"
+    },
+    {
       "name": "DateTimeScheduleStartTime",
       "type": "string",
       "label": "Start Time",
