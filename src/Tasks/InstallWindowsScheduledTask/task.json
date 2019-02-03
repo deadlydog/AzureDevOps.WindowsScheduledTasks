@@ -363,6 +363,16 @@
       "groupName": "ScheduledTaskSettings"
     },
     {
+      "name": "ShouldScheduledTaskRunWithHighestPrivileges",
+      "type": "boolean",
+      "label": "Run With Highest Privileges",
+      "visibleRule": "ScheduledTaskDefinitionSource = Inline",
+      "required": true,
+      "defaultValue": "true",
+      "helpMarkDown": "Select this to have the Scheduled Task run using the highest privileges.",
+      "groupName": "ScheduledTaskSettings"
+    },
+    {
       "name": "ComputerNames",
       "type": "string",
       "label": "Computer Names",

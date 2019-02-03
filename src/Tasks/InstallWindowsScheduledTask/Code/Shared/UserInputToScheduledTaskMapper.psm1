@@ -62,6 +62,24 @@ function Get-WorkingDirectory
 	return $workingDirectory
 }
 
+function Get-ScheduledTaskAction([string] $applicationPathToRun, [string] $applicationArguments, [string] $workingDirectory)
+{
+	$createActionExpression = "New-ScheduledTaskAction -Execute `"$applicationPathToRun`""
+
+	if (!([string]::IsNullOrWhiteSpace($applicationArguments)))
+	{
+		$createActionExpression += " -Argument $applicationArguments"
+	}
+
+	if (!([string]::IsNullOrWhiteSpace($workingDirectory)))
+	{
+		$createActionExpression += " -WorkingDirectory `"$workingDirectory`""
+	}
+
+	[ciminstance[]] $scheduledTaskAction = Invoke-Expression -Command $createActionExpression
+	return $scheduledTaskAction
+}
+
 function Get-ScheduledTaskTrigger
 {
 	param
@@ -149,7 +167,7 @@ function Get-ScheduledTaskTrigger
 		ConvertMinutesToTimeSpanAndAddParameterToExpression -expression $createTriggerExpression -parameterName 'RepetitionDuration' -minutes $scheduleRepetitionDurationInMinutes
 	}
 
-	$scheduledTaskTrigger = Invoke-Expression $createTriggerExpression
+	[ciminstance[]] $scheduledTaskTrigger = Invoke-Expression -Command $createTriggerExpression
 	return $scheduledTaskTrigger
 }
 
@@ -161,7 +179,30 @@ function ConvertMinutesToTimeSpanAndAddParameterToExpression([string] $expressio
 	$expression += " -$parameterName $minutesTimeSpanAsString"
 }
 
+function Get-ScheduledTaskSettings([bool] $shouldBeEnabled)
+{
+	[string] $createSettingsExpression = "New-ScheduledTaskSettingsSet"
+
+	if (!($shouldBeEnabled)) { $createSettingsExpression += ' -Disable' }
+
+	[ciminstance] $scheduledTaskSettings = Invoke-Expression -Command $createSettingsExpression
+	return $scheduledTaskSettings
+}
+
+function Get-ScheduledTaskRunLevel([bool] $shouldScheduledTaskRunWithHighestPrivileges)
+{
+	[string] $privileges = 'Limited'
+	if ($shouldScheduledTaskRunWithHighestPrivileges)
+	{
+		$privileges = 'Highest'
+	}
+	return $privileges
+}
+
 Export-ModuleMember -Function Get-ScheduledTaskNameAndPath
 Export-ModuleMember -Function Get-AccountCredentialsToRunScheduledTaskAs
 Export-ModuleMember -Function Get-WorkingDirectory
+Export-ModuleMember -Function Get-ScheduledTaskAction
 Export-ModuleMember -Function Get-ScheduledTaskTrigger
+Export-ModuleMember -Function Get-ScheduledTaskSettings
+Export-ModuleMember -Function Get-ScheduledTaskRunLevel
