@@ -145,7 +145,62 @@ Describe 'Get-WorkingDirectory' {
 }
 
 Describe 'Get-ScheduledTaskAction' {
+	function Assert-GetScheduledTaskActionReturnsCorrectResult
+	{
+		param
+		(
+			[string] $testDescription,
+			[string] $applicationPathToRun,
+			[string] $applicationArguments,
+			[string] $workingDirectory,
+			[string] $expectedApplicationPathToRun,
+			[string] $expectedApplicationArguments,
+			[string] $expectedWorkingDirectory,
+			[bool] $expectExceptionToBeThrown
+		)
 
+		It $testDescription {
+			[string] $expression = "Get-ScheduledTaskAction -applicationPathToRun `"$applicationPathToRun`" -applicationArguments `"$applicationArguments`" -workingDirectory `"$workingDirectory`""
+
+			if ($expectExceptionToBeThrown)
+			{
+				# Act and Assert.
+				{ Invoke-Expression -Command $expression } | Should -Throw
+			}
+			else
+			{
+				# Act.
+				$result = Invoke-Expression -Command $expression
+
+				# Assert.
+				$result | Should -Not -BeNullOrEmpty
+				$result.Execute | Should -Be $expectedApplicationPathToRun
+				$result.Arguments | Should -Be $expectedApplicationArguments
+				$result.WorkingDirectory | Should -Be $expectedWorkingDirectory
+			}
+		}
+	}
+
+	[string] $validApplicationPath = 'C:\SomeDirectory\SomeApp.exe'
+	[string] $validApplicationArguments = '/someArg value'
+	[string] $validWorkingDirectory = 'C:\SomeDirectory'
+
+	[hashtable[]] $tests = @(
+		@{	testDescription = 'When all parameters are provided with valid values, it should have the specified values.'
+			applicationPathToRun = $validApplicationPath; applicationArguments = $validApplicationArguments; workingDirectory = $validWorkingDirectory
+			expectedApplicationPathToRun = $validApplicationPath; expectedApplicationArguments = $validApplicationArguments; expectedWorkingDirectory = $validWorkingDirectory
+			expectExceptionToBeThrown = $false
+		}
+		@{	testDescription = 'When no Application Path is supplied, it throws an exception.'
+			applicationPathToRun = ''; applicationArguments = $validApplicationArguments; workingDirectory = $validWorkingDirectory
+			expectedApplicationPathToRun = ''; expectedApplicationArguments = $validApplicationArguments; expectedWorkingDirectory = $validWorkingDirectory
+			expectExceptionToBeThrown = $true
+		}
+	)
+	$tests | ForEach-Object {
+		[hashtable] $parameters = $_
+		Assert-GetScheduledTaskActionReturnsCorrectResult @parameters
+	}
 }
 
 Describe 'Get-ScheduledTaskTrigger' {

@@ -68,7 +68,7 @@ function Get-ScheduledTaskAction([string] $applicationPathToRun, [string] $appli
 
 	if (!([string]::IsNullOrWhiteSpace($applicationArguments)))
 	{
-		$createActionExpression += " -Argument $applicationArguments"
+		$createActionExpression += " -Argument `"$applicationArguments`""
 	}
 
 	if (!([string]::IsNullOrWhiteSpace($workingDirectory)))
