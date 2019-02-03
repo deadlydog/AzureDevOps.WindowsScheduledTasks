@@ -105,7 +105,6 @@ function Get-ScheduledTaskTrigger
 		'DateTime' {
 			$createTriggerExpression += " -At $dateTimeScheduleStartTime"
 
-# TODO: finsih this
 			switch ($dateTimeScheduleFrequencyOptions)
 			{
 				'Once' {
@@ -121,6 +120,18 @@ function Get-ScheduledTaskTrigger
 					$createTriggerExpression += ' -Weekly'
 					$createTriggerExpression += " -WeeksInterval $dateTimeScheduleFrequencyWeeklyInterval"
 
+					if ($shouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek)
+					{
+						[System.DayOfWeek[]] $daysOfTheWeekToRunOn = @()
+						if ($shouldDateTimeScheduleFrequencyWeeklyRunOnMondays) { $daysOfTheWeekToRunOn += [System.DayOfWeek]::Monday }
+						if ($shouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays) { $daysOfTheWeekToRunOn += [System.DayOfWeek]::Tuesday }
+						if ($shouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays) { $daysOfTheWeekToRunOn += [System.DayOfWeek]::Wednesday }
+						if ($shouldDateTimeScheduleFrequencyWeeklyRunOnThursdays) { $daysOfTheWeekToRunOn += [System.DayOfWeek]::Thursday }
+						if ($shouldDateTimeScheduleFrequencyWeeklyRunOnFridays) { $daysOfTheWeekToRunOn += [System.DayOfWeek]::Friday }
+						if ($shouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays) { $daysOfTheWeekToRunOn += [System.DayOfWeek]::Saturday }
+						if ($shouldDateTimeScheduleFrequencyWeeklyRunOnSundays) { $daysOfTheWeekToRunOn += [System.DayOfWeek]::Sunday }
+						$createTriggerExpression += " -DaysOfWeek $daysOfTheWeekToRunOn"
+					}
 				}
 			}
 			break
@@ -137,14 +148,17 @@ function Get-ScheduledTaskTrigger
 		ConvertMinutesToTimeSpanAndAddParameterToExpression -expression $createTriggerExpression -parameterName 'RepetitionInterval' -minutes $scheduleRepetitionIntervalInMinutes
 		ConvertMinutesToTimeSpanAndAddParameterToExpression -expression $createTriggerExpression -parameterName 'RepetitionDuration' -minutes $scheduleRepetitionDurationInMinutes
 	}
+
+	$scheduledTaskTrigger = Invoke-Expression $createTriggerExpression
+	return $scheduledTaskTrigger
 }
 
 function ConvertMinutesToTimeSpanAndAddParameterToExpression([string] $expression, [string] $parameterName, [string] $minutes)
 {
-	[double] $minutesAsDouble = [double]::Parse($scheduleStartTimeRandomDelayInMinutes)
-	[timespan] $minutesAsTimeSpan = [timespan]::FromMinutes($randomDelayInMinutes)
+	[double] $minutesAsDouble = [double]::Parse($minutes)
+	[timespan] $minutesAsTimeSpan = [timespan]::FromMinutes($minutesAsDouble)
 	[string] $minutesTimeSpanAsString = $minutesAsTimeSpan.ToString()
-	$createTriggerExpression += " -$parameterName $minutesTimeSpanAsString"
+	$expression += " -$parameterName $minutesTimeSpanAsString"
 }
 
 Export-ModuleMember -Function Get-ScheduledTaskNameAndPath
