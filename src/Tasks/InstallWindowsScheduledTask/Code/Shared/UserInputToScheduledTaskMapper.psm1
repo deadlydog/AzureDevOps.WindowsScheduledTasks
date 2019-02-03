@@ -94,17 +94,19 @@ function Get-ScheduledTaskTrigger
 		'AtLogOn' {
 			$createTriggerExpression += ' -AtLogOn'
 			$createTriggerExpression += " -User '$atLogOnTriggerUser'"
+			break
 		}
 
 		'AtStartup' {
 			$createTriggerExpression += ' -AtStartup'
+			break
 		}
 
 		'DateTime' {
 			$createTriggerExpression += " -At $dateTimeScheduleStartTime"
 
 # TODO: finsih this
-			case ($dateTimeScheduleFrequencyOptions)
+			switch ($dateTimeScheduleFrequencyOptions)
 			{
 				'Once' {
 					$createTriggerExpression += ' -Once'
@@ -112,18 +114,20 @@ function Get-ScheduledTaskTrigger
 
 				'Daily' {
 					$createTriggerExpression += ' -Daily'
-
+					$createTriggerExpression += " -DaysInterval $dateTimeScheduleFrequencyDailyInterval"
 				}
 
 				'Weekly' {
 					$createTriggerExpression += ' -Weekly'
+					$createTriggerExpression += " -WeeksInterval $dateTimeScheduleFrequencyWeeklyInterval"
 
 				}
 			}
+			break
 		}
 	}
 
-	if (!([string]::IsNullOrWhiteSpace($scheduleStartTimeRandomDelayInMinutes))
+	if (!([string]::IsNullOrWhiteSpace($scheduleStartTimeRandomDelayInMinutes)))
 	{
 		ConvertMinutesToTimeSpanAndAddParameterToExpression -expression $createTriggerExpression -parameterName 'RandomDelay' -minutes $scheduleStartTimeRandomDelayInMinutes
 	}
