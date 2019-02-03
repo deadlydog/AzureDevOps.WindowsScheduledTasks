@@ -143,3 +143,57 @@ Describe 'Get-WorkingDirectory' {
 		}
 	}
 }
+
+Describe 'Get-ScheduledTaskAction' {
+
+}
+
+Describe 'Get-ScheduledTaskTrigger' {
+
+}
+
+Describe 'Get-ScheduledTaskSettings' {
+	Context 'When requesting the task to be disabled' {
+		It 'Should be disabled in the settings' {
+			# Arrange.
+			$shouldBeEnabled = $false
+
+			# Act.
+			$result = Get-ScheduledTaskSettings -shouldBeEnabled $shouldBeEnabled
+
+			# Assert.
+			$result | Should -Not -BeNullOrEmpty
+			$result.Enabled | Should -Be $shouldBeEnabled
+		}
+	}
+
+	Context 'When requesting the task to be enabled' {
+		It 'Should be enabled in the settings' {
+			# Arrange.
+			$shouldBeEnabled = $true
+
+			# Act.
+			$result = Get-ScheduledTaskSettings -shouldBeEnabled $shouldBeEnabled
+
+			# Assert.
+			$result | Should -Not -BeNullOrEmpty
+			$result.Enabled | Should -Be $shouldBeEnabled
+		}
+	}
+}
+
+Describe 'Get-ScheduledTaskRunLevel' {
+	Context 'When highest level privileges are not requested' {
+		It 'Should return the Limited level' {
+			$result = Get-ScheduledTaskRunLevel -shouldScheduledTaskRunWithHighestPrivileges $false
+			$result | Should -Be 'Limited'
+		}
+	}
+
+	Context 'When highest level privileges are requested' {
+		It 'Should return the Highest level' {
+			$result = Get-ScheduledTaskRunLevel -shouldScheduledTaskRunWithHighestPrivileges $true
+			$result | Should -Be 'Highest'
+		}
+	}
+}
