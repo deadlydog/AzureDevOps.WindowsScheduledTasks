@@ -85,10 +85,10 @@ function Get-ScheduledTaskTrigger
 	param
 	(
 		[ValidateSet('DateTime', 'AtLogOn', 'AtStartup')]
-		[string] $triggerType,	# TEMP: parameter accounted for in function.
-		[string] $atLogOnTriggerUsername,	# TEMP: parameter accounted for in function.
-		[string] $dateTimeScheduleStartTime,	# TEMP: parameter accounted for in function.
-		[string] $dateTimeScheduleFrequencyOptions,	# TEMP: parameter accounted for in function.
+		[string] $triggerType,
+		[string] $atLogOnTriggerUsername,
+		[string] $dateTimeScheduleStartTime,
+		[string] $dateTimeScheduleFrequencyOptions,
 		[string] $dateTimeScheduleFrequencyDailyInterval,
 		[string] $dateTimeScheduleFrequencyWeeklyInterval,
 		[bool] $shouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek,
@@ -99,10 +99,10 @@ function Get-ScheduledTaskTrigger
 		[bool] $shouldDateTimeScheduleFrequencyWeeklyRunOnFridays,
 		[bool] $shouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays,
 		[bool] $shouldDateTimeScheduleFrequencyWeeklyRunOnSundays,
-		[bool] $shouldScheduledTaskRunRepeatedly,	# TEMP: parameter accounted for in function.
-		[string] $scheduleRepetitionIntervalInMinutes,	# TEMP: parameter accounted for in function.
-		[string] $scheduleRepetitionDurationInMinutes,	# TEMP: parameter accounted for in function.
-		[string] $scheduleStartTimeRandomDelayInMinutes	# TEMP: parameter accounted for in function.
+		[bool] $shouldScheduledTaskRunRepeatedly,
+		[string] $scheduleRepetitionIntervalInMinutes,
+		[string] $scheduleRepetitionDurationInMinutes,
+		[string] $scheduleStartTimeRandomDelayInMinutes
 	)
 
 	[string] $createTriggerExpression = 'New-ScheduledTaskTrigger'
