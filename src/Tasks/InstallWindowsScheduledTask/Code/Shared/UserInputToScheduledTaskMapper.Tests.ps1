@@ -204,12 +204,12 @@ Describe 'Get-ScheduledTaskAction' {
 			expectedApplicationPathToRun = ''; expectedApplicationArguments = $validApplicationArguments; expectedWorkingDirectory = $validWorkingDirectory
 			expectExceptionToBeThrown = $true
 		}
-		@{	testDescription = 'When no arguments are provided, it should not have any specified.'
+		@{	testDescription = 'When no Arguments are provided, it should not have any specified.'
 			applicationPathToRun = $validApplicationPath; applicationArguments = ''; workingDirectory = $validWorkingDirectory
 			expectedApplicationPathToRun = $validApplicationPath; expectedApplicationArguments = $null; expectedWorkingDirectory = $validWorkingDirectory
 			expectExceptionToBeThrown = $false
 		}
-		@{	testDescription = 'When no working directory is provided, it should not have a working directory specified.'
+		@{	testDescription = 'When no Working Directory is provided, it should not have one specified.'
 			applicationPathToRun = $validApplicationPath; applicationArguments = $validApplicationArguments; workingDirectory = ''
 			expectedApplicationPathToRun = $validApplicationPath; expectedApplicationArguments = $validApplicationArguments; expectedWorkingDirectory = $null
 			expectExceptionToBeThrown = $false
