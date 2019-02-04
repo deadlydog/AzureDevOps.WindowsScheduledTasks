@@ -175,8 +175,16 @@ Describe 'Get-ScheduledTaskAction' {
 				# Assert.
 				$result | Should -Not -BeNullOrEmpty
 				$result.Execute | Should -Be $expectedApplicationPathToRun
-				$result.Arguments | Should -Be $expectedApplicationArguments
-				$result.WorkingDirectory | Should -Be $expectedWorkingDirectory
+
+				# We need to explicitly check for empty string instead of null because we wrap the "null" parameter in a string and it turns into an empty string.
+				if ([string]::IsNullOrWhiteSpace($expectedApplicationArguments))
+				{ $result.Arguments | Should -BeNullOrEmpty }
+				else { $result.Arguments | Should -Be $expectedApplicationArguments }
+
+				if ([string]::IsNullOrWhiteSpace($expectedWorkingDirectory))
+				{ $results.WorkingDirectory | Should -BeNullOrEmpty }
+				else
+				{ $result.WorkingDirectory | Should -Be $expectedWorkingDirectory }
 			}
 		}
 	}
@@ -195,6 +203,16 @@ Describe 'Get-ScheduledTaskAction' {
 			applicationPathToRun = ''; applicationArguments = $validApplicationArguments; workingDirectory = $validWorkingDirectory
 			expectedApplicationPathToRun = ''; expectedApplicationArguments = $validApplicationArguments; expectedWorkingDirectory = $validWorkingDirectory
 			expectExceptionToBeThrown = $true
+		}
+		@{	testDescription = 'When no arguments are provided, it should not have any specified.'
+			applicationPathToRun = $validApplicationPath; applicationArguments = ''; workingDirectory = $validWorkingDirectory
+			expectedApplicationPathToRun = $validApplicationPath; expectedApplicationArguments = $null; expectedWorkingDirectory = $validWorkingDirectory
+			expectExceptionToBeThrown = $false
+		}
+		@{	testDescription = 'When no working directory is provided, it should not have a working directory specified.'
+			applicationPathToRun = $validApplicationPath; applicationArguments = $validApplicationArguments; workingDirectory = ''
+			expectedApplicationPathToRun = $validApplicationPath; expectedApplicationArguments = $validApplicationArguments; expectedWorkingDirectory = $null
+			expectExceptionToBeThrown = $false
 		}
 	)
 	$tests | ForEach-Object {
