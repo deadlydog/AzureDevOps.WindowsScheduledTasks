@@ -222,7 +222,120 @@ Describe 'Get-ScheduledTaskAction' {
 }
 
 Describe 'Get-ScheduledTaskTrigger' {
+	function Assert-GetScheduledTaskTriggerReturnsCorrectResult
+	{
+		param
+		(
+			[string] $testDescription,
+			[string] $triggerType,
+			[string] $atLogOnTriggerUsername,
+			[string] $dateTimeScheduleStartTime,
+			[string] $dateTimeScheduleFrequencyOptions,
+			[string] $dateTimeScheduleFrequencyDailyInterval,
+			[string] $dateTimeScheduleFrequencyWeeklyInterval,
+			[bool] $shouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek,
+			[bool] $shouldDateTimeScheduleFrequencyWeeklyRunOnMondays,
+			[bool] $shouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays,
+			[bool] $shouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays,
+			[bool] $shouldDateTimeScheduleFrequencyWeeklyRunOnThursdays,
+			[bool] $shouldDateTimeScheduleFrequencyWeeklyRunOnFridays,
+			[bool] $shouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays,
+			[bool] $shouldDateTimeScheduleFrequencyWeeklyRunOnSundays,
+			[bool] $shouldScheduledTaskRunRepeatedly,
+			[string] $scheduleRepetitionIntervalInMinutes,
+			[string] $scheduleRepetitionDurationInMinutes,
+			[string] $scheduleStartTimeRandomDelayInMinutes,
+			[string] $expectedAtLogOnTriggerUsername,
+			[string] $expectedDateTimeScheduleStartTime,
+			[string] $expectedDateTimeScheduleFrequencyDailyInterval,
+			[string] $expectedDateTimeScheduleFrequencyWeeklyInterval,
+			[bool] $expectedShouldDateTimeScheduleFrequencyWeeklyRunOnMondays,
+			[bool] $expectedShouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays,
+			[bool] $expectedShouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays,
+			[bool] $expectedShouldDateTimeScheduleFrequencyWeeklyRunOnThursdays,
+			[bool] $expectedShouldDateTimeScheduleFrequencyWeeklyRunOnFridays,
+			[bool] $expectedShouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays,
+			[bool] $expectedShouldDateTimeScheduleFrequencyWeeklyRunOnSundays,
+			[string] $expectedScheduleRepetitionIntervalInMinutes,
+			[string] $expectedScheduleRepetitionDurationInMinutes,
+			[string] $expectedScheduleStartTimeRandomDelayInMinutes,
+			[bool] $expectExceptionToBeThrown
+		)
 
+		It $testDescription {
+			[string] $expression = "Get-ScheduledTaskTrigger -triggerType $triggerType -atLogOnTriggerUsername $atLogOnTriggerUsername -dateTimeScheduleStartTime $dateTimeScheduleStartTime -dateTimeScheduleFrequencyOptions $dateTimeScheduleFrequencyOptions -dateTimeScheduleFrequencyDailyInterval $dateTimeScheduleFrequencyDailyInterval -dateTimeScheduleFrequencyWeeklyInterval $dateTimeScheduleFrequencyWeeklyInterval -shouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek $shouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek -shouldDateTimeScheduleFrequencyWeeklyRunOnMondays $shouldDateTimeScheduleFrequencyWeeklyRunOnMondays -shouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays $shouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays -shouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays $shouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays -shouldDateTimeScheduleFrequencyWeeklyRunOnThursdays, $shouldDateTimeScheduleFrequencyWeeklyRunOnThursdays -shouldDateTimeScheduleFrequencyWeeklyRunOnFridays $shouldDateTimeScheduleFrequencyWeeklyRunOnFridays -shouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays $shouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays -shouldDateTimeScheduleFrequencyWeeklyRunOnSundays, $shouldDateTimeScheduleFrequencyWeeklyRunOnSundays -shouldScheduledTaskRunRepeatedly $shouldScheduledTaskRunRepeatedly -scheduleRepetitionIntervalInMinutes $scheduleRepetitionIntervalInMinutes -scheduleRepetitionDurationInMinutes $scheduleRepetitionDurationInMinutes -scheduleStartTimeRandomDelayInMinutes $scheduleStartTimeRandomDelayInMinutes"
+
+			if ($expectExceptionToBeThrown)
+			{
+				# Act and Assert.
+				{ Invoke-Expression -Command $expression } | Should -Throw
+			}
+			else
+			{
+				# Act.
+				$result = Invoke-Expression -Command $expression
+
+				# Assert.
+				$result | Should -Not -BeNullOrEmpty
+
+			}
+		}
+	}
+
+	[string] $validAtLogOnUsername = 'Dan'
+	[string] $validDateTimeStartTime = '3am'
+
+	Context 'When using an At Startup trigger' {
+		[hashtable[]] $tests = @(
+			@{	testDescription = 'When all parameters are provided with valid values, it should have the specified values.'
+				triggerType = 'AtStartup'
+				shouldScheduledTaskRunRepeatedly = $false; scheduleRepetitionIntervalInMinutes = ''; scheduleRepetitionDurationInMinutes = ''
+				scheduleStartTimeRandomDelayInMinutes = ''
+				expectExceptionToBeThrown = $false
+			}
+		)
+		$tests | ForEach-Object {
+			[hashtable] $parameters = $_
+			Assert-GetScheduledTaskTriggerReturnsCorrectResult @parameters
+		}
+	}
+
+	Context 'When using an At Logon trigger' {
+		# [hashtable[]] $tests = @(
+		# 	@{	testDescription = 'When all parameters are provided with valid values, it should have the specified values.'
+		# 		triggerType = 'AtLogOn'
+		# 		atLogOnTriggerUsername = $validAtLogOnUsername
+		# 		shouldScheduledTaskRunRepeatedly = ; scheduleRepetitionIntervalInMinutes = ; scheduleRepetitionDurationInMinutes =
+		# 		scheduleStartTimeRandomDelayInMinutes =
+		# 		expectExceptionToBeThrown = $false
+		# 	}
+		# )
+		# $tests | ForEach-Object {
+		# 	[hashtable] $parameters = $_
+		# 	Assert-GetScheduledTaskTriggerReturnsCorrectResult @parameters
+		# }
+	}
+
+	Context 'When using a Date Time trigger' {
+		# [hashtable[]] $tests = @(
+		# 	@{	testDescription = 'When all parameters are provided with valid values, it should have the specified values.'
+		# 		triggerType = 'DateTime'
+		# 		atLogOnTriggerUsername = $validAtLogOnUsername
+		# 		dateTimeScheduleStartTime = $validDateTimeStartTime
+		# 		dateTimeScheduleFrequencyOptions = 'Once', 'Daily', 'Weekly'
+		# 		dateTimeScheduleFrequencyDailyInterval =
+		# 		dateTimeScheduleFrequencyWeeklyInterval =
+		# 		shouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = ; shouldDateTimeScheduleFrequencyWeeklyRunOnMondays = ; shouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays = ;shouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays = ; shouldDateTimeScheduleFrequencyWeeklyRunOnThursdays = ; shouldDateTimeScheduleFrequencyWeeklyRunOnFridays = ; shouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays = ; shouldDateTimeScheduleFrequencyWeeklyRunOnSundays = ;
+		# 		shouldScheduledTaskRunRepeatedly = ; scheduleRepetitionIntervalInMinutes = ; scheduleRepetitionDurationInMinutes =
+		# 		scheduleStartTimeRandomDelayInMinutes =
+		# 		expectExceptionToBeThrown = $false
+		# 	}
+		# )
+		# $tests | ForEach-Object {
+		# 	[hashtable] $parameters = $_
+		# 	Assert-GetScheduledTaskTriggerReturnsCorrectResult @parameters
+		# }
+	}
 }
 
 Describe 'Get-ScheduledTaskSettings' {
