@@ -310,11 +310,11 @@ Describe 'Get-ScheduledTaskTrigger' {
 				scheduleStartTimeRandomDelayInMinutes = ''
 				expectExceptionToBeThrown = $false
 			}
-			@{	testDescription = 'When 0 is specified for the Random Delay, it should have the expected value.'
-				triggerType = 'AtStartup'
-				shouldScheduledTaskRunRepeatedly = $true; scheduleRepetitionIntervalInMinutes = '1'; scheduleRepetitionDurationInMinutes = '2'
+			@{	testDescription = 'When an invalid Trigger Type is specified, it should throw an exception.'
+				triggerType = 'InvalidType'
+				shouldScheduledTaskRunRepeatedly = $false; scheduleRepetitionIntervalInMinutes = ''; scheduleRepetitionDurationInMinutes = ''
 				scheduleStartTimeRandomDelayInMinutes = ''
-				expectExceptionToBeThrown = $false
+				expectExceptionToBeThrown = $true
 			}
 		)
 		$tests | ForEach-Object {
