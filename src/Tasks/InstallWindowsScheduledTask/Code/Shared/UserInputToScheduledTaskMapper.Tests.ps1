@@ -278,6 +278,23 @@ Describe 'Get-ScheduledTaskTrigger' {
 				# Assert.
 				$result | Should -Not -BeNullOrEmpty
 
+				# if (!$shouldScheduledTaskRunRepeatedly)
+				# {
+				# 	$result.Repetition | Should -BeNullOrEmpty
+				# }
+				# else
+				# {
+				# 	$result.Repetition | Should -Be $scheduleRepetitionIntervalInMinutes
+				# }
+
+				# if ([string]::IsNullOrWhiteSpace($scheduleStartTimeRandomDelayInMinutes))
+				# {
+				# 	$result.Delay | Should -BeNullOrEmpty
+				# }
+				# else
+				# {
+				# 	$result.Delay | Should -Be $scheduleStartTimeRandomDelayInMinutes
+				# }
 			}
 		}
 	}
@@ -290,6 +307,12 @@ Describe 'Get-ScheduledTaskTrigger' {
 			@{	testDescription = 'When all parameters are provided with valid values, it should have the specified values.'
 				triggerType = 'AtStartup'
 				shouldScheduledTaskRunRepeatedly = $false; scheduleRepetitionIntervalInMinutes = ''; scheduleRepetitionDurationInMinutes = ''
+				scheduleStartTimeRandomDelayInMinutes = ''
+				expectExceptionToBeThrown = $false
+			}
+			@{	testDescription = 'When 0 is specified for the Random Delay, it should have the expected value.'
+				triggerType = 'AtStartup'
+				shouldScheduledTaskRunRepeatedly = $true; scheduleRepetitionIntervalInMinutes = '1'; scheduleRepetitionDurationInMinutes = '2'
 				scheduleStartTimeRandomDelayInMinutes = ''
 				expectExceptionToBeThrown = $false
 			}
