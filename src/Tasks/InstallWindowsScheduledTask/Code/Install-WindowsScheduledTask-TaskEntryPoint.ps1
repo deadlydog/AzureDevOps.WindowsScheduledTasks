@@ -126,7 +126,7 @@ Process
 
 	if ($ScheduledTaskDefinitionSource -eq 'ImportFromXmlFile')
 	{
-		Install-WindowsScheduledTask -XmlFilePath $ScheduledTaskXmlFileToImportFrom -ScheduledTaskName $taskNameAndPath.Name -ScheduledTaskPath $taskNameAndPath.Path -AccountCredentialsToRunScheduledTaskAs $accountCredentialsToRunScheduledTaskAs -ComputerName $computers -Credential $credential
+		Install-WindowsScheduledTask -XmlFilePath $ScheduledTaskXmlFileToImportFrom -ScheduledTaskName $taskNameAndPath.Name -ScheduledTaskPath $taskNameAndPath.Path -AccountCredentialsToRunScheduledTaskAs $accountCredentialsToRunScheduledTaskAs -ShouldScheduledTaskRunAfterInstall $ShouldScheduledTaskRunAfterInstall -ComputerName $computers -Credential $credential -UseCredSsp $UseCredSsp
 		return
 	}
 
@@ -140,7 +140,7 @@ Process
 
 	$scheduledTaskRunLevel = Get-ScheduledTaskRunLevel -shouldScheduledTaskRunWithHighestPrivileges $ShouldScheduledTaskRunWithHighestPrivileges
 
-	Install-WindowsScheduledTask -ScheduledTaskName $taskNameAndPath.Name -ScheduledTaskPath $taskNameAndPath.Path -AccountCredentialsToRunScheduledTaskAs $accountCredentialsToRunScheduledTaskAs -ScheduledTaskDescription $ScheduledTaskDescription -ScheduledTaskAction $scheduledTaskAction -ScheduledTaskSettings $scheduledTaskSettings -ScheduledTaskTrigger $scheduledTaskTrigger -ScheduledTaskRunLevel $scheduledTaskRunLevel -ComputerName $computers -Credential $credential
+	Install-WindowsScheduledTask -ScheduledTaskName $taskNameAndPath.Name -ScheduledTaskPath $taskNameAndPath.Path -AccountCredentialsToRunScheduledTaskAs $accountCredentialsToRunScheduledTaskAs -ScheduledTaskDescription $ScheduledTaskDescription -ScheduledTaskAction $scheduledTaskAction -ScheduledTaskSettings $scheduledTaskSettings -ScheduledTaskTrigger $scheduledTaskTrigger -ScheduledTaskRunLevel $scheduledTaskRunLevel -ShouldScheduledTaskRunAfterInstall $ShouldScheduledTaskRunAfterInstall -ComputerName $computers -Credential $credential -UseCredSsp $UseCredSsp
 }
 
 Begin
