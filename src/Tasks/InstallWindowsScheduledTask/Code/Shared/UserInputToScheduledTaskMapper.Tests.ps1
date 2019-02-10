@@ -278,24 +278,7 @@ Describe 'Get-ScheduledTaskTrigger' {
 
 				# Assert.
 				$result | Should -Not -BeNullOrEmpty
-
-				# if (!$shouldScheduledTaskRunRepeatedly)
-				# {
-				# 	$result.Repetition | Should -BeNullOrEmpty
-				# }
-				# else
-				# {
-				# 	$result.Repetition | Should -Be $scheduleRepetitionIntervalInMinutes
-				# }
-
-				# if ([string]::IsNullOrWhiteSpace($scheduleStartTimeRandomDelayInMinutes))
-				# {
-				# 	$result.Delay | Should -BeNullOrEmpty
-				# }
-				# else
-				# {
-				# 	$result.Delay | Should -Be $scheduleStartTimeRandomDelayInMinutes
-				# }
+				# The $result object doesn't expose the properties we need to check and validate that they were set properly, so all we can really do is make sure an exception wasn't thrown and the result object is not null.
 			}
 		}
 	}
