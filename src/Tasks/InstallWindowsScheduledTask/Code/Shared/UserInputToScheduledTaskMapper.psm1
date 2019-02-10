@@ -76,7 +76,7 @@ function Get-ScheduledTaskAction([string] $applicationPathToRun, [string] $appli
 		$createActionExpression += " -WorkingDirectory `"$workingDirectory`""
 	}
 
-	[ciminstance[]] $scheduledTaskAction = Invoke-Expression -Command $createActionExpression
+	[CimInstance[]] $scheduledTaskAction = Invoke-Expression -Command $createActionExpression
 	return $scheduledTaskAction
 }
 
@@ -167,7 +167,7 @@ function Get-ScheduledTaskTrigger
 		ConvertMinutesToTimeSpanAndAddParameterToExpression -expression $createTriggerExpression -parameterName 'RepetitionDuration' -minutes $scheduleRepetitionDurationInMinutes
 	}
 
-	[ciminstance[]] $scheduledTaskTrigger = Invoke-Expression -Command $createTriggerExpression
+	[CimInstance[]] $scheduledTaskTrigger = Invoke-Expression -Command $createTriggerExpression
 	return $scheduledTaskTrigger
 }
 
@@ -185,7 +185,7 @@ function Get-ScheduledTaskSettings([bool] $shouldBeEnabled)
 
 	if (!($shouldBeEnabled)) { $createSettingsExpression += ' -Disable' }
 
-	[ciminstance] $scheduledTaskSettings = Invoke-Expression -Command $createSettingsExpression
+	[CimInstance] $scheduledTaskSettings = Invoke-Expression -Command $createSettingsExpression
 	return $scheduledTaskSettings
 }
 
