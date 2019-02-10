@@ -25,81 +25,85 @@ Begin
 	# This function is not intended to be called, but can be cloned for creating new install functions, as it has all possible parameters defined for you.
 	function Install-ScheduledTaskTemplateFunction
 	{
-		& $InstallScheduledTaskEntryPointScriptPath `
-			-ScheduledTaskDefinitionSource 'Inline' ` # 'ImportFromXmlFile', 'Inline'
-			-ScheduledTaskXmlFileToImportFrom '' `
-			-ScheduledTaskFullName ($CommonScheduledTaskPath + 'Test-') `
-			-ScheduledTaskDescription 'A test task.' `
-			-ApplicationPathToRun 'C:\Dummy.exe' `
-			-ApplicationArguments '' `
-			-WorkingDirectoryOptions 'ApplicationDirectory' ` # 'ApplicationDirectory', 'CustomDirectory'
-			-CustomWorkingDirectory '' `
-			-ScheduleTriggerType 'AtStartup' ` # 'DateTime', 'AtLogOn', 'AtStartup'
-			-DateTimeScheduleStartTime '' `
-			-DateTimeScheduleFrequencyOptions 'Once' ` # 'Once', 'Daily', 'Weekly'
-			-DateTimeScheduleFrequencyDailyInterval '' `
-			-DateTimeScheduleFrequencyWeeklyInterval '' `
-			-ShouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek $false `
-			-ShouldDateTimeScheduleFrequencyWeeklyRunOnMondays $false `
-			-ShouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays $false `
-			-ShouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays $false `
-			-ShouldDateTimeScheduleFrequencyWeeklyRunOnThursday $false `
-			-ShouldDateTimeScheduleFrequencyWeeklyRunOnFridays $false `
-			-ShouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays $false `
-			-ShouldDateTimeScheduleFrequencyWeeklyRunOnSundays $false `
-			-ShouldScheduledTaskRunRepeatedly $false `
-			-ScheduleRepetitionIntervalInMinutes '' `
-			-ScheduleRepetitionDurationInMinutes '' `
-			-ScheduleStartTimeRandomDelayInMinutes '' `
-			-ScheduledTaskAccountToRunAsOptions 'LocalService' ` # 'System', 'LocalService', 'NetworkService', 'CustomAccount'
-			-CustomAccountToRunScheduledTaskAsUsername '' `
-			-CustomAccountToRunScheduledTaskAsPassword '' `
-			-ShouldScheduledTaskBeEnabled $true `
-			-ShouldScheduledTaskRunWithHighestPrivileges $false `
-			-ShouldScheduledTaskRunAfterInstall $false `
-			-ComputerNames '' `
-			-Username '' `
-			-Password '' `
-			-UseCredSsp $false
+		[hashtable] $parameters = @{
+			ScheduledTaskDefinitionSource = 'Inline' # 'ImportFromXmlFile', 'Inline'
+			ScheduledTaskXmlFileToImportFrom = ''
+			ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-')
+			ScheduledTaskDescription = 'A test task.'
+			ApplicationPathToRun = 'C:\Dummy.exe'
+			ApplicationArguments = ''
+			WorkingDirectoryOptions = 'ApplicationDirectory' # 'ApplicationDirectory', 'CustomDirectory'
+			CustomWorkingDirectory = ''
+			ScheduleTriggerType = 'AtStartup' # 'DateTime', 'AtLogOn', 'AtStartup'
+			DateTimeScheduleStartTime = ''
+			DateTimeScheduleFrequencyOptions = 'Once' # 'Once', 'Daily', 'Weekly'
+			DateTimeScheduleFrequencyDailyInterval = ''
+			DateTimeScheduleFrequencyWeeklyInterval = ''
+			ShouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = $false
+			ShouldDateTimeScheduleFrequencyWeeklyRunOnMondays = $false
+			ShouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays = $false
+			ShouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays = $false
+			ShouldDateTimeScheduleFrequencyWeeklyRunOnThursday = $false
+			ShouldDateTimeScheduleFrequencyWeeklyRunOnFridays = $false
+			ShouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays = $false
+			ShouldDateTimeScheduleFrequencyWeeklyRunOnSundays = $false
+			ShouldScheduledTaskRunRepeatedly = $false
+			ScheduleRepetitionIntervalInMinutes = ''
+			ScheduleRepetitionDurationInMinutes = ''
+			ScheduleStartTimeRandomDelayInMinutes = ''
+			ScheduledTaskAccountToRunAsOptions = 'LocalService' # 'System', 'LocalService', 'NetworkService', 'CustomAccount'
+			CustomAccountToRunScheduledTaskAsUsername = ''
+			CustomAccountToRunScheduledTaskAsPassword = ''
+			ShouldScheduledTaskBeEnabled = $true
+			ShouldScheduledTaskRunWithHighestPrivileges = $false
+			ShouldScheduledTaskRunAfterInstall = $false
+			ComputerNames = ''
+			Username = ''
+			Password = ''
+			UseCredSsp = $false
+		}
+		Invoke-Expression -Command "& $InstallScheduledTaskEntryPointScriptPath @parameters"
 	}
 
 	function Install-InlineAtStartupScheduledTask
 	{
-		& $InstallScheduledTaskEntryPointScriptPath `
-			-ScheduledTaskDefinitionSource 'Inline' ` # 'ImportFromXmlFile', 'Inline'
-			-ScheduledTaskXmlFileToImportFrom '' `
-			-ScheduledTaskFullName ($CommonScheduledTaskPath + 'Test-InlineAtStartup') `
-			-ScheduledTaskDescription 'A test task set to trigger At Startup.' `
-			-ApplicationPathToRun 'C:\Dummy.exe' `
-			-ApplicationArguments '' `
-			-WorkingDirectoryOptions 'ApplicationDirectory' ` # 'ApplicationDirectory', 'CustomDirectory'
-			-CustomWorkingDirectory '' `
-			-ScheduleTriggerType 'AtStartup' ` # 'DateTime', 'AtLogOn', 'AtStartup'
-			-DateTimeScheduleStartTime '' `
-			-DateTimeScheduleFrequencyOptions '' ` # 'Once', 'Daily', 'Weekly'
-			-DateTimeScheduleFrequencyDailyInterval '' `
-			-DateTimeScheduleFrequencyWeeklyInterval '' `
-			-ShouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek $false `
-			-ShouldDateTimeScheduleFrequencyWeeklyRunOnMondays $false `
-			-ShouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays $false `
-			-ShouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays $false `
-			-ShouldDateTimeScheduleFrequencyWeeklyRunOnThursday $false `
-			-ShouldDateTimeScheduleFrequencyWeeklyRunOnFridays $false `
-			-ShouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays $false `
-			-ShouldDateTimeScheduleFrequencyWeeklyRunOnSundays $false `
-			-ShouldScheduledTaskRunRepeatedly $false `
-			-ScheduleRepetitionIntervalInMinutes '' `
-			-ScheduleRepetitionDurationInMinutes '' `
-			-ScheduleStartTimeRandomDelayInMinutes '' `
-			-ScheduledTaskAccountToRunAsOptions 'LocalService' ` # 'System', 'LocalService', 'NetworkService', 'CustomAccount'
-			-CustomAccountToRunScheduledTaskAsUsername '' `
-			-CustomAccountToRunScheduledTaskAsPassword '' `
-			-ShouldScheduledTaskBeEnabled $true `
-			-ShouldScheduledTaskRunWithHighestPrivileges $false `
-			-ShouldScheduledTaskRunAfterInstall $false `
-			-ComputerNames '' `
-			-Username '' `
-			-Password '' `
-			-UseCredSsp $false
+		[hashtable] $parameters = @{
+			ScheduledTaskDefinitionSource = 'Inline' # 'ImportFromXmlFile', 'Inline'
+			ScheduledTaskXmlFileToImportFrom = ''
+			ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-InlineAtStartup')
+			ScheduledTaskDescription = 'A test task set to trigger At Startup.'
+			ApplicationPathToRun = 'C:\Dummy.exe'
+			ApplicationArguments = ''
+			WorkingDirectoryOptions = 'ApplicationDirectory' # 'ApplicationDirectory', 'CustomDirectory'
+			CustomWorkingDirectory = ''
+			ScheduleTriggerType = 'AtStartup' # 'DateTime', 'AtLogOn', 'AtStartup'
+			DateTimeScheduleStartTime = ''
+			DateTimeScheduleFrequencyOptions = 'Once' # 'Once', 'Daily', 'Weekly'
+			DateTimeScheduleFrequencyDailyInterval = ''
+			DateTimeScheduleFrequencyWeeklyInterval = ''
+			ShouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = $false
+			ShouldDateTimeScheduleFrequencyWeeklyRunOnMondays = $false
+			ShouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays = $false
+			ShouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays = $false
+			ShouldDateTimeScheduleFrequencyWeeklyRunOnThursday = $false
+			ShouldDateTimeScheduleFrequencyWeeklyRunOnFridays = $false
+			ShouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays = $false
+			ShouldDateTimeScheduleFrequencyWeeklyRunOnSundays = $false
+			ShouldScheduledTaskRunRepeatedly = $false
+			ScheduleRepetitionIntervalInMinutes = ''
+			ScheduleRepetitionDurationInMinutes = ''
+			ScheduleStartTimeRandomDelayInMinutes = ''
+			ScheduledTaskAccountToRunAsOptions = 'LocalService' # 'System', 'LocalService', 'NetworkService', 'CustomAccount'
+			CustomAccountToRunScheduledTaskAsUsername = ''
+			CustomAccountToRunScheduledTaskAsPassword = ''
+			ShouldScheduledTaskBeEnabled = $true
+			ShouldScheduledTaskRunWithHighestPrivileges = $false
+			ShouldScheduledTaskRunAfterInstall = $false
+			ComputerNames = ''
+			Username = ''
+			Password = ''
+			UseCredSsp = $false
+		}
+		Invoke-Expression -Command "& $InstallScheduledTaskEntryPointScriptPath @parameters"
 	}
 }
