@@ -3,7 +3,7 @@
 
 function Install-WindowsScheduledTask
 {
-	[cmdletbinding(DefaultParameterSetName='Inline')]
+	[CmdletBinding(DefaultParameterSetName='Inline')]
 	param
 	(
 		[parameter(Mandatory=$true,HelpMessage="The name of the Windows Scheduled Task to install.")]
