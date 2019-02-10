@@ -5,7 +5,6 @@ param
 	[string] $ScheduledTaskDefinitionSource,
 
 	[parameter(Mandatory=$false,HelpMessage="The XML file defining the properties of the Scheduled Task to install.")]
-	[ValidateNotNullOrEmpty()]
 	[string] $ScheduledTaskXmlFileToImportFrom,
 
 	[parameter(Mandatory=$true,HelpMessage="The full name, including the path, of the Windows Scheduled Task to install.")]
@@ -16,7 +15,6 @@ param
 	[string] $ScheduledTaskDescription,
 
 	[parameter(Mandatory=$false,HelpMessage="The full path to the application executable or script file to run.")]
-	[ValidateNotNullOrEmpty()]
 	[string] $ApplicationPathToRun,
 
 	[parameter(Mandatory=$false,HelpMessage="The arguments to pass to the application executable or script to run.")]
