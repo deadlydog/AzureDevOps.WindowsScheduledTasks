@@ -95,11 +95,11 @@ param
 	[parameter(Mandatory=$false,HelpMessage="Should the Scheduled Task be enabled when it's installed or not.")]
 	[bool] $ShouldScheduledTaskBeEnabled,
 
-	[parameter(Mandatory=$false,HelpMessage="Should the Scheduled Task be run immediately after it's installed or not.")]
-	[bool] $ShouldScheduledTaskRunAfterInstall,
-
 	[parameter(Mandatory=$false,HelpMessage"Should the Scheduled Task run with the highest privileges.")]
 	[bool] $ShouldScheduledTaskRunWithHighestPrivileges,
+
+	[parameter(Mandatory=$false,HelpMessage="Should the Scheduled Task be run immediately after it's installed or not.")]
+	[bool] $ShouldScheduledTaskRunAfterInstall,
 
 	[parameter(Mandatory=$false,HelpMessage="Comma-separated list of the computer(s) to install the scheduled task on.")]
 	[string] $ComputerNames,
