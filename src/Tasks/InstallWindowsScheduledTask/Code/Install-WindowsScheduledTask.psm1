@@ -55,28 +55,28 @@ function Install-WindowsScheduledTask
 	Process
 	{
 		[hashtable] $scheduledTaskSettings = @{
-			TaskName = $ScheduledTaskName
-			TaskDescription = $ScheduledTaskDescription
-			ApplicationPathToRun = $ApplicationPathToRun
-			ApplicationArguments = $ApplicationArguments
-			ScheduleFrequency = $ScheduleFrequency
-			ScheduleStartTime = $ScheduleStartTime
-			ScheduleStartTimeRandomDelayInMinutes = $ScheduleStartTimeRandomDelayInMinutes
-			ScheduleRepeatIntervalInMinutes = $ScheduleRepeatIntervalInMinutes
-			ScheduleRepeatIntervalDurationInMinutes = $ScheduleRepeatIntervalDurationInMinutes
+			ScheduledTaskName = $ScheduledTaskName
+			ScheduledTaskDescription = $ScheduledTaskDescription
+			AccountCredentialsToRunScheduledTaskAs = $AccountCredentialsToRunScheduledTaskAs
+			XmlFilePath = $XmlFilePath
+			ScheduledTaskAction = $ScheduledTaskAction
+			ScheduledTaskSettings = $ScheduledTaskSettings
+			ScheduledTaskTrigger = $ScheduledTaskTrigger
+			ScheduledTaskRunLevel = $ScheduledTaskRunLevel
 			ShouldRunScheduledTaskAfterInstallation = $ShouldScheduledTaskRunAfterInstall
 		}
 
-		Invoke-InstallWindowsScheduledTaskOnComputers -scheduledTaskSettings $scheduledTaskSettings -computers $ComputerName -credential $Credential
+		Invoke-InstallWindowsScheduledTaskOnComputers -scheduledTaskSettings $scheduledTaskSettings -computers $ComputerName -credential $Credential -useCredSsp $UseCredSsp
 	}
 
 	Begin
 	{
-		function Invoke-InstallWindowsScheduledTaskOnComputers([hashtable] $scheduledTaskSettings, [string[]] $computers, [PSCredential] $credential)
+		function Invoke-InstallWindowsScheduledTaskOnComputers([hashtable] $scheduledTaskSettings, [string[]] $computers, [PSCredential] $credential, [bool] $useCredSsp)
 		{
-			[bool] $noComputersWereSpecified = ($computers -eq $null -or $computers.Count -eq 0)
-			[bool] $noCredentialWasSpecified = ($credential -eq $null)
+			[bool] $noComputersWereSpecified = ($null -eq $computers -or $computers.Count -eq 0)
+			[bool] $noCredentialWasSpecified = ($null -eq $credential)
 
+			# If we are connecting to localhost, we don't need to worry about CredSSP.
 			if ($noComputersWereSpecified)
 			{
 				if ($noCredentialWasSpecified)
@@ -92,11 +92,25 @@ function Install-WindowsScheduledTask
 			{
 				if ($noCredentialWasSpecified)
 				{
-					Invoke-Command -ComputerName $computers -ScriptBlock $installScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Verbose
+					if ($useCredSsp)
+					{
+						Invoke-Command -ComputerName $computers -ScriptBlock $installScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Authentication Credssp -Verbose
+					}
+					else
+					{
+						Invoke-Command -ComputerName $computers -ScriptBlock $installScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Verbose
+					}
 				}
 				else
 				{
-					Invoke-Command -ComputerName $computers -Credential $credential -ScriptBlock $installScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Verbose
+					if ($useCredSsp)
+					{
+						Invoke-Command -ComputerName $computers -Credential $credential -ScriptBlock $installScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Authentication Credssp -Verbose
+					}
+					else
+					{
+						Invoke-Command -ComputerName $computers -Credential $credential -ScriptBlock $installScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Verbose
+					}
 				}
 			}
 		}
