@@ -3,6 +3,9 @@ Process
 	Install-ScheduledTask -scheduledTaskParameters $InlineAtStartupScheduledTaskParameters
 
 	Uninstall-ScheduledTask -scheduledTaskParameters $InlineAtStartupScheduledTaskParameters
+
+	# Ensure all test tasks are uninstalled to keep everything nice and clean.
+	Uninstall-AllTestScheduledTasks
 }
 
 Begin
@@ -46,6 +49,14 @@ Begin
 			Username = $scheduledTaskParameters.Username
 			Password = $scheduledTaskParameters.Password
 			UseCredSsp = $scheduledTaskParameters.UseCredSsp
+		}
+		Invoke-Expression -Command "& $UninstallScheduledTaskEntryPointScriptPath @uninstallTaskParameters"
+	}
+
+	function Uninstall-AllTestScheduledTasks
+	{
+		$uninstallTaskParameters = @{
+			ScheduledTaskFullName = "$CommonScheduledTaskPath*"
 		}
 		Invoke-Expression -Command "& $UninstallScheduledTaskEntryPointScriptPath @uninstallTaskParameters"
 	}
