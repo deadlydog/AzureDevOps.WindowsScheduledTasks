@@ -1,4 +1,5 @@
 # Import the module to test.
+Set-StrictMode -Version Latest
 [string] $THIS_SCRIPTS_PATH = $PSCommandPath
 [string] $moduleFilePathToTest = $THIS_SCRIPTS_PATH.Replace('.Tests.ps1', '.psm1') | Resolve-Path
 Write-Verbose "Importing the module file '$moduleFilePathToTest' to run tests against it." -Verbose
@@ -182,7 +183,7 @@ Describe 'Get-ScheduledTaskAction' {
 				else { $result.Arguments | Should -Be $expectedApplicationArguments }
 
 				if ([string]::IsNullOrWhiteSpace($expectedWorkingDirectory))
-				{ $results.WorkingDirectory | Should -BeNullOrEmpty }
+				{ $result.WorkingDirectory | Should -BeNullOrEmpty }
 				else
 				{ $result.WorkingDirectory | Should -Be $expectedWorkingDirectory }
 			}
