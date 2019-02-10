@@ -120,7 +120,7 @@ Process
 	[string[]] $computers = Get-ComputersToConnectToOrNull -computerNames $ComputerNames
 	[PSCredential] $credential = Convert-UsernameAndPasswordToCredentialsOrNull -username $Username -password $Password
 
-	[hashtable] $accountCredentialsToRunScheduledTaskAs = Get-AccountCredentialsToRunScheduledTaskAs -scheduldTaskAccountToRunAsOptions $ScheduldTaskAccountToRunAsOptions -customAccountToRunScheduledTaskAsUsername $CustomAccountToRunScheduledTaskAsUsername -customAccountToRunScheduledTaskAsPassword $CustomAccountToRunScheduledTaskAsPassword
+	[hashtable] $accountCredentialsToRunScheduledTaskAs = Get-AccountCredentialsToRunScheduledTaskAs -scheduldTaskAccountToRunAsOptions $ScheduledTaskAccountToRunAsOptions -customAccountToRunScheduledTaskAsUsername $CustomAccountToRunScheduledTaskAsUsername -customAccountToRunScheduledTaskAsPassword $CustomAccountToRunScheduledTaskAsPassword
 
 	[hashtable] $taskNameAndPath = Get-ScheduledTaskNameAndPath -fullTaskName $ScheduledTaskName
 
