@@ -3,10 +3,10 @@ Process
 	Install-ScheduledTask -scheduledTaskParameters $InlineAtStartupScheduledTaskParameters
 	Install-ScheduledTask -scheduledTaskParameters $XmlAtStartupScheduledTaskParameters
 
-	# Uninstall-ScheduledTask -scheduledTaskParameters $InlineAtStartupScheduledTaskParameters
+	Uninstall-ScheduledTask -scheduledTaskParameters $InlineAtStartupScheduledTaskParameters
 
-	# # Ensure all test tasks are uninstalled to keep everything nice and clean.
-	# Uninstall-AllTestScheduledTasks
+	# Ensure all test tasks are uninstalled to keep everything nice and clean.
+	Uninstall-AllTestScheduledTasks
 }
 
 Begin
