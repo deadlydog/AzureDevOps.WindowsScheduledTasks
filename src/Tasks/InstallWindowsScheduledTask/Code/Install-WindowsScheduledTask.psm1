@@ -148,16 +148,17 @@ function Install-WindowsScheduledTask
 			Write-Verbose "Connected to computer '$computerName' as user '$username'. It is running operating system '$operatingSystemVersion' and PowerShell version '$powerShellVersion'." -Verbose
 
 			[bool] $installUsingXmlFile = !([string]::IsNullOrWhiteSpace($scheduledTaskSettings.Xml))
+			[string] $taskPathAndName = $scheduledTaskSettings.ScheduledTaskPath + $scheduledTaskSettings.ScheduledTaskName
 
 			$scheduledTask = $null
 			if ($installUsingXmlFile)
 			{
-				Write-Verbose "Installing Scheduled Task using specifed XML definition." -Verbose
+				Write-Output "Installing Scheduled Task '$taskPathAndName' using specifed XML definition." -Verbose
 				$scheduledTask = Register-ScheduledTask -TaskName $scheduledTaskSettings.ScheduledTaskName -TaskPath $scheduledTaskSettings.ScheduledTaskPath -User $scheduledTaskSettings.AccountToRunScheduledTaskAsUsername -Password $scheduledTaskSettings.AccountToRunScheduledTaskAsPassword -Force -Xml $scheduledTaskSettings.Xml
 			}
 			else
 			{
-				Write-Verbose "Installing Scheduled Task using inline definition." -Verbose
+				Write-Output "Installing Scheduled Task '$taskPathAndName' using inline definition." -Verbose
 				$scheduledTask = Register-ScheduledTask -TaskName $scheduledTaskSettings.ScheduledTaskName -TaskPath $scheduledTaskSettings.ScheduledTaskPath -User $scheduledTaskSettings.AccountToRunScheduledTaskAsUsername -Password $scheduledTaskSettings.AccountToRunScheduledTaskAsPassword -Force -Description $scheduledTaskSettings.ScheduledTaskDescription -Action $scheduledTaskSettings.ScheduledTaskAction -Settings $scheduledTaskSettings.ScheduledTaskSettings -Trigger $scheduledTaskSettings.ScheduledTaskTrigger -RunLevel $scheduledTaskSettings.ScheduledTaskRunLevel
 			}
 
