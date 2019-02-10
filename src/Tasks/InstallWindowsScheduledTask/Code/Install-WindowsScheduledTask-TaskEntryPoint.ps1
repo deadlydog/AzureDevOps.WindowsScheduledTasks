@@ -126,7 +126,7 @@ Process
 
 	if ($ScheduledTaskDefinitionSource -eq 'ImportFromXmlFile')
 	{
-		Install-WindowsScheduledTask -XmlFilePath $ScheduledTaskXmlFileToImportFrom -ScheduledTaskName $taskNameAndPath.Name -ScheduledTaskPath $taskNameAndPath.Path -AccountUsernameToRunScheduledTaskAs $accountCredentialsToRunScheduledTaskAs.Username -AccountPasswordToRunScheduledTaskAs $accountCredentialsToRunScheduledTaskAs.Password -ShouldScheduledTaskRunAfterInstall $ShouldScheduledTaskRunAfterInstall -ComputerName $computers -Credential $credential -UseCredSsp $UseCredSsp -Verbose
+		Install-WindowsScheduledTask -XmlFilePath $ScheduledTaskXmlFileToImportFrom -ScheduledTaskName $taskNameAndPath.Name -ScheduledTaskPath $taskNameAndPath.Path -AccountToRunScheduledTaskAsUsername $accountCredentialsToRunScheduledTaskAs.Username -AccountToRunScheduledTaskAsPassword $accountCredentialsToRunScheduledTaskAs.Password -ShouldScheduledTaskRunAfterInstall $ShouldScheduledTaskRunAfterInstall -ComputerName $computers -Credential $credential -UseCredSsp $UseCredSsp -Verbose
 		return
 	}
 
@@ -140,7 +140,7 @@ Process
 
 	$scheduledTaskRunLevel = Get-ScheduledTaskRunLevel -shouldScheduledTaskRunWithHighestPrivileges $ShouldScheduledTaskRunWithHighestPrivileges
 
-	Install-WindowsScheduledTask -ScheduledTaskName $taskNameAndPath.Name -ScheduledTaskPath $taskNameAndPath.Path -AccountUsernameToRunScheduledTaskAs $accountCredentialsToRunScheduledTaskAs.Username -AccountPasswordToRunScheduledTaskAs $accountCredentialsToRunScheduledTaskAs.Password -ScheduledTaskDescription $ScheduledTaskDescription -ScheduledTaskAction $scheduledTaskAction -ScheduledTaskSettings $scheduledTaskSettings -ScheduledTaskTrigger $scheduledTaskTrigger -ScheduledTaskRunLevel $scheduledTaskRunLevel -ShouldScheduledTaskRunAfterInstall $ShouldScheduledTaskRunAfterInstall -ComputerName $computers -Credential $credential -UseCredSsp $UseCredSsp -Verbose
+	Install-WindowsScheduledTask -ScheduledTaskName $taskNameAndPath.Name -ScheduledTaskPath $taskNameAndPath.Path -AccountToRunScheduledTaskAsUsername $accountCredentialsToRunScheduledTaskAs.Username -AccountToRunScheduledTaskAsPassword $accountCredentialsToRunScheduledTaskAs.Password -ScheduledTaskDescription $ScheduledTaskDescription -ScheduledTaskAction $scheduledTaskAction -ScheduledTaskSettings $scheduledTaskSettings -ScheduledTaskTrigger $scheduledTaskTrigger -ScheduledTaskRunLevel $scheduledTaskRunLevel -ShouldScheduledTaskRunAfterInstall $ShouldScheduledTaskRunAfterInstall -ComputerName $computers -Credential $credential -UseCredSsp $UseCredSsp -Verbose
 }
 
 Begin
