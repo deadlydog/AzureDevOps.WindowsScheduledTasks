@@ -140,7 +140,7 @@ Process
 
 	$scheduledTaskRunLevel = Get-ScheduledTaskRunLevel -shouldScheduledTaskRunWithHighestPrivileges $ShouldScheduledTaskRunWithHighestPrivileges
 
-	Install-WindowsScheduledTask -ScheduledTaskName $taskNameAndPath.Name -ScheduledTaskPath $taskNameAndPath.Path -AccountCredentialsToRunScheduledTaskAs $accountCredentialsToRunScheduledTaskAs -ScheduledTaskAction $scheduledTaskAction -ScheduledTaskDescription $ScheduledTaskDescription -ScheduledTaskSettings $scheduledTaskSettings -ScheduledTaskTrigger $scheduledTaskTrigger -ScheduledTaskRunLevel $scheduledTaskRunLevel -ComputerName $computers -Credential $credential
+	Install-WindowsScheduledTask -ScheduledTaskName $taskNameAndPath.Name -ScheduledTaskPath $taskNameAndPath.Path -AccountCredentialsToRunScheduledTaskAs $accountCredentialsToRunScheduledTaskAs -ScheduledTaskDescription $ScheduledTaskDescription -ScheduledTaskAction $scheduledTaskAction -ScheduledTaskSettings $scheduledTaskSettings -ScheduledTaskTrigger $scheduledTaskTrigger -ScheduledTaskRunLevel $scheduledTaskRunLevel -ComputerName $computers -Credential $credential
 }
 
 Begin
