@@ -148,7 +148,8 @@ function Get-ScheduledTaskTrigger
 						if ($shouldDateTimeScheduleFrequencyWeeklyRunOnFridays) { $daysOfTheWeekToRunOn += [System.DayOfWeek]::Friday }
 						if ($shouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays) { $daysOfTheWeekToRunOn += [System.DayOfWeek]::Saturday }
 						if ($shouldDateTimeScheduleFrequencyWeeklyRunOnSundays) { $daysOfTheWeekToRunOn += [System.DayOfWeek]::Sunday }
-						$createTriggerExpression += " -DaysOfWeek $daysOfTheWeekToRunOn"
+						[string] $daysOfTheWeekToRunOnString = $daysOfTheWeekToRunOn -join ','
+						$createTriggerExpression += " -DaysOfWeek $daysOfTheWeekToRunOnString"
 					}
 				}
 			}

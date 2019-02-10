@@ -374,7 +374,7 @@ Describe 'Get-ScheduledTaskTrigger' {
 				scheduleStartTimeRandomDelayInMinutes = ''
 				expectExceptionToBeThrown = $false
 			}
-			@{	testDescription = 'When all parameters are provided with valid values for a Weekly frequency and specific days are specified, it should not throw an exception.'
+			@{	testDescription = 'When all parameters are provided with valid values for a Weekly frequency and a weekday is specified, it should not throw an exception.'
 				triggerType = 'DateTime'
 				dateTimeScheduleStartTime = $validDateTimeStartTime
 				dateTimeScheduleFrequencyOptions = 'Weekly'
@@ -385,7 +385,18 @@ Describe 'Get-ScheduledTaskTrigger' {
 				scheduleStartTimeRandomDelayInMinutes = ''
 				expectExceptionToBeThrown = $false
 			}
-			@{	testDescription = 'When a Weekly frequency for specific days are specified, but no days are specified it should throw an exception.'
+			@{	testDescription = 'When all parameters are provided with valid values for a Weekly frequency and several weekdays are specified, it should not throw an exception.'
+				triggerType = 'DateTime'
+				dateTimeScheduleStartTime = $validDateTimeStartTime
+				dateTimeScheduleFrequencyOptions = 'Weekly'
+				dateTimeScheduleFrequencyDailyInterval = ''
+				dateTimeScheduleFrequencyWeeklyInterval = '1'
+				shouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = $true; shouldDateTimeScheduleFrequencyWeeklyRunOnMondays = $true; shouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays = $true; shouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays = $true; shouldDateTimeScheduleFrequencyWeeklyRunOnThursdays = $true; shouldDateTimeScheduleFrequencyWeeklyRunOnFridays = $true; shouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays = $true; shouldDateTimeScheduleFrequencyWeeklyRunOnSundays = $true;
+				shouldScheduledTaskRunRepeatedly = $false; scheduleRepetitionIntervalInMinutes = ''; scheduleRepetitionDurationInMinutes = ''
+				scheduleStartTimeRandomDelayInMinutes = ''
+				expectExceptionToBeThrown = $false
+			}
+			@{	testDescription = 'When a Weekly frequency set to run multiple days a week is specified, but no days are specified it should throw an exception.'
 				triggerType = 'DateTime'
 				dateTimeScheduleStartTime = $validDateTimeStartTime
 				dateTimeScheduleFrequencyOptions = 'Weekly'
