@@ -1,6 +1,15 @@
 Process
 {
-	Install-ScheduledTask -scheduledTaskParameters $InlineAtStartupScheduledTaskParameters
+	Describe 'Installing Scheduled Tasks' {
+		It 'Should install the Scheduled Task successfully' {
+			Install-ScheduledTask -scheduledTaskParameters $InlineAtStartupScheduledTaskParameters
+
+			$scheduledTask = Get-ScheduledTaskByFullName -taskFullName $InlineAtStartupScheduledTaskParameters.ScheduledTaskFullName
+
+			$scheduledTask | Should -Not -BeNullOrEmpty
+		}
+	}
+
 	Install-ScheduledTask -scheduledTaskParameters $XmlAtStartupScheduledTaskParameters
 
 	Uninstall-ScheduledTask -scheduledTaskParameters $InlineAtStartupScheduledTaskParameters
@@ -44,6 +53,14 @@ Begin
 		throw "Could not locate the '$uninstallScheduledTaskEntryPointScriptName' file."
 	}
 
+	[string] $userInputToScheduledTaskMapperScriptName = 'UserInputToScheduledTaskMapper.psm1'
+	[string] $userInputToScheduledTaskMapperScriptPath = Get-ChildItem -Path $srcDirectoryPath -Recurse -Force -File -Include $userInputToScheduledTaskMapperScriptName | Select-Object -First 1 -ExpandProperty FullName
+	if ([string]::IsNullOrWhiteSpace($userInputToScheduledTaskMapperScriptPath))
+	{
+		throw "Could not locate the '$userInputToScheduledTaskMapperScriptName' file."
+	}
+	Import-Module -Name $userInputToScheduledTaskMapperScriptPath -Force
+
 	function Install-ScheduledTask([hashtable] $scheduledTaskParameters)
 	{
 		Invoke-Expression -Command "& $InstallScheduledTaskEntryPointScriptPath @scheduledTaskParameters"
@@ -67,6 +84,13 @@ Begin
 			ScheduledTaskFullName = "$CommonScheduledTaskPath*"
 		}
 		Invoke-Expression -Command "& $UninstallScheduledTaskEntryPointScriptPath @uninstallTaskParameters"
+	}
+
+	function Get-ScheduledTaskByFullName([string] $taskFullName)
+	{
+		$taskPathAndName = Get-ScheduledTaskNameAndPath -fullTaskName $taskFullName
+		$scheduledTask = Get-ScheduledTask -TaskPath $taskPathAndName.Path -TaskName $taskPathAndName.Name
+		return $scheduledTask
 	}
 
 	# This template is intended to be cloned for creating new Scheduled Task definitions, as it has all possible parameters defined for you.
