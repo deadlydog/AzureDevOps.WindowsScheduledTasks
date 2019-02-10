@@ -143,7 +143,7 @@ function Install-WindowsScheduledTask
 			[string] $powerShellVersion = $PSVersionTable.PSVersion
 			Write-Verbose "Connected to computer '$computerName' as user '$username'. It is running operating system '$operatingSystemVersion' and PowerShell version '$powerShellVersion'." -Verbose
 
-			[bool] $installUsingXmlFile = ![string]::IsNullOrWhiteSpace($scheduledTaskSettings.Xml)
+			[bool] $installUsingXmlFile = !([string]::IsNullOrWhiteSpace($scheduledTaskSettings.Xml))
 
 			$scheduledTask = $null
 			if ($installUsingXmlFile)
