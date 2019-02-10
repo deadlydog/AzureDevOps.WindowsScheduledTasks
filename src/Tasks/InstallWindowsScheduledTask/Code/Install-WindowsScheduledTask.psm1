@@ -27,19 +27,19 @@ function Install-WindowsScheduledTask
 		[string] $ScheduledTaskDescription,
 
 		[parameter(ParameterSetName="Inline",Mandatory=$true,HelpMessage="The Scheduled Task action.")]
-		[ValidateNotNull]
+		[ValidateNotNull()]
 		[CimInstance[]] $ScheduledTaskAction,
 
 		[parameter(ParameterSetName="Inline",Mandatory=$true,HelpMessage="The Scheduled Task settings.")]
-		[ValidateNotNull]
+		[ValidateNotNull()]
 		[CimInstance] $ScheduledTaskSettings,
 
 		[parameter(ParameterSetName="Inline",Mandatory=$true,HelpMessage="The Scheduled Task trigger.")]
-		[ValidateNotNull]
+		[ValidateNotNull()]
 		[CimInstance[]] $ScheduledTaskTrigger,
 
 		[parameter(ParameterSetName="Inline",Mandatory=$true,HelpMessage="The Scheduled Task run level (i.e. admin or regular user).")]
-		[ValidateNotNullOrEmpty]
+		[ValidateNotNullOrEmpty()]
 		[string] $ScheduledTaskRunLevel,
 
 		[parameter(Mandatory=$false,HelpMessage="If the Scheduled Task should be ran immediately after installation or not.")]
