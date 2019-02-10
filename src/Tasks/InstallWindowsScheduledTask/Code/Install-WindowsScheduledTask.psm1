@@ -13,9 +13,12 @@ function Install-WindowsScheduledTask
 		[ValidateNotNullOrEmpty()]
 		[string] $ScheduledTaskPath,
 
-		[parameter(Mandatory=$true,HelpMessage="The account that should be used to run the Scheduled Task.")]
+		[parameter(Mandatory=$true,HelpMessage="The username of the account that should be used to run the Scheduled Task.")]
 		[ValidateNotNull()]
-		[PSCredential] $AccountCredentialsToRunScheduledTaskAs,
+		[string] $AccountUsernameToRunScheduledTaskAs,
+
+		[parameter(Mandatory=$false,HelpMessage="The password of the account that should be used to run the Scheduled Task.")]
+		[string] $AccountPasswordToRunScheduledTaskAs,
 
 		[parameter(ParameterSetName="Xml",Mandatory=$true,HelpMessage="The path to the XML file containing the Scheduled Task definition.")]
 		[string] $XmlFilePath,
@@ -54,11 +57,14 @@ function Install-WindowsScheduledTask
 
 	Process
 	{
+		[string] $xml = Get-XmlStringFromFile -xmlFilePath $XmlFilePath
+
 		[hashtable] $scheduledTaskSettings = @{
 			ScheduledTaskName = $ScheduledTaskName
 			ScheduledTaskDescription = $ScheduledTaskDescription
-			AccountCredentialsToRunScheduledTaskAs = $AccountCredentialsToRunScheduledTaskAs
-			XmlFilePath = $XmlFilePath
+			AccountUsernameToRunScheduledTaskAs = $AccountUsernameToRunScheduledTaskAs
+			AccountPasswordToRunScheduledTaskAs = $AccountPasswordToRunScheduledTaskAs
+			Xml = $xml
 			ScheduledTaskAction = $ScheduledTaskAction
 			ScheduledTaskSettings = $ScheduledTaskSettings
 			ScheduledTaskTrigger = $ScheduledTaskTrigger
@@ -71,6 +77,20 @@ function Install-WindowsScheduledTask
 
 	Begin
 	{
+		function Get-XmlStringFromFile([string] $xmlFilePath)
+		{
+			[string] $xml = [string]::Empty
+			if (![string]::IsNullOrWhiteSpace($XmlFilePath))
+			{
+				if (!(Test-Path -Path $XmlFilePath -PathType Leaf))
+				{
+					throw "Could not find the specified XML file '$xmlFilePath' to read the Scheduled Task definition from."
+				}
+
+				$xml = Get-Content -Path $XmlFilePath -Raw
+			}
+		}
+
 		function Invoke-InstallWindowsScheduledTaskOnComputers([hashtable] $scheduledTaskSettings, [string[]] $computers, [PSCredential] $credential, [bool] $useCredSsp)
 		{
 			[bool] $noComputersWereSpecified = ($null -eq $computers -or $computers.Count -eq 0)
@@ -123,45 +143,24 @@ function Install-WindowsScheduledTask
 			[string] $powerShellVersion = $PSVersionTable.PSVersion
 			Write-Verbose "Connected to computer '$computerName' as user '$username'. It is running operating system '$operatingSystemVersion' and PowerShell version '$powerShellVersion'." -Verbose
 
-			$taskName = $scheduledTaskSettings.TaskName
-			$applicationPathToRun = $scheduledTaskSettings.ApplicationPathToRun
-			if (!(Test-Path -Path $applicationPathToRun -PathType Leaf))
+			[bool] $installUsingXmlFile = ![string]::IsNullOrWhiteSpace($scheduledTaskSettings.Xml)
+
+			$scheduledTask = $null
+			if ($installUsingXmlFile)
 			{
-				Write-Error "The Scheduled Task '$taskName' was not installed on computer '$computerName' because the file path '$applicationPathToRun' that it should launch does not exist."
-				return
+				Write-Verbose "Installing Scheduled Task using specifed XML definition." -Verbose
+				$scheduledTask = Register-ScheduledTask -TaskName $scheduledTaskSettings.ScheduledTaskName -TaskPath $scheduledTaskSettings.ScheduledTaskPath -User $scheduledTaskSettings.AccountUsernameToRunScheduledTaskAs -Password $scheduledTaskSettings.AccountPasswordToRunScheduledTaskAs -Force -Xml $scheduledTaskSettings.Xml
 			}
-
-			[bool] $noArguments = [string]::IsNullOrWhiteSpace($scheduledTaskSettings.ApplicationArguments) -or [string]::Equals($scheduledTaskSettings.ApplicationArguments, 'None', [StringComparison]::OrdinalIgnoreCase)
-			if ($noArguments)
+			else
 			{
-				$scheduledTaskSettings.ApplicationArguments = ' '	# Empty Argument parameter results in error, so fill it with a meaningless space value.
+				Write-Verbose "Installing Scheduled Task using inline definition." -Verbose
+				$scheduledTask = Register-ScheduledTask -TaskName $scheduledTaskSettings.ScheduledTaskName -TaskPath $scheduledTaskSettings.ScheduledTaskPath -User $scheduledTaskSettings.AccountUsernameToRunScheduledTaskAs -Password $scheduledTaskSettings.AccountPasswordToRunScheduledTaskAs -Force -Description $scheduledTaskSettings.ScheduledTaskDescription -Action $scheduledTaskSettings.ScheduledTaskAction -Settings $scheduledTaskSettings.ScheduledTaskSettings -Trigger $scheduledTaskSettings.ScheduledTaskTrigger -RunLevel $scheduledTaskSettings.ScheduledTaskRunLevel
 			}
-
-			[string] $applicationDirectory = Split-Path -Path $applicationPathToRun -Parent
-			[TimeSpan] $startTimeRandomDelay = [TimeSpan]::FromMinutes($scheduledTaskSettings.ScheduleStartTimeRandomDelayInMinutes)
-			[TimeSpan] $repeatInterval = [TimeSpan]::FromMinutes($scheduledTaskSettings.ScheduleRepeatIntervalInMinutes)
-			[TimeSpan] $repeatIntervalDuration = [TimeSpan]::FromMinutes($scheduledTaskSettings.ScheduleRepeatIntervalDurationInMinutes)
-
-			[string] $frequency = $scheduledTaskSettings.ScheduleFrequency
-			[DateTime] $startTime = [DateTime]::Parse($scheduledTaskSettings.ScheduleStartTime)
-			[string] $createTriggerCommand = "New-ScheduledTaskTrigger -$frequency -At '$startTime' -RandomDelay $startTimeRandomDelay"
-
-			$action = New-ScheduledTaskAction -Execute $applicationPathToRun -Argument $scheduledTaskSettings.ApplicationArguments -WorkingDirectory $applicationDirectory
-			$trigger = (Invoke-Expression -Command $createTriggerCommand)
-			$userToRunAs = "NETWORK SERVICE"
-
-			Write-Host "Creating Scheduled Task '$taskName' on computer '$computerName'."
-			$task = Register-ScheduledTask -TaskName $taskName -Description $scheduledTaskSettings.TaskDescription -Action $action -Trigger $trigger -User $userToRunAs
-
-			Write-Host "Updating Scheduled Task '$taskName' on computer '$computerName' to apply repeat interval."
-			$task.Triggers.Repetition.Interval = [System.Xml.XmlConvert]::ToString($repeatInterval)
-			$task.Triggers.Repetition.Duration = [System.Xml.XmlConvert]::ToString($repeatIntervalDuration)
-			$task | Set-ScheduledTask
 
 			if ($scheduledTaskSettings.ShouldRunScheduledTaskAfterInstallation)
 			{
-				Write-Host "Triggering the Scheduled Task '$taskName' on computer '$computerName' to run now."
-				$task | Start-ScheduledTask
+				Write-Verbose "Triggering the Scheduled Task '$taskName' on computer '$computerName' to run now." -Verbose
+				$scheduledTask | Start-ScheduledTask
 			}
 		}
 	}
