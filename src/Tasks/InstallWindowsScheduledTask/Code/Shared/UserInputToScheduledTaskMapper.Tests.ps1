@@ -304,7 +304,7 @@ Describe 'Get-ScheduledTaskTrigger' {
 
 	Context 'When using an At Startup trigger' {
 		[hashtable[]] $tests = @(
-			@{	testDescription = 'When all parameters are provided with valid values, it should have the specified values.'
+			@{	testDescription = 'When all parameters are provided with valid values, it should not throw an exception.'
 				triggerType = 'AtStartup'
 				shouldScheduledTaskRunRepeatedly = $false; scheduleRepetitionIntervalInMinutes = ''; scheduleRepetitionDurationInMinutes = ''
 				scheduleStartTimeRandomDelayInMinutes = ''
@@ -325,7 +325,7 @@ Describe 'Get-ScheduledTaskTrigger' {
 
 	Context 'When using an At Logon trigger' {
 		[hashtable[]] $tests = @(
-			@{	testDescription = 'When all parameters are provided with valid values, it should have the specified values.'
+			@{	testDescription = 'When all parameters are provided with valid values, it should not throw an exception.'
 				triggerType = 'AtLogOn'
 				atLogOnTriggerUsername = $validAtLogOnUsername
 				shouldScheduledTaskRunRepeatedly = $false; scheduleRepetitionIntervalInMinutes = ''; scheduleRepetitionDurationInMinutes = ''
@@ -340,24 +340,67 @@ Describe 'Get-ScheduledTaskTrigger' {
 	}
 
 	Context 'When using a Date Time trigger' {
-		# [hashtable[]] $tests = @(
-		# 	@{	testDescription = 'When all parameters are provided with valid values, it should have the specified values.'
-		# 		triggerType = 'DateTime'
-		# 		atLogOnTriggerUsername = $validAtLogOnUsername
-		# 		dateTimeScheduleStartTime = $validDateTimeStartTime
-		# 		dateTimeScheduleFrequencyOptions = 'Once', 'Daily', 'Weekly'
-		# 		dateTimeScheduleFrequencyDailyInterval =
-		# 		dateTimeScheduleFrequencyWeeklyInterval =
-		# 		shouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = ; shouldDateTimeScheduleFrequencyWeeklyRunOnMondays = ; shouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays = ;shouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays = ; shouldDateTimeScheduleFrequencyWeeklyRunOnThursdays = ; shouldDateTimeScheduleFrequencyWeeklyRunOnFridays = ; shouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays = ; shouldDateTimeScheduleFrequencyWeeklyRunOnSundays = ;
-		# 		shouldScheduledTaskRunRepeatedly = ; scheduleRepetitionIntervalInMinutes = ; scheduleRepetitionDurationInMinutes =
-		# 		scheduleStartTimeRandomDelayInMinutes =
-		# 		expectExceptionToBeThrown = $false
-		# 	}
-		# )
-		# $tests | ForEach-Object {
-		# 	[hashtable] $parameters = $_
-		# 	Assert-GetScheduledTaskTriggerReturnsCorrectResult @parameters
-		# }
+		[hashtable[]] $tests = @(
+			@{	testDescription = 'When all parameters are provided with valid values for a Once frequency, it should not throw an exception.'
+				triggerType = 'DateTime'
+				dateTimeScheduleStartTime = $validDateTimeStartTime
+				dateTimeScheduleFrequencyOptions = 'Once'
+				dateTimeScheduleFrequencyDailyInterval = ''
+				dateTimeScheduleFrequencyWeeklyInterval = ''
+				shouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnMondays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays = $false;shouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnThursdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnFridays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnSundays = $false;
+				shouldScheduledTaskRunRepeatedly = $false; scheduleRepetitionIntervalInMinutes = ''; scheduleRepetitionDurationInMinutes = ''
+				scheduleStartTimeRandomDelayInMinutes = ''
+				expectExceptionToBeThrown = $false
+			}
+			@{	testDescription = 'When all parameters are provided with valid values for a Daily frequency, it should not throw an exception.'
+				triggerType = 'DateTime'
+				dateTimeScheduleStartTime = $validDateTimeStartTime
+				dateTimeScheduleFrequencyOptions = 'Daily'
+				dateTimeScheduleFrequencyDailyInterval = '1'
+				dateTimeScheduleFrequencyWeeklyInterval = ''
+				shouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnMondays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays = $false;shouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnThursdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnFridays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnSundays = $false;
+				shouldScheduledTaskRunRepeatedly = $false; scheduleRepetitionIntervalInMinutes = ''; scheduleRepetitionDurationInMinutes = ''
+				scheduleStartTimeRandomDelayInMinutes = ''
+				expectExceptionToBeThrown = $false
+			}
+			@{	testDescription = 'When all parameters are provided with valid values for a Weekly frequency, it should not throw an exception.'
+				triggerType = 'DateTime'
+				dateTimeScheduleStartTime = $validDateTimeStartTime
+				dateTimeScheduleFrequencyOptions = 'Weekly'
+				dateTimeScheduleFrequencyDailyInterval = ''
+				dateTimeScheduleFrequencyWeeklyInterval = '1'
+				shouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnMondays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnThursdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnFridays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnSundays = $false;
+				shouldScheduledTaskRunRepeatedly = $false; scheduleRepetitionIntervalInMinutes = ''; scheduleRepetitionDurationInMinutes = ''
+				scheduleStartTimeRandomDelayInMinutes = ''
+				expectExceptionToBeThrown = $false
+			}
+			@{	testDescription = 'When all parameters are provided with valid values for a Weekly frequency and specific days are specified, it should not throw an exception.'
+				triggerType = 'DateTime'
+				dateTimeScheduleStartTime = $validDateTimeStartTime
+				dateTimeScheduleFrequencyOptions = 'Weekly'
+				dateTimeScheduleFrequencyDailyInterval = ''
+				dateTimeScheduleFrequencyWeeklyInterval = '1'
+				shouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = $true; shouldDateTimeScheduleFrequencyWeeklyRunOnMondays = $true; shouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnThursdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnFridays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnSundays = $false;
+				shouldScheduledTaskRunRepeatedly = $false; scheduleRepetitionIntervalInMinutes = ''; scheduleRepetitionDurationInMinutes = ''
+				scheduleStartTimeRandomDelayInMinutes = ''
+				expectExceptionToBeThrown = $false
+			}
+			@{	testDescription = 'When a Weekly frequency for specific days are specified, but no days are specified it should throw an exception.'
+				triggerType = 'DateTime'
+				dateTimeScheduleStartTime = $validDateTimeStartTime
+				dateTimeScheduleFrequencyOptions = 'Weekly'
+				dateTimeScheduleFrequencyDailyInterval = ''
+				dateTimeScheduleFrequencyWeeklyInterval = '1'
+				shouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = $true; shouldDateTimeScheduleFrequencyWeeklyRunOnMondays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnThursdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnFridays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnSundays = $false;
+				shouldScheduledTaskRunRepeatedly = $false; scheduleRepetitionIntervalInMinutes = ''; scheduleRepetitionDurationInMinutes = ''
+				scheduleStartTimeRandomDelayInMinutes = ''
+				expectExceptionToBeThrown = $true
+			}
+		)
+		$tests | ForEach-Object {
+			[hashtable] $parameters = $_
+			Assert-GetScheduledTaskTriggerReturnsCorrectResult @parameters
+		}
 	}
 }
 
