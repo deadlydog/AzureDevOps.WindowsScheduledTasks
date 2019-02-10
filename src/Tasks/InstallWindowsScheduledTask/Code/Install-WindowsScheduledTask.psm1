@@ -61,6 +61,7 @@ function Install-WindowsScheduledTask
 
 		[hashtable] $scheduledTaskSettings = @{
 			ScheduledTaskName = $ScheduledTaskName
+			ScheduledTaskPath = $ScheduledTaskPath
 			ScheduledTaskDescription = $ScheduledTaskDescription
 			AccountToRunScheduledTaskAsUsername = $AccountToRunScheduledTaskAsUsername
 			AccountToRunScheduledTaskAsPassword = $AccountToRunScheduledTaskAsPassword
