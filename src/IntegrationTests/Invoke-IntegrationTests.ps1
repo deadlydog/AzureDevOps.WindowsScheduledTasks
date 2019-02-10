@@ -1,6 +1,7 @@
 Process
 {
 	Install-ScheduledTask -scheduledTaskParameters $InlineAtStartupScheduledTaskParameters
+	Install-ScheduledTask -scheduledTaskParameters $XmlAtStartupScheduledTaskParameters
 
 	Uninstall-ScheduledTask -scheduledTaskParameters $InlineAtStartupScheduledTaskParameters
 
@@ -15,12 +16,19 @@ Begin
 
 	# Global Variables
 	[string] $CommonScheduledTaskPath = '\WindowsScheduledTasksTests\'
+	[string] $XmlDefinitionsDirectoryPath = [string]::Empty # Populated dynamically below.
 	[string] $InstallScheduledTaskEntryPointScriptPath = [string]::Empty # Populated dynamically below.
 	[string] $UninstallScheduledTaskEntryPointScriptPath = [string]::Empty # Populated dynamically below.
 
 	# Build paths to the scripts to run.
 	[string] $THIS_SCRIPTS_DIRECTORY_PATH = $PSScriptRoot
 	[string] $srcDirectoryPath = Split-Path -Path $THIS_SCRIPTS_DIRECTORY_PATH -Parent
+
+	[string] $XmlDefinitionsDirectoryPath = Join-Path -Path $srcDirectoryPath -ChildPath 'IntegrationTests\ScheduledTaskXmlDefinitions'
+	if (!(Test-Path -Path $XmlDefinitionsDirectoryPath -PathType Container))
+	{
+		throw "Could not locate the TestData directory at the expected path '$XmlDefinitionsDirectoryPath'."
+	}
 
 	[string] $installScheduledTaskEntryPointScriptName = 'Install-WindowsScheduledTask-TaskEntryPoint.ps1'
 	[string] $InstallScheduledTaskEntryPointScriptPath = Get-ChildItem -Path $srcDirectoryPath -Recurse -Force -File -Include $installScheduledTaskEntryPointScriptName | Select-Object -First 1 -ExpandProperty FullName
@@ -104,6 +112,44 @@ Begin
 		ScheduledTaskDefinitionSource = 'Inline' # 'ImportFromXmlFile', 'Inline'
 		ScheduledTaskXmlFileToImportFrom = ''
 		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-InlineAtStartup')
+		ScheduledTaskDescription = 'A test task set to trigger At Startup.'
+		ApplicationPathToRun = 'C:\Dummy.exe'
+		ApplicationArguments = ''
+		WorkingDirectoryOptions = 'ApplicationDirectory' # 'ApplicationDirectory', 'CustomDirectory'
+		CustomWorkingDirectory = ''
+		ScheduleTriggerType = 'AtStartup' # 'DateTime', 'AtLogOn', 'AtStartup'
+		DateTimeScheduleStartTime = ''
+		DateTimeScheduleFrequencyOptions = 'Once' # 'Once', 'Daily', 'Weekly'
+		DateTimeScheduleFrequencyDailyInterval = ''
+		DateTimeScheduleFrequencyWeeklyInterval = ''
+		ShouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnMondays = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnThursday = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnFridays = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnSundays = $false
+		ShouldScheduledTaskRunRepeatedly = $false
+		ScheduleRepetitionIntervalInMinutes = ''
+		ScheduleRepetitionDurationInMinutes = ''
+		ScheduleStartTimeRandomDelayInMinutes = ''
+		ScheduledTaskAccountToRunAsOptions = 'LocalService' # 'System', 'LocalService', 'NetworkService', 'CustomAccount'
+		CustomAccountToRunScheduledTaskAsUsername = ''
+		CustomAccountToRunScheduledTaskAsPassword = ''
+		ShouldScheduledTaskBeEnabled = $true
+		ShouldScheduledTaskRunWithHighestPrivileges = $false
+		ShouldScheduledTaskRunAfterInstall = $false
+		ComputerNames = ''
+		Username = ''
+		Password = ''
+		UseCredSsp = $false
+	}
+
+	[hashtable] $XmlAtStartupScheduledTaskParameters = @{
+		ScheduledTaskDefinitionSource = 'ImportFromXmlFile' # 'ImportFromXmlFile', 'Inline'
+		ScheduledTaskXmlFileToImportFrom = Join-Path -Path $XmlDefinitionsDirectoryPath -ChildPath 'AtStartup.xml'
+		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-XmlAtStartup')
 		ScheduledTaskDescription = 'A test task set to trigger At Startup.'
 		ApplicationPathToRun = 'C:\Dummy.exe'
 		ApplicationArguments = ''
