@@ -77,6 +77,9 @@ function Install-WindowsScheduledTask
 
 	Begin
 	{
+		# Turn on Strict Mode to help catch syntax-related errors.
+		Set-StrictMode -Version Latest
+
 		function Get-XmlStringFromFile([string] $xmlFilePath)
 		{
 			[string] $xml = [string]::Empty

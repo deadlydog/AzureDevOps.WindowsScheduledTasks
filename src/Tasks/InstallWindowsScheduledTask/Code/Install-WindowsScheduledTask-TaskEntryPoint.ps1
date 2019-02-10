@@ -145,6 +145,9 @@ Process
 
 Begin
 {
+	# Turn on Strict Mode to help catch syntax-related errors.
+	Set-StrictMode -Version Latest
+
 	# Display environmental information before doing anything else in case we encounter errors.
 	[string] $operatingSystemVersion = [System.Environment]::OSVersion
 	[string] $powerShellVersion = $PSVersionTable.PSVersion
