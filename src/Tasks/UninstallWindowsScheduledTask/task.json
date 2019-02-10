@@ -30,7 +30,7 @@
   ],
   "inputs": [
     {
-      "name": "ScheduledTaskName",
+      "name": "ScheduledTaskFullName",
       "type": "string",
       "label": "Scheduled Task Name",
       "required": true,

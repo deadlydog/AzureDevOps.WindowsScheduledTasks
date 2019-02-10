@@ -9,6 +9,10 @@ function Uninstall-WindowsScheduledTask
 		[ValidateNotNullOrEmpty()]
 		[string] $ScheduledTaskName,
 
+		[parameter(Mandatory=$true,HelpMessage="The path in the Task Scheduler of the Windows Scheduled Task to be uninstalled.")]
+		[ValidateNotNullOrEmpty()]
+		[string] $ScheduledTaskPath,
+
 		[parameter(Mandatory=$false,HelpMessage="List of the computer(s) to uninstall the scheduled task from. If null localhost will be used.")]
 		[string[]] $ComputerName,
 
@@ -22,7 +26,8 @@ function Uninstall-WindowsScheduledTask
 	Process
 	{
 		[hashtable] $scheduledTaskSettings = @{
-			TaskName = $ScheduledTaskName.Trim('\')
+			ScheduledTaskName = $ScheduledTaskName
+			ScheduledTaskPath = $ScheduledTaskPath
 		}
 
 		Invoke-UninstallWindowsScheduledTaskFromComputers -scheduledTaskSettings $scheduledTaskSettings -computers $ComputerName -credential $Credential -useCredSsp $UseCredSsp
@@ -64,28 +69,27 @@ function Uninstall-WindowsScheduledTask
 			[string] $powerShellVersion = $PSVersionTable.PSVersion
 			Write-Verbose "Connected to computer '$computerName' as user '$username'. It is running operating system '$operatingSystemVersion' and PowerShell version '$powerShellVersion'." -Verbose
 
-			$taskNameParts = $scheduledTaskSettings.TaskName -split '\\'
-			$taskName = $taskNameParts | Select-Object -Last 1
-			$taskPath = '\' + $scheduledTaskSettings.TaskName.Substring(0, $scheduledTaskSettings.TaskName.Length - $taskName.Length)
+			# # If the task path ends with a wildcard, remove the trailing slash so that tasks in the root directory will be included in the search as well.
+			# if ($taskPath.EndsWith('*\'))
+			# {
+			# 	$taskPath = $taskPath.TrimEnd('\')
+			# }
 
-			# If the task path ends with a wildcard, remove the trailing slash so that tasks in the root directory will be included in the search as well.
-			if ($taskPath.EndsWith('*\'))
-			{
-				$taskPath = $taskPath.TrimEnd('\')
-			}
+			[string] $taskName = $scheduledTaskSettings.ScheduledTaskName
+			[string] $taskPath = $scheduledTaskSettings.ScheduledTaskPath
+			[string] $taskPathAndName = $taskPath + $taskName
 
 			Write-Verbose "Searching for a Scheduled Task with the path '$taskPath' and name '$taskName'." -Verbose
 			$tasks = Get-ScheduledTask -TaskName $taskName -TaskPath $taskPath -ErrorAction SilentlyContinue
 			if ($tasks -eq $null)
 			{
-				Write-Warning "A scheduled task with the name '$($scheduledTaskSettings.TaskName)' was not found on computer '$computerName', so no scheduled tasks will be uninstalled."
+				Write-Warning "A scheduled task with the name '$taskPathAndName' was not found on computer '$computerName', so no scheduled tasks will be uninstalled."
 				return
 			}
 
 			foreach ($task in $tasks)
 			{
-				[string] $fullTaskName = $task.TaskPath + $task.TaskName
-				Write-Output "Uninstalling Scheduled Task '$fullTaskName' on computer '$computerName'."
+				Write-Output "Uninstalling Scheduled Task '$taskPathAndName' on computer '$computerName'."
 				$task | Disable-ScheduledTask > $null
 				$task | Stop-ScheduledTask
 				$task | Unregister-ScheduledTask -Confirm:$false

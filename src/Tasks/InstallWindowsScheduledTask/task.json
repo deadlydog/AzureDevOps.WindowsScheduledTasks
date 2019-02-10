@@ -53,7 +53,7 @@
       "groupName": "ScheduledTaskSettings"
     },
     {
-      "name": "ScheduledTaskName",
+      "name": "ScheduledTaskFullName",
       "type": "string",
       "label": "Scheduled Task Name",
       "visibleRule": "ScheduledTaskDefinitionSource = Inline",

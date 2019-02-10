@@ -1,4 +1,5 @@
 # Import the module to test.
+Set-StrictMode -Version Latest
 [string] $THIS_SCRIPTS_PATH = $PSCommandPath
 [string] $moduleFilePathToTest = $THIS_SCRIPTS_PATH.Replace('.Tests.ps1', '.psm1') | Resolve-Path
 Write-Verbose "Importing the module file '$moduleFilePathToTest' to run tests against it." -Verbose
@@ -48,5 +49,14 @@ Describe 'Convert-UsernameAndPasswordToCredentialsOrNull' {
 		$credential = Convert-UsernameAndPasswordToCredentialsOrNull -username $username -password $password
 
 		$credential | Should -Be $null
+	}
+
+	It 'Returns a credential object when both a username and password are supplied' {
+		[string] $username = 'Dan'
+		[string] $password = 'secret'
+
+		$credential = Convert-UsernameAndPasswordToCredentialsOrNull -username $username -password $password
+
+		$credential | Should -Not -Be $null
 	}
 }

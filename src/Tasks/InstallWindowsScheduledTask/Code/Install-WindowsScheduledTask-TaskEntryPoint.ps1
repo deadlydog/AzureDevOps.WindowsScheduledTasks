@@ -8,9 +8,9 @@ param
 	[ValidateNotNullOrEmpty()]
 	[string] $ScheduledTaskXmlFileToImportFrom,
 
-	[parameter(Mandatory=$true,HelpMessage="The name of the Windows Scheduled Task to install.")]
+	[parameter(Mandatory=$true,HelpMessage="The full name, including the path, of the Windows Scheduled Task to install.")]
 	[ValidateNotNullOrEmpty()]
-	[string] $ScheduledTaskName,
+	[string] $ScheduledTaskFullName,
 
 	[parameter(Mandatory=$false,HelpMessage="The description for the Scheduled Task.")]
 	[string] $ScheduledTaskDescription,
@@ -116,13 +116,14 @@ param
 
 Process
 {
-	Write-Verbose "About to attempt to install Windows Scheduled Task '$ScheduledTaskName' on '$ComputerNames'." -Verbose
+	Write-Verbose "About to attempt to install Windows Scheduled Task '$ScheduledTaskFullName' on '$ComputerNames'." -Verbose
+
 	[string[]] $computers = Get-ComputersToConnectToOrNull -computerNames $ComputerNames
 	[PSCredential] $credential = Convert-UsernameAndPasswordToCredentialsOrNull -username $Username -password $Password
 
 	[hashtable] $accountCredentialsToRunScheduledTaskAs = Get-AccountCredentialsToRunScheduledTaskAs -scheduldTaskAccountToRunAsOptions $ScheduledTaskAccountToRunAsOptions -customAccountToRunScheduledTaskAsUsername $CustomAccountToRunScheduledTaskAsUsername -customAccountToRunScheduledTaskAsPassword $CustomAccountToRunScheduledTaskAsPassword
 
-	[hashtable] $taskNameAndPath = Get-ScheduledTaskNameAndPath -fullTaskName $ScheduledTaskName
+	[hashtable] $taskNameAndPath = Get-ScheduledTaskNameAndPath -fullTaskName $ScheduledTaskFullName
 
 	if ($ScheduledTaskDefinitionSource -eq 'ImportFromXmlFile')
 	{
