@@ -1,6 +1,6 @@
 Process
 {
-	Install-InlineAtStartupScheduledTask
+	Install-InlineAtStartupScheduledTask -taskFullName ($CommonScheduledTaskPath + 'Test-InlineAtStartup')
 }
 
 Begin
@@ -11,15 +11,24 @@ Begin
 	# Global Variables
 	[string] $CommonScheduledTaskPath = '\WindowsScheduledTasksTests\'
 	[string] $InstallScheduledTaskEntryPointScriptPath = [string]::Empty # Populated dynamically below.
+	[string] $UninstallScheduledTaskEntryPointScriptPath = [string]::Empty # Populated dynamically below.
 
-	# Build path to the script to run.
-	[string] $fileNameToRetrieveFullPathOf = 'Install-WindowsScheduledTask-TaskEntryPoint.ps1'
+	# Build paths to the scripts to run.
 	[string] $THIS_SCRIPTS_DIRECTORY_PATH = $PSScriptRoot
 	[string] $srcDirectoryPath = Split-Path -Path $THIS_SCRIPTS_DIRECTORY_PATH -Parent
-	[string] $InstallScheduledTaskEntryPointScriptPath = Get-ChildItem -Path $srcDirectoryPath -Recurse -Force -File -Include $fileNameToRetrieveFullPathOf | Select-Object -First 1 -ExpandProperty FullName
+
+	[string] $installScheduledTaskEntryPointScriptName = 'Install-WindowsScheduledTask-TaskEntryPoint.ps1'
+	[string] $InstallScheduledTaskEntryPointScriptPath = Get-ChildItem -Path $srcDirectoryPath -Recurse -Force -File -Include $installScheduledTaskEntryPointScriptName | Select-Object -First 1 -ExpandProperty FullName
 	if ([string]::IsNullOrWhiteSpace($InstallScheduledTaskEntryPointScriptPath))
 	{
-		throw "Could not locate the '$fileNameToRetrieveFullPathOf' file."
+		throw "Could not locate the '$installScheduledTaskEntryPointScriptName' file."
+	}
+
+	[string] $uninstallScheduledTaskEntryPointScriptName = 'Install-WindowsScheduledTask-TaskEntryPoint.ps1'
+	[string] $UninstallScheduledTaskEntryPointScriptPath = Get-ChildItem -Path $srcDirectoryPath -Recurse -Force -File -Include $uninstallScheduledTaskEntryPointScriptName | Select-Object -First 1 -ExpandProperty FullName
+	if ([string]::IsNullOrWhiteSpace($UninstallScheduledTaskEntryPointScriptPath))
+	{
+		throw "Could not locate the '$uninstallScheduledTaskEntryPointScriptName' file."
 	}
 
 	# This function is not intended to be called, but can be cloned for creating new install functions, as it has all possible parameters defined for you.
@@ -65,12 +74,12 @@ Begin
 		Invoke-Expression -Command "& $InstallScheduledTaskEntryPointScriptPath @parameters"
 	}
 
-	function Install-InlineAtStartupScheduledTask
+	function Install-InlineAtStartupScheduledTask([string] $taskFullName)
 	{
 		[hashtable] $parameters = @{
 			ScheduledTaskDefinitionSource = 'Inline' # 'ImportFromXmlFile', 'Inline'
 			ScheduledTaskXmlFileToImportFrom = ''
-			ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-InlineAtStartup')
+			ScheduledTaskFullName = $taskFullName
 			ScheduledTaskDescription = 'A test task set to trigger At Startup.'
 			ApplicationPathToRun = 'C:\Dummy.exe'
 			ApplicationArguments = ''
