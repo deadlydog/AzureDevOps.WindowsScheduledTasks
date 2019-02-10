@@ -111,7 +111,7 @@ function Get-ScheduledTaskTrigger
 	{
 		'AtLogOn' {
 			$createTriggerExpression += ' -AtLogOn'
-			$createTriggerExpression += " -User '$atLogOnTriggerUser'"
+			$createTriggerExpression += " -User '$atLogOnTriggerUsername'"
 			break
 		}
 

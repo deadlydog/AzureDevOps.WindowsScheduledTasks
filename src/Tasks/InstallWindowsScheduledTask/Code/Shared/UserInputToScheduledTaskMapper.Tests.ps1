@@ -324,19 +324,19 @@ Describe 'Get-ScheduledTaskTrigger' {
 	}
 
 	Context 'When using an At Logon trigger' {
-		# [hashtable[]] $tests = @(
-		# 	@{	testDescription = 'When all parameters are provided with valid values, it should have the specified values.'
-		# 		triggerType = 'AtLogOn'
-		# 		atLogOnTriggerUsername = $validAtLogOnUsername
-		# 		shouldScheduledTaskRunRepeatedly = ; scheduleRepetitionIntervalInMinutes = ; scheduleRepetitionDurationInMinutes =
-		# 		scheduleStartTimeRandomDelayInMinutes =
-		# 		expectExceptionToBeThrown = $false
-		# 	}
-		# )
-		# $tests | ForEach-Object {
-		# 	[hashtable] $parameters = $_
-		# 	Assert-GetScheduledTaskTriggerReturnsCorrectResult @parameters
-		# }
+		[hashtable[]] $tests = @(
+			@{	testDescription = 'When all parameters are provided with valid values, it should have the specified values.'
+				triggerType = 'AtLogOn'
+				atLogOnTriggerUsername = $validAtLogOnUsername
+				shouldScheduledTaskRunRepeatedly = $false; scheduleRepetitionIntervalInMinutes = ''; scheduleRepetitionDurationInMinutes = ''
+				scheduleStartTimeRandomDelayInMinutes = ''
+				expectExceptionToBeThrown = $false
+			}
+		)
+		$tests | ForEach-Object {
+			[hashtable] $parameters = $_
+			Assert-GetScheduledTaskTriggerReturnsCorrectResult @parameters
+		}
 	}
 
 	Context 'When using a Date Time trigger' {
