@@ -92,8 +92,10 @@ function Install-WindowsScheduledTask
 					throw "Could not find the specified XML file '$xmlFilePath' to read the Scheduled Task definition from."
 				}
 
+				Write-Verbose "Reading XML from file '$xmlFilePath'." -Verbose
 				$xml = Get-Content -Path $xmlFilePath -Raw
 			}
+			return $xml
 		}
 
 		function Invoke-InstallWindowsScheduledTaskOnComputers([hashtable] $scheduledTaskSettings, [string[]] $computers, [PSCredential] $credential, [bool] $useCredSsp)
