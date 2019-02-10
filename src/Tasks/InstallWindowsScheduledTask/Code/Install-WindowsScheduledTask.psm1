@@ -85,14 +85,14 @@ function Install-WindowsScheduledTask
 		function Get-XmlStringFromFile([string] $xmlFilePath)
 		{
 			[string] $xml = [string]::Empty
-			if (![string]::IsNullOrWhiteSpace($XmlFilePath))
+			if (![string]::IsNullOrWhiteSpace($xmlFilePath))
 			{
-				if (!(Test-Path -Path $XmlFilePath -PathType Leaf))
+				if (!(Test-Path -Path $xmlFilePath -PathType Leaf))
 				{
 					throw "Could not find the specified XML file '$xmlFilePath' to read the Scheduled Task definition from."
 				}
 
-				$xml = Get-Content -Path $XmlFilePath -Raw
+				$xml = Get-Content -Path $xmlFilePath -Raw
 			}
 		}
 
@@ -148,12 +148,12 @@ function Install-WindowsScheduledTask
 			[string] $powerShellVersion = $PSVersionTable.PSVersion
 			Write-Verbose "Connected to computer '$computerName' as user '$username'. It is running operating system '$operatingSystemVersion' and PowerShell version '$powerShellVersion'." -Verbose
 
-			[bool] $installUsingXmlFile = !([string]::IsNullOrWhiteSpace($scheduledTaskSettings.Xml))
+			[bool] $installFromXml = !([string]::IsNullOrWhiteSpace($scheduledTaskSettings.Xml))
 			[string] $taskPathAndName = $scheduledTaskSettings.ScheduledTaskPath + $scheduledTaskSettings.ScheduledTaskName
 			[bool] $passwordWasSupplied = !([string]::IsNullOrEmpty($scheduledTaskSettings.AccountToRunScheduledTaskAsPassword))
 
 			$scheduledTask = $null
-			if ($installUsingXmlFile)
+			if ($installFromXml)
 			{
 				Write-Output "Installing Scheduled Task '$taskPathAndName' on computer '$computerName' using specifed XML definition." -Verbose
 				if ($passwordWasSupplied)
