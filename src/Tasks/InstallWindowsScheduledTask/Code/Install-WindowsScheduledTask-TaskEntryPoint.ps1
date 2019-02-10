@@ -1,10 +1,10 @@
 param
 (
-	[parameter(Mandatory=$false,HelpMessage="Where the new Scheduled Task properties should be retrieved from.")]
+	[parameter(Mandatory=$true,HelpMessage="Where the new Scheduled Task properties should be retrieved from.")]
 	[ValidateSet('ImportFromXmlFile', 'Inline')]
 	[string] $ScheduledTaskDefinitionSource,
 
-	[parameter(Mandatory=$true,HelpMessage="The XML file defining the properties of the Scheduled Task to install.")]
+	[parameter(Mandatory=$false,HelpMessage="The XML file defining the properties of the Scheduled Task to install.")]
 	[ValidateNotNullOrEmpty()]
 	[string] $ScheduledTaskXmlFileToImportFrom,
 
@@ -15,7 +15,7 @@ param
 	[parameter(Mandatory=$false,HelpMessage="The description for the Scheduled Task.")]
 	[string] $ScheduledTaskDescription,
 
-	[parameter(Mandatory=$true,HelpMessage="The full path to the application executable or script file to run.")]
+	[parameter(Mandatory=$false,HelpMessage="The full path to the application executable or script file to run.")]
 	[ValidateNotNullOrEmpty()]
 	[string] $ApplicationPathToRun,
 
