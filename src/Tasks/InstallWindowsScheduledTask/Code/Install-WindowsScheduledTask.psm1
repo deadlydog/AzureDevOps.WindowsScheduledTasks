@@ -2,47 +2,54 @@
 
 function Install-WindowsScheduledTask
 {
+	[cmdletbinding(DefaultParameterSetName='Inline')]
 	param
 	(
-		[parameter(Mandatory=$true,HelpMessage="The name of the Windows Scheduled Task to uninstall.")]
+		[parameter(Mandatory=$true,HelpMessage="The name of the Windows Scheduled Task to install.")]
 		[ValidateNotNullOrEmpty()]
 		[string] $ScheduledTaskName,
 
-		[parameter(Mandatory=$false,HelpMessage="The description for the Scheduled Task.")]
+		[parameter(Mandatory=$true,HelpMessage="The path in the Task Scheduler where the Windows Scheduled Task should be installed.")]
+		[ValidateNotNullOrEmpty()]
+		[string] $ScheduledTaskPath,
+
+		[parameter(Mandatory=$true,HelpMessage="The account that should be used to run the Scheduled Task.")]
+		[ValidateNotNull()]
+		[PSCredential] $AccountCredentialsToRunScheduledTaskAs,
+
+		[parameter(ParameterSetName="Xml",Mandatory=$true,HelpMessage="The path to the XML file containing the Scheduled Task definition.")]
+		[string] $XmlFilePath,
+
+		[parameter(ParameterSetName="Inline",Mandatory=$false,HelpMessage="The description for the Scheduled Task.")]
 		[string] $ScheduledTaskDescription,
 
-		[parameter(Mandatory=$true,HelpMessage="The full path to the application executable or script file to run.")]
-		[ValidateNotNullOrEmpty()]
-		[string] $ApplicationPathToRun,
+		[parameter(ParameterSetName="Inline",Mandatory=$true,HelpMessage="The Scheduled Task action.")]
+		[ValidateNotNull]
+		[CimInstance[]] $ScheduledTaskAction,
 
-		[parameter(Mandatory=$false,HelpMessage="The arguments to pass to the application executable or script to run.")]
-		[string] $ApplicationArguments,
+		[parameter(ParameterSetName="Inline",Mandatory=$true,HelpMessage="The Scheduled Task settings.")]
+		[ValidateNotNull]
+		[CimInstance] $ScheduledTaskSettings,
 
-		[parameter(Mandatory=$true,HelpMessage="How often the Scheduled Task should run.")]
-		[ValidateNotNullOrEmpty()]
-		[string] $ScheduleFrequency,
+		[parameter(ParameterSetName="Inline",Mandatory=$true,HelpMessage="The Scheduled Task trigger.")]
+		[ValidateNotNull]
+		[CimInstance[]] $ScheduledTaskTrigger,
 
-		[parameter(Mandatory=$true,HelpMessage="When the Scheduled Task should start running.")]
-		[ValidateNotNullOrEmpty()]
-		[string] $ScheduleStartTime,
-
-		[parameter(Mandatory=$false,HelpMessage="How much potential delay to wait for after the Scheduled Tasks specified start time.")]
-		[string] $ScheduleStartTimeRandomDelayInMinutes,
-
-		[parameter(Mandatory=$false,HelpMessage="How long to wait between each running of the Scheduled Task.")]
-		[string] $ScheduleRepeatIntervalInMinutes,
-
-		[parameter(Mandatory=$false,HelpMessage="How long the Scheduled Task should keep repeating at the specified interval for.")]
-		[string] $ScheduleRepeatIntervalDurationInMinutes = '$(ScheduledTaskRepeatIntervalDurationInMinutes)',
+		[parameter(ParameterSetName="Inline",Mandatory=$true,HelpMessage="The Scheduled Task run level (i.e. admin or regular user).")]
+		[ValidateNotNullOrEmpty]
+		[string] $ScheduledTaskRunLevel,
 
 		[parameter(Mandatory=$false,HelpMessage="If the Scheduled Task should be ran immediately after installation or not.")]
-		[bool] $RunScheduledTaskAfterInstallation,
+		[bool] $ShouldScheduledTaskRunAfterInstall,
 
 		[parameter(Mandatory=$false,HelpMessage="List of the computer(s) to uninstall the scheduled task from. If null localhost will be used.")]
 		[string[]] $ComputerName,
 
 		[parameter(Mandatory=$false,HelpMessage="The credential to use to connect to the computer(s).")]
 		[PSCredential] $Credential,
+
+		[parameter(Mandatory=$false,HelpMessage="If Cred SSP should be used when connecting to the remote computers or not.")]
+		[bool] $UseCredSsp
 	)
 
 	Process
@@ -57,7 +64,7 @@ function Install-WindowsScheduledTask
 			ScheduleStartTimeRandomDelayInMinutes = $ScheduleStartTimeRandomDelayInMinutes
 			ScheduleRepeatIntervalInMinutes = $ScheduleRepeatIntervalInMinutes
 			ScheduleRepeatIntervalDurationInMinutes = $ScheduleRepeatIntervalDurationInMinutes
-			RunScheduledTaskAfterInstallation = $RunScheduledTaskAfterInstallation
+			ShouldRunScheduledTaskAfterInstallation = $ShouldScheduledTaskRunAfterInstall
 		}
 
 		Invoke-InstallWindowsScheduledTaskOnComputers -scheduledTaskSettings $scheduledTaskSettings -computers $ComputerName -credential $Credential
@@ -137,7 +144,7 @@ function Install-WindowsScheduledTask
 			$task.Triggers.Repetition.Duration = [System.Xml.XmlConvert]::ToString($repeatIntervalDuration)
 			$task | Set-ScheduledTask
 
-			if ($scheduledTaskSettings.RunScheduledTaskAfterInstallation)
+			if ($scheduledTaskSettings.ShouldRunScheduledTaskAfterInstallation)
 			{
 				Write-Host "Triggering the Scheduled Task '$taskName' on computer '$computerName' to run now."
 				$task | Start-ScheduledTask
