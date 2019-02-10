@@ -353,16 +353,6 @@
       "groupName": "ScheduledTaskSettings"
     },
     {
-      "name": "ShouldScheduledTaskRunAfterInstall",
-      "type": "boolean",
-      "label": "Run after installed",
-      "visibleRule": "ShouldScheduledTaskBeEnabled = true",
-      "required": true,
-      "defaultValue": "false",
-      "helpMarkDown": "Select this to have the Scheduled Task run immediately after it is installed.",
-      "groupName": "ScheduledTaskSettings"
-    },
-    {
       "name": "ShouldScheduledTaskRunWithHighestPrivileges",
       "type": "boolean",
       "label": "Run With Highest Privileges",
@@ -370,6 +360,16 @@
       "required": true,
       "defaultValue": "true",
       "helpMarkDown": "Select this to have the Scheduled Task run using the highest privileges.",
+      "groupName": "ScheduledTaskSettings"
+    },
+    {
+      "name": "ShouldScheduledTaskRunAfterInstall",
+      "type": "boolean",
+      "label": "Run after installed",
+      "visibleRule": "ShouldScheduledTaskBeEnabled = true",
+      "required": true,
+      "defaultValue": "false",
+      "helpMarkDown": "Select this to have the Scheduled Task run immediately after it is installed.",
       "groupName": "ScheduledTaskSettings"
     },
     {
