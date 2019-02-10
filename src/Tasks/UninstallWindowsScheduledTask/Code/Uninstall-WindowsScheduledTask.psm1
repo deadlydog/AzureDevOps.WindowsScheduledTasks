@@ -77,18 +77,19 @@ function Uninstall-WindowsScheduledTask
 
 			[string] $taskName = $scheduledTaskSettings.ScheduledTaskName
 			[string] $taskPath = $scheduledTaskSettings.ScheduledTaskPath
-			[string] $taskPathAndName = $taskPath + $taskName
 
 			Write-Verbose "Searching for a Scheduled Task with the path '$taskPath' and name '$taskName'." -Verbose
 			$tasks = Get-ScheduledTask -TaskName $taskName -TaskPath $taskPath -ErrorAction SilentlyContinue
 			if ($tasks -eq $null)
 			{
-				Write-Warning "A scheduled task with the name '$taskPathAndName' was not found on computer '$computerName', so no scheduled tasks will be uninstalled."
+				[string] $taskPathAndName = $taskPath + $taskName
+				Write-Warning "A Scheduled Task matching the path and name '$taskPathAndName' was not found on computer '$computerName', so no scheduled tasks will be uninstalled."
 				return
 			}
 
 			foreach ($task in $tasks)
 			{
+				[string] $taskPathAndName = $task.TaskPath + $task.TaskName
 				Write-Output "Uninstalling Scheduled Task '$taskPathAndName' on computer '$computerName'."
 				$task | Disable-ScheduledTask > $null
 				$task | Stop-ScheduledTask
