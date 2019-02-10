@@ -31,6 +31,9 @@ param
 	[ValidateSet('DateTime', 'AtLogOn', 'AtStartup')]
 	[string] $ScheduleTriggerType,
 
+	[parameter(Mandatory=$false,HelpMessage="The user that must log on to the computer in order for the Scheduled Task to be triggered to run.")]
+	[string] $AtLogOnTriggerUsername,
+
 	[parameter(Mandatory=$false,HelpMessage="The time that the Scheduled Task should start running at.")]
 	[string] $DateTimeScheduleStartTime,
 
