@@ -36,7 +36,7 @@ Begin
 			-CustomWorkingDirectory '' `
 			-ScheduleTriggerType 'AtStartup' ` # 'DateTime', 'AtLogOn', 'AtStartup'
 			-DateTimeScheduleStartTime '' `
-			-DateTimeScheduleFrequencyOptions '' ` # 'Once', 'Daily', 'Weekly'
+			-DateTimeScheduleFrequencyOptions 'Once' ` # 'Once', 'Daily', 'Weekly'
 			-DateTimeScheduleFrequencyDailyInterval '' `
 			-DateTimeScheduleFrequencyWeeklyInterval '' `
 			-ShouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek $false `
