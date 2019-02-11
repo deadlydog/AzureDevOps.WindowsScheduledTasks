@@ -1,3 +1,4 @@
+Write-Output "Attempting to copy files from the 'root' SharedTaskCode directory to the task's shared code directories."
 [string] $THIS_SCRIPTS_DIRECTORY_PATH = $PSScriptRoot
 [string] $thisScriptsDirectoryName = Split-Path -Path $THIS_SCRIPTS_DIRECTORY_PATH -Leaf
 if ($thisScriptsDirectoryName -ne 'SharedTaskCode')
