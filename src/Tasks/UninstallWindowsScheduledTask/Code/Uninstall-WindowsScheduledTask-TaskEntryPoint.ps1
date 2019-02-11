@@ -40,14 +40,14 @@ Begin
 	[string] $codeDirectoryPath = $THIS_SCRIPTS_DIRECTORY_PATH
 
 	[string] $utilitiesModuleFilePath = Join-Path -Path $codeDirectoryPath -ChildPath 'Shared\Utilities.psm1'
-	Write-Verbose "Importing module '$utilitiesModuleFilePath'."
+	Write-Debug "Importing module '$utilitiesModuleFilePath'."
 	Import-Module -Name $utilitiesModuleFilePath -Force
 
 	[string] $userInputToScheduledTaskMapperModuleFilePath = Join-Path -Path $codeDirectoryPath -ChildPath 'Shared\UserInputToScheduledTaskMapper.psm1'
-	Write-Verbose "Importing module '$userInputToScheduledTaskMapperModuleFilePath'."
+	Write-Debug "Importing module '$userInputToScheduledTaskMapperModuleFilePath'."
 	Import-Module -Name $userInputToScheduledTaskMapperModuleFilePath -Force
 
 	[string] $uninstallWindowsScheduledTaskModuleFilePath = Join-Path -Path $codeDirectoryPath -ChildPath 'Uninstall-WindowsScheduledTask.psm1'
-	Write-Verbose "Importing module '$uninstallWindowsScheduledTaskModuleFilePath'."
+	Write-Debug "Importing module '$uninstallWindowsScheduledTaskModuleFilePath'."
 	Import-Module -Name $uninstallWindowsScheduledTaskModuleFilePath -Force
 }
