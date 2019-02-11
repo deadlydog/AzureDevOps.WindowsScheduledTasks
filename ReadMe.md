@@ -1,6 +1,6 @@
 # Windows Scheduled Tasks Azure DevOps Extension
 
-This Azure DevOps (i.e. TFS) extension provides Build and Release tasks that allow Windows Scheduled Tasks to easily be installed and uninstalled on the local or remote computer(s).
+This Azure DevOps (i.e. TFS) extension provides Build and Release tasks that allow Windows Scheduled Tasks to easily be installed, uninstalled, enabled, and disabled on the local or remote computer(s).
 
 Current build status: [![Build Status](https://dev.azure.com/deadlydog/AzureDevOps.WindowsScheduledTasks/_apis/build/status/AzureDevOps.WindowsScheduledTasks?branchName=master)](https://dev.azure.com/deadlydog/AzureDevOps.WindowsScheduledTasks/_build/latest?definitionId=17&branchName=master)
 
@@ -9,8 +9,8 @@ Current build status: [![Build Status](https://dev.azure.com/deadlydog/AzureDevO
 
 * Install a Windows Scheduled Task by specifying properties inline or from an XML file.
 * Replace an existing Windows Scheduled Task by overwriting it.
-* Uninstall a Windows Scheduled Task.
-  * Supports wildcards for removing many Schedules Tasks easily, or when you only know part of the Scheduled Task's name.
+* Enable, Disable, and Uninstall a Windows Scheduled Task.
+  * Supports wildcards for modifying many Schedules Tasks easily, or when you only know part of the Scheduled Task's name.
 * Multiple computers can be specified to easily run the task against all of them.
 * Supports connecting to remote computers via WinRM and optionally using [CredSSP][CredSspDocumentationUrl].
 
