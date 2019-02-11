@@ -1,16 +1,23 @@
 Process
 {
 	Describe 'Installing Scheduled Tasks' {
-		It 'Should install the Scheduled Task successfully' {
-			Install-ScheduledTask -scheduledTaskParameters $InlineAtStartupScheduledTaskParameters
-
-			$scheduledTask = Get-ScheduledTaskByFullName -taskFullName $InlineAtStartupScheduledTaskParameters.ScheduledTaskFullName
-
-			$scheduledTask | Should -Not -BeNullOrEmpty
+		Context 'When the task definition parameters are valid' {
+			[hashtable[]] $tests = @(
+				@{	testDescription = 'For an inline definition with an AtStartup trigger, it should get created as expected.'
+					scheduledTaskParameters = $InlineAtStartupScheduledTaskParameters
+					expectExceptionToBeThrown = $false
+				}
+				@{	testDescription = 'For an xml definition with an AtStartup trigger, it should get created as expected.'
+					scheduledTaskParameters = $XmlAtStartupScheduledTaskParameters
+					expectExceptionToBeThrown = $false
+				}
+			)
+			$tests | ForEach-Object {
+				[hashtable] $parameters = $_
+				Assert-ScheduledTaskWasInstalledCorrectly @parameters
+			}
 		}
 	}
-
-	Install-ScheduledTask -scheduledTaskParameters $XmlAtStartupScheduledTaskParameters
 
 	Uninstall-ScheduledTask -scheduledTaskParameters $InlineAtStartupScheduledTaskParameters
 
@@ -91,6 +98,25 @@ Begin
 		$taskPathAndName = Get-ScheduledTaskNameAndPath -fullTaskName $taskFullName
 		$scheduledTask = Get-ScheduledTask -TaskPath $taskPathAndName.Path -TaskName $taskPathAndName.Name
 		return $scheduledTask
+	}
+
+	function Assert-ScheduledTaskWasInstalledCorrectly([string] $testDescription, [hashtable] $scheduledTaskParameters, [bool] $expectExceptionToBeThrown)
+	{
+		It $testDescription {
+			if ($expectExceptionToBeThrown)
+			{
+				# Act and Assert.
+				{ Invoke-Expression -Command $expression } | Should -Throw
+				return
+			}
+
+			# Act.
+			Install-ScheduledTask -scheduledTaskParameters $scheduledTaskParameters
+
+			# Assert.
+			$scheduledTask = Get-ScheduledTaskByFullName -taskFullName $scheduledTaskParameters.ScheduledTaskFullName
+			$scheduledTask | Should -Not -BeNullOrEmpty
+		}
 	}
 
 	# This template is intended to be cloned for creating new Scheduled Task definitions, as it has all possible parameters defined for you.
