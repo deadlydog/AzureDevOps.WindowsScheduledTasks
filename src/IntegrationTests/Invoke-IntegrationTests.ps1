@@ -15,6 +15,9 @@ Process
 			$tests | ForEach-Object {
 				[hashtable] $parameters = $_
 				Assert-ScheduledTaskIsInstalledCorrectly @parameters
+
+				# Cleanup Scheduled Task after installing it.
+				Uninstall-ScheduledTask -scheduledTaskParameters $parameters.scheduledTaskParameters
 			}
 		}
 	}
@@ -29,6 +32,10 @@ Process
 			)
 			$tests | ForEach-Object {
 				[hashtable] $parameters = $_
+
+				# Need to install expected Scheduled Task before removing it.
+				Install-ScheduledTask -scheduledTaskParameters $parameters.scheduledTaskParameters
+
 				Assert-ScheduledTaskIsUninstalledCorrectly @parameters
 			}
 		}
@@ -79,9 +86,11 @@ Process
 				}
 
 				# Ensure multiple tasks exist before acting.
+				Install-ScheduledTask -scheduledTaskParameters $InlineAtStartupScheduledTaskParameters
+				Install-ScheduledTask -scheduledTaskParameters $XmlAtStartupScheduledTaskParameters
 				$scheduledTasks = Get-ScheduledTaskByFullName -taskFullName $taskFullNameWithWildcardForMultipleTasks
 				$scheduledTasks | Should -Not -BeNullOrEmpty
-				$scheduledTasks.Length | Should -BeGreaterThan 1
+				$scheduledTasks.Length | Should -Be 2
 
 				# Act.
 				Uninstall-ScheduledTask -scheduledTaskParameters $uninstallMultipleTasksParameters
