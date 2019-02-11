@@ -11,6 +11,7 @@ if ($thisScriptsDirectoryName -ne 'SharedTaskCode')
 	'Tasks\InstallWindowsScheduledTask\Code\Shared'
 	'Tasks\UninstallWindowsScheduledTask\Code\Shared'
 	'Tasks\EnableWindowsScheduledTask\Code\Shared'
+	'Tasks\DisableWindowsScheduledTask\Code\Shared'
 )
 
 $tasksSharedCodeDirectoryPaths | ForEach-Object {
