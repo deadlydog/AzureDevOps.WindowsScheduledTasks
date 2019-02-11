@@ -3,11 +3,11 @@ Process
 	Describe 'Installing Scheduled Tasks' {
 		Context 'When the task definition parameters are valid' {
 			[hashtable[]] $tests = @(
-				@{	testDescription = 'For an inline definition with an AtStartup trigger, it should get created as expected.'
+				@{	testDescription = 'For an inline definition with an AtStartup trigger, it gets created as expected.'
 					scheduledTaskParameters = $InlineAtStartupScheduledTaskParameters
 					expectExceptionToBeThrown = $false
 				}
-				@{	testDescription = 'For an xml definition with an AtStartup trigger, it should get created as expected.'
+				@{	testDescription = 'For an xml definition with an AtStartup trigger, it gets created as expected.'
 					scheduledTaskParameters = $XmlAtStartupScheduledTaskParameters
 					expectExceptionToBeThrown = $false
 				}
@@ -19,10 +19,39 @@ Process
 		}
 	}
 
-	Uninstall-ScheduledTask -scheduledTaskParameters $InlineAtStartupScheduledTaskParameters
+	Describe 'Uninstalling Scheduled Tasks' {
+		Context 'When the parameters are valid and the Scheduled Task exists' {
+			[hashtable[]] $tests = @(
+				@{	testDescription = 'And the Scheduled Task is installed, it gets removed as expected.'
+					scheduledTaskParameters = $InlineAtStartupScheduledTaskParameters
+					expectExceptionToBeThrown = $false
+				}
+			)
+			$tests | ForEach-Object {
+				[hashtable] $parameters = $_
+				Assert-ScheduledTaskWasUninstalledCorrectly @parameters
+			}
+		}
 
-	# Ensure all test tasks are uninstalled to keep everything nice and clean.
-	Uninstall-AllTestScheduledTasks
+		Context 'When the scheduled task to uninstall does not exist' {
+			It 'Should log a warning, but still continue' {
+				# Act.
+				$warningOutput = Uninstall-ScheduledTask -scheduledTaskParameters $NeverInstalledScheduledTaskParameters 3>&1
+
+				# Assert.
+				$scheduledTask = Get-ScheduledTaskByFullName -taskFullName $NeverInstalledScheduledTaskParameters.ScheduledTaskFullName
+				$scheduledTask | Should -BeNullOrEmpty
+				$warningOutput | Should -BeLike "*was not found on computer*"
+			}
+		}
+
+		Context 'When uninstalling multiple scheduled tasks that exist' {
+			It 'Should uninstall all of the scheduled tasks' {
+				# This should be the last to to run to ensure all test tasks are uninstalled to keep everything nice and clean.
+				Uninstall-AllTestScheduledTasks
+			}
+		}
+	}
 }
 
 Begin
@@ -96,7 +125,8 @@ Begin
 	function Get-ScheduledTaskByFullName([string] $taskFullName)
 	{
 		$taskPathAndName = Get-ScheduledTaskNameAndPath -fullTaskName $taskFullName
-		$scheduledTask = Get-ScheduledTask -TaskPath $taskPathAndName.Path -TaskName $taskPathAndName.Name
+		$scheduledTask = $null
+		$scheduledTask = Get-ScheduledTask -TaskPath $taskPathAndName.Path -TaskName $taskPathAndName.Name -ErrorAction SilentlyContinue
 		return $scheduledTask
 	}
 
@@ -106,7 +136,7 @@ Begin
 			if ($expectExceptionToBeThrown)
 			{
 				# Act and Assert.
-				{ Invoke-Expression -Command $expression } | Should -Throw
+				{ Install-ScheduledTask -scheduledTaskParameters $scheduledTaskParameters } | Should -Throw
 				return
 			}
 
@@ -119,8 +149,27 @@ Begin
 		}
 	}
 
-	# This template is intended to be cloned for creating new Scheduled Task definitions, as it has all possible parameters defined for you.
-	[hashtable] $TemplateScheduledTaskParameters = @{
+	function Assert-ScheduledTaskWasUninstalledCorrectly([string] $testDescription, [hashtable] $scheduledTaskParameters, [bool] $expectExceptionToBeThrown)
+	{
+		It $testDescription {
+			if ($expectExceptionToBeThrown)
+			{
+				# Act and Assert.
+				{ Uninstall-ScheduledTask -scheduledTaskParameters $scheduledTaskParameters } | Should -Throw
+				return
+			}
+
+			# Act.
+			Uninstall-ScheduledTask -scheduledTaskParameters $scheduledTaskParameters
+
+			# Assert.
+			$scheduledTask = Get-ScheduledTaskByFullName -taskFullName $scheduledTaskParameters.ScheduledTaskFullName
+			$scheduledTask | Should -BeNullOrEmpty
+		}
+	}
+
+	# Scheduled Task that should never be installed, as it's used to run tests against Scheduled Tasks that are not installed.
+	[hashtable] $NeverInstalledScheduledTaskParameters = @{
 		ScheduledTaskDefinitionSource = 'Inline' # 'ImportFromXmlFile', 'Inline'
 		ScheduledTaskXmlFileToImportFrom = ''
 		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-')
@@ -158,6 +207,7 @@ Begin
 		UseCredSsp = $false
 	}
 
+	# Scheduled Task with an Inline definition and an AtStartup trigger.
 	[hashtable] $InlineAtStartupScheduledTaskParameters = @{
 		ScheduledTaskDefinitionSource = 'Inline' # 'ImportFromXmlFile', 'Inline'
 		ScheduledTaskXmlFileToImportFrom = ''
@@ -196,6 +246,7 @@ Begin
 		UseCredSsp = $false
 	}
 
+	# Scheduled Task with an XML definition and an AtStartup trigger.
 	[hashtable] $XmlAtStartupScheduledTaskParameters = @{
 		ScheduledTaskDefinitionSource = 'ImportFromXmlFile' # 'ImportFromXmlFile', 'Inline'
 		ScheduledTaskXmlFileToImportFrom = Join-Path -Path $XmlDefinitionsDirectoryPath -ChildPath 'AtStartup.xml'
