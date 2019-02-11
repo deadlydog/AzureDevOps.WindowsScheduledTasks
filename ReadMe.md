@@ -22,7 +22,7 @@ Windows PowerShell uses WinRM to connect to remote computers, and the PowerShell
 * Have PowerShell v3.0 or later installed.
 * Have Microsoft .Net 4.0 or later installed.
 * Have Windows Remote Management 3.0 or later installed.
-* You may need to enable PowerShell Remoting on the remote computer by running `Enable-PSRemoting` from an administrator PowerShell command prompt.
+* You may need to enable PowerShell Remoting on the remote computer by running `Enable-PSRemoting` from an administrator PowerShell command prompt on the remote computer.
 
 For more information, [read Microsoft's documentation][PowerShellRemotingRequirementsDocumentationUrl].
 
