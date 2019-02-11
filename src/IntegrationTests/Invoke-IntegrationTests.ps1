@@ -19,6 +19,14 @@ Process
 					scheduledTaskParameters = $XmlAtLogOnScheduledTaskParameters
 					expectExceptionToBeThrown = $false
 				}
+				@{	testDescription = 'For an inline definition with a DateTime trigger, it gets created as expected.'
+					scheduledTaskParameters = $InlineDateTimeScheduledTaskParameters
+					expectExceptionToBeThrown = $false
+				}
+				@{	testDescription = 'For an xml definition with a DateTime trigger, it gets created as expected.'
+					scheduledTaskParameters = $XmlDateTimeScheduledTaskParameters
+					expectExceptionToBeThrown = $false
+				}
 			)
 			$tests | ForEach-Object {
 				[hashtable] $parameters = $_
@@ -396,7 +404,7 @@ Begin
 	# Scheduled Task with an XML definition and an AtLogOn trigger.
 	[hashtable] $XmlAtLogOnScheduledTaskParameters = @{
 		ScheduledTaskDefinitionSource = 'ImportFromXmlFile' # 'ImportFromXmlFile', 'Inline'
-		ScheduledTaskXmlFileToImportFrom =  Get-XmlDefinitionPath -fileName 'AtLogOn.xml'
+		ScheduledTaskXmlFileToImportFrom = Get-XmlDefinitionPath -fileName 'AtLogOn.xml'
 		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-InlineAtLogOn')
 		ScheduledTaskDescription = 'A test task set to trigger At Log On.'
 		ApplicationPathToRun = 'C:\SomeDirectory\Dummy.exe'
@@ -422,6 +430,86 @@ Begin
 		ScheduleRepetitionDurationInMinutes = ''
 		ScheduleStartTimeRandomDelayInMinutes = ''
 		ScheduledTaskAccountToRunAsOptions = 'System' # 'System', 'LocalService', 'NetworkService', 'CustomAccount'
+		CustomAccountToRunScheduledTaskAsUsername = ''
+		CustomAccountToRunScheduledTaskAsPassword = ''
+		ShouldScheduledTaskBeEnabled = $true
+		ShouldScheduledTaskRunWithHighestPrivileges = $false
+		ShouldScheduledTaskRunAfterInstall = $false
+		ComputerNames = ''
+		Username = ''
+		Password = ''
+		UseCredSsp = $false
+	}
+
+	# Scheduled Task with an Inline definition and an DateTime trigger.
+	[hashtable] $InlineDateTimeScheduledTaskParameters = @{
+		ScheduledTaskDefinitionSource = 'Inline' # 'ImportFromXmlFile', 'Inline'
+		ScheduledTaskXmlFileToImportFrom = ''
+		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-InlineDateTime')
+		ScheduledTaskDescription = 'A test task set to trigger Once at a DateTime.'
+		ApplicationPathToRun = 'C:\SomeDirectory\Dummy.exe'
+		ApplicationArguments = '/some arguments /more args'
+		WorkingDirectoryOptions = 'ApplicationDirectory' # 'ApplicationDirectory', 'CustomDirectory'
+		CustomWorkingDirectory = ''
+		ScheduleTriggerType = 'DateTime' # 'DateTime', 'AtLogOn', 'AtStartup'
+		AtLogOnTriggerUsername = ''
+		DateTimeScheduleStartTime = '2050-01-01T01:00:00'
+		DateTimeScheduleFrequencyOptions = 'Once' # 'Once', 'Daily', 'Weekly'
+		DateTimeScheduleFrequencyDailyInterval = ''
+		DateTimeScheduleFrequencyWeeklyInterval = ''
+		ShouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnMondays = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnThursday = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnFridays = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnSundays = $false
+		ShouldScheduledTaskRunRepeatedly = $false
+		ScheduleRepetitionIntervalInMinutes = ''
+		ScheduleRepetitionDurationInMinutes = ''
+		ScheduleStartTimeRandomDelayInMinutes = ''
+		ScheduledTaskAccountToRunAsOptions = 'NetworkService' # 'System', 'LocalService', 'NetworkService', 'CustomAccount'
+		CustomAccountToRunScheduledTaskAsUsername = ''
+		CustomAccountToRunScheduledTaskAsPassword = ''
+		ShouldScheduledTaskBeEnabled = $true
+		ShouldScheduledTaskRunWithHighestPrivileges = $false
+		ShouldScheduledTaskRunAfterInstall = $false
+		ComputerNames = ''
+		Username = ''
+		Password = ''
+		UseCredSsp = $false
+	}
+
+	# Scheduled Task with an XML definition and a DateTime trigger.
+	[hashtable] $XmlDateTimeScheduledTaskParameters = @{
+		ScheduledTaskDefinitionSource = 'ImportFromXmlFile' # 'ImportFromXmlFile', 'Inline'
+		ScheduledTaskXmlFileToImportFrom = Get-XmlDefinitionPath -fileName 'DateTime.xml'
+		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-XmlDateTime')
+		ScheduledTaskDescription = 'A test task set to trigger Once at a DateTime.'
+		ApplicationPathToRun = 'C:\SomeDirectory\Dummy.exe'
+		ApplicationArguments = '/some arguments /more args'
+		WorkingDirectoryOptions = 'ApplicationDirectory' # 'ApplicationDirectory', 'CustomDirectory'
+		CustomWorkingDirectory = ''
+		ScheduleTriggerType = 'DateTime' # 'DateTime', 'AtLogOn', 'AtStartup'
+		AtLogOnTriggerUsername = ''
+		DateTimeScheduleStartTime = '2050-01-01T01:00:00'
+		DateTimeScheduleFrequencyOptions = 'Once' # 'Once', 'Daily', 'Weekly'
+		DateTimeScheduleFrequencyDailyInterval = ''
+		DateTimeScheduleFrequencyWeeklyInterval = ''
+		ShouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnMondays = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnThursday = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnFridays = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnSundays = $false
+		ShouldScheduledTaskRunRepeatedly = $false
+		ScheduleRepetitionIntervalInMinutes = ''
+		ScheduleRepetitionDurationInMinutes = ''
+		ScheduleStartTimeRandomDelayInMinutes = ''
+		ScheduledTaskAccountToRunAsOptions = 'NetworkService' # 'System', 'LocalService', 'NetworkService', 'CustomAccount'
 		CustomAccountToRunScheduledTaskAsUsername = ''
 		CustomAccountToRunScheduledTaskAsPassword = ''
 		ShouldScheduledTaskBeEnabled = $true
