@@ -10,6 +10,7 @@ if ($thisScriptsDirectoryName -ne 'SharedTaskCode')
 [string[]] $tasksSharedCodeDirectoryPaths = @(
 	'Tasks\InstallWindowsScheduledTask\Code\Shared'
 	'Tasks\UninstallWindowsScheduledTask\Code\Shared'
+	'Tasks\EnableWindowsScheduledTask\Code\Shared'
 )
 
 $tasksSharedCodeDirectoryPaths | ForEach-Object {
