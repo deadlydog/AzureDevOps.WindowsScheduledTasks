@@ -72,7 +72,7 @@ Under the hood this extension uses the [PowerShell ScheduledTasks cmdlets][Power
 
 ## Donate
 
-Buy me some maple syrup for providing this extension for free :)
+Buy me some maple syrup for providing this extension open source and for free :)
 
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SW7LX32CWQJKN)
 
