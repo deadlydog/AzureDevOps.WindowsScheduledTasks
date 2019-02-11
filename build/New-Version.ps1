@@ -7,6 +7,8 @@ Process
 	[string[]] $taskJsonFilePaths = @(
 		Join-Path -Path $srcDirectoryPath -ChildPath 'Tasks\InstallWindowsScheduledTask\task.json'
 		Join-Path -Path $srcDirectoryPath -ChildPath 'Tasks\UninstallWindowsScheduledTask\task.json'
+		Join-Path -Path $srcDirectoryPath -ChildPath 'Tasks\EnableWindowsScheduledTask\task.json'
+		Join-Path -Path $srcDirectoryPath -ChildPath 'Tasks\DisableWindowsScheduledTask\task.json'
 	)
 
 	Confirm-RequiredFilesExist -extensionJsonFilePath $extensionJsonFilePath -taskJsonFilePaths $taskJsonFilePaths
