@@ -11,6 +11,14 @@ Process
 					scheduledTaskParameters = $XmlAtStartupScheduledTaskParameters
 					expectExceptionToBeThrown = $false
 				}
+				@{	testDescription = 'For an inline definition with an AtLogOn trigger, it gets created as expected.'
+					scheduledTaskParameters = $InlineAtLogOnScheduledTaskParameters
+					expectExceptionToBeThrown = $false
+				}
+				@{	testDescription = 'For an xml definition with an AtLogOn trigger, it gets created as expected.'
+					scheduledTaskParameters = $XmlAtLogOnScheduledTaskParameters
+					expectExceptionToBeThrown = $false
+				}
 			)
 			$tests | ForEach-Object {
 				[hashtable] $parameters = $_
@@ -182,6 +190,11 @@ Begin
 		return $scheduledTask
 	}
 
+	function Get-XmlDefinitionPath([string] $fileName)
+	{
+		Join-Path -Path $XmlDefinitionsDirectoryPath -ChildPath $fileName
+	}
+
 	function Assert-ScheduledTaskIsInstalledCorrectly([string] $testDescription, [hashtable] $scheduledTaskParameters, [bool] $expectExceptionToBeThrown)
 	{
 		It $testDescription {
@@ -231,6 +244,7 @@ Begin
 		WorkingDirectoryOptions = 'ApplicationDirectory' # 'ApplicationDirectory', 'CustomDirectory'
 		CustomWorkingDirectory = ''
 		ScheduleTriggerType = 'AtStartup' # 'DateTime', 'AtLogOn', 'AtStartup'
+		AtLogOnTriggerUsername = ''
 		DateTimeScheduleStartTime = ''
 		DateTimeScheduleFrequencyOptions = 'Once' # 'Once', 'Daily', 'Weekly'
 		DateTimeScheduleFrequencyDailyInterval = ''
@@ -270,6 +284,7 @@ Begin
 		WorkingDirectoryOptions = 'ApplicationDirectory' # 'ApplicationDirectory', 'CustomDirectory'
 		CustomWorkingDirectory = ''
 		ScheduleTriggerType = 'AtStartup' # 'DateTime', 'AtLogOn', 'AtStartup'
+		AtLogOnTriggerUsername = ''
 		DateTimeScheduleStartTime = ''
 		DateTimeScheduleFrequencyOptions = 'Once' # 'Once', 'Daily', 'Weekly'
 		DateTimeScheduleFrequencyDailyInterval = ''
@@ -301,7 +316,7 @@ Begin
 	# Scheduled Task with an XML definition and an AtStartup trigger.
 	[hashtable] $XmlAtStartupScheduledTaskParameters = @{
 		ScheduledTaskDefinitionSource = 'ImportFromXmlFile' # 'ImportFromXmlFile', 'Inline'
-		ScheduledTaskXmlFileToImportFrom = Join-Path -Path $XmlDefinitionsDirectoryPath -ChildPath 'AtStartup.xml'
+		ScheduledTaskXmlFileToImportFrom = Get-XmlDefinitionPath -fileName 'AtStartup.xml'
 		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-XmlAtStartup')
 		ScheduledTaskDescription = 'A test task set to trigger At Startup.'
 		ApplicationPathToRun = 'C:\Dummy.exe'
@@ -309,6 +324,7 @@ Begin
 		WorkingDirectoryOptions = 'ApplicationDirectory' # 'ApplicationDirectory', 'CustomDirectory'
 		CustomWorkingDirectory = ''
 		ScheduleTriggerType = 'AtStartup' # 'DateTime', 'AtLogOn', 'AtStartup'
+		AtLogOnTriggerUsername = ''
 		DateTimeScheduleStartTime = ''
 		DateTimeScheduleFrequencyOptions = 'Once' # 'Once', 'Daily', 'Weekly'
 		DateTimeScheduleFrequencyDailyInterval = ''
@@ -326,6 +342,86 @@ Begin
 		ScheduleRepetitionDurationInMinutes = ''
 		ScheduleStartTimeRandomDelayInMinutes = ''
 		ScheduledTaskAccountToRunAsOptions = 'LocalService' # 'System', 'LocalService', 'NetworkService', 'CustomAccount'
+		CustomAccountToRunScheduledTaskAsUsername = ''
+		CustomAccountToRunScheduledTaskAsPassword = ''
+		ShouldScheduledTaskBeEnabled = $true
+		ShouldScheduledTaskRunWithHighestPrivileges = $false
+		ShouldScheduledTaskRunAfterInstall = $false
+		ComputerNames = ''
+		Username = ''
+		Password = ''
+		UseCredSsp = $false
+	}
+
+	# Scheduled Task with an Inline definition and an AtLogOn trigger.
+	[hashtable] $InlineAtLogOnScheduledTaskParameters = @{
+		ScheduledTaskDefinitionSource = 'Inline' # 'ImportFromXmlFile', 'Inline'
+		ScheduledTaskXmlFileToImportFrom = ''
+		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-InlineAtLogOn')
+		ScheduledTaskDescription = 'A test task set to trigger At Log On.'
+		ApplicationPathToRun = 'C:\SomeDirectory\Dummy.exe'
+		ApplicationArguments = '/some arguments /more args'
+		WorkingDirectoryOptions = 'ApplicationDirectory' # 'ApplicationDirectory', 'CustomDirectory'
+		CustomWorkingDirectory = ''
+		ScheduleTriggerType = 'AtLogOn' # 'DateTime', 'AtLogOn', 'AtStartup'
+		AtLogOnTriggerUsername = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
+		DateTimeScheduleStartTime = ''
+		DateTimeScheduleFrequencyOptions = 'Once' # 'Once', 'Daily', 'Weekly'
+		DateTimeScheduleFrequencyDailyInterval = ''
+		DateTimeScheduleFrequencyWeeklyInterval = ''
+		ShouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnMondays = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnThursday = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnFridays = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnSundays = $false
+		ShouldScheduledTaskRunRepeatedly = $false
+		ScheduleRepetitionIntervalInMinutes = ''
+		ScheduleRepetitionDurationInMinutes = ''
+		ScheduleStartTimeRandomDelayInMinutes = ''
+		ScheduledTaskAccountToRunAsOptions = 'System' # 'System', 'LocalService', 'NetworkService', 'CustomAccount'
+		CustomAccountToRunScheduledTaskAsUsername = ''
+		CustomAccountToRunScheduledTaskAsPassword = ''
+		ShouldScheduledTaskBeEnabled = $true
+		ShouldScheduledTaskRunWithHighestPrivileges = $false
+		ShouldScheduledTaskRunAfterInstall = $false
+		ComputerNames = ''
+		Username = ''
+		Password = ''
+		UseCredSsp = $false
+	}
+
+	# Scheduled Task with an XML definition and an AtLogOn trigger.
+	[hashtable] $XmlAtLogOnScheduledTaskParameters = @{
+		ScheduledTaskDefinitionSource = 'ImportFromXmlFile' # 'ImportFromXmlFile', 'Inline'
+		ScheduledTaskXmlFileToImportFrom =  Get-XmlDefinitionPath -fileName 'AtLogOn.xml'
+		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-InlineAtLogOn')
+		ScheduledTaskDescription = 'A test task set to trigger At Log On.'
+		ApplicationPathToRun = 'C:\SomeDirectory\Dummy.exe'
+		ApplicationArguments = '/some arguments /more args'
+		WorkingDirectoryOptions = 'ApplicationDirectory' # 'ApplicationDirectory', 'CustomDirectory'
+		CustomWorkingDirectory = ''
+		ScheduleTriggerType = 'AtLogOn' # 'DateTime', 'AtLogOn', 'AtStartup'
+		AtLogOnTriggerUsername = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
+		DateTimeScheduleStartTime = ''
+		DateTimeScheduleFrequencyOptions = 'Once' # 'Once', 'Daily', 'Weekly'
+		DateTimeScheduleFrequencyDailyInterval = ''
+		DateTimeScheduleFrequencyWeeklyInterval = ''
+		ShouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnMondays = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnThursday = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnFridays = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnSundays = $false
+		ShouldScheduledTaskRunRepeatedly = $false
+		ScheduleRepetitionIntervalInMinutes = ''
+		ScheduleRepetitionDurationInMinutes = ''
+		ScheduleStartTimeRandomDelayInMinutes = ''
+		ScheduledTaskAccountToRunAsOptions = 'System' # 'System', 'LocalService', 'NetworkService', 'CustomAccount'
 		CustomAccountToRunScheduledTaskAsUsername = ''
 		CustomAccountToRunScheduledTaskAsPassword = ''
 		ShouldScheduledTaskBeEnabled = $true
