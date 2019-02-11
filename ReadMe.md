@@ -1,6 +1,6 @@
 # Windows Scheduled Tasks Azure DevOps Extension
 
-This is an extension for Azure DevOps (i.e. TFS) that allows Windows Scheduled Tasks to easily be installed and uninstalled on the local or remote computer(s).
+This Azure DevOps (i.e. TFS) extension provides Build and Release tasks that allow Windows Scheduled Tasks to easily be installed and uninstalled on the local or remote computer(s).
 
 Current build status: [![Build Status](https://dev.azure.com/deadlydog/AzureDevOps.WindowsScheduledTasks/_apis/build/status/AzureDevOps.WindowsScheduledTasks?branchName=master)](https://dev.azure.com/deadlydog/AzureDevOps.WindowsScheduledTasks/_build/latest?definitionId=17&branchName=master)
 
@@ -15,16 +15,23 @@ Current build status: [![Build Status](https://dev.azure.com/deadlydog/AzureDevO
 * Supports connecting to remote computers via WinRM and optionally using [CredSSP][CredSspDocumentationUrl].
 
 
-## Remote computer requirements
+## Target computer requirements
 
-Windows PowerShell uses WinRM to connect to remote computers, and the PowerShell cmdlets used by this task require PowerShell v3.0. In short, this means the remote computer must meet at least these requirements:
+The computer that is or will be hosting the Windows Scheduled Task must meet the following minimum requirements:
 
-* Have PowerShell v3.0 or later installed.
-* Have Microsoft .Net 4.0 or later installed.
-* Have Windows Remote Management 3.0 or later installed.
-* You may need to enable PowerShell Remoting on the remote computer by running `Enable-PSRemoting` from an administrator PowerShell command prompt on the remote computer.
+* Be running Windows 8 or Windows Server 2012 or higher ([the PowerShell cmdlets used by this task][PowerShellScheduledTasksDocumentationUrl] were introduced in these versions).
+* Have Windows Remote Management 3.0 or later installed (for remote computers, as Windows PowerShell uses WinRM to connect to remote computers).
+* You may need to enable PowerShell Remoting on the remote computer by running `Enable-PSRemoting` from an administrator PowerShell command prompt on the remote computer (for remote computers).
 
 For more information, [read Microsoft's documentation][PowerShellRemotingRequirementsDocumentationUrl].
+
+### Connecting to a remote computer with CredSSP
+
+If you are connecting to a remote computer and want to use CredSSP, it must have CredSSP enabled on it. You can do this by running the following command from an administrator PowerShell command prompt on the remote computer:
+
+```PowerShell
+Enable-WSManCredSSP -Role Server -Force
+```
 
 
 ## Defining the Scheduled Task definition properties inline vs. using an XML file
@@ -54,7 +61,7 @@ If you prefer, you can also export the Scheduled Task via [the `Export-Scheduled
 
 ## Implementation
 
-Under the hood this extension uses the [PowerShell ScheduledTasks cmdlets][PowerShellScheduledTasksDocumentationUrl], so the functionality it can offer is limited to what those cmdlets provide. This also means that the target computer must have at least PowerShell v3.0 installed in order for the cmdlets to be present.
+Under the hood this extension uses the [PowerShell ScheduledTasks cmdlets][PowerShellScheduledTasksDocumentationUrl], so the functionality it can offer is limited to what those cmdlets provide.
 
 
 ## Additional ideas to implement
