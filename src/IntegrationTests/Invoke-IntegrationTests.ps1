@@ -14,7 +14,7 @@ Process
 			)
 			$tests | ForEach-Object {
 				[hashtable] $parameters = $_
-				Assert-ScheduledTaskWasInstalledCorrectly @parameters
+				Assert-ScheduledTaskIsInstalledCorrectly @parameters
 			}
 		}
 	}
@@ -29,7 +29,7 @@ Process
 			)
 			$tests | ForEach-Object {
 				[hashtable] $parameters = $_
-				Assert-ScheduledTaskWasUninstalledCorrectly @parameters
+				Assert-ScheduledTaskIsUninstalledCorrectly @parameters
 			}
 		}
 
@@ -45,13 +45,56 @@ Process
 			}
 		}
 
-		Context 'When uninstalling multiple scheduled tasks that exist' {
+		Context 'When uninstalling multiple scheduled tasks that do not exist' {
+			It 'Should log a warning, but still continue' {
+				# Arrange.
+				[hashtable] $uninstallMultipleTasksParameters = @{
+					ScheduledTaskFullName = '\APathThatDoesNotExist\*'
+					ComputerNames = ''
+					Username = ''
+					Password = ''
+					UseCredSsp = $false
+				}
+
+				# Act.
+				$warningOutput = Uninstall-ScheduledTask -scheduledTaskParameters $uninstallMultipleTasksParameters 3>&1
+
+				# Assert.
+				$scheduledTask = Get-ScheduledTaskByFullName -taskFullName $uninstallMultipleTasksParameters.ScheduledTaskFullName
+				$scheduledTask | Should -BeNullOrEmpty
+				$warningOutput | Should -BeLike "*was not found on computer*"
+			}
+		}
+
+		Context 'When uninstalling multiple scheduled tasks that do exist' {
 			It 'Should uninstall all of the scheduled tasks' {
-				# This should be the last to to run to ensure all test tasks are uninstalled to keep everything nice and clean.
-				Uninstall-AllTestScheduledTasks
+				# Arrange.
+				[string] $taskFullNameWithWildcardForMultipleTasks = "$CommonScheduledTaskPath*"
+				[hashtable] $uninstallMultipleTasksParameters = @{
+					ScheduledTaskFullName = $taskFullNameWithWildcardForMultipleTasks
+					ComputerNames = ''
+					Username = ''
+					Password = ''
+					UseCredSsp = $false
+				}
+
+				# Ensure multiple tasks exist before acting.
+				$scheduledTasks = Get-ScheduledTaskByFullName -taskFullName $taskFullNameWithWildcardForMultipleTasks
+				$scheduledTasks | Should -Not -BeNullOrEmpty
+				$scheduledTasks.Length | Should -BeGreaterThan 1
+
+				# Act.
+				Uninstall-ScheduledTask -scheduledTaskParameters $uninstallMultipleTasksParameters
+
+				# Assert.
+				$scheduledTask = Get-ScheduledTaskByFullName -taskFullName $taskFullNameWithWildcardForMultipleTasks
+				$scheduledTask | Should -BeNullOrEmpty
 			}
 		}
 	}
+
+	# This should be the last to to run to ensure all test tasks are uninstalled to keep everything nice and clean.
+	Uninstall-AllTestScheduledTasks
 }
 
 Begin
@@ -104,7 +147,7 @@ Begin
 
 	function Uninstall-ScheduledTask([hashtable] $scheduledTaskParameters)
 	{
-		$uninstallTaskParameters = @{
+		[hashtable] $uninstallTaskParameters = @{
 			ScheduledTaskFullName = $scheduledTaskParameters.ScheduledTaskFullName
 			ComputerNames = $scheduledTaskParameters.ComputerNames
 			Username = $scheduledTaskParameters.Username
@@ -116,7 +159,7 @@ Begin
 
 	function Uninstall-AllTestScheduledTasks
 	{
-		$uninstallTaskParameters = @{
+		[hashtable] $uninstallTaskParameters = @{
 			ScheduledTaskFullName = "$CommonScheduledTaskPath*"
 		}
 		Invoke-Expression -Command "& $UninstallScheduledTaskEntryPointScriptPath @uninstallTaskParameters"
@@ -130,7 +173,7 @@ Begin
 		return $scheduledTask
 	}
 
-	function Assert-ScheduledTaskWasInstalledCorrectly([string] $testDescription, [hashtable] $scheduledTaskParameters, [bool] $expectExceptionToBeThrown)
+	function Assert-ScheduledTaskIsInstalledCorrectly([string] $testDescription, [hashtable] $scheduledTaskParameters, [bool] $expectExceptionToBeThrown)
 	{
 		It $testDescription {
 			if ($expectExceptionToBeThrown)
@@ -149,7 +192,7 @@ Begin
 		}
 	}
 
-	function Assert-ScheduledTaskWasUninstalledCorrectly([string] $testDescription, [hashtable] $scheduledTaskParameters, [bool] $expectExceptionToBeThrown)
+	function Assert-ScheduledTaskIsUninstalledCorrectly([string] $testDescription, [hashtable] $scheduledTaskParameters, [bool] $expectExceptionToBeThrown)
 	{
 		It $testDescription {
 			if ($expectExceptionToBeThrown)
