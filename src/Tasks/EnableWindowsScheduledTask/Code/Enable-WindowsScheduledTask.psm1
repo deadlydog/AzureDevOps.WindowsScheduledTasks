@@ -91,4 +91,4 @@ function Enable-WindowsScheduledTask
 	}
 }
 
-Export-ModuleMember -Function Uninstall-WindowsScheduledTask
+Export-ModuleMember -Function Enable-WindowsScheduledTask
