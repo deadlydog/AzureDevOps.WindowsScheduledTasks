@@ -61,7 +61,7 @@ function Uninstall-WindowsScheduledTask
 			Invoke-Expression -Command $uninstallTaskCommand -Verbose
 		}
 
-		$uninstallScheduledTaskScriptBlock = {
+		[scriptblock] $uninstallScheduledTaskScriptBlock = {
 			param ([hashtable] $scheduledTaskSettings)
 			[string] $computerName = $Env:COMPUTERNAME
 			[string] $username = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name

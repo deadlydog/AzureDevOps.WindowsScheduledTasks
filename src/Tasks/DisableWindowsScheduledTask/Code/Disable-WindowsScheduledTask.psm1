@@ -61,7 +61,7 @@ function Disable-WindowsScheduledTask
 			Invoke-Expression -Command $disableTaskCommand -Verbose
 		}
 
-		$disableScheduledTaskScriptBlock = {
+		[scriptblock] $disableScheduledTaskScriptBlock = {
 			param ([hashtable] $scheduledTaskSettings)
 			[string] $computerName = $Env:COMPUTERNAME
 			[string] $username = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name

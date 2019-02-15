@@ -142,7 +142,7 @@ function Install-WindowsScheduledTask
 			}
 		}
 
-		$installScheduledTaskScriptBlock = {
+		[scriptblock] $installScheduledTaskScriptBlock = {
 			param ([hashtable] $scheduledTaskSettings)
 			[string] $computerName = $Env:COMPUTERNAME
 			[string] $username = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name

@@ -61,7 +61,7 @@ function Enable-WindowsScheduledTask
 			Invoke-Expression -Command $enableTaskCommand -Verbose
 		}
 
-		$enableScheduledTaskScriptBlock = {
+		[scriptblock] $enableScheduledTaskScriptBlock = {
 			param ([hashtable] $scheduledTaskSettings)
 			[string] $computerName = $Env:COMPUTERNAME
 			[string] $username = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
