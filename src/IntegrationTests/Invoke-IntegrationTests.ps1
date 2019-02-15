@@ -118,6 +118,96 @@ Process
 		}
 	}
 
+	Describe 'Enabling Scheduled Tasks' {
+		Context 'When the parameters are valid and the Scheduled Task exists' {
+			[hashtable[]] $tests = @(
+				@{	testDescription = 'And the Scheduled Task is disabled, it gets enabled as expected.'
+					scheduledTaskParameters = $DisabledScheduledTaskParameters
+					expectExceptionToBeThrown = $false
+				}
+				@{	testDescription = 'And the Scheduled Task is already enabled, it stays enabled as expected.'
+					scheduledTaskParameters = $InlineAtStartupScheduledTaskParameters
+					expectExceptionToBeThrown = $false
+				}
+			)
+			$tests | ForEach-Object {
+				[hashtable] $parameters = $_
+
+				# Need to install expected Scheduled Task before enabling it.
+				Install-ScheduledTask -scheduledTaskParameters $parameters.scheduledTaskParameters
+
+				Assert-ScheduledTaskIsEnabledCorrectly @parameters
+
+				# Cleanup now that we're done.
+				Uninstall-ScheduledTask -scheduledTaskParameters $parameters.scheduledTaskParameters
+			}
+		}
+
+		Context 'When the scheduled task to enable does not exist' {
+			It 'Should log a an warning, but still continue' {
+				# Act.
+				$warningOutput = Enable-ScheduledTaskCustom -scheduledTaskParameters $NeverInstalledScheduledTaskParameters 3>&1
+
+				# Assert.
+				$warningOutput | Should -BeLike "*was not found on computer*"
+			}
+		}
+
+		Context 'When enabling multiple scheduled tasks that do not exist' {
+			It 'Should log a warning, but still continue' {
+				# Arrange.
+				[hashtable] $enableMultipleTasksParameters = @{
+					ScheduledTaskFullName = '\APathThatDoesNotExist\*'
+					ComputerNames = ''
+					Username = ''
+					Password = ''
+					UseCredSsp = $false
+				}
+
+				# Act.
+				$warningOutput = Enable-ScheduledTaskCustom -scheduledTaskParameters $enableMultipleTasksParameters 3>&1
+
+				# Assert.
+				$warningOutput | Should -BeLike "*was not found on computer*"
+			}
+		}
+
+		Context 'When enabling multiple scheduled tasks that do exist' {
+			It 'Should enable all of the scheduled tasks' {
+				# Arrange.
+				[string] $taskFullNameWithWildcardForMultipleTasks = "$CommonScheduledTaskPath*"
+				[hashtable] $enableMultipleTasksParameters = @{
+					ScheduledTaskFullName = $taskFullNameWithWildcardForMultipleTasks
+					ComputerNames = ''
+					Username = ''
+					Password = ''
+					UseCredSsp = $false
+				}
+
+				# Ensure multiple tasks exist before acting.
+				Install-ScheduledTask -scheduledTaskParameters $DisabledScheduledTaskParameters
+				Install-ScheduledTask -scheduledTaskParameters $XmlAtStartupScheduledTaskParameters
+				$scheduledTasks = Get-ScheduledTaskByFullName -taskFullName $taskFullNameWithWildcardForMultipleTasks
+				$scheduledTasks | Should -Not -BeNullOrEmpty
+				$scheduledTasks.Length | Should -Be 2
+
+				# Act.
+				Enable-ScheduledTaskCustom -scheduledTaskParameters $enableMultipleTasksParameters
+
+				# Assert.
+				$scheduledTasks = Get-ScheduledTaskByFullName -taskFullName $taskFullNameWithWildcardForMultipleTasks
+				$scheduledTasks | Should -Not -BeNullOrEmpty
+				$scheduledTasks | ForEach-Object {
+					$_.Settings.Enabled | Should -BeTrue
+				}
+
+				# Cleanup now that we're done.
+				Uninstall-ScheduledTask -scheduledTaskParameters $DisabledScheduledTaskParameters
+				Uninstall-ScheduledTask -scheduledTaskParameters $XmlAtStartupScheduledTaskParameters
+			}
+		}
+	}
+
 	# This should be the last to to run to ensure all test tasks are uninstalled to keep everything nice and clean.
 	Uninstall-AllTestScheduledTasks
 }
@@ -132,6 +222,8 @@ Begin
 	[string] $XmlDefinitionsDirectoryPath = [string]::Empty # Populated dynamically below.
 	[string] $InstallScheduledTaskEntryPointScriptPath = [string]::Empty # Populated dynamically below.
 	[string] $UninstallScheduledTaskEntryPointScriptPath = [string]::Empty # Populated dynamically below.
+	[string] $EnableScheduledTaskEntryPointScriptPath = [string]::Empty # Populated dynamically below.
+	[string] $DisableScheduledTaskEntryPointScriptPath = [string]::Empty # Populated dynamically below.
 
 	# Build paths to the scripts to run.
 	[string] $THIS_SCRIPTS_DIRECTORY_PATH = $PSScriptRoot
@@ -157,6 +249,20 @@ Begin
 		throw "Could not locate the '$uninstallScheduledTaskEntryPointScriptName' file."
 	}
 
+	[string] $enableScheduledTaskEntryPointScriptName = 'Enable-WindowsScheduledTask-TaskEntryPoint.ps1'
+	[string] $EnableScheduledTaskEntryPointScriptPath = Get-ChildItem -Path $srcDirectoryPath -Recurse -Force -File -Include $enableScheduledTaskEntryPointScriptName | Select-Object -First 1 -ExpandProperty FullName
+	if ([string]::IsNullOrWhiteSpace($EnableScheduledTaskEntryPointScriptPath))
+	{
+		throw "Could not locate the '$enableScheduledTaskEntryPointScriptName' file."
+	}
+
+	[string] $disableScheduledTaskEntryPointScriptName = 'Disable-WindowsScheduledTask-TaskEntryPoint.ps1'
+	[string] $DisableScheduledTaskEntryPointScriptPath = Get-ChildItem -Path $srcDirectoryPath -Recurse -Force -File -Include $disableScheduledTaskEntryPointScriptName | Select-Object -First 1 -ExpandProperty FullName
+	if ([string]::IsNullOrWhiteSpace($DisableScheduledTaskEntryPointScriptPath))
+	{
+		throw "Could not locate the '$disableScheduledTaskEntryPointScriptName' file."
+	}
+
 	[string] $userInputToScheduledTaskMapperScriptName = 'UserInputToScheduledTaskMapper.psm1'
 	[string] $userInputToScheduledTaskMapperScriptPath = Get-ChildItem -Path $srcDirectoryPath -Recurse -Force -File -Include $userInputToScheduledTaskMapperScriptName | Select-Object -First 1 -ExpandProperty FullName
 	if ([string]::IsNullOrWhiteSpace($userInputToScheduledTaskMapperScriptPath))
@@ -180,6 +286,32 @@ Begin
 			UseCredSsp = $scheduledTaskParameters.UseCredSsp
 		}
 		Invoke-Expression -Command "& $UninstallScheduledTaskEntryPointScriptPath @uninstallTaskParameters"
+	}
+
+	# Enable-ScheduledTask is a native cmdlet name, so we need to call ours something else.
+	function Enable-ScheduledTaskCustom([hashtable] $scheduledTaskParameters)
+	{
+		[hashtable] $enableTaskParameters = @{
+			ScheduledTaskFullName = $scheduledTaskParameters.ScheduledTaskFullName
+			ComputerNames = $scheduledTaskParameters.ComputerNames
+			Username = $scheduledTaskParameters.Username
+			Password = $scheduledTaskParameters.Password
+			UseCredSsp = $scheduledTaskParameters.UseCredSsp
+		}
+		Invoke-Expression -Command "& $EnableScheduledTaskEntryPointScriptPath @enableTaskParameters"
+	}
+
+	# Disable-ScheduledTask is a native cmdlet name, so we need to call ours something else.
+	function Disable-ScheduledTaskCustom([hashtable] $scheduledTaskParameters)
+	{
+		[hashtable] $disableTaskParameters = @{
+			ScheduledTaskFullName = $scheduledTaskParameters.ScheduledTaskFullName
+			ComputerNames = $scheduledTaskParameters.ComputerNames
+			Username = $scheduledTaskParameters.Username
+			Password = $scheduledTaskParameters.Password
+			UseCredSsp = $scheduledTaskParameters.UseCredSsp
+		}
+		Invoke-Expression -Command "& $DisabledScheduledTaskEntryPointScriptPath @disableTaskParameters"
 	}
 
 	function Uninstall-AllTestScheduledTasks
@@ -238,6 +370,26 @@ Begin
 			# Assert.
 			$scheduledTask = Get-ScheduledTaskByFullName -taskFullName $scheduledTaskParameters.ScheduledTaskFullName
 			$scheduledTask | Should -BeNullOrEmpty
+		}
+	}
+
+	function Assert-ScheduledTaskIsEnabledCorrectly([string] $testDescription, [hashtable] $scheduledTaskParameters, [bool] $expectExceptionToBeThrown)
+	{
+		It $testDescription {
+			if ($expectExceptionToBeThrown)
+			{
+				# Act and Assert.
+				{ Enable-ScheduledTaskCustom -scheduledTaskParameters $scheduledTaskParameters } | Should -Throw
+				return
+			}
+
+			# Act.
+			Enable-ScheduledTaskCustom -scheduledTaskParameters $scheduledTaskParameters
+
+			# Assert.
+			$scheduledTask = Get-ScheduledTaskByFullName -taskFullName $scheduledTaskParameters.ScheduledTaskFullName
+			$scheduledTask | Should -Not -BeNullOrEmpty
+			$scheduledTask.Settings.Enabled | Should -BeTrue
 		}
 	}
 
@@ -513,6 +665,45 @@ Begin
 		CustomAccountToRunScheduledTaskAsUsername = ''
 		CustomAccountToRunScheduledTaskAsPassword = ''
 		ShouldScheduledTaskBeEnabled = $true
+		ShouldScheduledTaskRunWithHighestPrivileges = $false
+		ShouldScheduledTaskRunAfterInstall = $false
+		ComputerNames = ''
+		Username = ''
+		Password = ''
+		UseCredSsp = $false
+	}
+
+	[hashtable] $DisabledScheduledTaskParameters = @{
+		ScheduledTaskDefinitionSource = 'Inline' # 'ImportFromXmlFile', 'Inline'
+		ScheduledTaskXmlFileToImportFrom = ''
+		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-DisabledTask')
+		ScheduledTaskDescription = 'A test task that gets installed as disabled.'
+		ApplicationPathToRun = 'C:\Dummy.exe'
+		ApplicationArguments = ''
+		WorkingDirectoryOptions = 'ApplicationDirectory' # 'ApplicationDirectory', 'CustomDirectory'
+		CustomWorkingDirectory = ''
+		ScheduleTriggerType = 'AtStartup' # 'DateTime', 'AtLogOn', 'AtStartup'
+		AtLogOnTriggerUsername = ''
+		DateTimeScheduleStartTime = ''
+		DateTimeScheduleFrequencyOptions = 'Once' # 'Once', 'Daily', 'Weekly'
+		DateTimeScheduleFrequencyDailyInterval = ''
+		DateTimeScheduleFrequencyWeeklyInterval = ''
+		ShouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnMondays = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnThursday = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnFridays = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnSundays = $false
+		ShouldScheduledTaskRunRepeatedly = $false
+		ScheduleRepetitionIntervalInMinutes = ''
+		ScheduleRepetitionDurationInMinutes = ''
+		ScheduleStartTimeRandomDelayInMinutes = ''
+		ScheduledTaskAccountToRunAsOptions = 'LocalService' # 'System', 'LocalService', 'NetworkService', 'CustomAccount'
+		CustomAccountToRunScheduledTaskAsUsername = ''
+		CustomAccountToRunScheduledTaskAsPassword = ''
+		ShouldScheduledTaskBeEnabled = $false
 		ShouldScheduledTaskRunWithHighestPrivileges = $false
 		ShouldScheduledTaskRunAfterInstall = $false
 		ComputerNames = ''
