@@ -208,6 +208,96 @@ Process
 		}
 	}
 
+	Describe 'Disabling Scheduled Tasks' {
+		Context 'When the parameters are valid and the Scheduled Task exists' {
+			[hashtable[]] $tests = @(
+				@{	testDescription = 'And the Scheduled Task is enabled, it gets disabled as expected.'
+					scheduledTaskParameters = $InlineAtStartupScheduledTaskParameters
+					expectExceptionToBeThrown = $false
+				}
+				@{	testDescription = 'And the Scheduled Task is already disabled, it stays disabled as expected.'
+					scheduledTaskParameters = $DisabledScheduledTaskParameters
+					expectExceptionToBeThrown = $false
+				}
+			)
+			$tests | ForEach-Object {
+				[hashtable] $parameters = $_
+
+				# Need to install expected Scheduled Task before enabling it.
+				Install-ScheduledTask -scheduledTaskParameters $parameters.scheduledTaskParameters
+
+				Assert-ScheduledTaskIsDisabledCorrectly @parameters
+
+				# Cleanup now that we're done.
+				Uninstall-ScheduledTask -scheduledTaskParameters $parameters.scheduledTaskParameters
+			}
+		}
+
+		Context 'When the scheduled task to disable does not exist' {
+			It 'Should log a an warning, but still continue' {
+				# Act.
+				$warningOutput = Disable-ScheduledTaskCustom -scheduledTaskParameters $NeverInstalledScheduledTaskParameters 3>&1
+
+				# Assert.
+				$warningOutput | Should -BeLike "*was not found on computer*"
+			}
+		}
+
+		Context 'When disabling multiple scheduled tasks that do not exist' {
+			It 'Should log a warning, but still continue' {
+				# Arrange.
+				[hashtable] $disableMultipleTasksParameters = @{
+					ScheduledTaskFullName = '\APathThatDoesNotExist\*'
+					ComputerNames = ''
+					Username = ''
+					Password = ''
+					UseCredSsp = $false
+				}
+
+				# Act.
+				$warningOutput = Disable-ScheduledTaskCustom -scheduledTaskParameters $disableMultipleTasksParameters 3>&1
+
+				# Assert.
+				$warningOutput | Should -BeLike "*was not found on computer*"
+			}
+		}
+
+		Context 'When disabling multiple scheduled tasks that do exist' {
+			It 'Should disable all of the scheduled tasks' {
+				# Arrange.
+				[string] $taskFullNameWithWildcardForMultipleTasks = "$CommonScheduledTaskPath*"
+				[hashtable] $disableMultipleTasksParameters = @{
+					ScheduledTaskFullName = $taskFullNameWithWildcardForMultipleTasks
+					ComputerNames = ''
+					Username = ''
+					Password = ''
+					UseCredSsp = $false
+				}
+
+				# Ensure multiple tasks exist before acting
+				Install-ScheduledTask -scheduledTaskParameters $XmlAtStartupScheduledTaskParameters
+				Install-ScheduledTask -scheduledTaskParameters $DisabledScheduledTaskParameters
+				$scheduledTasks = Get-ScheduledTaskByFullName -taskFullName $taskFullNameWithWildcardForMultipleTasks
+				$scheduledTasks | Should -Not -BeNullOrEmpty
+				$scheduledTasks.Length | Should -Be 2
+
+				# Act.
+				Disable-ScheduledTaskCustom -scheduledTaskParameters $disableMultipleTasksParameters
+
+				# Assert.
+				$scheduledTasks = Get-ScheduledTaskByFullName -taskFullName $taskFullNameWithWildcardForMultipleTasks
+				$scheduledTasks | Should -Not -BeNullOrEmpty
+				$scheduledTasks | ForEach-Object {
+					$_.Settings.Enabled | Should -BeFalse
+				}
+
+				# Cleanup now that we're done.
+				Uninstall-ScheduledTask -scheduledTaskParameters $XmlAtStartupScheduledTaskParameters
+				Uninstall-ScheduledTask -scheduledTaskParameters $DisabledScheduledTaskParameters
+			}
+		}
+	}
+
 	# This should be the last to to run to ensure all test tasks are uninstalled to keep everything nice and clean.
 	Uninstall-AllTestScheduledTasks
 }
@@ -311,7 +401,7 @@ Begin
 			Password = $scheduledTaskParameters.Password
 			UseCredSsp = $scheduledTaskParameters.UseCredSsp
 		}
-		Invoke-Expression -Command "& $DisabledScheduledTaskEntryPointScriptPath @disableTaskParameters"
+		Invoke-Expression -Command "& $DisableScheduledTaskEntryPointScriptPath @disableTaskParameters"
 	}
 
 	function Uninstall-AllTestScheduledTasks
@@ -390,6 +480,26 @@ Begin
 			$scheduledTask = Get-ScheduledTaskByFullName -taskFullName $scheduledTaskParameters.ScheduledTaskFullName
 			$scheduledTask | Should -Not -BeNullOrEmpty
 			$scheduledTask.Settings.Enabled | Should -BeTrue
+		}
+	}
+
+	function Assert-ScheduledTaskIsDisabledCorrectly([string] $testDescription, [hashtable] $scheduledTaskParameters, [bool] $expectExceptionToBeThrown)
+	{
+		It $testDescription {
+			if ($expectExceptionToBeThrown)
+			{
+				# Act and Assert.
+				{ Disable-ScheduledTaskCustom -scheduledTaskParameters $scheduledTaskParameters } | Should -Throw
+				return
+			}
+
+			# Act.
+			Disable-ScheduledTaskCustom -scheduledTaskParameters $scheduledTaskParameters
+
+			# Assert.
+			$scheduledTask = Get-ScheduledTaskByFullName -taskFullName $scheduledTaskParameters.ScheduledTaskFullName
+			$scheduledTask | Should -Not -BeNullOrEmpty
+			$scheduledTask.Settings.Enabled | Should -BeFalse
 		}
 	}
 
