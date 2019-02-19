@@ -234,7 +234,6 @@ Describe 'Get-ScheduledTaskTrigger' {
 			[string] $dateTimeScheduleFrequencyOptions,
 			[string] $dateTimeScheduleFrequencyDailyInterval,
 			[string] $dateTimeScheduleFrequencyWeeklyInterval,
-			[bool] $shouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek,
 			[bool] $shouldDateTimeScheduleFrequencyWeeklyRunOnMondays,
 			[bool] $shouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays,
 			[bool] $shouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays,
@@ -264,7 +263,7 @@ Describe 'Get-ScheduledTaskTrigger' {
 		)
 
 		It $testDescription {
-			[string] $expression = "Get-ScheduledTaskTrigger -triggerType $triggerType -atLogOnTriggerUsername `"$atLogOnTriggerUsername`" -dateTimeScheduleStartTime `"$dateTimeScheduleStartTime`" -dateTimeScheduleFrequencyOptions `"$dateTimeScheduleFrequencyOptions`" -dateTimeScheduleFrequencyDailyInterval `"$dateTimeScheduleFrequencyDailyInterval`" -dateTimeScheduleFrequencyWeeklyInterval `"$dateTimeScheduleFrequencyWeeklyInterval`" -shouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek `$$shouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek -shouldDateTimeScheduleFrequencyWeeklyRunOnMondays `$$shouldDateTimeScheduleFrequencyWeeklyRunOnMondays -shouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays `$$shouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays -shouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays `$$shouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays -shouldDateTimeScheduleFrequencyWeeklyRunOnThursdays `$$shouldDateTimeScheduleFrequencyWeeklyRunOnThursdays -shouldDateTimeScheduleFrequencyWeeklyRunOnFridays `$$shouldDateTimeScheduleFrequencyWeeklyRunOnFridays -shouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays `$$shouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays -shouldDateTimeScheduleFrequencyWeeklyRunOnSundays `$$shouldDateTimeScheduleFrequencyWeeklyRunOnSundays -shouldScheduledTaskRunRepeatedly `$$shouldScheduledTaskRunRepeatedly -scheduleRepetitionIntervalInMinutes `"$scheduleRepetitionIntervalInMinutes`" -scheduleRepetitionDurationInMinutes `"$scheduleRepetitionDurationInMinutes`" -scheduleStartTimeRandomDelayInMinutes `"$scheduleStartTimeRandomDelayInMinutes`""
+			[string] $expression = "Get-ScheduledTaskTrigger -triggerType $triggerType -atLogOnTriggerUsername `"$atLogOnTriggerUsername`" -dateTimeScheduleStartTime `"$dateTimeScheduleStartTime`" -dateTimeScheduleFrequencyOptions `"$dateTimeScheduleFrequencyOptions`" -dateTimeScheduleFrequencyDailyInterval `"$dateTimeScheduleFrequencyDailyInterval`" -dateTimeScheduleFrequencyWeeklyInterval `"$dateTimeScheduleFrequencyWeeklyInterval`" -shouldDateTimeScheduleFrequencyWeeklyRunOnMondays `$$shouldDateTimeScheduleFrequencyWeeklyRunOnMondays -shouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays `$$shouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays -shouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays `$$shouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays -shouldDateTimeScheduleFrequencyWeeklyRunOnThursdays `$$shouldDateTimeScheduleFrequencyWeeklyRunOnThursdays -shouldDateTimeScheduleFrequencyWeeklyRunOnFridays `$$shouldDateTimeScheduleFrequencyWeeklyRunOnFridays -shouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays `$$shouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays -shouldDateTimeScheduleFrequencyWeeklyRunOnSundays `$$shouldDateTimeScheduleFrequencyWeeklyRunOnSundays -shouldScheduledTaskRunRepeatedly `$$shouldScheduledTaskRunRepeatedly -scheduleRepetitionIntervalInMinutes `"$scheduleRepetitionIntervalInMinutes`" -scheduleRepetitionDurationInMinutes `"$scheduleRepetitionDurationInMinutes`" -scheduleStartTimeRandomDelayInMinutes `"$scheduleStartTimeRandomDelayInMinutes`""
 
 			if ($expectExceptionToBeThrown)
 			{
@@ -284,7 +283,7 @@ Describe 'Get-ScheduledTaskTrigger' {
 	}
 
 	[string] $validAtLogOnUsername = 'Dan'
-	[string] $validDateTimeStartTime = '2019/01/21 3am'
+	[string] $validDateTimeStartTime = '3am'
 
 	Context 'When using an At Startup trigger' {
 		[hashtable[]] $tests = @(
@@ -331,7 +330,7 @@ Describe 'Get-ScheduledTaskTrigger' {
 				dateTimeScheduleFrequencyOptions = 'Once'
 				dateTimeScheduleFrequencyDailyInterval = ''
 				dateTimeScheduleFrequencyWeeklyInterval = ''
-				shouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnMondays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays = $false;shouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnThursdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnFridays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnSundays = $false;
+				shouldDateTimeScheduleFrequencyWeeklyRunOnMondays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays = $false;shouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnThursdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnFridays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnSundays = $false;
 				shouldScheduledTaskRunRepeatedly = $false; scheduleRepetitionIntervalInMinutes = ''; scheduleRepetitionDurationInMinutes = ''
 				scheduleStartTimeRandomDelayInMinutes = ''
 				expectExceptionToBeThrown = $false
@@ -342,29 +341,18 @@ Describe 'Get-ScheduledTaskTrigger' {
 				dateTimeScheduleFrequencyOptions = 'Daily'
 				dateTimeScheduleFrequencyDailyInterval = '1'
 				dateTimeScheduleFrequencyWeeklyInterval = ''
-				shouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnMondays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays = $false;shouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnThursdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnFridays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnSundays = $false;
+				shouldDateTimeScheduleFrequencyWeeklyRunOnMondays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays = $false;shouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnThursdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnFridays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnSundays = $false;
 				shouldScheduledTaskRunRepeatedly = $false; scheduleRepetitionIntervalInMinutes = ''; scheduleRepetitionDurationInMinutes = ''
 				scheduleStartTimeRandomDelayInMinutes = ''
 				expectExceptionToBeThrown = $false
 			}
-			@{	testDescription = 'When all parameters are provided with valid values for a Weekly frequency, it should not throw an exception.'
+			@{	testDescription = 'When all parameters are provided with valid values for a Weekly frequency, including a weekday is specified, it should not throw an exception.'
 				triggerType = 'DateTime'
 				dateTimeScheduleStartTime = $validDateTimeStartTime
 				dateTimeScheduleFrequencyOptions = 'Weekly'
 				dateTimeScheduleFrequencyDailyInterval = ''
 				dateTimeScheduleFrequencyWeeklyInterval = '1'
-				shouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnMondays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnThursdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnFridays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnSundays = $false;
-				shouldScheduledTaskRunRepeatedly = $false; scheduleRepetitionIntervalInMinutes = ''; scheduleRepetitionDurationInMinutes = ''
-				scheduleStartTimeRandomDelayInMinutes = ''
-				expectExceptionToBeThrown = $false
-			}
-			@{	testDescription = 'When all parameters are provided with valid values for a Weekly frequency and a weekday is specified, it should not throw an exception.'
-				triggerType = 'DateTime'
-				dateTimeScheduleStartTime = $validDateTimeStartTime
-				dateTimeScheduleFrequencyOptions = 'Weekly'
-				dateTimeScheduleFrequencyDailyInterval = ''
-				dateTimeScheduleFrequencyWeeklyInterval = '1'
-				shouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = $true; shouldDateTimeScheduleFrequencyWeeklyRunOnMondays = $true; shouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnThursdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnFridays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnSundays = $false;
+				shouldDateTimeScheduleFrequencyWeeklyRunOnMondays = $true; shouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnThursdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnFridays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnSundays = $false;
 				shouldScheduledTaskRunRepeatedly = $false; scheduleRepetitionIntervalInMinutes = ''; scheduleRepetitionDurationInMinutes = ''
 				scheduleStartTimeRandomDelayInMinutes = ''
 				expectExceptionToBeThrown = $false
@@ -375,18 +363,18 @@ Describe 'Get-ScheduledTaskTrigger' {
 				dateTimeScheduleFrequencyOptions = 'Weekly'
 				dateTimeScheduleFrequencyDailyInterval = ''
 				dateTimeScheduleFrequencyWeeklyInterval = '1'
-				shouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = $true; shouldDateTimeScheduleFrequencyWeeklyRunOnMondays = $true; shouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays = $true; shouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays = $true; shouldDateTimeScheduleFrequencyWeeklyRunOnThursdays = $true; shouldDateTimeScheduleFrequencyWeeklyRunOnFridays = $true; shouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays = $true; shouldDateTimeScheduleFrequencyWeeklyRunOnSundays = $true;
+				shouldDateTimeScheduleFrequencyWeeklyRunOnMondays = $true; shouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays = $true; shouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays = $true; shouldDateTimeScheduleFrequencyWeeklyRunOnThursdays = $true; shouldDateTimeScheduleFrequencyWeeklyRunOnFridays = $true; shouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays = $true; shouldDateTimeScheduleFrequencyWeeklyRunOnSundays = $true;
 				shouldScheduledTaskRunRepeatedly = $false; scheduleRepetitionIntervalInMinutes = ''; scheduleRepetitionDurationInMinutes = ''
 				scheduleStartTimeRandomDelayInMinutes = ''
 				expectExceptionToBeThrown = $false
 			}
-			@{	testDescription = 'When a Weekly frequency set to run multiple days a week is specified, but no days are specified it should throw an exception.'
+			@{	testDescription = 'When a Weekly frequency is specified, but no weekdays are specified it should throw an exception.'
 				triggerType = 'DateTime'
 				dateTimeScheduleStartTime = $validDateTimeStartTime
 				dateTimeScheduleFrequencyOptions = 'Weekly'
 				dateTimeScheduleFrequencyDailyInterval = ''
 				dateTimeScheduleFrequencyWeeklyInterval = '1'
-				shouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = $true; shouldDateTimeScheduleFrequencyWeeklyRunOnMondays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnThursdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnFridays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnSundays = $false;
+				shouldDateTimeScheduleFrequencyWeeklyRunOnMondays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnThursdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnFridays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnSundays = $false;
 				shouldScheduledTaskRunRepeatedly = $false; scheduleRepetitionIntervalInMinutes = ''; scheduleRepetitionDurationInMinutes = ''
 				scheduleStartTimeRandomDelayInMinutes = ''
 				expectExceptionToBeThrown = $true

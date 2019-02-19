@@ -91,7 +91,6 @@ function Get-ScheduledTaskTrigger
 		[string] $dateTimeScheduleFrequencyOptions,
 		[string] $dateTimeScheduleFrequencyDailyInterval,
 		[string] $dateTimeScheduleFrequencyWeeklyInterval,
-		[bool] $shouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek,
 		[bool] $shouldDateTimeScheduleFrequencyWeeklyRunOnMondays,
 		[bool] $shouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays,
 		[bool] $shouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays,
@@ -138,19 +137,16 @@ function Get-ScheduledTaskTrigger
 					$createTriggerExpression += ' -Weekly'
 					$createTriggerExpression += " -WeeksInterval $dateTimeScheduleFrequencyWeeklyInterval"
 
-					if ($shouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek)
-					{
-						[System.DayOfWeek[]] $daysOfTheWeekToRunOn = @()
-						if ($shouldDateTimeScheduleFrequencyWeeklyRunOnMondays) { $daysOfTheWeekToRunOn += [System.DayOfWeek]::Monday }
-						if ($shouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays) { $daysOfTheWeekToRunOn += [System.DayOfWeek]::Tuesday }
-						if ($shouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays) { $daysOfTheWeekToRunOn += [System.DayOfWeek]::Wednesday }
-						if ($shouldDateTimeScheduleFrequencyWeeklyRunOnThursdays) { $daysOfTheWeekToRunOn += [System.DayOfWeek]::Thursday }
-						if ($shouldDateTimeScheduleFrequencyWeeklyRunOnFridays) { $daysOfTheWeekToRunOn += [System.DayOfWeek]::Friday }
-						if ($shouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays) { $daysOfTheWeekToRunOn += [System.DayOfWeek]::Saturday }
-						if ($shouldDateTimeScheduleFrequencyWeeklyRunOnSundays) { $daysOfTheWeekToRunOn += [System.DayOfWeek]::Sunday }
-						[string] $daysOfTheWeekToRunOnString = $daysOfTheWeekToRunOn -join ','
-						$createTriggerExpression += " -DaysOfWeek $daysOfTheWeekToRunOnString"
-					}
+					[System.DayOfWeek[]] $daysOfTheWeekToRunOn = @()
+					if ($shouldDateTimeScheduleFrequencyWeeklyRunOnMondays) { $daysOfTheWeekToRunOn += [System.DayOfWeek]::Monday }
+					if ($shouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays) { $daysOfTheWeekToRunOn += [System.DayOfWeek]::Tuesday }
+					if ($shouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays) { $daysOfTheWeekToRunOn += [System.DayOfWeek]::Wednesday }
+					if ($shouldDateTimeScheduleFrequencyWeeklyRunOnThursdays) { $daysOfTheWeekToRunOn += [System.DayOfWeek]::Thursday }
+					if ($shouldDateTimeScheduleFrequencyWeeklyRunOnFridays) { $daysOfTheWeekToRunOn += [System.DayOfWeek]::Friday }
+					if ($shouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays) { $daysOfTheWeekToRunOn += [System.DayOfWeek]::Saturday }
+					if ($shouldDateTimeScheduleFrequencyWeeklyRunOnSundays) { $daysOfTheWeekToRunOn += [System.DayOfWeek]::Sunday }
+					[string] $daysOfTheWeekToRunOnString = $daysOfTheWeekToRunOn -join ','
+					$createTriggerExpression += " -DaysOfWeek $daysOfTheWeekToRunOnString"
 				}
 			}
 			break
