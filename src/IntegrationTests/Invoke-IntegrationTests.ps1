@@ -299,6 +299,7 @@ Process
 	}
 
 	# This should be the last to to run to ensure all test tasks are uninstalled to keep everything nice and clean.
+	Write-Output "Uninstalling any lingering Scheduled Tasks. Typically nothing should be left to uninstall at this point."
 	Uninstall-AllTestScheduledTasks
 }
 
