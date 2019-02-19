@@ -1,3 +1,7 @@
+# These tests create and manipulate real Scheduled Tasks on the localhost.
+# The Scheduled Tasks it manipulates are isolated in their own directory, and get cleaned up when the tests are done.
+#Requires -RunAsAdministrator
+
 Process
 {
 	Describe 'Installing Scheduled Tasks' {
