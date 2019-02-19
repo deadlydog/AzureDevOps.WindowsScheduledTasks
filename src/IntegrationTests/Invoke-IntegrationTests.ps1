@@ -532,7 +532,6 @@ Begin
 		DateTimeScheduleFrequencyOptions = 'Once' # 'Once', 'Daily', 'Weekly'
 		DateTimeScheduleFrequencyDailyInterval = ''
 		DateTimeScheduleFrequencyWeeklyInterval = ''
-		ShouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = $false
 		ShouldDateTimeScheduleFrequencyWeeklyRunOnMondays = $false
 		ShouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays = $false
 		ShouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays = $false
@@ -572,7 +571,6 @@ Begin
 		DateTimeScheduleFrequencyOptions = 'Once' # 'Once', 'Daily', 'Weekly'
 		DateTimeScheduleFrequencyDailyInterval = ''
 		DateTimeScheduleFrequencyWeeklyInterval = ''
-		ShouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = $false
 		ShouldDateTimeScheduleFrequencyWeeklyRunOnMondays = $false
 		ShouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays = $false
 		ShouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays = $false
@@ -612,7 +610,6 @@ Begin
 		DateTimeScheduleFrequencyOptions = 'Once' # 'Once', 'Daily', 'Weekly'
 		DateTimeScheduleFrequencyDailyInterval = ''
 		DateTimeScheduleFrequencyWeeklyInterval = ''
-		ShouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = $false
 		ShouldDateTimeScheduleFrequencyWeeklyRunOnMondays = $false
 		ShouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays = $false
 		ShouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays = $false
@@ -652,7 +649,6 @@ Begin
 		DateTimeScheduleFrequencyOptions = 'Once' # 'Once', 'Daily', 'Weekly'
 		DateTimeScheduleFrequencyDailyInterval = ''
 		DateTimeScheduleFrequencyWeeklyInterval = ''
-		ShouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = $false
 		ShouldDateTimeScheduleFrequencyWeeklyRunOnMondays = $false
 		ShouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays = $false
 		ShouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays = $false
@@ -692,7 +688,6 @@ Begin
 		DateTimeScheduleFrequencyOptions = 'Once' # 'Once', 'Daily', 'Weekly'
 		DateTimeScheduleFrequencyDailyInterval = ''
 		DateTimeScheduleFrequencyWeeklyInterval = ''
-		ShouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = $false
 		ShouldDateTimeScheduleFrequencyWeeklyRunOnMondays = $false
 		ShouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays = $false
 		ShouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays = $false
@@ -732,7 +727,6 @@ Begin
 		DateTimeScheduleFrequencyOptions = 'Once' # 'Once', 'Daily', 'Weekly'
 		DateTimeScheduleFrequencyDailyInterval = ''
 		DateTimeScheduleFrequencyWeeklyInterval = ''
-		ShouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = $false
 		ShouldDateTimeScheduleFrequencyWeeklyRunOnMondays = $false
 		ShouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays = $false
 		ShouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays = $false
@@ -772,7 +766,6 @@ Begin
 		DateTimeScheduleFrequencyOptions = 'Once' # 'Once', 'Daily', 'Weekly'
 		DateTimeScheduleFrequencyDailyInterval = ''
 		DateTimeScheduleFrequencyWeeklyInterval = ''
-		ShouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = $false
 		ShouldDateTimeScheduleFrequencyWeeklyRunOnMondays = $false
 		ShouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays = $false
 		ShouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays = $false
@@ -811,7 +804,6 @@ Begin
 		DateTimeScheduleFrequencyOptions = 'Once' # 'Once', 'Daily', 'Weekly'
 		DateTimeScheduleFrequencyDailyInterval = ''
 		DateTimeScheduleFrequencyWeeklyInterval = ''
-		ShouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = $false
 		ShouldDateTimeScheduleFrequencyWeeklyRunOnMondays = $false
 		ShouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays = $false
 		ShouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays = $false
@@ -850,7 +842,6 @@ Begin
 		DateTimeScheduleFrequencyOptions = 'Weekly' # 'Once', 'Daily', 'Weekly'
 		DateTimeScheduleFrequencyDailyInterval = ''
 		DateTimeScheduleFrequencyWeeklyInterval = '1'
-		ShouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = $true
 		ShouldDateTimeScheduleFrequencyWeeklyRunOnMondays = $true
 		ShouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays = $false
 		ShouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays = $false
@@ -889,7 +880,6 @@ Begin
 		DateTimeScheduleFrequencyOptions = 'Weekly' # 'Once', 'Daily', 'Weekly'
 		DateTimeScheduleFrequencyDailyInterval = ''
 		DateTimeScheduleFrequencyWeeklyInterval = '1'
-		ShouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = $true
 		ShouldDateTimeScheduleFrequencyWeeklyRunOnMondays = $true
 		ShouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays = $true
 		ShouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays = $true
