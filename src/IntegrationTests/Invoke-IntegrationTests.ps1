@@ -31,6 +31,14 @@ Process
 					scheduledTaskParameters = $XmlDateTimeScheduledTaskParameters
 					expectExceptionToBeThrown = $false
 				}
+				@{	testDescription = 'For a Weekly DateTime trigger on one day of the week, it gets created as expected.'
+					scheduledTaskParameters = $WeeklyScheduledTaskParameters
+					expectExceptionToBeThrown = $false
+				}
+				@{	testDescription = 'For a Weekly DateTime trigger on multiple days of the week, it gets created as expected.'
+					scheduledTaskParameters = $WeeklyMultipleDaysScheduledTaskParameters
+					expectExceptionToBeThrown = $false
+				}
 			)
 			$tests | ForEach-Object {
 				[hashtable] $parameters = $_
@@ -819,6 +827,84 @@ Begin
 		CustomAccountToRunScheduledTaskAsUsername = ''
 		CustomAccountToRunScheduledTaskAsPassword = ''
 		ShouldScheduledTaskBeEnabled = $false
+		ShouldScheduledTaskRunWithHighestPrivileges = $false
+		ShouldScheduledTaskRunAfterInstall = $false
+		ComputerNames = ''
+		Username = ''
+		Password = ''
+		UseCredSsp = $false
+	}
+
+	[hashtable] $WeeklyScheduledTaskParameters = @{
+		ScheduledTaskDefinitionSource = 'Inline' # 'ImportFromXmlFile', 'Inline'
+		ScheduledTaskXmlFileToImportFrom = ''
+		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-Weekly')
+		ScheduledTaskDescription = 'A test task.'
+		ApplicationPathToRun = 'C:\Dummy.exe'
+		ApplicationArguments = ''
+		WorkingDirectoryOptions = 'ApplicationDirectory' # 'ApplicationDirectory', 'CustomDirectory'
+		CustomWorkingDirectory = ''
+		ScheduleTriggerType = 'DateTime' # 'DateTime', 'AtLogOn', 'AtStartup'
+		AtLogOnTriggerUsername = ''
+		DateTimeScheduleStartTime = '2050-01-01T01:00:00'
+		DateTimeScheduleFrequencyOptions = 'Weekly' # 'Once', 'Daily', 'Weekly'
+		DateTimeScheduleFrequencyDailyInterval = ''
+		DateTimeScheduleFrequencyWeeklyInterval = '1'
+		ShouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = $true
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnMondays = $true
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnThursday = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnFridays = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnSundays = $false
+		ShouldScheduledTaskRunRepeatedly = $false
+		ScheduleRepetitionIntervalInMinutes = ''
+		ScheduleRepetitionDurationInMinutes = ''
+		ScheduleStartTimeRandomDelayInMinutes = ''
+		ScheduledTaskAccountToRunAsOptions = 'LocalService' # 'System', 'LocalService', 'NetworkService', 'CustomAccount'
+		CustomAccountToRunScheduledTaskAsUsername = ''
+		CustomAccountToRunScheduledTaskAsPassword = ''
+		ShouldScheduledTaskBeEnabled = $true
+		ShouldScheduledTaskRunWithHighestPrivileges = $false
+		ShouldScheduledTaskRunAfterInstall = $false
+		ComputerNames = ''
+		Username = ''
+		Password = ''
+		UseCredSsp = $false
+	}
+
+	[hashtable] $WeeklyMultipleDaysScheduledTaskParameters = @{
+		ScheduledTaskDefinitionSource = 'Inline' # 'ImportFromXmlFile', 'Inline'
+		ScheduledTaskXmlFileToImportFrom = ''
+		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-WeeklyMultipleDays')
+		ScheduledTaskDescription = 'A test task.'
+		ApplicationPathToRun = 'C:\Dummy.exe'
+		ApplicationArguments = ''
+		WorkingDirectoryOptions = 'ApplicationDirectory' # 'ApplicationDirectory', 'CustomDirectory'
+		CustomWorkingDirectory = ''
+		ScheduleTriggerType = 'DateTime' # 'DateTime', 'AtLogOn', 'AtStartup'
+		AtLogOnTriggerUsername = ''
+		DateTimeScheduleStartTime = '01/01/2050 01:00:00'
+		DateTimeScheduleFrequencyOptions = 'Weekly' # 'Once', 'Daily', 'Weekly'
+		DateTimeScheduleFrequencyDailyInterval = ''
+		DateTimeScheduleFrequencyWeeklyInterval = '1'
+		ShouldDateTimeScheduleFrequencyWeeklyRunMulipleTimesAWeek = $true
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnMondays = $true
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays = $true
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays = $true
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnThursday = $true
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnFridays = $true
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays = $false
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnSundays = $false
+		ShouldScheduledTaskRunRepeatedly = $false
+		ScheduleRepetitionIntervalInMinutes = ''
+		ScheduleRepetitionDurationInMinutes = ''
+		ScheduleStartTimeRandomDelayInMinutes = ''
+		ScheduledTaskAccountToRunAsOptions = 'LocalService' # 'System', 'LocalService', 'NetworkService', 'CustomAccount'
+		CustomAccountToRunScheduledTaskAsUsername = ''
+		CustomAccountToRunScheduledTaskAsPassword = ''
+		ShouldScheduledTaskBeEnabled = $true
 		ShouldScheduledTaskRunWithHighestPrivileges = $false
 		ShouldScheduledTaskRunAfterInstall = $false
 		ComputerNames = ''
