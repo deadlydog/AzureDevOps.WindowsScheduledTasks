@@ -121,7 +121,7 @@ function Get-ScheduledTaskTrigger
 		}
 
 		'DateTime' {
-			$createTriggerExpression += " -At $dateTimeScheduleStartTime"
+			$createTriggerExpression += " -At '$dateTimeScheduleStartTime'"
 
 			switch ($dateTimeScheduleFrequencyOptions)
 			{

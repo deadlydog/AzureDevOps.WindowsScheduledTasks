@@ -284,7 +284,7 @@ Describe 'Get-ScheduledTaskTrigger' {
 	}
 
 	[string] $validAtLogOnUsername = 'Dan'
-	[string] $validDateTimeStartTime = '3am'
+	[string] $validDateTimeStartTime = '2019/01/21 3am'
 
 	Context 'When using an At Startup trigger' {
 		[hashtable[]] $tests = @(
