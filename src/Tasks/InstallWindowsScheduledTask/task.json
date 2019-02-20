@@ -13,7 +13,7 @@
   "version": {
     "Major": 0,
     "Minor": 0,
-    "Patch": 41
+    "Patch": 42
   },
   "instanceNameFormat": "Install Windows Scheduled Task \u0027$(ScheduledTaskName)\u0027",
   "groups": [
