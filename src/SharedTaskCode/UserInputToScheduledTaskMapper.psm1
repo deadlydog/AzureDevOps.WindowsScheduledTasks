@@ -147,6 +147,11 @@ function Get-ScheduledTaskTrigger
 					if ($shouldDateTimeScheduleFrequencyWeeklyRunOnSundays) { $daysOfTheWeekToRunOn += [System.DayOfWeek]::Sunday }
 					[string] $daysOfTheWeekToRunOnString = $daysOfTheWeekToRunOn -join ','
 					$createTriggerExpression += " -DaysOfWeek $daysOfTheWeekToRunOnString"
+
+					if ([string]::IsNullOrWhiteSpace($daysOfTheWeekToRunOnString))
+					{
+						throw "When using a Weekly DateTime trigger, you must specify at least one day of the week (Monday - Sunday) that the Scheduled Task should run on."
+					}
 				}
 			}
 			break
