@@ -49,6 +49,12 @@
     },
     {
       "path": "Tasks/UninstallWindowsScheduledTask"
+		},
+		{
+    	"path": "Tasks/EnableWindowsScheduledTask"
+		},
+		{
+    	"path": "Tasks/DisableWindowsScheduledTask"
     }
   ],
   "contributions": [
