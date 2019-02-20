@@ -15,7 +15,7 @@
     "Minor": 0,
     "Patch": 45
   },
-  "instanceNameFormat": "Enable Windows Scheduled Task \u0027$(ScheduledTaskName)\u0027",
+  "instanceNameFormat": "Enable Windows Scheduled Task \u0027$(ScheduledTaskFullName)\u0027",
   "groups": [
     {
       "name": "ScheduledTaskSettings",
