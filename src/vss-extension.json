@@ -11,7 +11,7 @@
   ],
   "description": "Tasks for installing and uninstalling Windows Scheduled Tasks.",
   "categories": [
-    "Build and release"
+    "Azure Pipelines"
   ],
   "tags": [
     "utility",
