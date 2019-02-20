@@ -71,6 +71,26 @@
       "properties": {
         "name": "Tasks/UninstallWindowsScheduledTask"
       }
+		},
+		{
+    	"id": "EnableWindowsScheduledTask",
+    	"type": "ms.vss-distributed-task.task",
+    	"targets": [
+    		"ms.vss-distributed-task.tasks"
+    	],
+    	"properties": {
+    		"name": "Tasks/EnableWindowsScheduledTask"
+    	}
+		},
+		{
+    	"id": "DisableWindowsScheduledTask",
+    	"type": "ms.vss-distributed-task.task",
+    	"targets": [
+    		"ms.vss-distributed-task.tasks"
+    	],
+    	"properties": {
+    		"name": "Tasks/DisableWindowsScheduledTask"
+    	}
     }
   ],
   "_internalCommentForMyself": [
