@@ -40,23 +40,6 @@ function Get-BoolValueFromString([string] $string, [switch] $required)
 	return $false
 }
 
-function Get-IntValueFromString([string] $string, [switch] $required)
-{
-	[int] $value = $null
-	if ([int]::TryParse($string, [ref]$value))
-	{
-		return $value
-	}
-
-	if ($required)
-	{
-		throw "Could not convert the string '$string' to an integer value."
-	}
-
-	return 0
-}
-
 Export-ModuleMember -Function Get-ComputersToConnectToOrNull
 Export-ModuleMember -Function Convert-UsernameAndPasswordToCredentialsOrNull
 Export-ModuleMember -Function Get-BoolValueFromString
-Export-ModuleMember -Function Get-IntValueFromString
