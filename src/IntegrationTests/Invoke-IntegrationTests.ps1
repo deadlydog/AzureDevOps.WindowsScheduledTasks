@@ -902,4 +902,8 @@ Begin
 		Password = ''
 		UseCredSsp = $false
 	}
+
+	# Tests to still add:
+	# 	- An error message is thrown when using Weekly with no weekdays specified.
+	#	- An empty description does not cause the task to fail installation.
 }

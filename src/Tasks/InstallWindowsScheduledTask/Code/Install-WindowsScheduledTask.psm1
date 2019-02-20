@@ -154,6 +154,12 @@ function Install-WindowsScheduledTask
 			[string] $taskPathAndName = $scheduledTaskSettings.ScheduledTaskPath + $scheduledTaskSettings.ScheduledTaskName
 			[bool] $passwordWasSupplied = !([string]::IsNullOrEmpty($scheduledTaskSettings.AccountToRunScheduledTaskAsPassword))
 
+			# An empty description will fail the Register-ScheduledTask parameter validation, so make it a space if it's empty.
+			if ([string]::IsNullOrEmpty($scheduledTaskSettings.ScheduledTaskDescription))
+			{
+				$scheduledTaskSettings.ScheduledTaskDescription = ' '
+			}
+
 			$scheduledTask = $null
 			if ($installFromXml)
 			{
