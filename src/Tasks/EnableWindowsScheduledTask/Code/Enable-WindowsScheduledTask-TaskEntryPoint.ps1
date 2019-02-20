@@ -14,18 +14,19 @@ param
 	[string] $Password,
 
 	[parameter(Mandatory=$false,HelpMessage="If CredSSP should be used when connecting to remote computers or not.")]
-	[bool] $UseCredSsp
+	[string] $UseCredSspString
 )
 
 Process
 {
 	Write-Verbose "About to attempt to enable Windows Scheduled Task '$ScheduledTaskFullName' on '$ComputerNames'." -Verbose
 
+	[bool] $useCredSsp = Get-BoolValueFromString -string $UseCredSspString
 	[string[]] $computers = Get-ComputersToConnectToOrNull -computerNames $ComputerNames
 	[PSCredential] $credential = Convert-UsernameAndPasswordToCredentialsOrNull -username $Username -password $Password
 	[hashtable] $taskNameAndPath = Get-ScheduledTaskNameAndPath -fullTaskName $ScheduledTaskFullName
 
-	Enable-WindowsScheduledTask -ScheduledTaskName $taskNameAndPath.Name -ScheduledTaskPath $taskNameAndPath.Path -ComputerName $computers -Credential $credential -UseCredSsp $UseCredSsp
+	Enable-WindowsScheduledTask -ScheduledTaskName $taskNameAndPath.Name -ScheduledTaskPath $taskNameAndPath.Path -ComputerName $computers -Credential $credential -UseCredSsp $useCredSsp
 }
 
 Begin

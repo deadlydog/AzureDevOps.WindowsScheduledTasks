@@ -48,28 +48,28 @@ param
 	[string] $DateTimeScheduleFrequencyWeeklyInterval,
 
 	[parameter(Mandatory=$false,HelpMessage="Should the Scheduled Task on a Weekly frequency be ran on Mondays or not.")]
-	[bool] $ShouldDateTimeScheduleFrequencyWeeklyRunOnMondays,
+	[string] $ShouldDateTimeScheduleFrequencyWeeklyRunOnMondaysString,
 
 	[parameter(Mandatory=$false,HelpMessage="Should the Scheduled Task on a Weekly frequency be ran on Tuesdays or not.")]
-	[bool] $ShouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays,
+	[string] $ShouldDateTimeScheduleFrequencyWeeklyRunOnTuesdaysString,
 
 	[parameter(Mandatory=$false,HelpMessage="Should the Scheduled Task on a Weekly frequency be ran on Wednesdays or not.")]
-	[bool] $ShouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays,
+	[string] $ShouldDateTimeScheduleFrequencyWeeklyRunOnWednesdaysString,
 
 	[parameter(Mandatory=$false,HelpMessage="Should the Scheduled Task on a Weekly frequency be ran on Thursdays or not.")]
-	[bool] $ShouldDateTimeScheduleFrequencyWeeklyRunOnThursdays,
+	[string] $ShouldDateTimeScheduleFrequencyWeeklyRunOnThursdaysString,
 
 	[parameter(Mandatory=$false,HelpMessage="Should the Scheduled Task on a Weekly frequency be ran on Fridays or not.")]
-	[bool] $ShouldDateTimeScheduleFrequencyWeeklyRunOnFridays,
+	[string] $ShouldDateTimeScheduleFrequencyWeeklyRunOnFridaysString,
 
 	[parameter(Mandatory=$false,HelpMessage="Should the Scheduled Task on a Weekly frequency be ran on Saturdays or not.")]
-	[bool] $ShouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays,
+	[string] $ShouldDateTimeScheduleFrequencyWeeklyRunOnSaturdaysString,
 
 	[parameter(Mandatory=$false,HelpMessage="Should the Scheduled Task on a Weekly frequency be ran on Sundays or not.")]
-	[bool] $ShouldDateTimeScheduleFrequencyWeeklyRunOnSundays,
+	[string] $ShouldDateTimeScheduleFrequencyWeeklyRunOnSundaysString,
 
 	[parameter(Mandatory=$false,HelpMessage="Should the Scheduled Task run repeatedly again after being triggered.")]
-	[bool] $ShouldScheduledTaskRunRepeatedly,
+	[string] $ShouldScheduledTaskRunRepeatedlyString,
 
 	[parameter(Mandatory=$false,HelpMessage="How long to wait before running the Scheduled Task again.")]
 	[string] $ScheduleRepetitionIntervalInMinutes,
@@ -91,13 +91,13 @@ param
 	[string] $CustomAccountToRunScheduledTaskAsPassword,
 
 	[parameter(Mandatory=$false,HelpMessage="Should the Scheduled Task be enabled when it's installed or not.")]
-	[bool] $ShouldScheduledTaskBeEnabled,
+	[string] $ShouldScheduledTaskBeEnabledString,
 
 	[parameter(Mandatory=$false,HelpMessage="Should the Scheduled Task run with the highest privileges.")]
-	[bool] $ShouldScheduledTaskRunWithHighestPrivileges,
+	[string] $ShouldScheduledTaskRunWithHighestPrivilegesString,
 
 	[parameter(Mandatory=$false,HelpMessage="Should the Scheduled Task be run immediately after it's installed or not.")]
-	[bool] $ShouldScheduledTaskRunAfterInstall,
+	[string] $ShouldScheduledTaskRunAfterInstallString,
 
 	[parameter(Mandatory=$false,HelpMessage="Comma-separated list of the computer(s) to install the scheduled task on.")]
 	[string] $ComputerNames,
@@ -109,13 +109,25 @@ param
 	[string] $Password,
 
 	[parameter(Mandatory=$false,HelpMessage="If CredSSP should be used when connecting to remote computers or not.")]
-	[bool] $UseCredSsp
+	[string] $UseCredSspString
 )
 
 Process
 {
 	Write-Verbose "About to attempt to install Windows Scheduled Task '$ScheduledTaskFullName' on '$ComputerNames'." -Verbose
 
+	[bool] $shouldDateTimeScheduleFrequencyWeeklyRunOnMondays = Get-BoolValueFromString -string $ShouldDateTimeScheduleFrequencyWeeklyRunOnMondaysString
+	[bool] $shouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays = Get-BoolValueFromString -string $ShouldDateTimeScheduleFrequencyWeeklyRunOnTuesdaysString
+	[bool] $shouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays = Get-BoolValueFromString -string $ShouldDateTimeScheduleFrequencyWeeklyRunOnWednesdaysString
+	[bool] $shouldDateTimeScheduleFrequencyWeeklyRunOnThursdays = Get-BoolValueFromString -string $ShouldDateTimeScheduleFrequencyWeeklyRunOnThursdaysString
+	[bool] $shouldDateTimeScheduleFrequencyWeeklyRunOnFridays = Get-BoolValueFromString -string $ShouldDateTimeScheduleFrequencyWeeklyRunOnFridaysString
+	[bool] $shouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays = Get-BoolValueFromString -string $ShouldDateTimeScheduleFrequencyWeeklyRunOnSaturdaysString
+	[bool] $shouldDateTimeScheduleFrequencyWeeklyRunOnSundays = Get-BoolValueFromString -string $ShouldDateTimeScheduleFrequencyWeeklyRunOnSundaysString
+	[bool] $shouldScheduledTaskRunRepeatedly = Get-BoolValueFromString -string $ShouldScheduledTaskRunRepeatedlyString
+	[bool] $shouldScheduledTaskBeEnabled = Get-BoolValueFromString -string $ShouldScheduledTaskBeEnabledString
+	[bool] $shouldScheduledTaskRunWithHighestPrivileges = Get-BoolValueFromString -string $ShouldScheduledTaskRunWithHighestPrivilegesString
+	[bool] $shouldScheduledTaskRunAfterInstall = Get-BoolValueFromString -string $ShouldScheduledTaskRunAfterInstallString
+	[bool] $useCredSsp = Get-BoolValueFromString -string $UseCredSspString
 	[string[]] $computers = Get-ComputersToConnectToOrNull -computerNames $ComputerNames
 	[PSCredential] $credential = Convert-UsernameAndPasswordToCredentialsOrNull -username $Username -password $Password
 
@@ -125,7 +137,7 @@ Process
 
 	if ($ScheduledTaskDefinitionSource -eq 'ImportFromXmlFile')
 	{
-		Install-WindowsScheduledTask -XmlFilePath $ScheduledTaskXmlFileToImportFrom -ScheduledTaskName $taskNameAndPath.Name -ScheduledTaskPath $taskNameAndPath.Path -AccountToRunScheduledTaskAsUsername $accountCredentialsToRunScheduledTaskAs.Username -AccountToRunScheduledTaskAsPassword $accountCredentialsToRunScheduledTaskAs.Password -ShouldScheduledTaskRunAfterInstall $ShouldScheduledTaskRunAfterInstall -ComputerName $computers -Credential $credential -UseCredSsp $UseCredSsp -Verbose
+		Install-WindowsScheduledTask -XmlFilePath $ScheduledTaskXmlFileToImportFrom -ScheduledTaskName $taskNameAndPath.Name -ScheduledTaskPath $taskNameAndPath.Path -AccountToRunScheduledTaskAsUsername $accountCredentialsToRunScheduledTaskAs.Username -AccountToRunScheduledTaskAsPassword $accountCredentialsToRunScheduledTaskAs.Password -ShouldScheduledTaskRunAfterInstall $shouldScheduledTaskRunAfterInstall -ComputerName $computers -Credential $credential -UseCredSsp $useCredSsp -Verbose
 		return
 	}
 
@@ -133,13 +145,13 @@ Process
 
 	[ciminstance[]] $scheduledTaskAction = Get-ScheduledTaskAction -applicationPathToRun $ApplicationPathToRun -applicationArguments $ApplicationArguments -workingDirectory $workingDirectory
 
-	[ciminstance[]] $scheduledTaskTrigger = Get-ScheduledTaskTrigger -triggerType $ScheduleTriggerType -atLogOnTriggerUsername $AtLogOnTriggerUsername -dateTimeScheduleStartTime $DateTimeScheduleStartTime -dateTimeScheduleFrequencyOptions $DateTimeScheduleFrequencyOptions -dateTimeScheduleFrequencyDailyInterval $DateTimeScheduleFrequencyDailyInterval -dateTimeScheduleFrequencyWeeklyInterval $DateTimeScheduleFrequencyWeeklyInterval -shouldDateTimeScheduleFrequencyWeeklyRunOnMondays $ShouldDateTimeScheduleFrequencyWeeklyRunOnMondays -shouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays $ShouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays -shouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays $ShouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays -shouldDateTimeScheduleFrequencyWeeklyRunOnThursdays $ShouldDateTimeScheduleFrequencyWeeklyRunOnThursdays -shouldDateTimeScheduleFrequencyWeeklyRunOnFridays $ShouldDateTimeScheduleFrequencyWeeklyRunOnFridays -shouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays $ShouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays -shouldDateTimeScheduleFrequencyWeeklyRunOnSundays $ShouldDateTimeScheduleFrequencyWeeklyRunOnSundays -shouldScheduledTaskRunRepeatedly $ShouldScheduledTaskRunRepeatedly -scheduleRepetitionIntervalInMinutes $ScheduleRepetitionIntervalInMinutes -scheduleRepetitionDurationInMinutes $ScheduleRepetitionDurationInMinutes -scheduleStartTimeRandomDelayInMinutes $ScheduleStartTimeRandomDelayInMinutes
+	[ciminstance[]] $scheduledTaskTrigger = Get-ScheduledTaskTrigger -triggerType $ScheduleTriggerType -atLogOnTriggerUsername $AtLogOnTriggerUsername -dateTimeScheduleStartTime $DateTimeScheduleStartTime -dateTimeScheduleFrequencyOptions $DateTimeScheduleFrequencyOptions -dateTimeScheduleFrequencyDailyInterval $DateTimeScheduleFrequencyDailyInterval -dateTimeScheduleFrequencyWeeklyInterval $DateTimeScheduleFrequencyWeeklyInterval -shouldDateTimeScheduleFrequencyWeeklyRunOnMondays $shouldDateTimeScheduleFrequencyWeeklyRunOnMondays -shouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays $shouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays -shouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays $shouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays -shouldDateTimeScheduleFrequencyWeeklyRunOnThursdays $shouldDateTimeScheduleFrequencyWeeklyRunOnThursdays -shouldDateTimeScheduleFrequencyWeeklyRunOnFridays $shouldDateTimeScheduleFrequencyWeeklyRunOnFridays -shouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays $shouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays -shouldDateTimeScheduleFrequencyWeeklyRunOnSundays $shouldDateTimeScheduleFrequencyWeeklyRunOnSundays -shouldScheduledTaskRunRepeatedly $shouldScheduledTaskRunRepeatedly -scheduleRepetitionIntervalInMinutes $ScheduleRepetitionIntervalInMinutes -scheduleRepetitionDurationInMinutes $ScheduleRepetitionDurationInMinutes -scheduleStartTimeRandomDelayInMinutes $ScheduleStartTimeRandomDelayInMinutes
 
-	[ciminstance] $scheduledTaskSettings = Get-ScheduledTaskSettings -shouldBeEnabled $ShouldScheduledTaskBeEnabled
+	[ciminstance] $scheduledTaskSettings = Get-ScheduledTaskSettings -shouldBeEnabled $shouldScheduledTaskBeEnabled
 
-	$scheduledTaskRunLevel = Get-ScheduledTaskRunLevel -shouldScheduledTaskRunWithHighestPrivileges $ShouldScheduledTaskRunWithHighestPrivileges
+	$scheduledTaskRunLevel = Get-ScheduledTaskRunLevel -shouldScheduledTaskRunWithHighestPrivileges $shouldScheduledTaskRunWithHighestPrivileges
 
-	Install-WindowsScheduledTask -ScheduledTaskName $taskNameAndPath.Name -ScheduledTaskPath $taskNameAndPath.Path -AccountToRunScheduledTaskAsUsername $accountCredentialsToRunScheduledTaskAs.Username -AccountToRunScheduledTaskAsPassword $accountCredentialsToRunScheduledTaskAs.Password -ScheduledTaskDescription $ScheduledTaskDescription -ScheduledTaskAction $scheduledTaskAction -ScheduledTaskSettings $scheduledTaskSettings -ScheduledTaskTrigger $scheduledTaskTrigger -ScheduledTaskRunLevel $scheduledTaskRunLevel -ShouldScheduledTaskRunAfterInstall $ShouldScheduledTaskRunAfterInstall -ComputerName $computers -Credential $credential -UseCredSsp $UseCredSsp -Verbose
+	Install-WindowsScheduledTask -ScheduledTaskName $taskNameAndPath.Name -ScheduledTaskPath $taskNameAndPath.Path -AccountToRunScheduledTaskAsUsername $accountCredentialsToRunScheduledTaskAs.Username -AccountToRunScheduledTaskAsPassword $accountCredentialsToRunScheduledTaskAs.Password -ScheduledTaskDescription $ScheduledTaskDescription -ScheduledTaskAction $scheduledTaskAction -ScheduledTaskSettings $scheduledTaskSettings -ScheduledTaskTrigger $scheduledTaskTrigger -ScheduledTaskRunLevel $scheduledTaskRunLevel -ShouldScheduledTaskRunAfterInstall $shouldScheduledTaskRunAfterInstall -ComputerName $computers -Credential $credential -UseCredSsp $useCredSsp -Verbose
 }
 
 Begin

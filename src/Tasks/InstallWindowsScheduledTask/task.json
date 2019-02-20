@@ -186,7 +186,7 @@
       "groupName": "ScheduledTaskSettings"
     },
     {
-      "name": "ShouldDateTimeScheduleFrequencyWeeklyRunOnMondays",
+      "name": "ShouldDateTimeScheduleFrequencyWeeklyRunOnMondaysString",
       "type": "boolean",
       "label": "Monday",
       "visibleRule": "DateTimeScheduleFrequencyOptions = Weekly",
@@ -196,7 +196,7 @@
       "groupName": "ScheduledTaskSettings"
     },
     {
-      "name": "ShouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays",
+      "name": "ShouldDateTimeScheduleFrequencyWeeklyRunOnTuesdaysString",
       "type": "boolean",
       "label": "Tuesday",
       "visibleRule": "DateTimeScheduleFrequencyOptions = Weekly",
@@ -206,7 +206,7 @@
       "groupName": "ScheduledTaskSettings"
     },
     {
-      "name": "ShouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays",
+      "name": "ShouldDateTimeScheduleFrequencyWeeklyRunOnWednesdaysString",
       "type": "boolean",
       "label": "Wednesday",
       "visibleRule": "DateTimeScheduleFrequencyOptions = Weekly",
@@ -216,7 +216,7 @@
       "groupName": "ScheduledTaskSettings"
     },
     {
-      "name": "ShouldDateTimeScheduleFrequencyWeeklyRunOnThursdays",
+      "name": "ShouldDateTimeScheduleFrequencyWeeklyRunOnThursdaysString",
       "type": "boolean",
       "label": "Thursday",
       "visibleRule": "DateTimeScheduleFrequencyOptions = Weekly",
@@ -226,7 +226,7 @@
       "groupName": "ScheduledTaskSettings"
     },
     {
-      "name": "ShouldDateTimeScheduleFrequencyWeeklyRunOnFridays",
+      "name": "ShouldDateTimeScheduleFrequencyWeeklyRunOnFridaysString",
       "type": "boolean",
       "label": "Friday",
       "visibleRule": "DateTimeScheduleFrequencyOptions = Weekly",
@@ -236,7 +236,7 @@
       "groupName": "ScheduledTaskSettings"
     },
     {
-      "name": "ShouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays",
+      "name": "ShouldDateTimeScheduleFrequencyWeeklyRunOnSaturdaysString",
       "type": "boolean",
       "label": "Saturday",
       "visibleRule": "DateTimeScheduleFrequencyOptions = Weekly",
@@ -246,7 +246,7 @@
       "groupName": "ScheduledTaskSettings"
     },
     {
-      "name": "ShouldDateTimeScheduleFrequencyWeeklyRunOnSundays",
+      "name": "ShouldDateTimeScheduleFrequencyWeeklyRunOnSundaysString",
       "type": "boolean",
       "label": "Sunday",
       "visibleRule": "DateTimeScheduleFrequencyOptions = Weekly",
@@ -256,7 +256,7 @@
       "groupName": "ScheduledTaskSettings"
     },
     {
-      "name": "ShouldScheduledTaskRunRepeatedly",
+      "name": "ShouldScheduledTaskRunRepeatedlyString",
       "type": "boolean",
       "label": "Repeat the Scheduled Task",
       "visibleRule": "ScheduledTaskDefinitionSource = Inline",
@@ -331,7 +331,7 @@
       "groupName": "ScheduledTaskSettings"
     },
     {
-      "name": "ShouldScheduledTaskBeEnabled",
+      "name": "ShouldScheduledTaskBeEnabledString",
       "type": "boolean",
       "label": "Enabled",
       "visibleRule": "ScheduledTaskDefinitionSource = Inline",
@@ -341,7 +341,7 @@
       "groupName": "ScheduledTaskSettings"
     },
     {
-      "name": "ShouldScheduledTaskRunWithHighestPrivileges",
+      "name": "ShouldScheduledTaskRunWithHighestPrivilegesString",
       "type": "boolean",
       "label": "Run With Highest Privileges",
       "visibleRule": "ScheduledTaskDefinitionSource = Inline",
@@ -351,7 +351,7 @@
       "groupName": "ScheduledTaskSettings"
     },
     {
-      "name": "ShouldScheduledTaskRunAfterInstall",
+      "name": "ShouldScheduledTaskRunAfterInstallString",
       "type": "boolean",
       "label": "Run after installed",
       "visibleRule": "ShouldScheduledTaskBeEnabled = true",
@@ -388,7 +388,7 @@
       "groupName": "ServerSettings"
     },
     {
-      "name": "UseCredSsp",
+      "name": "UseCredSspString",
       "type": "boolean",
       "label": "Use CredSSP",
       "required": false,
