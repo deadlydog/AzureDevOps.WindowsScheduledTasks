@@ -1,7 +1,7 @@
 {
   "id": "86718630-D8A5-128F-9C17-1C99F7C7CAD0",
   "name": "InstallWindowsScheduledTask",
-  "friendlyName": "Install Windows Scheduled Task",
+  "friendlyName": "Windows Scheduled Task - Install",
   "description": "Installs a Windows Scheduled Task",
 "helpMarkDown": "[More Information](https://github.com/deadlydog/AzureDevOps.WindowsScheduledTasks)",
   "category": "Utility",
