@@ -5,7 +5,7 @@
 Process
 {
 	Describe 'Installing Scheduled Tasks' {
-		Context 'When the task definition parameters are valid' {
+		Context 'When installing a Scheduled Task' {
 			[hashtable[]] $tests = @(
 				@{	testDescription = 'For an inline definition with an AtStartup trigger, it gets created as expected.'
 					scheduledTaskParameters = $InlineAtStartupScheduledTaskParameters
@@ -37,6 +37,14 @@ Process
 				}
 				@{	testDescription = 'For a Weekly DateTime trigger on multiple days of the week, it gets created as expected.'
 					scheduledTaskParameters = $WeeklyMultipleDaysScheduledTaskParameters
+					expectExceptionToBeThrown = $false
+				}
+				@{	testDescription = 'For a Weekly DateTime trigger with no days of the week specified, an exception should be thrown.'
+					scheduledTaskParameters = $InvalidWeeklyBecauseNoWeekdaysSpecifiedScheduledTaskParameters
+					expectExceptionToBeThrown = $true
+				}
+				@{	testDescription = 'For a definition with no Scheduled Task Description, it gets created as expected.'
+					scheduledTaskParameters = $NoDescriptionScheduledTaskParameters
 					expectExceptionToBeThrown = $false
 				}
 			)
@@ -831,7 +839,7 @@ Begin
 		ScheduledTaskDefinitionSource = 'Inline' # 'ImportFromXmlFile', 'Inline'
 		ScheduledTaskXmlFileToImportFrom = ''
 		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-Weekly')
-		ScheduledTaskDescription = 'A test task.'
+		ScheduledTaskDescription = 'A test task for a Weekly trigger with a single weekday specified.'
 		ApplicationPathToRun = 'C:\Dummy.exe'
 		ApplicationArguments = ''
 		WorkingDirectoryOptions = 'ApplicationDirectory' # 'ApplicationDirectory', 'CustomDirectory'
@@ -869,7 +877,7 @@ Begin
 		ScheduledTaskDefinitionSource = 'Inline' # 'ImportFromXmlFile', 'Inline'
 		ScheduledTaskXmlFileToImportFrom = ''
 		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-WeeklyMultipleDays')
-		ScheduledTaskDescription = 'A test task.'
+		ScheduledTaskDescription = 'A test task for a Weekly trigger with multiple weekdays specified.'
 		ApplicationPathToRun = 'C:\Dummy.exe'
 		ApplicationArguments = ''
 		WorkingDirectoryOptions = 'ApplicationDirectory' # 'ApplicationDirectory', 'CustomDirectory'
@@ -903,7 +911,79 @@ Begin
 		UseCredSsp = $false
 	}
 
-	# Tests to still add:
-	# 	- An error message is thrown when using Weekly with no weekdays specified.
-	#	- An empty description does not cause the task to fail installation.
+	[hashtable] $InvalidWeeklyBecauseNoWeekdaysSpecifiedScheduledTaskParameters = @{
+		ScheduledTaskDefinitionSource = 'Inline' # 'ImportFromXmlFile', 'Inline'
+		ScheduledTaskXmlFileToImportFrom = ''
+		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-Weekly')
+		ScheduledTaskDescription = 'A test task for a Weekly trigger with no weekdays specified.'
+		ApplicationPathToRun = 'C:\Dummy.exe'
+		ApplicationArguments = ''
+		WorkingDirectoryOptions = 'ApplicationDirectory' # 'ApplicationDirectory', 'CustomDirectory'
+		CustomWorkingDirectory = ''
+		ScheduleTriggerType = 'DateTime' # 'DateTime', 'AtLogOn', 'AtStartup'
+		AtLogOnTriggerUsername = ''
+		DateTimeScheduleStartTime = '2050-01-01T01:00:00'
+		DateTimeScheduleFrequencyOptions = 'Weekly' # 'Once', 'Daily', 'Weekly'
+		DateTimeScheduleFrequencyDailyInterval = ''
+		DateTimeScheduleFrequencyWeeklyInterval = '1'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnMondaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnTuesdaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnWednesdaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnThursdaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnFridaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnSaturdaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnSundaysString = 'false'
+		ShouldScheduledTaskRunRepeatedlyString = 'false'
+		ScheduleRepetitionIntervalInMinutes = ''
+		ScheduleRepetitionDurationInMinutes = ''
+		ScheduleStartTimeRandomDelayInMinutes = ''
+		ScheduledTaskAccountToRunAsOptions = 'LocalService' # 'System', 'LocalService', 'NetworkService', 'CustomAccount'
+		CustomAccountToRunScheduledTaskAsUsername = ''
+		CustomAccountToRunScheduledTaskAsPassword = ''
+		ShouldScheduledTaskBeEnabledString = 'true'
+		ShouldScheduledTaskRunWithHighestPrivilegesString = 'false'
+		ShouldScheduledTaskRunAfterInstallString = 'false'
+		ComputerNames = ''
+		Username = ''
+		Password = ''
+		UseCredSsp = $false
+	}
+
+	[hashtable] $NoDescriptionScheduledTaskParameters = @{
+		ScheduledTaskDefinitionSource = 'Inline' # 'ImportFromXmlFile', 'Inline'
+		ScheduledTaskXmlFileToImportFrom = ''
+		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-')
+		ScheduledTaskDescription = ''
+		ApplicationPathToRun = 'C:\Dummy.exe'
+		ApplicationArguments = ''
+		WorkingDirectoryOptions = 'ApplicationDirectory' # 'ApplicationDirectory', 'CustomDirectory'
+		CustomWorkingDirectory = ''
+		ScheduleTriggerType = 'AtStartup' # 'DateTime', 'AtLogOn', 'AtStartup'
+		AtLogOnTriggerUsername = ''
+		DateTimeScheduleStartTime = ''
+		DateTimeScheduleFrequencyOptions = 'Once' # 'Once', 'Daily', 'Weekly'
+		DateTimeScheduleFrequencyDailyInterval = ''
+		DateTimeScheduleFrequencyWeeklyInterval = ''
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnMondaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnTuesdaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnWednesdaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnThursdaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnFridaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnSaturdaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnSundaysString = 'false'
+		ShouldScheduledTaskRunRepeatedlyString = 'false'
+		ScheduleRepetitionIntervalInMinutes = ''
+		ScheduleRepetitionDurationInMinutes = ''
+		ScheduleStartTimeRandomDelayInMinutes = ''
+		ScheduledTaskAccountToRunAsOptions = 'LocalService' # 'System', 'LocalService', 'NetworkService', 'CustomAccount'
+		CustomAccountToRunScheduledTaskAsUsername = ''
+		CustomAccountToRunScheduledTaskAsPassword = ''
+		ShouldScheduledTaskBeEnabledString = 'true'
+		ShouldScheduledTaskRunWithHighestPrivilegesString = 'false'
+		ShouldScheduledTaskRunAfterInstallString = 'false'
+		ComputerNames = ''
+		Username = ''
+		Password = ''
+		UseCredSsp = $false
+	}
 }
