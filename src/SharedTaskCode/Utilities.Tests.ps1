@@ -24,11 +24,20 @@ Describe 'Get-ComputersToConnectToOrNull' {
 
 	It 'ReturnsAllComputersWhenMultipleAreSpecified' {
 		[string] $computerNames = 'localhost,DansPc'
-		[string[]] $computerNamesArray = $computerNames -split ','
+		[string[]] $expectedComputerNamesArray = @('localhost', 'DansPc')
 
 		$computers = Get-ComputersToConnectToOrNull -computerNames $computerNames
 
-		$computers | Should -Be $computerNamesArray
+		$computers | Should -Be $expectedComputerNamesArray
+	}
+
+	It 'ReturnsAllComputersWithWhitespaceTrimmedWhenMultipleAreSpecifiedWithWhitespaceBetweenThem' {
+		[string] $computerNames = 'localhost , DansPc'
+		[string[]] $expectedComputerNamesArray = @('localhost', 'DansPc')
+
+		$computers = Get-ComputersToConnectToOrNull -computerNames $computerNames
+
+		$computers | Should -Be $expectedComputerNamesArray
 	}
 }
 
