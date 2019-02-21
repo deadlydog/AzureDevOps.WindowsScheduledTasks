@@ -1,6 +1,6 @@
 function Get-ComputersToConnectToOrNull([string] $computerNames)
 {
-	[string[]] $computers = $computerNames -split ','
+	[string[]] $computers = $computerNames -split '\s*,\s*'
 
 	[bool] $arrayContainsOneBlankElement = ($computers.Count -eq 1 -and [string]::IsNullOrWhiteSpace($computers[0]))
 	if ($arrayContainsOneBlankElement)
