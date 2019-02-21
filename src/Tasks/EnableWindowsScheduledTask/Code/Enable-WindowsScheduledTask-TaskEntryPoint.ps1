@@ -19,7 +19,7 @@ param
 
 Process
 {
-	Write-Verbose "About to attempt to enable Windows Scheduled Task '$ScheduledTaskFullName' on '$ComputerNames'." -Verbose
+	Write-Verbose "Will attempt to enable Windows Scheduled Task '$ScheduledTaskFullName' on '$ComputerNames'." -Verbose
 
 	[bool] $useCredSsp = Get-BoolValueFromString -string $UseCredSspString
 	[string[]] $computers = Get-ComputersToConnectToOrNull -computerNames $ComputerNames

@@ -114,7 +114,7 @@ param
 
 Process
 {
-	Write-Verbose "About to attempt to install Windows Scheduled Task '$ScheduledTaskFullName' on '$ComputerNames'." -Verbose
+	Write-Verbose "Will attempt to install Windows Scheduled Task '$ScheduledTaskFullName' on '$ComputerNames'." -Verbose
 
 	[bool] $shouldDateTimeScheduleFrequencyWeeklyRunOnMondays = Get-BoolValueFromString -string $ShouldDateTimeScheduleFrequencyWeeklyRunOnMondaysString
 	[bool] $shouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays = Get-BoolValueFromString -string $ShouldDateTimeScheduleFrequencyWeeklyRunOnTuesdaysString
