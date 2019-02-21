@@ -108,12 +108,12 @@ function Install-WindowsScheduledTask
 			{
 				if ($noCredentialWasSpecified)
 				{
-					Write-Verbose "Connecting to localhost as '$($credential.UserName)' to run commands..." -Verbose
+					Write-Verbose "Connecting to localhost to run commands..." -Verbose
 					Invoke-Command -ScriptBlock $installScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Verbose
 				}
 				else
 				{
-					Write-Verbose "Connecting to localhost using credentials to run commands..." -Verbose
+					Write-Verbose "Connecting to localhost as '$($credential.UserName)' to run commands..." -Verbose
 					Invoke-Command -Credential $credential -ScriptBlock $installScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Verbose
 				}
 			}
