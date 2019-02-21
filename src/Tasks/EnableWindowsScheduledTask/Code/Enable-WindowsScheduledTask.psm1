@@ -3,6 +3,7 @@
 
 function Enable-WindowsScheduledTask
 {
+	[CmdletBinding()]
 	param
 	(
 		[parameter(Mandatory=$true,HelpMessage="The name of the Windows Scheduled Task to enable.")]
