@@ -108,10 +108,12 @@ function Install-WindowsScheduledTask
 			{
 				if ($noCredentialWasSpecified)
 				{
+					Write-Verbose "Connecting to localhost as '$($credential.UserName)' to run commands..." -Verbose
 					Invoke-Command -ScriptBlock $installScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Verbose
 				}
 				else
 				{
+					Write-Verbose "Connecting to localhost using credentials to run commands..." -Verbose
 					Invoke-Command -Credential $credential -ScriptBlock $installScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Verbose
 				}
 			}
@@ -121,10 +123,12 @@ function Install-WindowsScheduledTask
 				{
 					if ($useCredSsp)
 					{
+						Write-Verbose "Connecting to computers '$computers' via CredSsp to run commands..." -Verbose
 						Invoke-Command -ComputerName $computers -ScriptBlock $installScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Authentication Credssp -Verbose
 					}
 					else
 					{
+						Write-Verbose "Connecting to computers '$computers' to run commands..." -Verbose
 						Invoke-Command -ComputerName $computers -ScriptBlock $installScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Verbose
 					}
 				}
@@ -132,10 +136,12 @@ function Install-WindowsScheduledTask
 				{
 					if ($useCredSsp)
 					{
+						Write-Verbose "Connecting to computers '$computers' via CredSsp as '$($credential.UserName)' to run commands..." -Verbose
 						Invoke-Command -ComputerName $computers -Credential $credential -ScriptBlock $installScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Authentication Credssp -Verbose
 					}
 					else
 					{
+						Write-Verbose "Connecting to computers '$computers' as '$($credential.UserName)' to run commands..." -Verbose
 						Invoke-Command -ComputerName $computers -Credential $credential -ScriptBlock $installScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Verbose
 					}
 				}
