@@ -68,7 +68,7 @@ Under the hood this extension uses the [PowerShell ScheduledTasks cmdlets][Power
 
 - Allow task to be deleted immediately after installing it and running it.
 - Support task having multiple actions when specifying properties inline.
-- Allow XML definition to be specified inline as well as from a file.
+- Add option to allow using SSL.
 
 ## Donate
 
