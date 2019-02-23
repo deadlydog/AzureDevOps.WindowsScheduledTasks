@@ -81,4 +81,4 @@ Buy me some maple syrup for providing this extension open source and for free :)
 [PowerShellExportScheduledTaskDocumentationUrl]: https://docs.microsoft.com/en-us/powershell/module/scheduledtasks/export-scheduledtask?view=win10-ps
 [CredSspDocumentationUrl]: https://docs.microsoft.com/en-us/windows/desktop/secauthn/credential-security-support-provider
 [PowerShellRemotingRequirementsDocumentationUrl]: https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_remote_requirements?view=powershell-6
-[ExportWindowsScheduledTaskScreenshotImage]: src/MarketplaceDocs/Images/ExportWindowsScheduledTaskScreenshot.png
+[ExportWindowsScheduledTaskScreenshotImage]: src/Images/ExportWindowsScheduledTaskScreenshot.png
