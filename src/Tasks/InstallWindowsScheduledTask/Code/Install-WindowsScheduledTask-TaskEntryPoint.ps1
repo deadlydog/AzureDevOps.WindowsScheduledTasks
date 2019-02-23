@@ -163,7 +163,7 @@ Process
 
 	[ciminstance] $scheduledTaskSettings = Get-ScheduledTaskSettings -shouldBeEnabled $shouldScheduledTaskBeEnabled
 
-	$scheduledTaskRunLevel = Get-ScheduledTaskRunLevel -shouldScheduledTaskRunWithHighestPrivileges $shouldScheduledTaskRunWithHighestPrivileges
+	[string] $scheduledTaskRunLevel = Get-ScheduledTaskRunLevel -shouldScheduledTaskRunWithHighestPrivileges $shouldScheduledTaskRunWithHighestPrivileges
 
 	Install-WindowsScheduledTask -ScheduledTaskName $taskNameAndPath.Name -ScheduledTaskPath $taskNameAndPath.Path -AccountToRunScheduledTaskAsUsername $accountCredentialsToRunScheduledTaskAs.Username -AccountToRunScheduledTaskAsPassword $accountCredentialsToRunScheduledTaskAs.Password -ScheduledTaskDescription $ScheduledTaskDescription -ScheduledTaskAction $scheduledTaskAction -ScheduledTaskSettings $scheduledTaskSettings -ScheduledTaskTrigger $scheduledTaskTrigger -ScheduledTaskRunLevel $scheduledTaskRunLevel -ShouldScheduledTaskRunAfterInstall $shouldScheduledTaskRunAfterInstall -ComputerName $computers -Credential $credential -UseCredSsp $useCredSsp -Verbose
 }
