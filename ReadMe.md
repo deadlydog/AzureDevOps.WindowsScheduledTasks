@@ -1,6 +1,6 @@
 # Windows Scheduled Tasks Azure DevOps Extension
 
-This Azure DevOps (i.e. TFS) extension provides Build and Release Pipeline tasks that allow Windows Scheduled Tasks to easily be installed, uninstalled, enabled, and disabled on the local or remote computer(s).
+This [Azure DevOps (i.e. TFS) extension][ExtensionInAzureDevOpsMarketplaceUrl] provides Build and Release Pipeline tasks that allow Windows Scheduled Tasks to easily be installed, uninstalled, enabled, and disabled on the local or remote computer(s).
 
 Current build status: [![Build Status](https://dev.azure.com/deadlydog/AzureDevOps.WindowsScheduledTasks/_apis/build/status/AzureDevOps.WindowsScheduledTasks?branchName=master)](https://dev.azure.com/deadlydog/AzureDevOps.WindowsScheduledTasks/_build/latest?definitionId=17&branchName=master)
 
@@ -77,6 +77,7 @@ Buy me some maple syrup for providing this extension open source and for free :)
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SW7LX32CWQJKN)
 
 <!-- Links -->
+[ExtensionInAzureDevOpsMarketplaceUrl]: https://marketplace.visualstudio.com/items?itemName=deadlydog.WindowsScheduledTasksBuildAndReleaseTasks
 [PowerShellScheduledTasksDocumentationUrl]: https://docs.microsoft.com/en-us/powershell/module/scheduledtasks/?view=win10-ps
 [PowerShellExportScheduledTaskDocumentationUrl]: https://docs.microsoft.com/en-us/powershell/module/scheduledtasks/export-scheduledtask?view=win10-ps
 [CredSspDocumentationUrl]: https://docs.microsoft.com/en-us/windows/desktop/secauthn/credential-security-support-provider
