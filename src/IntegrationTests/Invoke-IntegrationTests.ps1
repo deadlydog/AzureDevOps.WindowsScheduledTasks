@@ -49,13 +49,13 @@ Process
 				}
 				@{	testDescription = 'For an invalid empty inline xml definition, an exception should be thrown.'
 					scheduledTaskParameters = $InvalidEmptyXmlInlineXmlScheduledTaskParameters
-					expectExceptionToBeThrown = $false
-					expectErrorToBeWritten = $true
+					expectExceptionToBeThrown = $true
+					expectErrorToBeWritten = $false
 				}
 				@{	testDescription = 'For an invalid whitespace inline xml definition, an exception should be thrown.'
 					scheduledTaskParameters = $InvalidWhitespaceXmlInlineXmlScheduledTaskParameters
-					expectExceptionToBeThrown = $false
-					expectErrorToBeWritten = $true
+					expectExceptionToBeThrown = $true
+					expectErrorToBeWritten = $false
 				}
 				@{	testDescription = 'For a Weekly DateTime trigger on one day of the week, it gets created as expected.'
 					scheduledTaskParameters = $WeeklyScheduledTaskParameters
@@ -497,7 +497,7 @@ Begin
 				Install-ScheduledTask -scheduledTaskParameters $scheduledTaskParameters
 
 				# Assert.
-				# $Error.Count | Should -BeGreaterThan 0
+				$Error.Count | Should -BeGreaterThan 0
 				$scheduledTask = Get-ScheduledTaskByFullName -taskFullName $scheduledTaskParameters.ScheduledTaskFullName
 				$scheduledTask | Should -BeNullOrEmpty
 
@@ -855,7 +855,8 @@ Begin
 	# Scheduled Task with an XML definition and a DateTime trigger.
 	[hashtable] $InlineXmlScheduledTaskParameters = @{
 		ScheduledTaskDefinitionSource = 'InlineXml' # 'ImportFromXmlFile', 'InlineXml', 'Inline'
-		ScheduledTaskXmlFileToImportFrom = @'
+		ScheduledTaskXmlFileToImportFrom = ''
+		ScheduledTaskXml = @'
 <?xml version="1.0" encoding="UTF-16"?>
 <Task version="1.3" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">
   <RegistrationInfo>
@@ -906,7 +907,6 @@ Begin
   </Actions>
 </Task>
 '@
-		ScheduledTaskXml = ''
 		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-InlineXml')
 		ScheduledTaskDescription = 'A test task set to trigger Once at a DateTime.'
 		ApplicationPathToRun = 'C:\SomeDirectory\Dummy.exe'
@@ -945,13 +945,13 @@ Begin
 	# Scheduled Task with an invalid XML definition.
 	[hashtable] $InvalidBadXmlInlineXmlScheduledTaskParameters = @{
 		ScheduledTaskDefinitionSource = 'InlineXml' # 'ImportFromXmlFile', 'InlineXml', 'Inline'
-		ScheduledTaskXmlFileToImportFrom = @'
+		ScheduledTaskXmlFileToImportFrom = ''
+		ScheduledTaskXml = @'
 <?xml version="1.0" encoding="UTF-16"?>
 <Task version="1.3" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">
   <RegistrationInfo>
     <Description>A test task set to trigger Once at a DateTime.</Description>
 '@
-		ScheduledTaskXml = ''
 		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-InvalidBadInlineXml')
 		ScheduledTaskDescription = 'A test task set to trigger Once at a DateTime.'
 		ApplicationPathToRun = 'C:\SomeDirectory\Dummy.exe'
@@ -1030,8 +1030,8 @@ Begin
 	# Scheduled Task with an invalid whitespace XML definition.
 	[hashtable] $InvalidWhitespaceXmlInlineXmlScheduledTaskParameters = @{
 		ScheduledTaskDefinitionSource = 'InlineXml' # 'ImportFromXmlFile', 'InlineXml', 'Inline'
-		ScheduledTaskXmlFileToImportFrom = '   '
-		ScheduledTaskXml = ''
+		ScheduledTaskXmlFileToImportFrom = ''
+		ScheduledTaskXml = '     '
 		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-InvalidWhitespaceInlineXml')
 		ScheduledTaskDescription = 'A test task set to trigger Once at a DateTime.'
 		ApplicationPathToRun = 'C:\SomeDirectory\Dummy.exe'

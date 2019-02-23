@@ -138,20 +138,26 @@ Process
 
 	[hashtable] $taskNameAndPath = Get-ScheduledTaskNameAndPath -fullTaskName $ScheduledTaskFullName
 
-	[string] $xml = [string]::Empty
+	[bool] $usingXml = $false
 	if ($ScheduledTaskDefinitionSource -eq 'ImportFromXmlFile')
 	{
-		$xml = Get-XmlStringFromFile -xmlFilePath $ScheduledTaskXmlFileToImportFrom
+		$ScheduledTaskXml = Get-XmlStringFromFile -xmlFilePath $ScheduledTaskXmlFileToImportFrom
+		$usingXml = $true
 	}
 
 	if ($ScheduledTaskDefinitionSource -eq 'InlineXml')
 	{
-		$xml = $ScheduledTaskXml
+		$usingXml = $true
 	}
 
-	if (!([string]::IsNullOrWhiteSpace($xml)))
+	if ($usingXml)
 	{
-		Install-WindowsScheduledTask -Xml $xml -ScheduledTaskName $taskNameAndPath.Name -ScheduledTaskPath $taskNameAndPath.Path -AccountToRunScheduledTaskAsUsername $accountCredentialsToRunScheduledTaskAs.Username -AccountToRunScheduledTaskAsPassword $accountCredentialsToRunScheduledTaskAs.Password -ShouldScheduledTaskRunAfterInstall $shouldScheduledTaskRunAfterInstall -ComputerName $computers -Credential $credential -UseCredSsp $useCredSsp -Verbose
+		if ([string]::IsNullOrWhiteSpace($ScheduledTaskXml))
+		{
+			throw 'You must provide valid XML for the Scheduled Task definition.'
+		}
+
+		Install-WindowsScheduledTask -Xml $ScheduledTaskXml -ScheduledTaskName $taskNameAndPath.Name -ScheduledTaskPath $taskNameAndPath.Path -AccountToRunScheduledTaskAsUsername $accountCredentialsToRunScheduledTaskAs.Username -AccountToRunScheduledTaskAsPassword $accountCredentialsToRunScheduledTaskAs.Password -ShouldScheduledTaskRunAfterInstall $shouldScheduledTaskRunAfterInstall -ComputerName $computers -Credential $credential -UseCredSsp $useCredSsp -Verbose
 		return
 	}
 
