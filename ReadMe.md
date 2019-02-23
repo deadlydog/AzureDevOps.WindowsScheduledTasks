@@ -13,13 +13,16 @@ Current build status: [![Build Status](https://dev.azure.com/deadlydog/AzureDevO
 - Multiple computers can be specified to easily run the task against all of them.
 - Supports connecting to remote computers via WinRM and optionally using [CredSSP][CredSspDocumentationUrl].
 
-## Target computer requirements
+## Requirements
 
-The computer that is or will be hosting the Windows Scheduled Task must meet the following minimum requirements:
+The computer that will be hosting the Windows Scheduled Task must meet the following minimum requirements:
 
 - Be running Windows 8 or Windows Server 2012 or higher ([the PowerShell cmdlets used by this task][PowerShellScheduledTasksDocumentationUrl] were introduced in these versions).
-- Have Windows Remote Management 3.0 or later installed (for remote computers, as Windows PowerShell uses WinRM to connect to remote computers).
-- You may need to enable PowerShell Remoting on the remote computer by running `Enable-PSRemoting` from an administrator PowerShell command prompt on the remote computer (for remote computers).
+
+If the Windows Scheduled Task is on a remote computer, it must also meet these requirements:
+
+- Have Windows Remote Management 3.0 or later installed, as Windows PowerShell uses WinRM to connect to remote computers.
+- You may need to enable PowerShell Remoting on the remote computer by running `Enable-PSRemoting` from an administrator PowerShell command prompt on the remote computer.
 
 For more information, [read Microsoft's documentation][PowerShellRemotingRequirementsDocumentationUrl].
 
@@ -31,19 +34,19 @@ If you are connecting to a remote computer and want to use CredSSP, it must have
 Enable-WSManCredSSP -Role Server -Force
 ```
 
-## Defining the Scheduled Task definition properties inline vs. using an XML file
+## Defining the Scheduled Task definition properties
 
-Reasons you may want to define all of the properties inline in the Build/Release task:
+Reasons you may want to define all of the properties `Inline` in the Build/Release task:
 
 - Convenience and ease of use; no need to generate XML.
 - No need to include an XML file in your source control or build artifacts for the deployment to use.
 
-Reasons you may want to use inline XML:
+Reasons you may want to use `Inline XML`:
 
 - Not all Scheduled Task properties can be specified inline. If you want to configure properties that are not available inline, you _must_ use XML.
 - No need to include an XML file in your source control or build artifacts for the deployment to use.
 
-Reasons you may want to use an XML file:
+Reasons you may want to use an `XML file`:
 
 - Not all Scheduled Task properties can be specified inline. If you want to configure properties that are not available inline, you _must_ use XML.
 - Using an XML file allows you to have the Scheduled Task definition committed to source control alongside your code so you can track changes to it.
