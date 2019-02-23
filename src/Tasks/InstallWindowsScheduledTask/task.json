@@ -35,7 +35,7 @@
       "label": "Scheduled Task Definition Source",
       "required": true,
       "defaultValue": "ImportFromXmlFile",
-      "helpMarkDown": "The working directory that the application or script should be ran from.",
+      "helpMarkDown": "The source containing the properties to use for the Scheduled Task.",
       "options": {
         "ImportFromXmlFile": "Import from XML file",
         "InlineXml": "Inline XML",
@@ -60,7 +60,7 @@
       "visibleRule": "ScheduledTaskDefinitionSource = InlineXml",
       "required": true,
       "defaultValue": "",
-    "helpMarkDown": "The XML defining the properties to use for this Scheduled Task.\u003cbr /\u003eThis can be obtained by creating a Scheduled Task in the Windows Task Scheduler and then exporting it. See [the help documentation](https://github.com/deadlydog/AzureDevOps.WindowsScheduledTasks) for more info.",
+    "helpMarkDown": "The XML defining the properties to use for this Scheduled Task.\u003cbr /\u003eThis can be obtained by creating a Scheduled Task in the Windows Task Scheduler, exporting it to a file, and then copying the file contents here. See [the help documentation](https://github.com/deadlydog/AzureDevOps.WindowsScheduledTasks) for more info.",
       "groupName": "ScheduledTaskSettings"
     },
     {
