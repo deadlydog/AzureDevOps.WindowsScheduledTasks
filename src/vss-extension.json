@@ -45,9 +45,6 @@
   },
   "files": [
     {
-      "path": "Images"
-    },
-    {
       "path": "Tasks/InstallWindowsScheduledTask"
     },
     {
