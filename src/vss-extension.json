@@ -2,7 +2,7 @@
   "manifestVersion": 1,
   "id": "WindowsScheduledTasksBuildAndReleaseTasks",
   "name": "Windows Scheduled Tasks",
-  "version": "0.0.49",
+  "version": "0.0.50",
   "publisher": "deadlydog",
   "targets": [
     {
@@ -44,12 +44,12 @@
     "uri": "https://github.com/deadlydog/AzureDevOps.WindowsScheduledTasks"
   },
   "files": [
-		{
-			"path": "Images"
-		},
-		{
-			"path": "MarketplaceDocs"
-		},
+    {
+      "path": "Images"
+    },
+    {
+      "path": "MarketplaceDocs"
+    },
     {
       "path": "Tasks/InstallWindowsScheduledTask"
     },
