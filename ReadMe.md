@@ -35,7 +35,7 @@ Enable-WSManCredSSP -Role Server -Force
 
 Reasons you may want to define all of the properties inline in the Build/Release task:
 
-- Convenience and ease of use; no need to general XML.
+- Convenience and ease of use; no need to generate XML.
 - No need to include an XML file in your source control or build artifacts for the deployment to use.
 
 Reasons you may want to use inline XML:
@@ -67,8 +67,8 @@ Under the hood this extension uses the [PowerShell ScheduledTasks cmdlets][Power
 ## Additional ideas to implement
 
 - Allow task to be deleted immediately after installing it and running it.
-- Support task having multiple actions when specifying properties inline.
 - Add option to allow using SSL.
+- Add Start and Stop tasks for running and stopping existing Scheduled Tasks.
 
 ## Donate
 
