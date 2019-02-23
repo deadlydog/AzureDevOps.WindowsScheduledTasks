@@ -13,7 +13,7 @@
   "version": {
     "Major": 0,
     "Minor": 0,
-    "Patch": 55
+    "Patch": 57
   },
   "instanceNameFormat": "Disable Windows Scheduled Task \u0027$(ScheduledTaskFullName)\u0027",
   "groups": [

@@ -2,7 +2,7 @@
   "manifestVersion": 1,
   "id": "WindowsScheduledTasksBuildAndReleaseTasks",
   "name": "Windows Scheduled Tasks",
-  "version": "0.0.55",
+  "version": "0.0.57",
   "publisher": "deadlydog",
   "targets": [
     {
@@ -49,16 +49,7 @@
       "addressable": true
     },
     {
-      "path": "Tasks/InstallWindowsScheduledTask"
-    },
-    {
-      "path": "Tasks/UninstallWindowsScheduledTask"
-    },
-    {
-      "path": "Tasks/EnableWindowsScheduledTask"
-    },
-    {
-      "path": "Tasks/DisableWindowsScheduledTask"
+      "path": "Tasks"
     }
   ],
   "contributions": [
