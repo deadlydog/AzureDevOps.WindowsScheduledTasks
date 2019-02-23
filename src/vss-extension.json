@@ -44,6 +44,12 @@
     "uri": "https://github.com/deadlydog/AzureDevOps.WindowsScheduledTasks"
   },
   "files": [
+		{
+			"path": "Images"
+		},
+		{
+			"path": "MarketplaceDocs"
+		},
     {
       "path": "Tasks/InstallWindowsScheduledTask"
     },
