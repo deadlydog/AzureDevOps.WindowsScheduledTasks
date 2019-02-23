@@ -10,72 +10,58 @@ Process
 				@{	testDescription = 'For an inline definition with an AtStartup trigger, it gets created as expected.'
 					scheduledTaskParameters = $InlineAtStartupScheduledTaskParameters
 					expectExceptionToBeThrown = $false
-					expectErrorToBeWritten = $false
 				}
 				@{	testDescription = 'For an xml file definition with an AtStartup trigger, it gets created as expected.'
 					scheduledTaskParameters = $XmlFileAtStartupScheduledTaskParameters
 					expectExceptionToBeThrown = $false
-					expectErrorToBeWritten = $false
 				}
 				@{	testDescription = 'For an inline definition with an AtLogOn trigger, it gets created as expected.'
 					scheduledTaskParameters = $InlineAtLogOnScheduledTaskParameters
 					expectExceptionToBeThrown = $false
-					expectErrorToBeWritten = $false
 				}
 				@{	testDescription = 'For an xml file definition with an AtLogOn trigger, it gets created as expected.'
 					scheduledTaskParameters = $XmlFileAtLogOnScheduledTaskParameters
 					expectExceptionToBeThrown = $false
-					expectErrorToBeWritten = $false
 				}
 				@{	testDescription = 'For an inline definition with a DateTime trigger, it gets created as expected.'
 					scheduledTaskParameters = $InlineDateTimeScheduledTaskParameters
 					expectExceptionToBeThrown = $false
-					expectErrorToBeWritten = $false
 				}
 				@{	testDescription = 'For an xml file definition with a DateTime trigger, it gets created as expected.'
 					scheduledTaskParameters = $XmlFileDateTimeScheduledTaskParameters
 					expectExceptionToBeThrown = $false
-					expectErrorToBeWritten = $false
 				}
 				@{	testDescription = 'For an inline xml definition, it gets created as expected.'
 					scheduledTaskParameters = $InlineXmlScheduledTaskParameters
 					expectExceptionToBeThrown = $false
-					expectErrorToBeWritten = $false
 				}
 				@{	testDescription = 'For an invalid inline xml definition, an exception should be thrown.'
 					scheduledTaskParameters = $InvalidBadXmlInlineXmlScheduledTaskParameters
 					expectExceptionToBeThrown = $true
-					expectErrorToBeWritten = $false
 				}
 				@{	testDescription = 'For an invalid empty inline xml definition, an exception should be thrown.'
 					scheduledTaskParameters = $InvalidEmptyXmlInlineXmlScheduledTaskParameters
 					expectExceptionToBeThrown = $true
-					expectErrorToBeWritten = $false
 				}
 				@{	testDescription = 'For an invalid whitespace inline xml definition, an exception should be thrown.'
 					scheduledTaskParameters = $InvalidWhitespaceXmlInlineXmlScheduledTaskParameters
 					expectExceptionToBeThrown = $true
-					expectErrorToBeWritten = $false
 				}
 				@{	testDescription = 'For a Weekly DateTime trigger on one day of the week, it gets created as expected.'
 					scheduledTaskParameters = $WeeklyScheduledTaskParameters
 					expectExceptionToBeThrown = $false
-					expectErrorToBeWritten = $false
 				}
 				@{	testDescription = 'For a Weekly DateTime trigger on multiple days of the week, it gets created as expected.'
 					scheduledTaskParameters = $WeeklyMultipleDaysScheduledTaskParameters
 					expectExceptionToBeThrown = $false
-					expectErrorToBeWritten = $false
 				}
 				@{	testDescription = 'For a Weekly DateTime trigger with no days of the week specified, an exception should be thrown.'
 					scheduledTaskParameters = $InvalidWeeklyBecauseNoWeekdaysSpecifiedScheduledTaskParameters
 					expectExceptionToBeThrown = $true
-					expectErrorToBeWritten = $false
 				}
 				@{	testDescription = 'For a definition with no Scheduled Task Description, it gets created as expected.'
 					scheduledTaskParameters = $NoDescriptionScheduledTaskParameters
 					expectExceptionToBeThrown = $false
-					expectErrorToBeWritten = $false
 				}
 			)
 			$tests | ForEach-Object {
@@ -476,7 +462,7 @@ Begin
 		Join-Path -Path $XmlDefinitionsDirectoryPath -ChildPath $fileName
 	}
 
-	function Assert-ScheduledTaskIsInstalledCorrectly([string] $testDescription, [hashtable] $scheduledTaskParameters, [bool] $expectExceptionToBeThrown, [bool] $expectErrorToBeWritten)
+	function Assert-ScheduledTaskIsInstalledCorrectly([string] $testDescription, [hashtable] $scheduledTaskParameters, [bool] $expectExceptionToBeThrown)
 	{
 		It $testDescription {
 			if ($expectExceptionToBeThrown)
@@ -486,21 +472,6 @@ Begin
 
 				$scheduledTask = Get-ScheduledTaskByFullName -taskFullName $scheduledTaskParameters.ScheduledTaskFullName
 				$scheduledTask | Should -BeNullOrEmpty
-				return
-			}
-
-			if ($expectErrorToBeWritten)
-			{
-				$Error.Clear()
-
-				# Act.
-				Install-ScheduledTask -scheduledTaskParameters $scheduledTaskParameters
-
-				# Assert.
-				$Error.Count | Should -BeGreaterThan 0
-				$scheduledTask = Get-ScheduledTaskByFullName -taskFullName $scheduledTaskParameters.ScheduledTaskFullName
-				$scheduledTask | Should -BeNullOrEmpty
-
 				return
 			}
 
