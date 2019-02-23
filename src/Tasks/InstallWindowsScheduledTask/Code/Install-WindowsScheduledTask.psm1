@@ -149,16 +149,17 @@ function Install-WindowsScheduledTask
 			}
 
 			$scheduledTask = $null
+			$installError = $null
 			if ($installFromXml)
 			{
 				Write-Output "Installing Scheduled Task '$taskPathAndName' on computer '$computerName' using specifed XML definition." -Verbose
 				if ($passwordWasSupplied)
 				{
-					$scheduledTask = Register-ScheduledTask -TaskName $scheduledTaskSettings.ScheduledTaskName -TaskPath $scheduledTaskSettings.ScheduledTaskPath -User $scheduledTaskSettings.AccountToRunScheduledTaskAsUsername -Password $scheduledTaskSettings.AccountToRunScheduledTaskAsPassword -Force -Xml $scheduledTaskSettings.Xml
+					$scheduledTask = Register-ScheduledTask -TaskName $scheduledTaskSettings.ScheduledTaskName -TaskPath $scheduledTaskSettings.ScheduledTaskPath -User $scheduledTaskSettings.AccountToRunScheduledTaskAsUsername -Password $scheduledTaskSettings.AccountToRunScheduledTaskAsPassword -Force -Xml $scheduledTaskSettings.Xml -ErrorVariable installError
 				}
 				else
 				{
-					$scheduledTask = Register-ScheduledTask -TaskName $scheduledTaskSettings.ScheduledTaskName -TaskPath $scheduledTaskSettings.ScheduledTaskPath -User $scheduledTaskSettings.AccountToRunScheduledTaskAsUsername -Force -Xml $scheduledTaskSettings.Xml
+					$scheduledTask = Register-ScheduledTask -TaskName $scheduledTaskSettings.ScheduledTaskName -TaskPath $scheduledTaskSettings.ScheduledTaskPath -User $scheduledTaskSettings.AccountToRunScheduledTaskAsUsername -Force -Xml $scheduledTaskSettings.Xml -ErrorVariable installError
 				}
 			}
 			else
@@ -166,12 +167,18 @@ function Install-WindowsScheduledTask
 				Write-Output "Installing Scheduled Task '$taskPathAndName' on computer '$computerName' using inline definition." -Verbose
 				if ($passwordWasSupplied)
 				{
-					$scheduledTask = Register-ScheduledTask -TaskName $scheduledTaskSettings.ScheduledTaskName -TaskPath $scheduledTaskSettings.ScheduledTaskPath -User $scheduledTaskSettings.AccountToRunScheduledTaskAsUsername -Password $scheduledTaskSettings.AccountToRunScheduledTaskAsPassword -Force -Description $scheduledTaskSettings.ScheduledTaskDescription -Action $scheduledTaskSettings.ScheduledTaskAction -Settings $scheduledTaskSettings.ScheduledTaskSettings -Trigger $scheduledTaskSettings.ScheduledTaskTrigger -RunLevel $scheduledTaskSettings.ScheduledTaskRunLevel
+					$scheduledTask = Register-ScheduledTask -TaskName $scheduledTaskSettings.ScheduledTaskName -TaskPath $scheduledTaskSettings.ScheduledTaskPath -User $scheduledTaskSettings.AccountToRunScheduledTaskAsUsername -Password $scheduledTaskSettings.AccountToRunScheduledTaskAsPassword -Force -Description $scheduledTaskSettings.ScheduledTaskDescription -Action $scheduledTaskSettings.ScheduledTaskAction -Settings $scheduledTaskSettings.ScheduledTaskSettings -Trigger $scheduledTaskSettings.ScheduledTaskTrigger -RunLevel $scheduledTaskSettings.ScheduledTaskRunLevel -ErrorVariable installError
 				}
 				else
 				{
-					$scheduledTask = Register-ScheduledTask -TaskName $scheduledTaskSettings.ScheduledTaskName -TaskPath $scheduledTaskSettings.ScheduledTaskPath -User $scheduledTaskSettings.AccountToRunScheduledTaskAsUsername -Force -Description $scheduledTaskSettings.ScheduledTaskDescription -Action $scheduledTaskSettings.ScheduledTaskAction -Settings $scheduledTaskSettings.ScheduledTaskSettings -Trigger $scheduledTaskSettings.ScheduledTaskTrigger -RunLevel $scheduledTaskSettings.ScheduledTaskRunLevel
+					$scheduledTask = Register-ScheduledTask -TaskName $scheduledTaskSettings.ScheduledTaskName -TaskPath $scheduledTaskSettings.ScheduledTaskPath -User $scheduledTaskSettings.AccountToRunScheduledTaskAsUsername -Force -Description $scheduledTaskSettings.ScheduledTaskDescription -Action $scheduledTaskSettings.ScheduledTaskAction -Settings $scheduledTaskSettings.ScheduledTaskSettings -Trigger $scheduledTaskSettings.ScheduledTaskTrigger -RunLevel $scheduledTaskSettings.ScheduledTaskRunLevel -ErrorVariable installError
 				}
+			}
+
+			# If an error occurred installing the Scheduled Task, throw the error before trying to start the task.
+			if ($installError)
+			{
+				throw $installError
 			}
 
 			if ($scheduledTaskSettings.ShouldRunScheduledTaskAfterInstallation)

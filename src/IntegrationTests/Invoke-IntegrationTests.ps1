@@ -44,8 +44,8 @@ Process
 				}
 				@{	testDescription = 'For an invalid inline xml definition, an exception should be thrown.'
 					scheduledTaskParameters = $InvalidBadXmlInlineXmlScheduledTaskParameters
-					expectExceptionToBeThrown = $false
-					expectErrorToBeWritten = $true
+					expectExceptionToBeThrown = $true
+					expectErrorToBeWritten = $false
 				}
 				@{	testDescription = 'For an invalid empty inline xml definition, an exception should be thrown.'
 					scheduledTaskParameters = $InvalidEmptyXmlInlineXmlScheduledTaskParameters
