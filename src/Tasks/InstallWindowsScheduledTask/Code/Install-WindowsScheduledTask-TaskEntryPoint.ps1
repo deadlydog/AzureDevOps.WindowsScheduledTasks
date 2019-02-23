@@ -1,7 +1,7 @@
 param
 (
 	[parameter(Mandatory=$true,HelpMessage="Where the new Scheduled Task properties should be retrieved from.")]
-	[ValidateSet('ImportFromXmlFile', 'InlineXml', 'Inline')]
+	[ValidateSet('XmlFile', 'InlineXml', 'Inline')]
 	[string] $ScheduledTaskDefinitionSource,
 
 	[parameter(Mandatory=$false,HelpMessage="The XML file defining the properties of the Scheduled Task to install.")]
@@ -139,7 +139,7 @@ Process
 	[hashtable] $taskNameAndPath = Get-ScheduledTaskNameAndPath -fullTaskName $ScheduledTaskFullName
 
 	[bool] $usingXml = $false
-	if ($ScheduledTaskDefinitionSource -eq 'ImportFromXmlFile')
+	if ($ScheduledTaskDefinitionSource -eq 'XmlFile')
 	{
 		$ScheduledTaskXml = Get-XmlStringFromFile -xmlFilePath $ScheduledTaskXmlFileToImportFrom
 		$usingXml = $true

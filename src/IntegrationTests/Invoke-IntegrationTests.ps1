@@ -545,7 +545,7 @@ Begin
 
 	# Scheduled Task that should never be installed, as it's used to run tests against Scheduled Tasks that are not installed.
 	[hashtable] $NeverInstalledScheduledTaskParameters = @{
-		ScheduledTaskDefinitionSource = 'Inline' # 'ImportFromXmlFile', 'InlineXml', 'Inline'
+		ScheduledTaskDefinitionSource = 'Inline' # 'XmlFile', 'InlineXml', 'Inline'
 		ScheduledTaskXmlFileToImportFrom = ''
 		ScheduledTaskXml = ''
 		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-')
@@ -585,7 +585,7 @@ Begin
 
 	# Scheduled Task with an Inline definition and an AtStartup trigger.
 	[hashtable] $InlineAtStartupScheduledTaskParameters = @{
-		ScheduledTaskDefinitionSource = 'Inline' # 'ImportFromXmlFile', 'InlineXml', 'Inline'
+		ScheduledTaskDefinitionSource = 'Inline' # 'XmlFile', 'InlineXml', 'Inline'
 		ScheduledTaskXmlFileToImportFrom = ''
 		ScheduledTaskXml = ''
 		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-InlineAtStartup')
@@ -625,7 +625,7 @@ Begin
 
 	# Scheduled Task with an XML file definition and an AtStartup trigger.
 	[hashtable] $XmlFileAtStartupScheduledTaskParameters = @{
-		ScheduledTaskDefinitionSource = 'ImportFromXmlFile' # 'ImportFromXmlFile', 'InlineXml', 'Inline'
+		ScheduledTaskDefinitionSource = 'XmlFile' # 'XmlFile', 'InlineXml', 'Inline'
 		ScheduledTaskXmlFileToImportFrom = Get-XmlDefinitionPath -fileName 'AtStartup.xml'
 		ScheduledTaskXml = ''
 		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-XmlAtStartup')
@@ -665,7 +665,7 @@ Begin
 
 	# Scheduled Task with an Inline definition and an AtLogOn trigger.
 	[hashtable] $InlineAtLogOnScheduledTaskParameters = @{
-		ScheduledTaskDefinitionSource = 'Inline' # 'ImportFromXmlFile', 'InlineXml', 'Inline'
+		ScheduledTaskDefinitionSource = 'Inline' # 'XmlFile', 'InlineXml', 'Inline'
 		ScheduledTaskXmlFileToImportFrom = ''
 		ScheduledTaskXml = ''
 		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-InlineAtLogOn')
@@ -705,7 +705,7 @@ Begin
 
 	# Scheduled Task with an XML file definition and an AtLogOn trigger.
 	[hashtable] $XmlFileAtLogOnScheduledTaskParameters = @{
-		ScheduledTaskDefinitionSource = 'ImportFromXmlFile' # 'ImportFromXmlFile', 'InlineXml', 'Inline'
+		ScheduledTaskDefinitionSource = 'XmlFile' # 'XmlFile', 'InlineXml', 'Inline'
 		ScheduledTaskXmlFileToImportFrom = Get-XmlDefinitionPath -fileName 'AtLogOn.xml'
 		ScheduledTaskXml = ''
 		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-InlineAtLogOn')
@@ -745,7 +745,7 @@ Begin
 
 	# Scheduled Task with an Inline definition and an DateTime trigger.
 	[hashtable] $InlineDateTimeScheduledTaskParameters = @{
-		ScheduledTaskDefinitionSource = 'Inline' # 'ImportFromXmlFile', 'InlineXml', 'Inline'
+		ScheduledTaskDefinitionSource = 'Inline' # 'XmlFile', 'InlineXml', 'Inline'
 		ScheduledTaskXmlFileToImportFrom = ''
 		ScheduledTaskXml = ''
 		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-InlineDateTime')
@@ -785,7 +785,7 @@ Begin
 
 	# Scheduled Task with an XML File definition and a DateTime trigger.
 	[hashtable] $XmlFileDateTimeScheduledTaskParameters = @{
-		ScheduledTaskDefinitionSource = 'ImportFromXmlFile' # 'ImportFromXmlFile', 'InlineXml', 'Inline'
+		ScheduledTaskDefinitionSource = 'XmlFile' # 'XmlFile', 'InlineXml', 'Inline'
 		ScheduledTaskXmlFileToImportFrom = Get-XmlDefinitionPath -fileName 'DateTime.xml'
 		ScheduledTaskXml = ''
 		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-XmlDateTime')
@@ -825,7 +825,7 @@ Begin
 
 	# Scheduled Task with an XML definition and a DateTime trigger.
 	[hashtable] $InlineXmlScheduledTaskParameters = @{
-		ScheduledTaskDefinitionSource = 'InlineXml' # 'ImportFromXmlFile', 'InlineXml', 'Inline'
+		ScheduledTaskDefinitionSource = 'InlineXml' # 'XmlFile', 'InlineXml', 'Inline'
 		ScheduledTaskXmlFileToImportFrom = ''
 		ScheduledTaskXml = @'
 <?xml version="1.0" encoding="UTF-16"?>
@@ -915,7 +915,7 @@ Begin
 
 	# Scheduled Task with an invalid XML definition.
 	[hashtable] $InvalidBadXmlInlineXmlScheduledTaskParameters = @{
-		ScheduledTaskDefinitionSource = 'InlineXml' # 'ImportFromXmlFile', 'InlineXml', 'Inline'
+		ScheduledTaskDefinitionSource = 'InlineXml' # 'XmlFile', 'InlineXml', 'Inline'
 		ScheduledTaskXmlFileToImportFrom = ''
 		ScheduledTaskXml = @'
 <?xml version="1.0" encoding="UTF-16"?>
@@ -960,7 +960,7 @@ Begin
 
 	# Scheduled Task with an invalid empty XML definition.
 	[hashtable] $InvalidEmptyXmlInlineXmlScheduledTaskParameters = @{
-		ScheduledTaskDefinitionSource = 'InlineXml' # 'ImportFromXmlFile', 'InlineXml', 'Inline'
+		ScheduledTaskDefinitionSource = 'InlineXml' # 'XmlFile', 'InlineXml', 'Inline'
 		ScheduledTaskXmlFileToImportFrom = ''
 		ScheduledTaskXml = ''
 		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-InvalidEmptyInlineXml')
@@ -1000,7 +1000,7 @@ Begin
 
 	# Scheduled Task with an invalid whitespace XML definition.
 	[hashtable] $InvalidWhitespaceXmlInlineXmlScheduledTaskParameters = @{
-		ScheduledTaskDefinitionSource = 'InlineXml' # 'ImportFromXmlFile', 'InlineXml', 'Inline'
+		ScheduledTaskDefinitionSource = 'InlineXml' # 'XmlFile', 'InlineXml', 'Inline'
 		ScheduledTaskXmlFileToImportFrom = ''
 		ScheduledTaskXml = '     '
 		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-InvalidWhitespaceInlineXml')
@@ -1039,7 +1039,7 @@ Begin
 	}
 
 	[hashtable] $DisabledScheduledTaskParameters = @{
-		ScheduledTaskDefinitionSource = 'Inline' # 'ImportFromXmlFile', 'InlineXml', 'Inline'
+		ScheduledTaskDefinitionSource = 'Inline' # 'XmlFile', 'InlineXml', 'Inline'
 		ScheduledTaskXmlFileToImportFrom = ''
 		ScheduledTaskXml = ''
 		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-DisabledTask')
@@ -1078,7 +1078,7 @@ Begin
 	}
 
 	[hashtable] $WeeklyScheduledTaskParameters = @{
-		ScheduledTaskDefinitionSource = 'Inline' # 'ImportFromXmlFile', 'InlineXml', 'Inline'
+		ScheduledTaskDefinitionSource = 'Inline' # 'XmlFile', 'InlineXml', 'Inline'
 		ScheduledTaskXmlFileToImportFrom = ''
 		ScheduledTaskXml = ''
 		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-Weekly')
@@ -1117,7 +1117,7 @@ Begin
 	}
 
 	[hashtable] $WeeklyMultipleDaysScheduledTaskParameters = @{
-		ScheduledTaskDefinitionSource = 'Inline' # 'ImportFromXmlFile', 'InlineXml', 'Inline'
+		ScheduledTaskDefinitionSource = 'Inline' # 'XmlFile', 'InlineXml', 'Inline'
 		ScheduledTaskXmlFileToImportFrom = ''
 		ScheduledTaskXml = ''
 		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-WeeklyMultipleDays')
@@ -1156,7 +1156,7 @@ Begin
 	}
 
 	[hashtable] $InvalidWeeklyBecauseNoWeekdaysSpecifiedScheduledTaskParameters = @{
-		ScheduledTaskDefinitionSource = 'Inline' # 'ImportFromXmlFile', 'InlineXml', 'Inline'
+		ScheduledTaskDefinitionSource = 'Inline' # 'XmlFile', 'InlineXml', 'Inline'
 		ScheduledTaskXmlFileToImportFrom = ''
 		ScheduledTaskXml = ''
 		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-Weekly')
@@ -1195,7 +1195,7 @@ Begin
 	}
 
 	[hashtable] $NoDescriptionScheduledTaskParameters = @{
-		ScheduledTaskDefinitionSource = 'Inline' # 'ImportFromXmlFile', 'InlineXml', 'Inline'
+		ScheduledTaskDefinitionSource = 'Inline' # 'XmlFile', 'InlineXml', 'Inline'
 		ScheduledTaskXmlFileToImportFrom = ''
 		ScheduledTaskXml = ''
 		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-')
