@@ -4,7 +4,7 @@ This Azure DevOps (i.e. TFS) extension provides Build and Release Pipeline tasks
 
 ## Features
 
-- Install a Windows Scheduled Task by specifying properties inline or from an XML file.
+- Install a Windows Scheduled Task by specifying properties inline, XML inline, or from an XML file.
 - Replace an existing Windows Scheduled Task by overwriting it.
 - Enable, Disable, and Uninstall a Windows Scheduled Task.
   - Supports wildcards for modifying many Schedules Tasks easily, or when you only know part of the Scheduled Task's name.
@@ -33,15 +33,20 @@ Enable-WSManCredSSP -Role Server -Force
 
 Reasons you may want to define all of the properties inline in the Build/Release task:
 
-- Convenience and ease of use.
+- Convenience and ease of use; no need to general XML.
 - No need to include an XML file in your source control or build artifacts for the deployment to use.
 
-Reasons you may want to use an XML file instead:
+Reasons you may want to use inline XML:
 
-- Not all Scheduled Task properties can be specified inline. If you want to configure properties that are not available inline, you _must_ use an XML file.
-- Using an XML file allows you to have the Scheduled Task definition committed to source control so you can track changes to it.
+- Not all Scheduled Task properties can be specified inline. If you want to configure properties that are not available inline, you _must_ use XML.
+- No need to include an XML file in your source control or build artifacts for the deployment to use.
 
-When using an XML file you will still need to define inline the `Scheduled Task Name` and `User To Run As`.
+Reasons you may want to use an XML file:
+
+- Not all Scheduled Task properties can be specified inline. If you want to configure properties that are not available inline, you _must_ use XML.
+- Using an XML file allows you to have the Scheduled Task definition committed to source control alongside your code so you can track changes to it.
+
+When using XML you will still need to specify the `Scheduled Task Name` and `User To Run As`.
 
 ### How to create your Scheduled Task XML definition file
 

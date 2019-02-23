@@ -1,11 +1,14 @@
 param
 (
 	[parameter(Mandatory=$true,HelpMessage="Where the new Scheduled Task properties should be retrieved from.")]
-	[ValidateSet('ImportFromXmlFile', 'Inline')]
+	[ValidateSet('ImportFromXmlFile', 'InlineXml', 'Inline')]
 	[string] $ScheduledTaskDefinitionSource,
 
 	[parameter(Mandatory=$false,HelpMessage="The XML file defining the properties of the Scheduled Task to install.")]
 	[string] $ScheduledTaskXmlFileToImportFrom,
+
+	[parameter(Mandatory = $false, HelpMessage = "The XML defining the properties of the Scheduled Task to install.")]
+	[string] $ScheduledTaskXml,
 
 	[parameter(Mandatory=$true,HelpMessage="The full name, including the path, of the Windows Scheduled Task to install.")]
 	[ValidateNotNullOrEmpty()]
@@ -137,7 +140,20 @@ Process
 
 	if ($ScheduledTaskDefinitionSource -eq 'ImportFromXmlFile')
 	{
-		Install-WindowsScheduledTask -XmlFilePath $ScheduledTaskXmlFileToImportFrom -ScheduledTaskName $taskNameAndPath.Name -ScheduledTaskPath $taskNameAndPath.Path -AccountToRunScheduledTaskAsUsername $accountCredentialsToRunScheduledTaskAs.Username -AccountToRunScheduledTaskAsPassword $accountCredentialsToRunScheduledTaskAs.Password -ShouldScheduledTaskRunAfterInstall $shouldScheduledTaskRunAfterInstall -ComputerName $computers -Credential $credential -UseCredSsp $useCredSsp -Verbose
+		$ScheduledTaskXml = Get-XmlStringFromFile -xmlFilePath $XmlFilePath
+	}
+
+	if ($ScheduledTaskDefinitionSource -eq 'InlineXml')
+	{
+		if ([string]::IsNullOrWhiteSpace($ScheduledTaskXml))
+		{
+			throw 'You must specify valid XML for the Scheduled Task definition.'
+		}
+	}
+
+	if (!([string]::IsNullOrWhiteSpace($ScheduledTaskXml)))
+	{
+		Install-WindowsScheduledTask -Xml $ScheduledTaskXml -ScheduledTaskName $taskNameAndPath.Name -ScheduledTaskPath $taskNameAndPath.Path -AccountToRunScheduledTaskAsUsername $accountCredentialsToRunScheduledTaskAs.Username -AccountToRunScheduledTaskAsPassword $accountCredentialsToRunScheduledTaskAs.Password -ShouldScheduledTaskRunAfterInstall $shouldScheduledTaskRunAfterInstall -ComputerName $computers -Credential $credential -UseCredSsp $useCredSsp -Verbose
 		return
 	}
 

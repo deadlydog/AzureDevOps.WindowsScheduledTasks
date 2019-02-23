@@ -22,7 +22,7 @@ function Install-WindowsScheduledTask
 		[string] $AccountToRunScheduledTaskAsPassword,
 
 		[parameter(ParameterSetName="Xml",Mandatory=$true,HelpMessage="The path to the XML file containing the Scheduled Task definition.")]
-		[string] $XmlFilePath,
+		[string] $Xml,
 
 		[parameter(ParameterSetName="Inline",Mandatory=$false,HelpMessage="The description for the Scheduled Task.")]
 		[string] $ScheduledTaskDescription,
@@ -58,15 +58,13 @@ function Install-WindowsScheduledTask
 
 	Process
 	{
-		[string] $xml = Get-XmlStringFromFile -xmlFilePath $XmlFilePath
-
 		[hashtable] $scheduledTaskSettings = @{
 			ScheduledTaskName = $ScheduledTaskName
 			ScheduledTaskPath = $ScheduledTaskPath
 			ScheduledTaskDescription = $ScheduledTaskDescription
 			AccountToRunScheduledTaskAsUsername = $AccountToRunScheduledTaskAsUsername
 			AccountToRunScheduledTaskAsPassword = $AccountToRunScheduledTaskAsPassword
-			Xml = $xml
+			Xml = $Xml
 			ScheduledTaskAction = $ScheduledTaskAction
 			ScheduledTaskSettings = $ScheduledTaskSettings
 			ScheduledTaskTrigger = $ScheduledTaskTrigger
@@ -81,22 +79,6 @@ function Install-WindowsScheduledTask
 	{
 		# Turn on Strict Mode to help catch syntax-related errors.
 		Set-StrictMode -Version Latest
-
-		function Get-XmlStringFromFile([string] $xmlFilePath)
-		{
-			[string] $xml = [string]::Empty
-			if (![string]::IsNullOrWhiteSpace($xmlFilePath))
-			{
-				if (!(Test-Path -Path $xmlFilePath -PathType Leaf))
-				{
-					throw "Could not find the specified XML file '$xmlFilePath' to read the Scheduled Task definition from."
-				}
-
-				Write-Verbose "Reading XML from file '$xmlFilePath'." -Verbose
-				$xml = Get-Content -Path $xmlFilePath -Raw
-			}
-			return $xml
-		}
 
 		function Invoke-InstallWindowsScheduledTaskOnComputers([hashtable] $scheduledTaskSettings, [string[]] $computers, [PSCredential] $credential, [bool] $useCredSsp)
 		{
