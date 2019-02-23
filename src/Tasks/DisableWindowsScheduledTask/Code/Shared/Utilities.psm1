@@ -40,6 +40,23 @@ function Get-BoolValueFromString([string] $string, [switch] $required)
 	return $false
 }
 
+function Get-XmlStringFromFile([string] $xmlFilePath)
+{
+	[string] $xml = [string]::Empty
+	if (![string]::IsNullOrWhiteSpace($xmlFilePath))
+	{
+		if (!(Test-Path -Path $xmlFilePath -PathType Leaf))
+		{
+			throw "Could not find the specified XML file '$xmlFilePath' to read the Scheduled Task definition from."
+		}
+
+		Write-Verbose "Reading XML from file '$xmlFilePath'." -Verbose
+		$xml = Get-Content -Path $xmlFilePath -Raw
+	}
+	return $xml
+}
+
 Export-ModuleMember -Function Get-ComputersToConnectToOrNull
 Export-ModuleMember -Function Convert-UsernameAndPasswordToCredentialsOrNull
 Export-ModuleMember -Function Get-BoolValueFromString
+Export-ModuleMember -Function Get-XmlStringFromFile
