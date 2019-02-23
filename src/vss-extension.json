@@ -37,7 +37,7 @@
     }
   },
   "icons": {
-    "default": "Images/ExtensionIcon.png"
+    "default": "MarketplaceDocs/Images/ExtensionIcon.png"
   },
   "repository": {
     "type": "git",
