@@ -10,42 +10,72 @@ Process
 				@{	testDescription = 'For an inline definition with an AtStartup trigger, it gets created as expected.'
 					scheduledTaskParameters = $InlineAtStartupScheduledTaskParameters
 					expectExceptionToBeThrown = $false
+					expectErrorToBeWritten = $false
 				}
-				@{	testDescription = 'For an xml definition with an AtStartup trigger, it gets created as expected.'
+				@{	testDescription = 'For an xml file definition with an AtStartup trigger, it gets created as expected.'
 					scheduledTaskParameters = $XmlFileAtStartupScheduledTaskParameters
 					expectExceptionToBeThrown = $false
+					expectErrorToBeWritten = $false
 				}
 				@{	testDescription = 'For an inline definition with an AtLogOn trigger, it gets created as expected.'
 					scheduledTaskParameters = $InlineAtLogOnScheduledTaskParameters
 					expectExceptionToBeThrown = $false
+					expectErrorToBeWritten = $false
 				}
-				@{	testDescription = 'For an xml definition with an AtLogOn trigger, it gets created as expected.'
+				@{	testDescription = 'For an xml file definition with an AtLogOn trigger, it gets created as expected.'
 					scheduledTaskParameters = $XmlFileAtLogOnScheduledTaskParameters
 					expectExceptionToBeThrown = $false
+					expectErrorToBeWritten = $false
 				}
 				@{	testDescription = 'For an inline definition with a DateTime trigger, it gets created as expected.'
 					scheduledTaskParameters = $InlineDateTimeScheduledTaskParameters
 					expectExceptionToBeThrown = $false
+					expectErrorToBeWritten = $false
 				}
-				@{	testDescription = 'For an xml definition with a DateTime trigger, it gets created as expected.'
+				@{	testDescription = 'For an xml file definition with a DateTime trigger, it gets created as expected.'
 					scheduledTaskParameters = $XmlFileDateTimeScheduledTaskParameters
 					expectExceptionToBeThrown = $false
+					expectErrorToBeWritten = $false
+				}
+				@{	testDescription = 'For an inline xml definition, it gets created as expected.'
+					scheduledTaskParameters = $InlineXmlScheduledTaskParameters
+					expectExceptionToBeThrown = $false
+					expectErrorToBeWritten = $false
+				}
+				@{	testDescription = 'For an invalid inline xml definition, an exception should be thrown.'
+					scheduledTaskParameters = $InvalidBadXmlInlineXmlScheduledTaskParameters
+					expectExceptionToBeThrown = $false
+					expectErrorToBeWritten = $true
+				}
+				@{	testDescription = 'For an invalid empty inline xml definition, an exception should be thrown.'
+					scheduledTaskParameters = $InvalidEmptyXmlInlineXmlScheduledTaskParameters
+					expectExceptionToBeThrown = $false
+					expectErrorToBeWritten = $true
+				}
+				@{	testDescription = 'For an invalid whitespace inline xml definition, an exception should be thrown.'
+					scheduledTaskParameters = $InvalidWhitespaceXmlInlineXmlScheduledTaskParameters
+					expectExceptionToBeThrown = $false
+					expectErrorToBeWritten = $true
 				}
 				@{	testDescription = 'For a Weekly DateTime trigger on one day of the week, it gets created as expected.'
 					scheduledTaskParameters = $WeeklyScheduledTaskParameters
 					expectExceptionToBeThrown = $false
+					expectErrorToBeWritten = $false
 				}
 				@{	testDescription = 'For a Weekly DateTime trigger on multiple days of the week, it gets created as expected.'
 					scheduledTaskParameters = $WeeklyMultipleDaysScheduledTaskParameters
 					expectExceptionToBeThrown = $false
+					expectErrorToBeWritten = $false
 				}
 				@{	testDescription = 'For a Weekly DateTime trigger with no days of the week specified, an exception should be thrown.'
 					scheduledTaskParameters = $InvalidWeeklyBecauseNoWeekdaysSpecifiedScheduledTaskParameters
 					expectExceptionToBeThrown = $true
+					expectErrorToBeWritten = $false
 				}
 				@{	testDescription = 'For a definition with no Scheduled Task Description, it gets created as expected.'
 					scheduledTaskParameters = $NoDescriptionScheduledTaskParameters
 					expectExceptionToBeThrown = $false
+					expectErrorToBeWritten = $false
 				}
 			)
 			$tests | ForEach-Object {
@@ -446,13 +476,31 @@ Begin
 		Join-Path -Path $XmlDefinitionsDirectoryPath -ChildPath $fileName
 	}
 
-	function Assert-ScheduledTaskIsInstalledCorrectly([string] $testDescription, [hashtable] $scheduledTaskParameters, [bool] $expectExceptionToBeThrown)
+	function Assert-ScheduledTaskIsInstalledCorrectly([string] $testDescription, [hashtable] $scheduledTaskParameters, [bool] $expectExceptionToBeThrown, [bool] $expectErrorToBeWritten)
 	{
 		It $testDescription {
 			if ($expectExceptionToBeThrown)
 			{
 				# Act and Assert.
 				{ Install-ScheduledTask -scheduledTaskParameters $scheduledTaskParameters } | Should -Throw
+
+				$scheduledTask = Get-ScheduledTaskByFullName -taskFullName $scheduledTaskParameters.ScheduledTaskFullName
+				$scheduledTask | Should -BeNullOrEmpty
+				return
+			}
+
+			if ($expectErrorToBeWritten)
+			{
+				$Error.Clear()
+
+				# Act.
+				Install-ScheduledTask -scheduledTaskParameters $scheduledTaskParameters
+
+				# Assert.
+				# $Error.Count | Should -BeGreaterThan 0
+				$scheduledTask = Get-ScheduledTaskByFullName -taskFullName $scheduledTaskParameters.ScheduledTaskFullName
+				$scheduledTask | Should -BeNullOrEmpty
+
 				return
 			}
 
@@ -770,6 +818,221 @@ Begin
 		ScheduledTaskXmlFileToImportFrom = Get-XmlDefinitionPath -fileName 'DateTime.xml'
 		ScheduledTaskXml = ''
 		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-XmlDateTime')
+		ScheduledTaskDescription = 'A test task set to trigger Once at a DateTime.'
+		ApplicationPathToRun = 'C:\SomeDirectory\Dummy.exe'
+		ApplicationArguments = '/some arguments /more args'
+		WorkingDirectoryOptions = 'ApplicationDirectory' # 'ApplicationDirectory', 'CustomDirectory'
+		CustomWorkingDirectory = ''
+		ScheduleTriggerType = 'DateTime' # 'DateTime', 'AtLogOn', 'AtStartup'
+		AtLogOnTriggerUsername = ''
+		DateTimeScheduleStartTime = '2050-01-01T01:00:00'
+		DateTimeScheduleFrequencyOptions = 'Once' # 'Once', 'Daily', 'Weekly'
+		DateTimeScheduleFrequencyDailyInterval = ''
+		DateTimeScheduleFrequencyWeeklyInterval = ''
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnMondaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnTuesdaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnWednesdaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnThursdaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnFridaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnSaturdaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnSundaysString = 'false'
+		ShouldScheduledTaskRunRepeatedlyString = 'false'
+		ScheduleRepetitionIntervalInMinutes = ''
+		ScheduleRepetitionDurationInMinutes = ''
+		ScheduleStartTimeRandomDelayInMinutes = ''
+		ScheduledTaskAccountToRunAsOptions = 'NetworkService' # 'System', 'LocalService', 'NetworkService', 'CustomAccount'
+		CustomAccountToRunScheduledTaskAsUsername = ''
+		CustomAccountToRunScheduledTaskAsPassword = ''
+		ShouldScheduledTaskBeEnabledString = 'true'
+		ShouldScheduledTaskRunWithHighestPrivilegesString = 'false'
+		ShouldScheduledTaskRunAfterInstallString = 'false'
+		ComputerNames = ''
+		Username = ''
+		Password = ''
+		UseCredSsp = $false
+	}
+
+	# Scheduled Task with an XML definition and a DateTime trigger.
+	[hashtable] $InlineXmlScheduledTaskParameters = @{
+		ScheduledTaskDefinitionSource = 'InlineXml' # 'ImportFromXmlFile', 'InlineXml', 'Inline'
+		ScheduledTaskXmlFileToImportFrom = @'
+<?xml version="1.0" encoding="UTF-16"?>
+<Task version="1.3" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">
+  <RegistrationInfo>
+    <Description>A test task set to trigger Once at a DateTime.</Description>
+    <URI>\WindowsScheduledTasksTests\Test-InlineDateTime</URI>
+  </RegistrationInfo>
+  <Triggers>
+    <TimeTrigger>
+      <StartBoundary>2050-01-01T01:00:00-06:00</StartBoundary>
+      <Enabled>true</Enabled>
+    </TimeTrigger>
+  </Triggers>
+  <Principals>
+    <Principal id="Author">
+      <UserId>S-1-5-20</UserId>
+      <RunLevel>LeastPrivilege</RunLevel>
+    </Principal>
+  </Principals>
+  <Settings>
+    <MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy>
+    <DisallowStartIfOnBatteries>true</DisallowStartIfOnBatteries>
+    <StopIfGoingOnBatteries>true</StopIfGoingOnBatteries>
+    <AllowHardTerminate>true</AllowHardTerminate>
+    <StartWhenAvailable>false</StartWhenAvailable>
+    <RunOnlyIfNetworkAvailable>false</RunOnlyIfNetworkAvailable>
+    <IdleSettings>
+      <Duration>PT10M</Duration>
+      <WaitTimeout>PT1H</WaitTimeout>
+      <StopOnIdleEnd>true</StopOnIdleEnd>
+      <RestartOnIdle>false</RestartOnIdle>
+    </IdleSettings>
+    <AllowStartOnDemand>true</AllowStartOnDemand>
+    <Enabled>true</Enabled>
+    <Hidden>false</Hidden>
+    <RunOnlyIfIdle>false</RunOnlyIfIdle>
+    <DisallowStartOnRemoteAppSession>false</DisallowStartOnRemoteAppSession>
+    <UseUnifiedSchedulingEngine>true</UseUnifiedSchedulingEngine>
+    <WakeToRun>false</WakeToRun>
+    <ExecutionTimeLimit>PT72H</ExecutionTimeLimit>
+    <Priority>7</Priority>
+  </Settings>
+  <Actions Context="Author">
+    <Exec>
+      <Command>C:\SomeDirectory\Dummy.exe</Command>
+      <Arguments>/some arguments /more args</Arguments>
+      <WorkingDirectory>C:\SomeDirectory</WorkingDirectory>
+    </Exec>
+  </Actions>
+</Task>
+'@
+		ScheduledTaskXml = ''
+		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-InlineXml')
+		ScheduledTaskDescription = 'A test task set to trigger Once at a DateTime.'
+		ApplicationPathToRun = 'C:\SomeDirectory\Dummy.exe'
+		ApplicationArguments = '/some arguments /more args'
+		WorkingDirectoryOptions = 'ApplicationDirectory' # 'ApplicationDirectory', 'CustomDirectory'
+		CustomWorkingDirectory = ''
+		ScheduleTriggerType = 'DateTime' # 'DateTime', 'AtLogOn', 'AtStartup'
+		AtLogOnTriggerUsername = ''
+		DateTimeScheduleStartTime = '2050-01-01T01:00:00'
+		DateTimeScheduleFrequencyOptions = 'Once' # 'Once', 'Daily', 'Weekly'
+		DateTimeScheduleFrequencyDailyInterval = ''
+		DateTimeScheduleFrequencyWeeklyInterval = ''
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnMondaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnTuesdaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnWednesdaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnThursdaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnFridaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnSaturdaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnSundaysString = 'false'
+		ShouldScheduledTaskRunRepeatedlyString = 'false'
+		ScheduleRepetitionIntervalInMinutes = ''
+		ScheduleRepetitionDurationInMinutes = ''
+		ScheduleStartTimeRandomDelayInMinutes = ''
+		ScheduledTaskAccountToRunAsOptions = 'NetworkService' # 'System', 'LocalService', 'NetworkService', 'CustomAccount'
+		CustomAccountToRunScheduledTaskAsUsername = ''
+		CustomAccountToRunScheduledTaskAsPassword = ''
+		ShouldScheduledTaskBeEnabledString = 'true'
+		ShouldScheduledTaskRunWithHighestPrivilegesString = 'false'
+		ShouldScheduledTaskRunAfterInstallString = 'false'
+		ComputerNames = ''
+		Username = ''
+		Password = ''
+		UseCredSsp = $false
+	}
+
+	# Scheduled Task with an invalid XML definition.
+	[hashtable] $InvalidBadXmlInlineXmlScheduledTaskParameters = @{
+		ScheduledTaskDefinitionSource = 'InlineXml' # 'ImportFromXmlFile', 'InlineXml', 'Inline'
+		ScheduledTaskXmlFileToImportFrom = @'
+<?xml version="1.0" encoding="UTF-16"?>
+<Task version="1.3" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">
+  <RegistrationInfo>
+    <Description>A test task set to trigger Once at a DateTime.</Description>
+'@
+		ScheduledTaskXml = ''
+		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-InvalidBadInlineXml')
+		ScheduledTaskDescription = 'A test task set to trigger Once at a DateTime.'
+		ApplicationPathToRun = 'C:\SomeDirectory\Dummy.exe'
+		ApplicationArguments = '/some arguments /more args'
+		WorkingDirectoryOptions = 'ApplicationDirectory' # 'ApplicationDirectory', 'CustomDirectory'
+		CustomWorkingDirectory = ''
+		ScheduleTriggerType = 'DateTime' # 'DateTime', 'AtLogOn', 'AtStartup'
+		AtLogOnTriggerUsername = ''
+		DateTimeScheduleStartTime = '2050-01-01T01:00:00'
+		DateTimeScheduleFrequencyOptions = 'Once' # 'Once', 'Daily', 'Weekly'
+		DateTimeScheduleFrequencyDailyInterval = ''
+		DateTimeScheduleFrequencyWeeklyInterval = ''
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnMondaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnTuesdaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnWednesdaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnThursdaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnFridaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnSaturdaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnSundaysString = 'false'
+		ShouldScheduledTaskRunRepeatedlyString = 'false'
+		ScheduleRepetitionIntervalInMinutes = ''
+		ScheduleRepetitionDurationInMinutes = ''
+		ScheduleStartTimeRandomDelayInMinutes = ''
+		ScheduledTaskAccountToRunAsOptions = 'NetworkService' # 'System', 'LocalService', 'NetworkService', 'CustomAccount'
+		CustomAccountToRunScheduledTaskAsUsername = ''
+		CustomAccountToRunScheduledTaskAsPassword = ''
+		ShouldScheduledTaskBeEnabledString = 'true'
+		ShouldScheduledTaskRunWithHighestPrivilegesString = 'false'
+		ShouldScheduledTaskRunAfterInstallString = 'false'
+		ComputerNames = ''
+		Username = ''
+		Password = ''
+		UseCredSsp = $false
+	}
+
+	# Scheduled Task with an invalid empty XML definition.
+	[hashtable] $InvalidEmptyXmlInlineXmlScheduledTaskParameters = @{
+		ScheduledTaskDefinitionSource = 'InlineXml' # 'ImportFromXmlFile', 'InlineXml', 'Inline'
+		ScheduledTaskXmlFileToImportFrom = ''
+		ScheduledTaskXml = ''
+		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-InvalidEmptyInlineXml')
+		ScheduledTaskDescription = 'A test task set to trigger Once at a DateTime.'
+		ApplicationPathToRun = 'C:\SomeDirectory\Dummy.exe'
+		ApplicationArguments = '/some arguments /more args'
+		WorkingDirectoryOptions = 'ApplicationDirectory' # 'ApplicationDirectory', 'CustomDirectory'
+		CustomWorkingDirectory = ''
+		ScheduleTriggerType = 'DateTime' # 'DateTime', 'AtLogOn', 'AtStartup'
+		AtLogOnTriggerUsername = ''
+		DateTimeScheduleStartTime = '2050-01-01T01:00:00'
+		DateTimeScheduleFrequencyOptions = 'Once' # 'Once', 'Daily', 'Weekly'
+		DateTimeScheduleFrequencyDailyInterval = ''
+		DateTimeScheduleFrequencyWeeklyInterval = ''
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnMondaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnTuesdaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnWednesdaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnThursdaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnFridaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnSaturdaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnSundaysString = 'false'
+		ShouldScheduledTaskRunRepeatedlyString = 'false'
+		ScheduleRepetitionIntervalInMinutes = ''
+		ScheduleRepetitionDurationInMinutes = ''
+		ScheduleStartTimeRandomDelayInMinutes = ''
+		ScheduledTaskAccountToRunAsOptions = 'NetworkService' # 'System', 'LocalService', 'NetworkService', 'CustomAccount'
+		CustomAccountToRunScheduledTaskAsUsername = ''
+		CustomAccountToRunScheduledTaskAsPassword = ''
+		ShouldScheduledTaskBeEnabledString = 'true'
+		ShouldScheduledTaskRunWithHighestPrivilegesString = 'false'
+		ShouldScheduledTaskRunAfterInstallString = 'false'
+		ComputerNames = ''
+		Username = ''
+		Password = ''
+		UseCredSsp = $false
+	}
+
+	# Scheduled Task with an invalid whitespace XML definition.
+	[hashtable] $InvalidWhitespaceXmlInlineXmlScheduledTaskParameters = @{
+		ScheduledTaskDefinitionSource = 'InlineXml' # 'ImportFromXmlFile', 'InlineXml', 'Inline'
+		ScheduledTaskXmlFileToImportFrom = '   '
+		ScheduledTaskXml = ''
+		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-InvalidWhitespaceInlineXml')
 		ScheduledTaskDescription = 'A test task set to trigger Once at a DateTime.'
 		ApplicationPathToRun = 'C:\SomeDirectory\Dummy.exe'
 		ApplicationArguments = '/some arguments /more args'
