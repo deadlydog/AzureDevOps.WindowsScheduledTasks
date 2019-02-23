@@ -141,7 +141,7 @@ Process
 	[string] $xml = [string]::Empty
 	if ($ScheduledTaskDefinitionSource -eq 'ImportFromXmlFile')
 	{
-		$xml = Get-XmlStringFromFile -xmlFilePath $XmlFilePath
+		$xml = Get-XmlStringFromFile -xmlFilePath $ScheduledTaskXmlFileToImportFrom
 	}
 
 	if ($ScheduledTaskDefinitionSource -eq 'InlineXml')

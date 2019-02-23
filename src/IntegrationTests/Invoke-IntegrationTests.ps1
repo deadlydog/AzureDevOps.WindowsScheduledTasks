@@ -12,7 +12,7 @@ Process
 					expectExceptionToBeThrown = $false
 				}
 				@{	testDescription = 'For an xml definition with an AtStartup trigger, it gets created as expected.'
-					scheduledTaskParameters = $XmlAtStartupScheduledTaskParameters
+					scheduledTaskParameters = $XmlFileAtStartupScheduledTaskParameters
 					expectExceptionToBeThrown = $false
 				}
 				@{	testDescription = 'For an inline definition with an AtLogOn trigger, it gets created as expected.'
@@ -20,7 +20,7 @@ Process
 					expectExceptionToBeThrown = $false
 				}
 				@{	testDescription = 'For an xml definition with an AtLogOn trigger, it gets created as expected.'
-					scheduledTaskParameters = $XmlAtLogOnScheduledTaskParameters
+					scheduledTaskParameters = $XmlFileAtLogOnScheduledTaskParameters
 					expectExceptionToBeThrown = $false
 				}
 				@{	testDescription = 'For an inline definition with a DateTime trigger, it gets created as expected.'
@@ -28,7 +28,7 @@ Process
 					expectExceptionToBeThrown = $false
 				}
 				@{	testDescription = 'For an xml definition with a DateTime trigger, it gets created as expected.'
-					scheduledTaskParameters = $XmlDateTimeScheduledTaskParameters
+					scheduledTaskParameters = $XmlFileDateTimeScheduledTaskParameters
 					expectExceptionToBeThrown = $false
 				}
 				@{	testDescription = 'For a Weekly DateTime trigger on one day of the week, it gets created as expected.'
@@ -123,7 +123,7 @@ Process
 
 				# Ensure multiple tasks exist before acting.
 				Install-ScheduledTask -scheduledTaskParameters $InlineAtStartupScheduledTaskParameters
-				Install-ScheduledTask -scheduledTaskParameters $XmlAtStartupScheduledTaskParameters
+				Install-ScheduledTask -scheduledTaskParameters $XmlFileAtStartupScheduledTaskParameters
 				$scheduledTasks = Get-ScheduledTaskByFullName -taskFullName $taskFullNameWithWildcardForMultipleTasks
 				$scheduledTasks | Should -Not -BeNullOrEmpty
 				$scheduledTasks.Length | Should -Be 2
@@ -206,7 +206,7 @@ Process
 
 				# Ensure multiple tasks exist before acting.
 				Install-ScheduledTask -scheduledTaskParameters $DisabledScheduledTaskParameters
-				Install-ScheduledTask -scheduledTaskParameters $XmlAtStartupScheduledTaskParameters
+				Install-ScheduledTask -scheduledTaskParameters $XmlFileAtStartupScheduledTaskParameters
 				$scheduledTasks = Get-ScheduledTaskByFullName -taskFullName $taskFullNameWithWildcardForMultipleTasks
 				$scheduledTasks | Should -Not -BeNullOrEmpty
 				$scheduledTasks.Length | Should -Be 2
@@ -223,7 +223,7 @@ Process
 
 				# Cleanup now that we're done.
 				Uninstall-ScheduledTask -scheduledTaskParameters $DisabledScheduledTaskParameters
-				Uninstall-ScheduledTask -scheduledTaskParameters $XmlAtStartupScheduledTaskParameters
+				Uninstall-ScheduledTask -scheduledTaskParameters $XmlFileAtStartupScheduledTaskParameters
 			}
 		}
 	}
@@ -295,7 +295,7 @@ Process
 				}
 
 				# Ensure multiple tasks exist before acting
-				Install-ScheduledTask -scheduledTaskParameters $XmlAtStartupScheduledTaskParameters
+				Install-ScheduledTask -scheduledTaskParameters $XmlFileAtStartupScheduledTaskParameters
 				Install-ScheduledTask -scheduledTaskParameters $DisabledScheduledTaskParameters
 				$scheduledTasks = Get-ScheduledTaskByFullName -taskFullName $taskFullNameWithWildcardForMultipleTasks
 				$scheduledTasks | Should -Not -BeNullOrEmpty
@@ -312,7 +312,7 @@ Process
 				}
 
 				# Cleanup now that we're done.
-				Uninstall-ScheduledTask -scheduledTaskParameters $XmlAtStartupScheduledTaskParameters
+				Uninstall-ScheduledTask -scheduledTaskParameters $XmlFileAtStartupScheduledTaskParameters
 				Uninstall-ScheduledTask -scheduledTaskParameters $DisabledScheduledTaskParameters
 			}
 		}
@@ -526,8 +526,9 @@ Begin
 
 	# Scheduled Task that should never be installed, as it's used to run tests against Scheduled Tasks that are not installed.
 	[hashtable] $NeverInstalledScheduledTaskParameters = @{
-		ScheduledTaskDefinitionSource = 'Inline' # 'ImportFromXmlFile', 'Inline'
+		ScheduledTaskDefinitionSource = 'Inline' # 'ImportFromXmlFile', 'InlineXml', 'Inline'
 		ScheduledTaskXmlFileToImportFrom = ''
+		ScheduledTaskXml = ''
 		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-')
 		ScheduledTaskDescription = 'A test task.'
 		ApplicationPathToRun = 'C:\Dummy.exe'
@@ -565,8 +566,9 @@ Begin
 
 	# Scheduled Task with an Inline definition and an AtStartup trigger.
 	[hashtable] $InlineAtStartupScheduledTaskParameters = @{
-		ScheduledTaskDefinitionSource = 'Inline' # 'ImportFromXmlFile', 'Inline'
+		ScheduledTaskDefinitionSource = 'Inline' # 'ImportFromXmlFile', 'InlineXml', 'Inline'
 		ScheduledTaskXmlFileToImportFrom = ''
+		ScheduledTaskXml = ''
 		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-InlineAtStartup')
 		ScheduledTaskDescription = 'A test task set to trigger At Startup.'
 		ApplicationPathToRun = 'C:\Dummy.exe'
@@ -602,10 +604,11 @@ Begin
 		UseCredSsp = $false
 	}
 
-	# Scheduled Task with an XML definition and an AtStartup trigger.
-	[hashtable] $XmlAtStartupScheduledTaskParameters = @{
-		ScheduledTaskDefinitionSource = 'ImportFromXmlFile' # 'ImportFromXmlFile', 'Inline'
+	# Scheduled Task with an XML file definition and an AtStartup trigger.
+	[hashtable] $XmlFileAtStartupScheduledTaskParameters = @{
+		ScheduledTaskDefinitionSource = 'ImportFromXmlFile' # 'ImportFromXmlFile', 'InlineXml', 'Inline'
 		ScheduledTaskXmlFileToImportFrom = Get-XmlDefinitionPath -fileName 'AtStartup.xml'
+		ScheduledTaskXml = ''
 		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-XmlAtStartup')
 		ScheduledTaskDescription = 'A test task set to trigger At Startup.'
 		ApplicationPathToRun = 'C:\Dummy.exe'
@@ -643,8 +646,9 @@ Begin
 
 	# Scheduled Task with an Inline definition and an AtLogOn trigger.
 	[hashtable] $InlineAtLogOnScheduledTaskParameters = @{
-		ScheduledTaskDefinitionSource = 'Inline' # 'ImportFromXmlFile', 'Inline'
+		ScheduledTaskDefinitionSource = 'Inline' # 'ImportFromXmlFile', 'InlineXml', 'Inline'
 		ScheduledTaskXmlFileToImportFrom = ''
+		ScheduledTaskXml = ''
 		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-InlineAtLogOn')
 		ScheduledTaskDescription = 'A test task set to trigger At Log On.'
 		ApplicationPathToRun = 'C:\SomeDirectory\Dummy.exe'
@@ -680,10 +684,11 @@ Begin
 		UseCredSsp = $false
 	}
 
-	# Scheduled Task with an XML definition and an AtLogOn trigger.
-	[hashtable] $XmlAtLogOnScheduledTaskParameters = @{
-		ScheduledTaskDefinitionSource = 'ImportFromXmlFile' # 'ImportFromXmlFile', 'Inline'
+	# Scheduled Task with an XML file definition and an AtLogOn trigger.
+	[hashtable] $XmlFileAtLogOnScheduledTaskParameters = @{
+		ScheduledTaskDefinitionSource = 'ImportFromXmlFile' # 'ImportFromXmlFile', 'InlineXml', 'Inline'
 		ScheduledTaskXmlFileToImportFrom = Get-XmlDefinitionPath -fileName 'AtLogOn.xml'
+		ScheduledTaskXml = ''
 		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-InlineAtLogOn')
 		ScheduledTaskDescription = 'A test task set to trigger At Log On.'
 		ApplicationPathToRun = 'C:\SomeDirectory\Dummy.exe'
@@ -721,8 +726,9 @@ Begin
 
 	# Scheduled Task with an Inline definition and an DateTime trigger.
 	[hashtable] $InlineDateTimeScheduledTaskParameters = @{
-		ScheduledTaskDefinitionSource = 'Inline' # 'ImportFromXmlFile', 'Inline'
+		ScheduledTaskDefinitionSource = 'Inline' # 'ImportFromXmlFile', 'InlineXml', 'Inline'
 		ScheduledTaskXmlFileToImportFrom = ''
+		ScheduledTaskXml = ''
 		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-InlineDateTime')
 		ScheduledTaskDescription = 'A test task set to trigger Once at a DateTime.'
 		ApplicationPathToRun = 'C:\SomeDirectory\Dummy.exe'
@@ -758,10 +764,11 @@ Begin
 		UseCredSsp = $false
 	}
 
-	# Scheduled Task with an XML definition and a DateTime trigger.
-	[hashtable] $XmlDateTimeScheduledTaskParameters = @{
-		ScheduledTaskDefinitionSource = 'ImportFromXmlFile' # 'ImportFromXmlFile', 'Inline'
+	# Scheduled Task with an XML File definition and a DateTime trigger.
+	[hashtable] $XmlFileDateTimeScheduledTaskParameters = @{
+		ScheduledTaskDefinitionSource = 'ImportFromXmlFile' # 'ImportFromXmlFile', 'InlineXml', 'Inline'
 		ScheduledTaskXmlFileToImportFrom = Get-XmlDefinitionPath -fileName 'DateTime.xml'
+		ScheduledTaskXml = ''
 		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-XmlDateTime')
 		ScheduledTaskDescription = 'A test task set to trigger Once at a DateTime.'
 		ApplicationPathToRun = 'C:\SomeDirectory\Dummy.exe'
@@ -798,8 +805,9 @@ Begin
 	}
 
 	[hashtable] $DisabledScheduledTaskParameters = @{
-		ScheduledTaskDefinitionSource = 'Inline' # 'ImportFromXmlFile', 'Inline'
+		ScheduledTaskDefinitionSource = 'Inline' # 'ImportFromXmlFile', 'InlineXml', 'Inline'
 		ScheduledTaskXmlFileToImportFrom = ''
+		ScheduledTaskXml = ''
 		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-DisabledTask')
 		ScheduledTaskDescription = 'A test task that gets installed as disabled.'
 		ApplicationPathToRun = 'C:\Dummy.exe'
@@ -836,8 +844,9 @@ Begin
 	}
 
 	[hashtable] $WeeklyScheduledTaskParameters = @{
-		ScheduledTaskDefinitionSource = 'Inline' # 'ImportFromXmlFile', 'Inline'
+		ScheduledTaskDefinitionSource = 'Inline' # 'ImportFromXmlFile', 'InlineXml', 'Inline'
 		ScheduledTaskXmlFileToImportFrom = ''
+		ScheduledTaskXml = ''
 		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-Weekly')
 		ScheduledTaskDescription = 'A test task for a Weekly trigger with a single weekday specified.'
 		ApplicationPathToRun = 'C:\Dummy.exe'
@@ -874,8 +883,9 @@ Begin
 	}
 
 	[hashtable] $WeeklyMultipleDaysScheduledTaskParameters = @{
-		ScheduledTaskDefinitionSource = 'Inline' # 'ImportFromXmlFile', 'Inline'
+		ScheduledTaskDefinitionSource = 'Inline' # 'ImportFromXmlFile', 'InlineXml', 'Inline'
 		ScheduledTaskXmlFileToImportFrom = ''
+		ScheduledTaskXml = ''
 		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-WeeklyMultipleDays')
 		ScheduledTaskDescription = 'A test task for a Weekly trigger with multiple weekdays specified.'
 		ApplicationPathToRun = 'C:\Dummy.exe'
@@ -912,8 +922,9 @@ Begin
 	}
 
 	[hashtable] $InvalidWeeklyBecauseNoWeekdaysSpecifiedScheduledTaskParameters = @{
-		ScheduledTaskDefinitionSource = 'Inline' # 'ImportFromXmlFile', 'Inline'
+		ScheduledTaskDefinitionSource = 'Inline' # 'ImportFromXmlFile', 'InlineXml', 'Inline'
 		ScheduledTaskXmlFileToImportFrom = ''
+		ScheduledTaskXml = ''
 		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-Weekly')
 		ScheduledTaskDescription = 'A test task for a Weekly trigger with no weekdays specified.'
 		ApplicationPathToRun = 'C:\Dummy.exe'
@@ -950,8 +961,9 @@ Begin
 	}
 
 	[hashtable] $NoDescriptionScheduledTaskParameters = @{
-		ScheduledTaskDefinitionSource = 'Inline' # 'ImportFromXmlFile', 'Inline'
+		ScheduledTaskDefinitionSource = 'Inline' # 'ImportFromXmlFile', 'InlineXml', 'Inline'
 		ScheduledTaskXmlFileToImportFrom = ''
+		ScheduledTaskXml = ''
 		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-')
 		ScheduledTaskDescription = ''
 		ApplicationPathToRun = 'C:\Dummy.exe'
