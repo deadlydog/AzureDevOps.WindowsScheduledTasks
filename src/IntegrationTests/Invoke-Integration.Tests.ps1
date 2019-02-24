@@ -19,8 +19,8 @@ Process
 					scheduledTaskParameters = $InlineAtLogOnScheduledTaskParameters
 					expectExceptionToBeThrown = $false
 				}
-				@{	testDescription = 'For an xml file definition with an AtLogOn trigger, it gets created as expected.'
-					scheduledTaskParameters = $XmlFileAtLogOnScheduledTaskParameters
+				@{	testDescription = 'For an inline xml definition with an AtLogOn trigger, it gets created as expected.'
+					scheduledTaskParameters = $InlineXmlAtLogOnScheduledTaskParameters
 					expectExceptionToBeThrown = $false
 				}
 				@{	testDescription = 'For an inline definition with a DateTime trigger, it gets created as expected.'
@@ -704,10 +704,60 @@ Begin
 	}
 
 	# Scheduled Task with an XML file definition and an AtLogOn trigger.
-	[hashtable] $XmlFileAtLogOnScheduledTaskParameters = @{
-		ScheduledTaskDefinitionSource = 'XmlFile' # 'XmlFile', 'InlineXml', 'Inline'
+	[hashtable] $InlineXmlAtLogOnScheduledTaskParameters = @{
+		ScheduledTaskDefinitionSource = 'InlineXml' # 'XmlFile', 'InlineXml', 'Inline'
 		ScheduledTaskXmlFileToImportFrom = Get-XmlDefinitionPath -fileName 'AtLogOn.xml'
-		ScheduledTaskXml = ''
+		ScheduledTaskXml = @"
+<?xml version="1.0" encoding="UTF-16"?>
+<Task version="1.3" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">
+  <RegistrationInfo>
+    <Description>A test task set to trigger At Log On.</Description>
+    <URI>\WindowsScheduledTasksTests\Test-InlineAtLogOn</URI>
+  </RegistrationInfo>
+  <Triggers>
+    <LogonTrigger>
+      <Enabled>true</Enabled>
+      <UserId>$([System.Security.Principal.WindowsIdentity]::GetCurrent().Name)</UserId>
+    </LogonTrigger>
+  </Triggers>
+  <Principals>
+    <Principal id="Author">
+      <UserId>S-1-5-18</UserId>
+      <RunLevel>LeastPrivilege</RunLevel>
+    </Principal>
+  </Principals>
+  <Settings>
+    <MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy>
+    <DisallowStartIfOnBatteries>true</DisallowStartIfOnBatteries>
+    <StopIfGoingOnBatteries>true</StopIfGoingOnBatteries>
+    <AllowHardTerminate>true</AllowHardTerminate>
+    <StartWhenAvailable>false</StartWhenAvailable>
+    <RunOnlyIfNetworkAvailable>false</RunOnlyIfNetworkAvailable>
+    <IdleSettings>
+      <Duration>PT10M</Duration>
+      <WaitTimeout>PT1H</WaitTimeout>
+      <StopOnIdleEnd>true</StopOnIdleEnd>
+      <RestartOnIdle>false</RestartOnIdle>
+    </IdleSettings>
+    <AllowStartOnDemand>true</AllowStartOnDemand>
+    <Enabled>true</Enabled>
+    <Hidden>false</Hidden>
+    <RunOnlyIfIdle>false</RunOnlyIfIdle>
+    <DisallowStartOnRemoteAppSession>false</DisallowStartOnRemoteAppSession>
+    <UseUnifiedSchedulingEngine>true</UseUnifiedSchedulingEngine>
+    <WakeToRun>false</WakeToRun>
+    <ExecutionTimeLimit>PT72H</ExecutionTimeLimit>
+    <Priority>7</Priority>
+  </Settings>
+  <Actions Context="Author">
+    <Exec>
+      <Command>C:\SomeDirectory\Dummy.exe</Command>
+      <Arguments>/some arguments /more args</Arguments>
+      <WorkingDirectory>C:\SomeDirectory</WorkingDirectory>
+    </Exec>
+  </Actions>
+</Task>
+"@
 		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-InlineAtLogOn')
 		ScheduledTaskDescription = 'A test task set to trigger At Log On.'
 		ApplicationPathToRun = 'C:\SomeDirectory\Dummy.exe'
@@ -715,7 +765,7 @@ Begin
 		WorkingDirectoryOptions = 'ApplicationDirectory' # 'ApplicationDirectory', 'CustomDirectory'
 		CustomWorkingDirectory = ''
 		ScheduleTriggerType = 'AtLogOn' # 'DateTime', 'AtLogOn', 'AtStartup'
-		AtLogOnTriggerUsername = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
+		AtLogOnTriggerUsername = ''
 		DateTimeScheduleStartTime = ''
 		DateTimeScheduleFrequencyOptions = 'Once' # 'Once', 'Daily', 'Weekly'
 		DateTimeScheduleFrequencyDailyInterval = ''
