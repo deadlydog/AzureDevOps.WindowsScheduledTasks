@@ -1,3 +1,6 @@
+# This file should only be modified if it is the one in the `SharedTaskCode` directory.
+# Otherwise changes here will be overwritten the next time the Copy Files script is ran.
+
 function Get-ScheduledTaskNameAndPath([string] $fullTaskName)
 {
 	$fullTaskName = $fullTaskName.TrimStart('\\')

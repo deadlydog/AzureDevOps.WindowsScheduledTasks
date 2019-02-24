@@ -1,3 +1,6 @@
+# This file should only be modified if it is the one in the `SharedTaskCode` directory.
+# Otherwise changes here will be overwritten the next time the Copy Files script is ran.
+
 function Get-ComputersToConnectToOrNull([string] $computerNames)
 {
 	[string[]] $computers = $computerNames -split '\s*,\s*'

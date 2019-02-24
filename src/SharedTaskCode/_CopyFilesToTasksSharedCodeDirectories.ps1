@@ -18,8 +18,8 @@ $tasksSharedCodeDirectoryPaths | ForEach-Object {
 	$tasksLocalSharedCodeDirectoryPath = $_
 	$tasksDirectoryToCopyFilesTo = Join-Path -Path $srcDirectoryPath -ChildPath $tasksLocalSharedCodeDirectoryPath -Resolve
 
-	Write-Verbose "Copying files from '$THIS_SCRIPTS_DIRECTORY_PATH' to '$tasksDirectoryToCopyFilesTo'." -Verbose
-	Get-ChildItem -Path $THIS_SCRIPTS_DIRECTORY_PATH -Recurse -Force | Copy-Item -Destination $tasksDirectoryToCopyFilesTo -Force
+	Write-Verbose "Copying PowerShell module files from '$THIS_SCRIPTS_DIRECTORY_PATH' to '$tasksDirectoryToCopyFilesTo'." -Verbose
+	Get-ChildItem -Path $THIS_SCRIPTS_DIRECTORY_PATH -Recurse -Force | Where-Object { $_.Extension -eq '.psm1' } | Copy-Item -Destination $tasksDirectoryToCopyFilesTo -Force
 }
 
 Write-Output "Completed copying files"
