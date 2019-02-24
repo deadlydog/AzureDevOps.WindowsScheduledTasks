@@ -29,17 +29,15 @@ function Convert-UsernameAndPasswordToCredentialsOrNull([string] $username, [str
 
 function Get-BoolValueFromString([string] $string, [switch] $required)
 {
-	[bool] $value = $null
-	if ([bool]::TryParse($string, [ref]$value))
+	if ([string]::IsNullOrWhiteSpace($string) -and $required)
 	{
-		return $value
+		throw 'A non-empty string must be provided when calling Get-BoolValueFromString.'
 	}
 
-	if ($required)
+	if ($string -ieq "true")
 	{
-		throw "Could not convert the string '$string' to a boolean value. It should be of the form 'true', 'false', '0', or '1'."
+		return $true
 	}
-
 	return $false
 }
 
