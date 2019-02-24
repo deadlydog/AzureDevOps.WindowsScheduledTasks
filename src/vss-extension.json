@@ -110,7 +110,10 @@
         "name": "Tasks/DisableWindowsScheduledTask"
       }
     }
-  ],
+	],
+	"galleryFlags": [
+		"Preview"
+	],
   "_internalCommentForMyself": [
     {
       "Absent": "When the \u0027galleryFlags\u0027 element is missing, this extension is only visible to the publisher. When ready, move the `galleryFlags` section out of this \u0027_comment\u0027 section.",
