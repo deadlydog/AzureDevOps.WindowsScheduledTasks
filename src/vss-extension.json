@@ -38,7 +38,17 @@
   },
   "icons": {
     "default": "Images/ExtensionIcon.png"
-  },
+	},
+	"screenshots": [{
+			"path": "Images/AllTasks.png"
+		},
+		{
+			"path": "Images/InstallTaskSettings.png"
+		},
+		{
+			"path": "Images/UninstallTaskSettings.png"
+		}
+	],
   "repository": {
     "type": "git",
     "uri": "https://github.com/deadlydog/AzureDevOps.WindowsScheduledTasks"
@@ -110,15 +120,5 @@
         "Public"
       ]
     }
-  ],
-  "_anotherInternalCommentForMyself": {
-    "screenshots": [
-      {
-        "path": "screenshots/screen1.png"
-      },
-      {
-        "path": "screenshots/screen2.png"
-      }
-    ]
-  }
+  ]
 }
