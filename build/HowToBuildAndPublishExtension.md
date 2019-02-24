@@ -4,9 +4,9 @@
 
 The building and publishing of this extension is fully automated via an Azure DevOps pipeline.
 
-Every time a change is committed to the `master` branch [a new build is made][AzureDevOpsBuildPipelineUrl].
+Every time a change is committed to the `master` branch [a new build][AzureDevOpsBuildPipelineUrl] is made.
 
-If the build succeeds, [you can manually create a new release][AzureDevOpsReleasePipelineUrl] which will publish the new version to [the Azure DevOps marketplace][ExtensionsAzureDevOpsMarketplaceUrl].
+If the build succeeds, [a new release][AzureDevOpsReleasePipelineUrl] will automatically be created which will publish the new version to [the Azure DevOps marketplace][ExtensionsAzureDevOpsMarketplaceUrl].
 
 ## Manual builds and deployments
 
