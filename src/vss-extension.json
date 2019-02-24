@@ -2,7 +2,7 @@
   "manifestVersion": 1,
   "id": "WindowsScheduledTasksBuildAndReleaseTasks",
   "name": "Windows Scheduled Tasks",
-  "version": "0.0.60",
+  "version": "0.0.0",
   "publisher": "deadlydog",
   "targets": [
     {
@@ -38,23 +38,24 @@
   },
   "icons": {
     "default": "Images/ExtensionIcon.png"
-	},
-	"screenshots": [{
-			"path": "Images/AllTasks.png"
-		},
-		{
-			"path": "Images/InstallTaskSettings1of3.png"
-		},
+  },
+  "screenshots": [
     {
-			"path": "Images/InstallTaskSettings2of3.png"
-		},
+      "path": "Images/AllTasks.png"
+    },
     {
-			"path": "Images/InstallTaskSettings3of3.png"
-		},
-		{
-			"path": "Images/UninstallTaskSettings.png"
-		}
-	],
+      "path": "Images/InstallTaskSettings1of3.png"
+    },
+    {
+      "path": "Images/InstallTaskSettings2of3.png"
+    },
+    {
+      "path": "Images/InstallTaskSettings3of3.png"
+    },
+    {
+      "path": "Images/UninstallTaskSettings.png"
+    }
+  ],
   "repository": {
     "type": "git",
     "uri": "https://github.com/deadlydog/AzureDevOps.WindowsScheduledTasks"
