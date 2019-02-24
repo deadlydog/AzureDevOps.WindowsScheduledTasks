@@ -112,7 +112,7 @@ Process
 					ComputerNames = ''
 					Username = ''
 					Password = ''
-					UseCredSsp = $false
+					UseCredSsp = 'false'
 				}
 
 				# Act.
@@ -134,7 +134,7 @@ Process
 					ComputerNames = ''
 					Username = ''
 					Password = ''
-					UseCredSsp = $false
+					UseCredSsp = 'false'
 				}
 
 				# Ensure multiple tasks exist before acting.
@@ -197,7 +197,7 @@ Process
 					ComputerNames = ''
 					Username = ''
 					Password = ''
-					UseCredSsp = $false
+					UseCredSsp = 'false'
 				}
 
 				# Act.
@@ -217,7 +217,7 @@ Process
 					ComputerNames = ''
 					Username = ''
 					Password = ''
-					UseCredSsp = $false
+					UseCredSsp = 'false'
 				}
 
 				# Ensure multiple tasks exist before acting.
@@ -287,7 +287,7 @@ Process
 					ComputerNames = ''
 					Username = ''
 					Password = ''
-					UseCredSsp = $false
+					UseCredSsp = 'false'
 				}
 
 				# Act.
@@ -307,7 +307,7 @@ Process
 					ComputerNames = ''
 					Username = ''
 					Password = ''
-					UseCredSsp = $false
+					UseCredSsp = 'false'
 				}
 
 				# Ensure multiple tasks exist before acting
@@ -580,7 +580,7 @@ Begin
 		ComputerNames = ''
 		Username = ''
 		Password = ''
-		UseCredSsp = $false
+		UseCredSsp = 'false'
 	}
 
 	# Scheduled Task with an Inline definition and an AtStartup trigger.
@@ -620,7 +620,7 @@ Begin
 		ComputerNames = ''
 		Username = ''
 		Password = ''
-		UseCredSsp = $false
+		UseCredSsp = 'false'
 	}
 
 	# Scheduled Task with an XML file definition and an AtStartup trigger.
@@ -660,7 +660,7 @@ Begin
 		ComputerNames = ''
 		Username = ''
 		Password = ''
-		UseCredSsp = $false
+		UseCredSsp = 'false'
 	}
 
 	# Scheduled Task with an Inline definition and an AtLogOn trigger.
@@ -700,7 +700,7 @@ Begin
 		ComputerNames = ''
 		Username = ''
 		Password = ''
-		UseCredSsp = $false
+		UseCredSsp = 'false'
 	}
 
 	# Scheduled Task with an XML file definition and an AtLogOn trigger.
@@ -740,7 +740,7 @@ Begin
 		ComputerNames = ''
 		Username = ''
 		Password = ''
-		UseCredSsp = $false
+		UseCredSsp = 'false'
 	}
 
 	# Scheduled Task with an Inline definition and an DateTime trigger.
@@ -780,7 +780,7 @@ Begin
 		ComputerNames = ''
 		Username = ''
 		Password = ''
-		UseCredSsp = $false
+		UseCredSsp = 'false'
 	}
 
 	# Scheduled Task with an XML File definition and a DateTime trigger.
@@ -820,7 +820,7 @@ Begin
 		ComputerNames = ''
 		Username = ''
 		Password = ''
-		UseCredSsp = $false
+		UseCredSsp = 'false'
 	}
 
 	# Scheduled Task with an XML definition and a DateTime trigger.
@@ -910,7 +910,7 @@ Begin
 		ComputerNames = ''
 		Username = ''
 		Password = ''
-		UseCredSsp = $false
+		UseCredSsp = 'false'
 	}
 
 	# Scheduled Task with an invalid XML definition.
@@ -955,7 +955,7 @@ Begin
 		ComputerNames = ''
 		Username = ''
 		Password = ''
-		UseCredSsp = $false
+		UseCredSsp = 'false'
 	}
 
 	# Scheduled Task with an invalid empty XML definition.
@@ -995,7 +995,7 @@ Begin
 		ComputerNames = ''
 		Username = ''
 		Password = ''
-		UseCredSsp = $false
+		UseCredSsp = 'false'
 	}
 
 	# Scheduled Task with an invalid whitespace XML definition.
@@ -1035,7 +1035,7 @@ Begin
 		ComputerNames = ''
 		Username = ''
 		Password = ''
-		UseCredSsp = $false
+		UseCredSsp = 'false'
 	}
 
 	[hashtable] $DisabledScheduledTaskParameters = @{
@@ -1074,7 +1074,7 @@ Begin
 		ComputerNames = ''
 		Username = ''
 		Password = ''
-		UseCredSsp = $false
+		UseCredSsp = 'false'
 	}
 
 	[hashtable] $WeeklyScheduledTaskParameters = @{
@@ -1113,7 +1113,7 @@ Begin
 		ComputerNames = ''
 		Username = ''
 		Password = ''
-		UseCredSsp = $false
+		UseCredSsp = 'false'
 	}
 
 	[hashtable] $WeeklyMultipleDaysScheduledTaskParameters = @{
@@ -1152,7 +1152,7 @@ Begin
 		ComputerNames = ''
 		Username = ''
 		Password = ''
-		UseCredSsp = $false
+		UseCredSsp = 'false'
 	}
 
 	[hashtable] $InvalidWeeklyBecauseNoWeekdaysSpecifiedScheduledTaskParameters = @{
@@ -1191,7 +1191,7 @@ Begin
 		ComputerNames = ''
 		Username = ''
 		Password = ''
-		UseCredSsp = $false
+		UseCredSsp = 'false'
 	}
 
 	[hashtable] $NoDescriptionScheduledTaskParameters = @{
@@ -1230,6 +1230,6 @@ Begin
 		ComputerNames = ''
 		Username = ''
 		Password = ''
-		UseCredSsp = $false
+		UseCredSsp = 'false'
 	}
 }
