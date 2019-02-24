@@ -29,10 +29,10 @@ function Convert-UsernameAndPasswordToCredentialsOrNull([string] $username, [str
 
 function Get-BoolValueFromString([string] $string, [switch] $required)
 {
-	# if ([string]::IsNullOrWhiteSpace($string) -and $required)
-	# {
-	# 	throw 'A non-empty string must be provided when calling Get-BoolValueFromString.'
-	# }
+	if ([string]::IsNullOrWhiteSpace($string) -and $required.IsPresent)
+	{
+		throw 'A non-empty string must be provided when calling Get-BoolValueFromString.'
+	}
 
 	if ($string -ieq 'true')
 	{
