@@ -45,6 +45,6 @@ You can manually publish a new version of the extension at [my personal Azure De
 
 <!-- Links -->
 [ExtensionsAzureDevOpsMarketplaceUrl]: https://marketplace.visualstudio.com/items?itemName=deadlydog.WindowsScheduledTasksBuildAndReleaseTasks
-[AzureDevOpsBuildPipelineUrl]: https://dev.azure.com/deadlydog/AzureDevOps.WindowsScheduledTasks/_build?definitionId=19
-[AzureDevOpsReleasePipelineUrl]: https://dev.azure.com/deadlydog/AzureDevOps.WindowsScheduledTasks/_release?view=all&definitionId=1
+[AzureDevOpsBuildPipelineUrl]: https://dev.azure.com/deadlydog/OpenSource/_build?definitionId=19
+[AzureDevOpsReleasePipelineUrl]: https://dev.azure.com/deadlydog/OpenSource/_release?view=all&definitionId=1
 [MyAzureDevOpsMarketplaceExtensionsUrl]: https://marketplace.visualstudio.com/manage/publishers/deadlydog
