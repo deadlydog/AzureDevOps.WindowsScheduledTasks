@@ -1,6 +1,6 @@
 # Change Log
 
-This page is a list of notable changes made to the Windows Scheduled Tasks Azure DevOps extension.
+This page is a list of *notable* changes made to the Windows Scheduled Tasks Azure DevOps extension.
 
 ## February 24, 2018 - v1.0.0
 
