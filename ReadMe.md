@@ -8,7 +8,7 @@ Current build status: [![Build Status](https://dev.azure.com/deadlydog/OpenSourc
 ## Features
 
 - Install a Windows Scheduled Task by specifying properties inline, XML inline, or from an XML file.
-- Replace an existing Windows Scheduled Task by overwriting it.
+  - Replace an existing Windows Scheduled Task of the same name by overwriting it.
 - Enable, Disable, and Uninstall a Windows Scheduled Task.
   - Supports wildcards for modifying many Schedules Tasks easily, or when you only know part of the Scheduled Task's name.
 - Multiple computers can be specified to easily run the task against all of them.
