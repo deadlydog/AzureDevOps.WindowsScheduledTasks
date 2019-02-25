@@ -14,7 +14,7 @@ If you want to manually build and publish a new version of the extension, you ca
 
 ### Prerequisites
 
-You need to have Node.js installed - https://nodejs.org/en/download
+You need to have Node.js installed. [Get it here][NodeJsDownloadUrl].
 
 Once node is installed, install the TFS Cross Platform Command Line Interface (tfx-cli) with the command:
 
@@ -48,3 +48,4 @@ You can manually publish a new version of the extension at [my personal Azure De
 [AzureDevOpsBuildPipelineUrl]: https://dev.azure.com/deadlydog/OpenSource/_build?definitionId=19
 [AzureDevOpsReleasePipelineUrl]: https://dev.azure.com/deadlydog/OpenSource/_release?view=all&definitionId=1
 [MyAzureDevOpsMarketplaceExtensionsUrl]: https://marketplace.visualstudio.com/manage/publishers/deadlydog
+[NodeJsDownloadUrl]: https://nodejs.org/en/download
