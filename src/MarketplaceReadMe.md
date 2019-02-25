@@ -67,6 +67,8 @@ Ratings and feedback are very much appreciated. If you have a spare moment, plea
 
 If you encounter problems or would like to request new features, please do so on [the GitHub issues page][ExtensionGitHubRepositoryIssuesUrl], as it facilitates discussions much better than the marketplace Q&A and Rating/Review pages.
 
+You can also [view the change log here][ExtensionChangeLogUrl].
+
 ### Implementation
 
 Under the hood this extension uses the [PowerShell ScheduledTasks cmdlets][PowerShellScheduledTasksDocumentationUrl], so the functionality it can offer is limited to what those cmdlets provide.
@@ -86,6 +88,7 @@ Buy me some maple syrup for providing this extension open source and for free :)
 <!-- Links -->
 [ExtensionInAzureDevOpsMarketplaceUrl]: https://marketplace.visualstudio.com/items?itemName=deadlydog.WindowsScheduledTasksBuildAndReleaseTasks
 [ExtensionGitHubRepositoryIssuesUrl]: https://github.com/deadlydog/AzureDevOps.WindowsScheduledTasks/issues
+[ExtensionChangeLogUrl]: https://github.com/deadlydog/AzureDevOps.WindowsScheduledTasks/blob/master/docs/ChangeLog.md
 [ExtensionRatingAndReviewInAzureDevOpsMarketplaceUrl]: https://marketplace.visualstudio.com/items?itemName=deadlydog.WindowsScheduledTasksBuildAndReleaseTasks#review-details
 [PowerShellScheduledTasksDocumentationUrl]: https://docs.microsoft.com/en-us/powershell/module/scheduledtasks/?view=win10-ps
 [PowerShellExportScheduledTaskDocumentationUrl]: https://docs.microsoft.com/en-us/powershell/module/scheduledtasks/export-scheduledtask?view=win10-ps
