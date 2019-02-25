@@ -2,8 +2,8 @@
   "id": "FF22BE20-A64A-1293-99BD-1AA7E161F3F2",
   "name": "EnableWindowsScheduledTask",
   "friendlyName": "Windows Scheduled Task - Enable",
-  "description": "Enables a Windows Scheduled Task",
-"helpMarkDown": "[More Information](https://github.com/deadlydog/AzureDevOps.WindowsScheduledTasks)",
+	"description": "Enables a Windows Scheduled Task",
+	"helpMarkDown": "[More Information](https://github.com/deadlydog/AzureDevOps.WindowsScheduledTasks)",
   "category": "Utility",
   "visibility": [
     "Build",

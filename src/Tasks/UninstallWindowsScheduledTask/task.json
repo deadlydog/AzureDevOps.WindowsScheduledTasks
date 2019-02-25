@@ -2,8 +2,8 @@
   "id": "CDFB7F40-DBB3-128F-9A8D-1934EE9A7748",
   "name": "UninstallWindowsScheduledTask",
   "friendlyName": "Windows Scheduled Task - Uninstall ",
-  "description": "Uninstalls a Windows Scheduled Task",
-"helpMarkDown": "[More Information](https://github.com/deadlydog/AzureDevOps.WindowsScheduledTasks)",
+	"description": "Uninstalls a Windows Scheduled Task",
+	"helpMarkDown": "[More Information](https://github.com/deadlydog/AzureDevOps.WindowsScheduledTasks)",
   "category": "Utility",
   "visibility": [
     "Build",
