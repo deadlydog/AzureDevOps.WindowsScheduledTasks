@@ -21,7 +21,9 @@
     "scheduled task",
     "task scheduler",
     "install",
-    "uninstall"
+		"uninstall",
+		"enable",
+		"disable"
   ],
   "content": {
     "details": {
