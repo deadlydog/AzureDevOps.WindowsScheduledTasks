@@ -63,11 +63,17 @@ If your Scheduled Task does not already exist, create a new Scheduled Task in th
 
 If you prefer, you can also export the Scheduled Task via [the `Export-ScheduledTask` PowerShell cmdlet][PowerShellExportScheduledTaskDocumentationUrl].
 
-## Implementation
+## Feedback
+
+Ratings and feedback are very much appreciated. If you have a spare moment, please [leave a review][ExtensionRatingAndReviewInAzureDevOpsMarketplaceUrl].
+
+If you encounter problems or would like to request new features, please do so on [the GitHub issues page][ExtensionGitHubRepositoryIssuesUrl], as it facilitates discussions much better than the marketplace Q&A and Rating/Review pages.
+
+### Implementation
 
 Under the hood this extension uses the [PowerShell ScheduledTasks cmdlets][PowerShellScheduledTasksDocumentationUrl], so the functionality it can offer is limited to what those cmdlets provide.
 
-## Additional ideas to implement
+### Additional ideas to implement
 
 - Allow task to be deleted immediately after installing it and running it.
 - Add option to allow using SSL.
@@ -81,6 +87,8 @@ Buy me some maple syrup for providing this extension open source and for free :)
 
 <!-- Links -->
 [ExtensionInAzureDevOpsMarketplaceUrl]: https://marketplace.visualstudio.com/items?itemName=deadlydog.WindowsScheduledTasksBuildAndReleaseTasks
+[ExtensionGitHubRepositoryIssuesUrl]: https://github.com/deadlydog/AzureDevOps.WindowsScheduledTasks/issues
+[ExtensionRatingAndReviewInAzureDevOpsMarketplaceUrl]: https://marketplace.visualstudio.com/items?itemName=deadlydog.WindowsScheduledTasksBuildAndReleaseTasks#review-details
 [PowerShellScheduledTasksDocumentationUrl]: https://docs.microsoft.com/en-us/powershell/module/scheduledtasks/?view=win10-ps
 [PowerShellExportScheduledTaskDocumentationUrl]: https://docs.microsoft.com/en-us/powershell/module/scheduledtasks/export-scheduledtask?view=win10-ps
 [CredSspDocumentationUrl]: https://docs.microsoft.com/en-us/windows/desktop/secauthn/credential-security-support-provider
