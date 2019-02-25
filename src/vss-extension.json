@@ -9,7 +9,7 @@
       "id": "Microsoft.VisualStudio.Services"
     }
   ],
-  "description": "Manage (install, uninstall, enable, disable) Windows Scheduled Tasks. Requires Windows 8 / Windows Server 2012 or greater.",
+  "description": "Manage Windows Scheduled Tasks (install, uninstall, enable, disable). Requires Windows 8 / Windows Server 2012 or greater.",
   "categories": [
     "Azure Pipelines"
   ],
