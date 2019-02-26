@@ -81,5 +81,6 @@
       "argumentFormat": "",
       "workingDirectory": "$(currentDirectory)"
     }
-  }
+	},
+	"preview": true
 }
