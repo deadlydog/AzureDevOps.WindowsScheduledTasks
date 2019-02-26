@@ -1,8 +1,8 @@
 {
-  "id": "FF22BE20-A64A-1293-99BD-1AA7E161F3F2",
-  "name": "EnableWindowsScheduledTask",
-  "friendlyName": "Windows Scheduled Task - Enable",
-	"description": "Enables a Windows Scheduled Task",
+  "id": "2A888F20-D62C-1293-9CB9-1D1A606753A4",
+  "name": "StopWindowsScheduledTask",
+  "friendlyName": "Windows Scheduled Task - Stop",
+	"description": "Stops a running Windows Scheduled Task",
 	"helpMarkDown": "[More Information](https://github.com/deadlydog/AzureDevOps.WindowsScheduledTasks)",
   "category": "Utility",
   "visibility": [
@@ -15,7 +15,7 @@
     "Minor": 0,
     "Patch": 0
   },
-  "instanceNameFormat": "Enable Windows Scheduled Task \u0027$(ScheduledTaskFullName)\u0027",
+  "instanceNameFormat": "Stop Windows Scheduled Task \u0027$(ScheduledTaskFullName)\u0027",
   "groups": [
     {
       "name": "ScheduledTaskSettings",
@@ -35,7 +35,7 @@
       "label": "Scheduled Task Name",
       "required": true,
       "defaultValue": "",
-      "helpMarkDown": "The full path of the Scheduled Task to enable on the server(s).\u003cbr /\u003eIf the Scheduled Task is installed in a directory, the directory (or directories) must also be included in the path.\u003cbr /\u003ee.g. `MyTasks\\TaskToEnable`\u003cbr /\u003e\u003cbr /\u003eWildcards are supported as well.\u003cbr /\u003eFor example, the following would all match on the `MyTasks\\TaskToEnable` task:\u003cbr /\u003e`*\\TaskToEnable`\u003cbr /\u003e`MyTasks\\TaskTo*`\u003cbr /\u003e`*\\*Enable`\u003cbr /\u003e`MyTasks\\Task*Enable`\u003cbr /\u003e\u003cbr /\u003eNOTE: Be very careful when using wildcards, since if multiple Scheduled Tasks are found to match they pattern, they will all be enabled.",
+      "helpMarkDown": "The full path of the Scheduled Task to stop on the server(s).\u003cbr /\u003eIf the Scheduled Task is installed in a directory, the directory (or directories) must also be included in the path.\u003cbr /\u003ee.g. `MyTasks\\TaskToStop`\u003cbr /\u003e\u003cbr /\u003eWildcards are supported as well.\u003cbr /\u003eFor example, the following would all match on the `MyTasks\\TaskToStop` task:\u003cbr /\u003e`*\\TaskToStop`\u003cbr /\u003e`MyTasks\\TaskTo*`\u003cbr /\u003e`*\\*Stop`\u003cbr /\u003e`MyTasks\\Task*Stop`\u003cbr /\u003e\u003cbr /\u003eNOTE: Be very careful when using wildcards, since if multiple Scheduled Tasks are found to match they pattern, they will all be stopped.",
       "groupName": "ScheduledTaskSettings"
     },
     {
@@ -44,7 +44,7 @@
       "label": "Computer Names",
       "required": false,
       "defaultValue": "",
-      "helpMarkDown": "A comma-separated list of computers to connect to and enable the Scheduled Task on.\u003cbr /\u003e\u003cbr /\u003eLeave blank to have it run on the agent\u0027s local computer.",
+      "helpMarkDown": "A comma-separated list of computers to connect to and stop the Scheduled Task on.\u003cbr /\u003e\u003cbr /\u003eLeave blank to have it run on the agent\u0027s local computer.",
       "groupName": "ServerSettings"
     },
     {
@@ -77,7 +77,7 @@
   ],
   "execution": {
     "PowerShell": {
-      "target": "$(currentDirectory)/Code/Enable-WindowsScheduledTask-TaskEntryPoint.ps1",
+      "target": "$(currentDirectory)/Code/Stop-WindowsScheduledTask-TaskEntryPoint.ps1",
       "argumentFormat": "",
       "workingDirectory": "$(currentDirectory)"
     }
