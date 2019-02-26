@@ -334,6 +334,111 @@ Process
 		}
 	}
 
+	Describe 'Starting Scheduled Tasks' {
+		Context 'When the parameters are valid and the Scheduled Task exists' {
+			[hashtable[]] $tests = @(
+				@{	testDescription = 'And the Scheduled Task is stopped, it gets started as expected.'
+					scheduledTaskParameters = $RunForAFewSecondsScheduledTaskParameters
+					expectExceptionToBeThrown = $false
+				}
+				@{	testDescription = 'And the Scheduled Task is already started, it stays running as expected.'
+					scheduledTaskParameters = $RunForAFewSecondsScheduledTaskParameters
+					expectExceptionToBeThrown = $false
+				}
+			)
+			$tests | ForEach-Object {
+				[hashtable] $parameters = $_
+
+				# Need to install expected Scheduled Task before starting it.
+				Install-ScheduledTask -scheduledTaskParameters $parameters.scheduledTaskParameters
+
+				Assert-ScheduledTaskIsStartedCorrectly @parameters
+
+				# Cleanup now that we're done.
+				Uninstall-ScheduledTask -scheduledTaskParameters $parameters.scheduledTaskParameters
+			}
+		}
+
+		Context 'When the scheduled task to start does not exist' {
+			It 'Should log a an warning, but still continue' {
+				# Act.
+				$warningOutput = Start-ScheduledTaskCustom -scheduledTaskParameters $NeverInstalledScheduledTaskParameters 3>&1
+
+				# Assert.
+				$warningOutput | Should -BeLike "*was not found on computer*"
+			}
+		}
+
+		Context 'When starting multiple scheduled tasks that do not exist' {
+			It 'Should log a warning, but still continue' {
+				# Arrange.
+				[hashtable] $startMultipleTasksParameters = @{
+					ScheduledTaskFullName = '\APathThatDoesNotExist\*'
+					ComputerNames = ''
+					Username = ''
+					Password = ''
+					UseCredSsp = 'false'
+				}
+
+				# Act.
+				$warningOutput = Start-ScheduledTaskCustom -scheduledTaskParameters $startMultipleTasksParameters 3>&1
+
+				# Assert.
+				$warningOutput | Should -BeLike "*was not found on computer*"
+			}
+		}
+
+		Context 'When the scheduled task to start does is disabled' {
+			It 'Should throw an exception' {
+				# Need to install expected Scheduled Task before trying to start it.
+				Install-ScheduledTask -scheduledTaskParameters $DisabledScheduledTaskParameters
+
+				# Act and assert.
+				{ Start-ScheduledTaskCustom -scheduledTaskParameters $DisabledScheduledTaskParameters } | Should -Throw
+
+				# Cleanup now that we're done.
+				Uninstall-ScheduledTask -scheduledTaskParameters $DisabledScheduledTaskParameters
+			}
+		}
+
+		Context 'When starting multiple scheduled tasks that do exist' {
+			It 'Should start all of the scheduled tasks' {
+				# Arrange.
+				[string] $taskFullNameWithWildcardForMultipleTasks = "$CommonScheduledTaskPath*"
+				[hashtable] $startMultipleTasksParameters = @{
+					ScheduledTaskFullName = $taskFullNameWithWildcardForMultipleTasks
+					ComputerNames = ''
+					Username = ''
+					Password = ''
+					UseCredSsp = 'false'
+				}
+
+				# Ensure multiple tasks exist before acting.
+				[hashtable] $runForAFewSecondsScheduledTaskParameters2 = $RunForAFewSecondsScheduledTaskParameters
+				$runForAFewSecondsScheduledTaskParameters2.ScheduledTaskFullName += '2'
+				Install-ScheduledTask -scheduledTaskParameters $RunForAFewSecondsScheduledTaskParameters
+				Install-ScheduledTask -scheduledTaskParameters $runForAFewSecondsScheduledTaskParameters2
+				$scheduledTasks = Get-ScheduledTaskByFullName -taskFullName $taskFullNameWithWildcardForMultipleTasks
+				$scheduledTasks | Should -Not -BeNullOrEmpty
+				$scheduledTasks.Length | Should -Be 2
+
+				# Act.
+				Start-ScheduledTaskCustom -scheduledTaskParameters $startMultipleTasksParameters
+
+				# Assert.
+				$scheduledTasks = Get-ScheduledTaskByFullName -taskFullName $taskFullNameWithWildcardForMultipleTasks
+				$scheduledTasks | Should -Not -BeNullOrEmpty
+				$scheduledTasks | ForEach-Object {
+					$_.State | Should -Be 'Running'
+				}
+
+				# Cleanup now that we're done.
+				Uninstall-ScheduledTask -scheduledTaskParameters $RunForAFewSecondsScheduledTaskParameters
+				Uninstall-ScheduledTask -scheduledTaskParameters $runForAFewSecondsScheduledTaskParameters2
+			}
+		}
+	}
+
 	# This should be the last to to run to ensure all test tasks are uninstalled to keep everything nice and clean.
 	Write-Output "Uninstalling any lingering Scheduled Tasks. Typically nothing should be left to uninstall at this point."
 	Uninstall-AllTestScheduledTasks
@@ -390,6 +495,13 @@ Begin
 		throw "Could not locate the '$disableScheduledTaskEntryPointScriptName' file."
 	}
 
+	[string] $startScheduledTaskEntryPointScriptName = 'Start-WindowsScheduledTask-TaskEntryPoint.ps1'
+	[string] $StartScheduledTaskEntryPointScriptPath = Get-ChildItem -Path $srcDirectoryPath -Recurse -Force -File -Include $startScheduledTaskEntryPointScriptName | Select-Object -First 1 -ExpandProperty FullName
+	if ([string]::IsNullOrWhiteSpace($StartScheduledTaskEntryPointScriptPath))
+	{
+		throw "Could not locate the '$startScheduledTaskEntryPointScriptName' file."
+	}
+
 	[string] $userInputToScheduledTaskMapperScriptName = 'UserInputToScheduledTaskMapper.psm1'
 	[string] $userInputToScheduledTaskMapperScriptPath = Get-ChildItem -Path $srcDirectoryPath -Recurse -Force -File -Include $userInputToScheduledTaskMapperScriptName | Select-Object -First 1 -ExpandProperty FullName
 	if ([string]::IsNullOrWhiteSpace($userInputToScheduledTaskMapperScriptPath))
@@ -439,6 +551,19 @@ Begin
 			UseCredSsp = $scheduledTaskParameters.UseCredSsp
 		}
 		Invoke-Expression -Command "& $DisableScheduledTaskEntryPointScriptPath @disableTaskParameters"
+	}
+
+	# Start-ScheduledTask is a native cmdlet name, so we need to call ours something else.
+	function Start-ScheduledTaskCustom([hashtable] $scheduledTaskParameters)
+	{
+		[hashtable] $startTaskParameters = @{
+			ScheduledTaskFullName = $scheduledTaskParameters.ScheduledTaskFullName
+			ComputerNames = $scheduledTaskParameters.ComputerNames
+			Username = $scheduledTaskParameters.Username
+			Password = $scheduledTaskParameters.Password
+			UseCredSsp = $scheduledTaskParameters.UseCredSsp
+		}
+		Invoke-Expression -Command "& $StartScheduledTaskEntryPointScriptPath @startTaskParameters"
 	}
 
 	function Uninstall-AllTestScheduledTasks
@@ -540,6 +665,26 @@ Begin
 			$scheduledTask = Get-ScheduledTaskByFullName -taskFullName $scheduledTaskParameters.ScheduledTaskFullName
 			$scheduledTask | Should -Not -BeNullOrEmpty
 			$scheduledTask.Settings.Enabled | Should -BeFalse
+		}
+	}
+
+	function Assert-ScheduledTaskIsStartedCorrectly([string] $testDescription, [hashtable] $scheduledTaskParameters, [bool] $expectExceptionToBeThrown)
+	{
+		It $testDescription {
+			if ($expectExceptionToBeThrown)
+			{
+				# Act and Assert.
+				{ Start-ScheduledTaskCustom -scheduledTaskParameters $scheduledTaskParameters } | Should -Throw
+				return
+			}
+
+			# Act.
+			Start-ScheduledTaskCustom -scheduledTaskParameters $scheduledTaskParameters
+
+			# Assert.
+			$scheduledTask = Get-ScheduledTaskByFullName -taskFullName $scheduledTaskParameters.ScheduledTaskFullName
+			$scheduledTask | Should -Not -BeNullOrEmpty
+			$scheduledTask.State | Should -Be 'Running'
 		}
 	}
 
@@ -1272,6 +1417,46 @@ Begin
 		ScheduleRepetitionDurationInMinutes = ''
 		ScheduleStartTimeRandomDelayInMinutes = ''
 		ScheduledTaskAccountToRunAsOptions = 'LocalService' # 'System', 'LocalService', 'NetworkService', 'CustomAccount'
+		CustomAccountToRunScheduledTaskAsUsername = ''
+		CustomAccountToRunScheduledTaskAsPassword = ''
+		ShouldScheduledTaskBeEnabledString = 'true'
+		ShouldScheduledTaskRunWithHighestPrivilegesString = 'false'
+		ShouldScheduledTaskRunAfterInstallString = 'false'
+		ComputerNames = ''
+		Username = ''
+		Password = ''
+		UseCredSsp = 'false'
+	}
+
+	# Scheduled Task that runs for a few seconds.
+	[hashtable] $RunForAFewSecondsScheduledTaskParameters = @{
+		ScheduledTaskDefinitionSource = 'Inline' # 'XmlFile', 'InlineXml', 'Inline'
+		ScheduledTaskXmlFileToImportFrom = ''
+		ScheduledTaskXml = ''
+		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-RunForAFewSeconds')
+		ScheduledTaskDescription = 'A test task set to trigger Once at a DateTime.'
+		ApplicationPathToRun = 'PowerShell.exe'
+		ApplicationArguments = '-Command { Start-Sleep -Seconds 5 }'
+		WorkingDirectoryOptions = 'ApplicationDirectory' # 'ApplicationDirectory', 'CustomDirectory'
+		CustomWorkingDirectory = ''
+		ScheduleTriggerType = 'DateTime' # 'DateTime', 'AtLogOn', 'AtStartup'
+		AtLogOnTriggerUsername = ''
+		DateTimeScheduleStartTime = '2050-01-01T01:00:00'
+		DateTimeScheduleFrequencyOptions = 'Once' # 'Once', 'Daily', 'Weekly'
+		DateTimeScheduleFrequencyDailyInterval = ''
+		DateTimeScheduleFrequencyWeeklyInterval = ''
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnMondaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnTuesdaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnWednesdaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnThursdaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnFridaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnSaturdaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnSundaysString = 'false'
+		ShouldScheduledTaskRunRepeatedlyString = 'false'
+		ScheduleRepetitionIntervalInMinutes = ''
+		ScheduleRepetitionDurationInMinutes = ''
+		ScheduleStartTimeRandomDelayInMinutes = ''
+		ScheduledTaskAccountToRunAsOptions = 'NetworkService' # 'System', 'LocalService', 'NetworkService', 'CustomAccount'
 		CustomAccountToRunScheduledTaskAsUsername = ''
 		CustomAccountToRunScheduledTaskAsPassword = ''
 		ShouldScheduledTaskBeEnabledString = 'true'
