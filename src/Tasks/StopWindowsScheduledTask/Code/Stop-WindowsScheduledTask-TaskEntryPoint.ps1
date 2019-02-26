@@ -1,10 +1,10 @@
 param
 (
-	[parameter(Mandatory=$true,HelpMessage="The full name, including the path, of the Windows Scheduled Task to enable.")]
+	[parameter(Mandatory=$true,HelpMessage="The full name, including the path, of the Windows Scheduled Task to stop.")]
 	[ValidateNotNullOrEmpty()]
 	[string] $ScheduledTaskFullName,
 
-	[parameter(Mandatory=$false,HelpMessage="Comma-separated list of the computer(s) to enable the scheduled task on.")]
+	[parameter(Mandatory=$false,HelpMessage="Comma-separated list of the computer(s) to stop the scheduled task on.")]
 	[string] $ComputerNames,
 
 	[parameter(Mandatory=$false,HelpMessage="The username to use to connect to the computer(s).")]
@@ -19,14 +19,14 @@ param
 
 Process
 {
-	Write-Verbose "Will attempt to enable Windows Scheduled Task '$ScheduledTaskFullName' on '$ComputerNames'." -Verbose
+	Write-Verbose "Will attempt to stop Windows Scheduled Task '$ScheduledTaskFullName' on '$ComputerNames'." -Verbose
 
 	[bool] $useCredSsp = Get-BoolValueFromString -string $UseCredSspString
 	[string[]] $computers = Get-ComputersToConnectToOrNull -computerNames $ComputerNames
 	[PSCredential] $credential = Convert-UsernameAndPasswordToCredentialsOrNull -username $Username -password $Password
 	[hashtable] $taskNameAndPath = Get-ScheduledTaskNameAndPath -fullTaskName $ScheduledTaskFullName
 
-	Enable-WindowsScheduledTask -ScheduledTaskName $taskNameAndPath.Name -ScheduledTaskPath $taskNameAndPath.Path -ComputerName $computers -Credential $credential -UseCredSsp $useCredSsp
+	Stop-WindowsScheduledTask -ScheduledTaskName $taskNameAndPath.Name -ScheduledTaskPath $taskNameAndPath.Path -ComputerName $computers -Credential $credential -UseCredSsp $useCredSsp
 }
 
 Begin
@@ -48,7 +48,7 @@ Begin
 	Write-Debug "Importing module '$userInputToScheduledTaskMapperModuleFilePath'."
 	Import-Module -Name $userInputToScheduledTaskMapperModuleFilePath -Force
 
-	[string] $enableWindowsScheduledTaskModuleFilePath = Join-Path -Path $codeDirectoryPath -ChildPath 'Enable-WindowsScheduledTask.psm1'
-	Write-Debug "Importing module '$enableWindowsScheduledTaskModuleFilePath'."
-	Import-Module -Name $enableWindowsScheduledTaskModuleFilePath -Force
+	[string] $stopWindowsScheduledTaskModuleFilePath = Join-Path -Path $codeDirectoryPath -ChildPath 'Stop-WindowsScheduledTask.psm1'
+	Write-Debug "Importing module '$stopWindowsScheduledTaskModuleFilePath'."
+	Import-Module -Name $stopWindowsScheduledTaskModuleFilePath -Force
 }
