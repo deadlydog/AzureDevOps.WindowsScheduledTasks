@@ -86,7 +86,13 @@ function Start-WindowsScheduledTask
 			{
 				[string] $taskPathAndName = $task.TaskPath + $task.TaskName
 				Write-Output "Starting Scheduled Task '$taskPathAndName' on computer '$computerName'."
-				$task | Start-ScheduledTask
+				$startError = $null
+				$task | Start-ScheduledTask -ErrorVariable startError -ErrorAction SilentlyContinue
+
+				if ($startError)
+				{
+					throw "An error occurred while trying to start the Scheduled Task '$taskPathAndName' on computer '$computerName': '$startError'."
+				}
 			}
 		}
 	}
