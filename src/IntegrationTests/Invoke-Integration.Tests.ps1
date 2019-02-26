@@ -1436,7 +1436,7 @@ Begin
 		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-RunForAFewSeconds')
 		ScheduledTaskDescription = 'A test task set to trigger Once at a DateTime.'
 		ApplicationPathToRun = 'PowerShell.exe'
-		ApplicationArguments = '-Command { Start-Sleep -Seconds 5 }'
+		ApplicationArguments = '-Command Start-Sleep -Seconds 5'
 		WorkingDirectoryOptions = 'ApplicationDirectory' # 'ApplicationDirectory', 'CustomDirectory'
 		CustomWorkingDirectory = ''
 		ScheduleTriggerType = 'DateTime' # 'DateTime', 'AtLogOn', 'AtStartup'
