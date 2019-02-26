@@ -116,6 +116,26 @@
       "properties": {
         "name": "Tasks/DisableWindowsScheduledTask"
       }
+		},
+		{
+    	"id": "StartWindowsScheduledTask",
+    	"type": "ms.vss-distributed-task.task",
+    	"targets": [
+    		"ms.vss-distributed-task.tasks"
+    	],
+    	"properties": {
+    		"name": "Tasks/StartWindowsScheduledTask"
+    	}
+		},
+		{
+    	"id": "StopWindowsScheduledTask",
+    	"type": "ms.vss-distributed-task.task",
+    	"targets": [
+    		"ms.vss-distributed-task.tasks"
+    	],
+    	"properties": {
+    		"name": "Tasks/StopWindowsScheduledTask"
+    	}
     }
 	],
 	"galleryFlags": [
