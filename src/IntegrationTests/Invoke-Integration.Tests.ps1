@@ -414,7 +414,7 @@ Process
 				}
 
 				# Ensure multiple tasks exist before acting.
-				[hashtable] $runForAFewSecondsScheduledTaskParameters2 = $RunForAFewSecondsScheduledTaskParameters
+				[hashtable] $runForAFewSecondsScheduledTaskParameters2 = $RunForAFewSecondsScheduledTaskParameters.Clone()
 				$runForAFewSecondsScheduledTaskParameters2.ScheduledTaskFullName += '2'
 				Install-ScheduledTask -scheduledTaskParameters $RunForAFewSecondsScheduledTaskParameters
 				Install-ScheduledTask -scheduledTaskParameters $runForAFewSecondsScheduledTaskParameters2
