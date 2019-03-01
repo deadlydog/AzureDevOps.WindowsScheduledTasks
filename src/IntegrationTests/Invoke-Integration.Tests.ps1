@@ -96,41 +96,8 @@ Process
 			}
 		}
 
-		Context 'When the scheduled task to uninstall does not exist' {
-			It 'Should log a warning, but still continue' {
-				# Act.
-				$warningOutput = Uninstall-ScheduledTask -scheduledTaskParameters $NeverInstalledScheduledTaskParameters 3>&1
-
-				# Assert.
-				$scheduledTask = Get-ScheduledTaskByFullName -taskFullName $NeverInstalledScheduledTaskParameters.ScheduledTaskFullName
-				$scheduledTask | Should -BeNullOrEmpty
-				$warningOutput | Should -BeLike "*was not found on computer*"
-			}
-		}
-
-		Context 'When uninstalling multiple scheduled tasks that do not exist' {
-			It 'Should log a warning, but still continue' {
-				# Arrange.
-				[hashtable] $uninstallMultipleTasksParameters = @{
-					ScheduledTaskFullName = '\APathThatDoesNotExist\*'
-					ComputerNames = ''
-					Username = ''
-					Password = ''
-					UseCredSsp = 'false'
-				}
-
-				# Act.
-				$warningOutput = Uninstall-ScheduledTask -scheduledTaskParameters $uninstallMultipleTasksParameters 3>&1
-
-				# Assert.
-				$scheduledTask = Get-ScheduledTaskByFullName -taskFullName $uninstallMultipleTasksParameters.ScheduledTaskFullName
-				$scheduledTask | Should -BeNullOrEmpty
-				$warningOutput | Should -BeLike "*was not found on computer*"
-			}
-		}
-
-		Context 'When uninstalling multiple scheduled tasks that do exist' {
-			It 'Should uninstall all of the scheduled tasks' {
+		Context 'When the parameters are valid and uninstalling multiple Scheduled Tasks that do exist' {
+			It 'Should uninstall all of the Scheduled Tasks' {
 				# Arrange.
 				[string] $taskFullNameWithWildcardForMultipleTasks = "$CommonScheduledTaskPath*"
 				[hashtable] $uninstallMultipleTasksParameters = @{
@@ -154,6 +121,39 @@ Process
 				# Assert.
 				$scheduledTask = Get-ScheduledTaskByFullName -taskFullName $taskFullNameWithWildcardForMultipleTasks
 				$scheduledTask | Should -BeNullOrEmpty
+			}
+		}
+
+		Context 'When the Scheduled Task to uninstall does not exist' {
+			It 'Should log a warning, but still continue' {
+				# Act.
+				$warningOutput = Uninstall-ScheduledTask -scheduledTaskParameters $NeverInstalledScheduledTaskParameters 3>&1
+
+				# Assert.
+				$scheduledTask = Get-ScheduledTaskByFullName -taskFullName $NeverInstalledScheduledTaskParameters.ScheduledTaskFullName
+				$scheduledTask | Should -BeNullOrEmpty
+				$warningOutput | Should -BeLike "*was not found on computer*"
+			}
+		}
+
+		Context 'When uninstalling multiple Scheduled Tasks that do not exist' {
+			It 'Should log a warning, but still continue' {
+				# Arrange.
+				[hashtable] $uninstallMultipleTasksParameters = @{
+					ScheduledTaskFullName = '\APathThatDoesNotExist\*'
+					ComputerNames = ''
+					Username = ''
+					Password = ''
+					UseCredSsp = 'false'
+				}
+
+				# Act.
+				$warningOutput = Uninstall-ScheduledTask -scheduledTaskParameters $uninstallMultipleTasksParameters 3>&1
+
+				# Assert.
+				$scheduledTask = Get-ScheduledTaskByFullName -taskFullName $uninstallMultipleTasksParameters.ScheduledTaskFullName
+				$scheduledTask | Should -BeNullOrEmpty
+				$warningOutput | Should -BeLike "*was not found on computer*"
 			}
 		}
 	}
@@ -183,37 +183,8 @@ Process
 			}
 		}
 
-		Context 'When the scheduled task to enable does not exist' {
-			It 'Should log a warning, but still continue' {
-				# Act.
-				$warningOutput = Enable-ScheduledTaskCustom -scheduledTaskParameters $NeverInstalledScheduledTaskParameters 3>&1
-
-				# Assert.
-				$warningOutput | Should -BeLike "*was not found on computer*"
-			}
-		}
-
-		Context 'When enabling multiple scheduled tasks that do not exist' {
-			It 'Should log a warning, but still continue' {
-				# Arrange.
-				[hashtable] $enableMultipleTasksParameters = @{
-					ScheduledTaskFullName = '\APathThatDoesNotExist\*'
-					ComputerNames = ''
-					Username = ''
-					Password = ''
-					UseCredSsp = 'false'
-				}
-
-				# Act.
-				$warningOutput = Enable-ScheduledTaskCustom -scheduledTaskParameters $enableMultipleTasksParameters 3>&1
-
-				# Assert.
-				$warningOutput | Should -BeLike "*was not found on computer*"
-			}
-		}
-
-		Context 'When enabling multiple scheduled tasks that do exist' {
-			It 'Should enable all of the scheduled tasks' {
+		Context 'When the parameters are valid and enabling multiple Scheduled Tasks that do exist' {
+			It 'Should enable all of the Scheduled Tasks' {
 				# Arrange.
 				[string] $taskFullNameWithWildcardForMultipleTasks = "$CommonScheduledTaskPath*"
 				[hashtable] $enableMultipleTasksParameters = @{
@@ -246,6 +217,35 @@ Process
 				Uninstall-ScheduledTask -scheduledTaskParameters $XmlFileAtStartupScheduledTaskParameters
 			}
 		}
+
+		Context 'When the Scheduled Task to enable does not exist' {
+			It 'Should log a warning, but still continue' {
+				# Act.
+				$warningOutput = Enable-ScheduledTaskCustom -scheduledTaskParameters $NeverInstalledScheduledTaskParameters 3>&1
+
+				# Assert.
+				$warningOutput | Should -BeLike "*was not found on computer*"
+			}
+		}
+
+		Context 'When enabling multiple Scheduled Tasks that do not exist' {
+			It 'Should log a warning, but still continue' {
+				# Arrange.
+				[hashtable] $enableMultipleTasksParameters = @{
+					ScheduledTaskFullName = '\APathThatDoesNotExist\*'
+					ComputerNames = ''
+					Username = ''
+					Password = ''
+					UseCredSsp = 'false'
+				}
+
+				# Act.
+				$warningOutput = Enable-ScheduledTaskCustom -scheduledTaskParameters $enableMultipleTasksParameters 3>&1
+
+				# Assert.
+				$warningOutput | Should -BeLike "*was not found on computer*"
+			}
+		}
 	}
 
 	Describe 'Disabling Scheduled Tasks' {
@@ -273,37 +273,8 @@ Process
 			}
 		}
 
-		Context 'When the scheduled task to disable does not exist' {
-			It 'Should log a warning, but still continue' {
-				# Act.
-				$warningOutput = Disable-ScheduledTaskCustom -scheduledTaskParameters $NeverInstalledScheduledTaskParameters 3>&1
-
-				# Assert.
-				$warningOutput | Should -BeLike "*was not found on computer*"
-			}
-		}
-
-		Context 'When disabling multiple scheduled tasks that do not exist' {
-			It 'Should log a warning, but still continue' {
-				# Arrange.
-				[hashtable] $disableMultipleTasksParameters = @{
-					ScheduledTaskFullName = '\APathThatDoesNotExist\*'
-					ComputerNames = ''
-					Username = ''
-					Password = ''
-					UseCredSsp = 'false'
-				}
-
-				# Act.
-				$warningOutput = Disable-ScheduledTaskCustom -scheduledTaskParameters $disableMultipleTasksParameters 3>&1
-
-				# Assert.
-				$warningOutput | Should -BeLike "*was not found on computer*"
-			}
-		}
-
-		Context 'When disabling multiple scheduled tasks that do exist' {
-			It 'Should disable all of the scheduled tasks' {
+		Context 'When the parameters are valid and disabling multiple Scheduled Tasks that do exist' {
+			It 'Should disable all of the Scheduled Tasks' {
 				# Arrange.
 				[string] $taskFullNameWithWildcardForMultipleTasks = "$CommonScheduledTaskPath*"
 				[hashtable] $disableMultipleTasksParameters = @{
@@ -336,6 +307,35 @@ Process
 				Uninstall-ScheduledTask -scheduledTaskParameters $DisabledScheduledTaskParameters
 			}
 		}
+
+		Context 'When the Scheduled Task to disable does not exist' {
+			It 'Should log a warning, but still continue' {
+				# Act.
+				$warningOutput = Disable-ScheduledTaskCustom -scheduledTaskParameters $NeverInstalledScheduledTaskParameters 3>&1
+
+				# Assert.
+				$warningOutput | Should -BeLike "*was not found on computer*"
+			}
+		}
+
+		Context 'When disabling multiple Scheduled Tasks that do not exist' {
+			It 'Should log a warning, but still continue' {
+				# Arrange.
+				[hashtable] $disableMultipleTasksParameters = @{
+					ScheduledTaskFullName = '\APathThatDoesNotExist\*'
+					ComputerNames = ''
+					Username = ''
+					Password = ''
+					UseCredSsp = 'false'
+				}
+
+				# Act.
+				$warningOutput = Disable-ScheduledTaskCustom -scheduledTaskParameters $disableMultipleTasksParameters 3>&1
+
+				# Assert.
+				$warningOutput | Should -BeLike "*was not found on computer*"
+			}
+		}
 	}
 
 	Describe 'Starting Scheduled Tasks' {
@@ -363,50 +363,8 @@ Process
 			}
 		}
 
-		Context 'When the scheduled task to start does not exist' {
-			It 'Should log a warning, but still continue' {
-				# Act.
-				$warningOutput = Start-ScheduledTaskCustom -scheduledTaskParameters $NeverInstalledScheduledTaskParameters 3>&1
-
-				# Assert.
-				$warningOutput | Should -BeLike "*was not found on computer*"
-			}
-		}
-
-		Context 'When starting multiple scheduled tasks that do not exist' {
-			It 'Should log a warning, but still continue' {
-				# Arrange.
-				[hashtable] $startMultipleTasksParameters = @{
-					ScheduledTaskFullName = '\APathThatDoesNotExist\*'
-					ComputerNames = ''
-					Username = ''
-					Password = ''
-					UseCredSsp = 'false'
-				}
-
-				# Act.
-				$warningOutput = Start-ScheduledTaskCustom -scheduledTaskParameters $startMultipleTasksParameters 3>&1
-
-				# Assert.
-				$warningOutput | Should -BeLike "*was not found on computer*"
-			}
-		}
-
-		Context 'When the scheduled task to start does is disabled' {
-			It 'Should throw an exception' {
-				# Need to install expected Scheduled Task before trying to start it.
-				Install-ScheduledTask -scheduledTaskParameters $DisabledScheduledTaskParameters
-
-				# Act and assert.
-				{ Start-ScheduledTaskCustom -scheduledTaskParameters $DisabledScheduledTaskParameters } | Should -Throw
-
-				# Cleanup now that we're done.
-				Uninstall-ScheduledTask -scheduledTaskParameters $DisabledScheduledTaskParameters
-			}
-		}
-
-		Context 'When starting multiple scheduled tasks that do exist' {
-			It 'Should start all of the scheduled tasks' {
+		Context 'When the parameters are valid and starting multiple Scheduled Tasks that do exist' {
+			It 'Should start all of the Scheduled Tasks' {
 				# Arrange.
 				[string] $taskFullNameWithWildcardForMultipleTasks = "$CommonScheduledTaskPath*"
 				[hashtable] $startMultipleTasksParameters = @{
@@ -439,6 +397,48 @@ Process
 				# Cleanup now that we're done.
 				Uninstall-ScheduledTask -scheduledTaskParameters $RunForAFewSecondsScheduledTaskParameters
 				Uninstall-ScheduledTask -scheduledTaskParameters $runForAFewSecondsScheduledTaskParameters2
+			}
+		}
+
+		Context 'When the Scheduled Task to start does not exist' {
+			It 'Should log a warning, but still continue' {
+				# Act.
+				$warningOutput = Start-ScheduledTaskCustom -scheduledTaskParameters $NeverInstalledScheduledTaskParameters 3>&1
+
+				# Assert.
+				$warningOutput | Should -BeLike "*was not found on computer*"
+			}
+		}
+
+		Context 'When starting multiple Scheduled Tasks that do not exist' {
+			It 'Should log a warning, but still continue' {
+				# Arrange.
+				[hashtable] $startMultipleTasksParameters = @{
+					ScheduledTaskFullName = '\APathThatDoesNotExist\*'
+					ComputerNames = ''
+					Username = ''
+					Password = ''
+					UseCredSsp = 'false'
+				}
+
+				# Act.
+				$warningOutput = Start-ScheduledTaskCustom -scheduledTaskParameters $startMultipleTasksParameters 3>&1
+
+				# Assert.
+				$warningOutput | Should -BeLike "*was not found on computer*"
+			}
+		}
+
+		Context 'When the Scheduled Task to start does is disabled' {
+			It 'Should throw an exception' {
+				# Need to install expected Scheduled Task before trying to start it.
+				Install-ScheduledTask -scheduledTaskParameters $DisabledScheduledTaskParameters
+
+				# Act and assert.
+				{ Start-ScheduledTaskCustom -scheduledTaskParameters $DisabledScheduledTaskParameters } | Should -Throw
+
+				# Cleanup now that we're done.
+				Uninstall-ScheduledTask -scheduledTaskParameters $DisabledScheduledTaskParameters
 			}
 		}
 	}
