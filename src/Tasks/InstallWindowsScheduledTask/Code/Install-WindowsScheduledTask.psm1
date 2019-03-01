@@ -178,12 +178,12 @@ function Install-WindowsScheduledTask
 			# If an error occurred installing the Scheduled Task, throw the error before trying to start the task.
 			if ($installError)
 			{
-				throw "Error occurred installing task '$($scheduledTaskSettings.ScheduledTaskName)' on computer '$computerName': '$installError'."
+				throw "Error occurred installing task '$taskPathAndName' on computer '$computerName': '$installError'."
 			}
 
 			if ($scheduledTaskSettings.ShouldRunScheduledTaskAfterInstallation)
 			{
-				Write-Verbose "Triggering the Scheduled Task '$taskName' on computer '$computerName' to run now." -Verbose
+				Write-Verbose "Triggering the Scheduled Task '$taskPathAndName' on computer '$computerName' to run now." -Verbose
 				$scheduledTask | Start-ScheduledTask
 			}
 		}
