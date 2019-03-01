@@ -429,13 +429,123 @@ Process
 			}
 		}
 
-		Context 'When the Scheduled Task to start does is disabled' {
+		Context 'When the Scheduled Task to start is disabled' {
 			It 'Should throw an exception' {
 				# Need to install expected Scheduled Task before trying to start it.
 				Install-ScheduledTask -scheduledTaskParameters $DisabledScheduledTaskParameters
 
 				# Act and assert.
 				{ Start-ScheduledTaskCustom -scheduledTaskParameters $DisabledScheduledTaskParameters } | Should -Throw
+
+				# Cleanup now that we're done.
+				Uninstall-ScheduledTask -scheduledTaskParameters $DisabledScheduledTaskParameters
+			}
+		}
+	}
+
+	Describe 'Stopping Scheduled Tasks' {
+		Context 'When the parameters are valid and the Scheduled Task exists' {
+			[hashtable[]] $tests = @(
+				@{	testDescription = 'And the Scheduled Task is started, it gets stopped as expected.'
+					scheduledTaskParameters = $RunForAFewSecondsAndStartImmediatelyAfterInstallScheduledTaskParameters
+					expectExceptionToBeThrown = $false
+				}
+				@{	testDescription = 'And the Scheduled Task is already stopped, it stays stopped as expected.'
+					scheduledTaskParameters = $InlineAtStartupScheduledTaskParameters
+					expectExceptionToBeThrown = $false
+				}
+			)
+			$tests | ForEach-Object {
+				[hashtable] $parameters = $_
+
+				# Need to install expected Scheduled Task before starting it.
+				Install-ScheduledTask -scheduledTaskParameters $parameters.scheduledTaskParameters
+
+				Assert-ScheduledTaskIsStoppedCorrectly @parameters
+
+				# Cleanup now that we're done.
+				Uninstall-ScheduledTask -scheduledTaskParameters $parameters.scheduledTaskParameters
+			}
+		}
+
+		Context 'When the parameters are valid and stopping multiple Scheduled Tasks that do exist' {
+			It 'Should stop all of the Scheduled Tasks' {
+				# Arrange.
+				[string] $taskFullNameWithWildcardForMultipleTasks = "$CommonScheduledTaskPath*"
+				[hashtable] $stopMultipleTasksParameters = @{
+					ScheduledTaskFullName = $taskFullNameWithWildcardForMultipleTasks
+					ComputerNames = ''
+					Username = ''
+					Password = ''
+					UseCredSsp = 'false'
+				}
+
+				# Ensure multiple tasks exist before acting.
+				[hashtable] $runForAFewSecondsAndStartImmediatelyAfterInstallScheduledTaskParameters2 = $RunForAFewSecondsAndStartImmediatelyAfterInstallScheduledTaskParameters.Clone()
+				$runForAFewSecondsAndStartImmediatelyAfterInstallScheduledTaskParameters2.ScheduledTaskFullName += '2'
+				Install-ScheduledTask -scheduledTaskParameters $RunForAFewSecondsAndStartImmediatelyAfterInstallScheduledTaskParameters
+				Install-ScheduledTask -scheduledTaskParameters $runForAFewSecondsAndStartImmediatelyAfterInstallScheduledTaskParameters2
+				$scheduledTasks = Get-ScheduledTaskByFullName -taskFullName $taskFullNameWithWildcardForMultipleTasks
+				$scheduledTasks | Should -Not -BeNullOrEmpty
+				$scheduledTasks.Length | Should -Be 2
+
+				# Act.
+				Stop-ScheduledTaskCustom -scheduledTaskParameters $stopMultipleTasksParameters
+
+				# Assert.
+				$scheduledTasks = Get-ScheduledTaskByFullName -taskFullName $taskFullNameWithWildcardForMultipleTasks
+				$scheduledTasks | Should -Not -BeNullOrEmpty
+				$scheduledTasks | ForEach-Object {
+					$_.State | Should -Be 'Ready'
+				}
+
+				# Cleanup now that we're done.
+				Uninstall-ScheduledTask -scheduledTaskParameters $RunForAFewSecondsAndStartImmediatelyAfterInstallScheduledTaskParameters
+				Uninstall-ScheduledTask -scheduledTaskParameters $runForAFewSecondsAndStartImmediatelyAfterInstallScheduledTaskParameters2
+			}
+		}
+
+		Context 'When the Scheduled Task to stop does not exist' {
+			It 'Should log a warning, but still continue' {
+				# Act.
+				$warningOutput = Stop-ScheduledTaskCustom -scheduledTaskParameters $NeverInstalledScheduledTaskParameters 3>&1
+
+				# Assert.
+				$warningOutput | Should -BeLike "*was not found on computer*"
+			}
+		}
+
+		Context 'When stopping multiple Scheduled Tasks that do not exist' {
+			It 'Should log a warning, but still continue' {
+				# Arrange.
+				[hashtable] $stopMultipleTasksParameters = @{
+					ScheduledTaskFullName = '\APathThatDoesNotExist\*'
+					ComputerNames = ''
+					Username = ''
+					Password = ''
+					UseCredSsp = 'false'
+				}
+
+				# Act.
+				$warningOutput = Stop-ScheduledTaskCustom -scheduledTaskParameters $stopMultipleTasksParameters 3>&1
+
+				# Assert.
+				$warningOutput | Should -BeLike "*was not found on computer*"
+			}
+		}
+
+		Context 'When the Scheduled Task to stop is disabled' {
+			It 'Should should remain disabled' {
+				# Need to install expected Scheduled Task before trying to stop it.
+				Install-ScheduledTask -scheduledTaskParameters $DisabledScheduledTaskParameters
+
+				# Act.
+				Stop-ScheduledTaskCustom -scheduledTaskParameters $DisabledScheduledTaskParameters
+
+				# Assert.
+				$scheduledTask = Get-ScheduledTaskByFullName -taskFullName $DisabledScheduledTaskParameters.ScheduledTaskFullName
+				$scheduledTask | Should -Not -BeNullOrEmpty
+				$scheduledTask.State | Should -Be 'Disabled'
 
 				# Cleanup now that we're done.
 				Uninstall-ScheduledTask -scheduledTaskParameters $DisabledScheduledTaskParameters
@@ -506,6 +616,13 @@ Begin
 		throw "Could not locate the '$startScheduledTaskEntryPointScriptName' file."
 	}
 
+	[string] $stopScheduledTaskEntryPointScriptName = 'Stop-WindowsScheduledTask-TaskEntryPoint.ps1'
+	[string] $StopScheduledTaskEntryPointScriptPath = Get-ChildItem -Path $srcDirectoryPath -Recurse -Force -File -Include $stopScheduledTaskEntryPointScriptName | Select-Object -First 1 -ExpandProperty FullName
+	if ([string]::IsNullOrWhiteSpace($StopScheduledTaskEntryPointScriptPath))
+	{
+		throw "Could not locate the '$stopScheduledTaskEntryPointScriptName' file."
+	}
+
 	[string] $userInputToScheduledTaskMapperScriptName = 'UserInputToScheduledTaskMapper.psm1'
 	[string] $userInputToScheduledTaskMapperScriptPath = Get-ChildItem -Path $srcDirectoryPath -Recurse -Force -File -Include $userInputToScheduledTaskMapperScriptName | Select-Object -First 1 -ExpandProperty FullName
 	if ([string]::IsNullOrWhiteSpace($userInputToScheduledTaskMapperScriptPath))
@@ -568,6 +685,19 @@ Begin
 			UseCredSsp = $scheduledTaskParameters.UseCredSsp
 		}
 		Invoke-Expression -Command "& $StartScheduledTaskEntryPointScriptPath @startTaskParameters"
+	}
+
+	# Stop-ScheduledTask is a native cmdlet name, so we need to call ours something else.
+	function Stop-ScheduledTaskCustom([hashtable] $scheduledTaskParameters)
+	{
+		[hashtable] $stopTaskParameters = @{
+			ScheduledTaskFullName = $scheduledTaskParameters.ScheduledTaskFullName
+			ComputerNames = $scheduledTaskParameters.ComputerNames
+			Username = $scheduledTaskParameters.Username
+			Password = $scheduledTaskParameters.Password
+			UseCredSsp = $scheduledTaskParameters.UseCredSsp
+		}
+		Invoke-Expression -Command "& $StopScheduledTaskEntryPointScriptPath @stopTaskParameters"
 	}
 
 	function Uninstall-AllTestScheduledTasks
@@ -689,6 +819,26 @@ Begin
 			$scheduledTask = Get-ScheduledTaskByFullName -taskFullName $scheduledTaskParameters.ScheduledTaskFullName
 			$scheduledTask | Should -Not -BeNullOrEmpty
 			$scheduledTask.State | Should -Be 'Running'
+		}
+	}
+
+	function Assert-ScheduledTaskIsStoppedCorrectly([string] $testDescription, [hashtable] $scheduledTaskParameters, [bool] $expectExceptionToBeThrown)
+	{
+		It $testDescription {
+			if ($expectExceptionToBeThrown)
+			{
+				# Act and Assert.
+				{ Stop-ScheduledTaskCustom -scheduledTaskParameters $scheduledTaskParameters } | Should -Throw
+				return
+			}
+
+			# Act.
+			Stop-ScheduledTaskCustom -scheduledTaskParameters $scheduledTaskParameters
+
+			# Assert.
+			$scheduledTask = Get-ScheduledTaskByFullName -taskFullName $scheduledTaskParameters.ScheduledTaskFullName
+			$scheduledTask | Should -Not -BeNullOrEmpty
+			$scheduledTask.State | Should -Be 'Ready'
 		}
 	}
 
