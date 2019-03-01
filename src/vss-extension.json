@@ -23,7 +23,9 @@
     "install",
 		"uninstall",
 		"enable",
-		"disable"
+		"disable",
+		"start",
+		"stop"
   ],
   "content": {
     "details": {
