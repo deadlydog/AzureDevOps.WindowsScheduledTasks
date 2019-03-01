@@ -63,6 +63,10 @@ Process
 					scheduledTaskParameters = $NoDescriptionScheduledTaskParameters
 					expectExceptionToBeThrown = $false
 				}
+				@{	testDescription = 'For a definition set to run after it is installed, it gets created as expected without throwing an error.'
+					scheduledTaskParameters = $StartImmediatelyAfterInstallScheduledTaskParameters
+					expectExceptionToBeThrown = $false
+				}
 			)
 			$tests | ForEach-Object {
 				[hashtable] $parameters = $_
@@ -1428,7 +1432,45 @@ Begin
 		UseCredSsp = 'false'
 	}
 
-	# Scheduled Task that runs for a few seconds.
+	[hashtable] $StartImmediatelyAfterInstallScheduledTaskParameters = @{
+		ScheduledTaskDefinitionSource = 'Inline' # 'XmlFile', 'InlineXml', 'Inline'
+		ScheduledTaskXmlFileToImportFrom = ''
+		ScheduledTaskXml = ''
+		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-tartAfterInstall')
+		ScheduledTaskDescription = 'A test task set to trigger Once at a DateTime.'
+		ApplicationPathToRun = 'PowerShell.exe'
+		ApplicationArguments = '-Command Start-Sleep -Milliseconds 10'
+		WorkingDirectoryOptions = 'ApplicationDirectory' # 'ApplicationDirectory', 'CustomDirectory'
+		CustomWorkingDirectory = ''
+		ScheduleTriggerType = 'DateTime' # 'DateTime', 'AtLogOn', 'AtStartup'
+		AtLogOnTriggerUsername = ''
+		DateTimeScheduleStartTime = '2050-01-01T01:00:00'
+		DateTimeScheduleFrequencyOptions = 'Once' # 'Once', 'Daily', 'Weekly'
+		DateTimeScheduleFrequencyDailyInterval = ''
+		DateTimeScheduleFrequencyWeeklyInterval = ''
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnMondaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnTuesdaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnWednesdaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnThursdaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnFridaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnSaturdaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnSundaysString = 'false'
+		ShouldScheduledTaskRunRepeatedlyString = 'false'
+		ScheduleRepetitionIntervalInMinutes = ''
+		ScheduleRepetitionDurationInMinutes = ''
+		ScheduleStartTimeRandomDelayInMinutes = ''
+		ScheduledTaskAccountToRunAsOptions = 'NetworkService' # 'System', 'LocalService', 'NetworkService', 'CustomAccount'
+		CustomAccountToRunScheduledTaskAsUsername = ''
+		CustomAccountToRunScheduledTaskAsPassword = ''
+		ShouldScheduledTaskBeEnabledString = 'true'
+		ShouldScheduledTaskRunWithHighestPrivilegesString = 'false'
+		ShouldScheduledTaskRunAfterInstallString = 'true'
+		ComputerNames = ''
+		Username = ''
+		Password = ''
+		UseCredSsp = 'false'
+	}
+
 	[hashtable] $RunForAFewSecondsScheduledTaskParameters = @{
 		ScheduledTaskDefinitionSource = 'Inline' # 'XmlFile', 'InlineXml', 'Inline'
 		ScheduledTaskXmlFileToImportFrom = ''
@@ -1468,7 +1510,6 @@ Begin
 		UseCredSsp = 'false'
 	}
 
-	# Scheduled Task that runs for a few seconds, and runs directly after being installed.
 	[hashtable] $RunForAFewSecondsAndStartImmediatelyAfterInstallScheduledTaskParameters = @{
 		ScheduledTaskDefinitionSource = 'Inline' # 'XmlFile', 'InlineXml', 'Inline'
 		ScheduledTaskXmlFileToImportFrom = ''
