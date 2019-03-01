@@ -342,7 +342,7 @@ Process
 					expectExceptionToBeThrown = $false
 				}
 				@{	testDescription = 'And the Scheduled Task is already started, it stays running as expected.'
-					scheduledTaskParameters = $RunForAFewSecondsScheduledTaskParameters
+					scheduledTaskParameters = $RunForAFewSecondsAndStartImmediatelyAfterInstallScheduledTaskParameters
 					expectExceptionToBeThrown = $false
 				}
 			)
@@ -1462,6 +1462,46 @@ Begin
 		ShouldScheduledTaskBeEnabledString = 'true'
 		ShouldScheduledTaskRunWithHighestPrivilegesString = 'false'
 		ShouldScheduledTaskRunAfterInstallString = 'false'
+		ComputerNames = ''
+		Username = ''
+		Password = ''
+		UseCredSsp = 'false'
+	}
+
+	# Scheduled Task that runs for a few seconds, and runs directly after being installed.
+	[hashtable] $RunForAFewSecondsAndStartImmediatelyAfterInstallScheduledTaskParameters = @{
+		ScheduledTaskDefinitionSource = 'Inline' # 'XmlFile', 'InlineXml', 'Inline'
+		ScheduledTaskXmlFileToImportFrom = ''
+		ScheduledTaskXml = ''
+		ScheduledTaskFullName = ($CommonScheduledTaskPath + 'Test-RunForAFewSecondsAndStartAfterInstall')
+		ScheduledTaskDescription = 'A test task set to trigger Once at a DateTime.'
+		ApplicationPathToRun = 'PowerShell.exe'
+		ApplicationArguments = '-Command Start-Sleep -Seconds 10'
+		WorkingDirectoryOptions = 'ApplicationDirectory' # 'ApplicationDirectory', 'CustomDirectory'
+		CustomWorkingDirectory = ''
+		ScheduleTriggerType = 'DateTime' # 'DateTime', 'AtLogOn', 'AtStartup'
+		AtLogOnTriggerUsername = ''
+		DateTimeScheduleStartTime = '2050-01-01T01:00:00'
+		DateTimeScheduleFrequencyOptions = 'Once' # 'Once', 'Daily', 'Weekly'
+		DateTimeScheduleFrequencyDailyInterval = ''
+		DateTimeScheduleFrequencyWeeklyInterval = ''
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnMondaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnTuesdaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnWednesdaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnThursdaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnFridaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnSaturdaysString = 'false'
+		ShouldDateTimeScheduleFrequencyWeeklyRunOnSundaysString = 'false'
+		ShouldScheduledTaskRunRepeatedlyString = 'false'
+		ScheduleRepetitionIntervalInMinutes = ''
+		ScheduleRepetitionDurationInMinutes = ''
+		ScheduleStartTimeRandomDelayInMinutes = ''
+		ScheduledTaskAccountToRunAsOptions = 'NetworkService' # 'System', 'LocalService', 'NetworkService', 'CustomAccount'
+		CustomAccountToRunScheduledTaskAsUsername = ''
+		CustomAccountToRunScheduledTaskAsPassword = ''
+		ShouldScheduledTaskBeEnabledString = 'true'
+		ShouldScheduledTaskRunWithHighestPrivilegesString = 'false'
+		ShouldScheduledTaskRunAfterInstallString = 'true'
 		ComputerNames = ''
 		Username = ''
 		Password = ''
