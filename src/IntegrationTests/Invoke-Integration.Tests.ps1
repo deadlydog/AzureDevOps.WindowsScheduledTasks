@@ -184,7 +184,7 @@ Process
 		}
 
 		Context 'When the scheduled task to enable does not exist' {
-			It 'Should log a an warning, but still continue' {
+			It 'Should log a warning, but still continue' {
 				# Act.
 				$warningOutput = Enable-ScheduledTaskCustom -scheduledTaskParameters $NeverInstalledScheduledTaskParameters 3>&1
 
@@ -274,7 +274,7 @@ Process
 		}
 
 		Context 'When the scheduled task to disable does not exist' {
-			It 'Should log a an warning, but still continue' {
+			It 'Should log a warning, but still continue' {
 				# Act.
 				$warningOutput = Disable-ScheduledTaskCustom -scheduledTaskParameters $NeverInstalledScheduledTaskParameters 3>&1
 
@@ -364,7 +364,7 @@ Process
 		}
 
 		Context 'When the scheduled task to start does not exist' {
-			It 'Should log a an warning, but still continue' {
+			It 'Should log a warning, but still continue' {
 				# Act.
 				$warningOutput = Start-ScheduledTaskCustom -scheduledTaskParameters $NeverInstalledScheduledTaskParameters 3>&1
 
