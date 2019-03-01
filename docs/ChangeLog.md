@@ -5,6 +5,7 @@ This page is a list of *notable* changes made to the Windows Scheduled Tasks Azu
 ## March 1, 2019 - v1.1.1
 
 - feature: Add tasks for Starting and Stopping Windows Scheduled Tasks.
+- feature: Update extension and task icons to better communicate what they do.
 
 ## February 28, 2019 - v1.0.13
 
