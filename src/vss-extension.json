@@ -9,7 +9,7 @@
       "id": "Microsoft.VisualStudio.Services"
     }
   ],
-  "description": "Manage Windows Scheduled Tasks (install, uninstall, enable, disable). Requires Windows 8 / Windows Server 2012 or greater.",
+  "description": "Manage Windows Scheduled Tasks (install, uninstall, enable, disable, start, stop). Requires Windows 8 / Windows Server 2012 or greater.",
   "categories": [
     "Azure Pipelines"
   ],
@@ -23,7 +23,9 @@
     "install",
 		"uninstall",
 		"enable",
-		"disable"
+		"disable",
+		"start",
+		"stop"
   ],
   "content": {
     "details": {
@@ -116,6 +118,26 @@
       "properties": {
         "name": "Tasks/DisableWindowsScheduledTask"
       }
+		},
+		{
+    	"id": "StartWindowsScheduledTask",
+    	"type": "ms.vss-distributed-task.task",
+    	"targets": [
+    		"ms.vss-distributed-task.tasks"
+    	],
+    	"properties": {
+    		"name": "Tasks/StartWindowsScheduledTask"
+    	}
+		},
+		{
+    	"id": "StopWindowsScheduledTask",
+    	"type": "ms.vss-distributed-task.task",
+    	"targets": [
+    		"ms.vss-distributed-task.tasks"
+    	],
+    	"properties": {
+    		"name": "Tasks/StopWindowsScheduledTask"
+    	}
     }
 	],
 	"galleryFlags": [
