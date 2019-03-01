@@ -9,4 +9,4 @@ This page is a list of *notable* changes made to the Windows Scheduled Tasks Azu
 ## February 24, 2019 - v1.0.0
 
 - Extension released publicly.
-- Supports Installing, Uninstalling, Enabling, and Disabling Windows scheduled tasks.
+- Supports Installing, Uninstalling, Enabling, and Disabling Windows Scheduled Tasks.
