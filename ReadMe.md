@@ -1,6 +1,6 @@
 # Windows Scheduled Tasks Azure DevOps Extension
 
-This [Azure DevOps (i.e. TFS) extension][ExtensionInAzureDevOpsMarketplaceUrl] provides Build and Release Pipeline tasks that allow Windows Scheduled Tasks to easily be installed, uninstalled, enabled, and disabled on the local or remote computer(s).
+This [Azure DevOps (i.e. TFS) extension][ExtensionInAzureDevOpsMarketplaceUrl] provides Build and Release Pipeline tasks that allow Windows Scheduled Tasks to easily be installed, uninstalled, enabled, disabled, started, and stopped on the local or remote computer(s).
 
 Current build status: [![Build Status](https://dev.azure.com/deadlydog/OpenSource/_apis/build/status/AzureDevOps.WindowsScheduledTasks?branchName=master)](https://dev.azure.com/deadlydog/OpenSource/_build/latest?definitionId=19&branchName=master)
 [![Deployment Status](https://vsrm.dev.azure.com/deadlydog/_apis/public/Release/badge/baf297a4-1582-49bd-b9ca-6d38492faafa/1/1)](https://dev.azure.com/deadlydog/OpenSource/_release?definitionId=1)
@@ -9,7 +9,7 @@ Current build status: [![Build Status](https://dev.azure.com/deadlydog/OpenSourc
 
 - Install a Windows Scheduled Task by specifying properties inline, XML inline, or from an XML file.
   - Replace an existing Windows Scheduled Task of the same name by overwriting it.
-- Enable, Disable, and Uninstall a Windows Scheduled Task.
+- Enable, Disable, Start, Stop, and Uninstall a Windows Scheduled Task.
   - Supports wildcards for modifying many Schedules Tasks easily, or when you only know part of the Scheduled Task's name.
 - Multiple computers can be specified to easily run the task against all of them.
 - Supports connecting to remote computers via WinRM and optionally using [CredSSP][CredSspDocumentationUrl].
@@ -36,6 +36,8 @@ Enable-WSManCredSSP -Role Server -Force
 ```
 
 ## Defining the Scheduled Task definition properties
+
+When installing a Scheduled Task, you have a few different options for how to define the Scheduled Task properties.
 
 Reasons you may want to define all of the properties `Inline` in the Build/Release task:
 
@@ -79,8 +81,7 @@ Under the hood this extension uses the [PowerShell ScheduledTasks cmdlets][Power
 ### Additional ideas to implement
 
 - Add option to specify if "Can't find task with the given path and name" should be treated as a warning or an error.
-- Add option to allow using SSL.
-- Add Start and Stop tasks for running and stopping existing Scheduled Tasks.
+- Add option to allow using SSL to connect to remote servers.
 
 ## Donate
 
