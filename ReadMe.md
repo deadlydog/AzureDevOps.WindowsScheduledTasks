@@ -78,7 +78,7 @@ Under the hood this extension uses the [PowerShell ScheduledTasks cmdlets][Power
 
 ### Additional ideas to implement
 
-- Allow task to be deleted immediately after installing it and running it.
+- Add option to specify if "Can't find task with the given path and name" should be treated as a warning or an error.
 - Add option to allow using SSL.
 - Add Start and Stop tasks for running and stopping existing Scheduled Tasks.
 
