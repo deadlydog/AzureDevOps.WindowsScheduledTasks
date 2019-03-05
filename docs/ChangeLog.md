@@ -2,6 +2,10 @@
 
 This page is a list of *notable* changes made to the Windows Scheduled Tasks Azure DevOps extension.
 
+## March 5, 2019 - v1.1.8
+
+- fix: Allow Scheduled Task to be started immediately after install when using XML definition.
+
 ## March 1, 2019 - v1.1.1
 
 - feature: Add tasks for Starting and Stopping Windows Scheduled Tasks.

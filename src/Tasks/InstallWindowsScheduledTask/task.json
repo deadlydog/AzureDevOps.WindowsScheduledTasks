@@ -365,7 +365,6 @@
       "name": "ShouldScheduledTaskRunAfterInstallString",
       "type": "boolean",
       "label": "Run after installed",
-      "visibleRule": "ShouldScheduledTaskBeEnabledString = true",
       "required": true,
       "defaultValue": "false",
       "helpMarkDown": "Select this to have the Scheduled Task run immediately after it is installed.",
