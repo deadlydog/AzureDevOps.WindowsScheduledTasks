@@ -23,14 +23,14 @@ function Get-WinRmSettings
 		$useSsl = $true
 	}
 
+	[System.Management.Automation.Remoting.PSSessionOption] $psSessionOptions = New-PSSessionOption -SkipCACheck:$protocolSkipCaCheck -SkipCNCheck:$protocolSkipCnCheck -SkipRevocationCheck:$protocolSkipRevocationCheck
+
 	[hashtable] $winRmSettings = @{
 		Computers = $computers
 		Credential = $credential
 		UseCredSsp = $useCredSsp
 		UseSsl = $useSsl
-		SkipCaCheck = $skipCaCheck
-		SkipCnCheck = $skipCnCheck
-		SkipRevocationCheck = $skipRevocationCheck
+		PsSessionOptions = $psSessionOptions
 	}
 
 	return $winRmSettings
