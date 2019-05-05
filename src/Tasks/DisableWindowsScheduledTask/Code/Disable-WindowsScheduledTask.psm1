@@ -14,14 +14,8 @@ function Disable-WindowsScheduledTask
 		[ValidateNotNullOrEmpty()]
 		[string] $ScheduledTaskPath,
 
-		[parameter(Mandatory=$false,HelpMessage="List of the computer(s) to disable the scheduled task on. If null localhost will be used.")]
-		[string[]] $ComputerName,
-
-		[parameter(Mandatory=$false,HelpMessage="The credential to use to connect to the computer(s).")]
-		[PSCredential] $Credential,
-
-		[parameter(Mandatory=$false,HelpMessage="If CredSSP should be used when connecting to remote computers or not.")]
-		[bool] $UseCredSsp
+		[parameter(Mandatory=$false,HelpMessage="The settings used to connect to the remote computers.")]
+		[hashtable] $WinRmSettings
 	)
 
 	Process
@@ -31,30 +25,36 @@ function Disable-WindowsScheduledTask
 			ScheduledTaskPath = $ScheduledTaskPath
 		}
 
-		Invoke-DisableWindowsScheduledTaskFromComputers -scheduledTaskSettings $scheduledTaskSettings -computers $ComputerName -credential $Credential -useCredSsp $UseCredSsp
+		Invoke-DisableWindowsScheduledTaskFromComputers -scheduledTaskSettings $scheduledTaskSettings -winRmSettings $WinRmSettings
 	}
 
 	Begin
 	{
-		function Invoke-DisableWindowsScheduledTaskFromComputers([hashtable] $scheduledTaskSettings, [string[]] $computers, [PSCredential] $credential, [bool] $useCredSsp)
+		function Invoke-DisableWindowsScheduledTaskFromComputers([hashtable] $scheduledTaskSettings, [hashtable] $winRmSettings)
 		{
-			[string] $disableTaskCommand = 'Invoke-Command -ScriptBlock $disableScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Verbose'
+			[System.Management.Automation.Remoting.PSSessionOption] $sessionOptions = $winRmSettings.PsSessionOptions
+			[string] $disableTaskCommand = 'Invoke-Command -ScriptBlock $disableScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -SessionOption $sessionOptions -Verbose'
 
-			[bool] $computersWereSpecified = ($null -ne $computers -and $computers.Count -gt 0)
+			[bool] $computersWereSpecified = ($null -ne $winRmSettings.Computers -and $winRmSettings.Computers.Count -gt 0)
 			if ($computersWereSpecified)
 			{
 				$disableTaskCommand += ' -ComputerName $computers'
 			}
 
-			[bool] $credentialWasSpecified = ($null -ne $credential)
+			[bool] $credentialWasSpecified = ($null -ne $winRmSettings.Credential)
 			if ($credentialWasSpecified)
 			{
 				$disableTaskCommand += ' -Credential $credential'
 			}
 
-			if ($useCredSsp)
+			if ($winRmSettings.UseCredSsp)
 			{
 				$disableTaskCommand += ' -Authentication Credssp'
+			}
+
+			if ($winRmSettings.UseSsl)
+			{
+				$disableTaskCommand += ' -UseSSL'
 			}
 
 			[string] $disableTaskCommandWithVariablesExpanded = $ExecutionContext.InvokeCommand.ExpandString($disableTaskCommand)
