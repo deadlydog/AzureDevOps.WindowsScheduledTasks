@@ -32,17 +32,16 @@ function Disable-WindowsScheduledTask
 	{
 		function Invoke-DisableWindowsScheduledTaskFromComputers([hashtable] $scheduledTaskSettings, [hashtable] $winRmSettings)
 		{
-			[System.Management.Automation.Remoting.PSSessionOption] $sessionOptions = $winRmSettings.PsSessionOptions
-			[string] $disableTaskCommand = 'Invoke-Command -ScriptBlock $disableScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -SessionOption $sessionOptions -Verbose'
+			[string] $disableTaskCommand = 'Invoke-Command -ScriptBlock $disableScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Verbose'
 
 			[bool] $computersWereSpecified = ($null -ne $winRmSettings.Computers -and $winRmSettings.Computers.Count -gt 0)
 			if ($computersWereSpecified)
 			{
 				$disableTaskCommand += ' -ComputerName $computers'
-			}
-			else
-			{
-				$disableTaskCommand += ' -ComputerName localhost'
+
+				# Only provide the SessionOption when connecting to remote computers, otherwise we get an ambiguous parameter set error.
+				[System.Management.Automation.Remoting.PSSessionOption] $sessionOptions = $winRmSettings.PsSessionOptions
+				$disableTaskCommand += ' -SessionOption $sessionOptions'
 			}
 
 			[bool] $credentialWasSpecified = ($null -ne $winRmSettings.Credential)
