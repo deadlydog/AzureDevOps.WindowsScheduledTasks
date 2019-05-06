@@ -94,7 +94,7 @@
 			"visibleRule": "ProtocolOptions = HTTPS",
 			"required": false,
 			"defaultValue": "false",
-      "helpMarkDown": "Select this so the client does not validate that the server certificate is signed by a trusted certification authority (CA).\u003cbr /\u003e\u003cbr /\u003eUse this option only when the remote computer is trusted by using another mechanism, such as when the remote computer is part of a network that is physically secure and isolated or when the remote computer is listed as a trusted host in a WinRM configuration.\u003cbr /\u003e\u003cbr /\u003e[More information](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/new-pssessionoption?view=powershell-3.0)",
+			"helpMarkDown": "Select this so the client does not validate that the server certificate is signed by a trusted certification authority (CA).\u003cbr /\u003e\u003cbr /\u003eUse this option only when the remote computer is trusted by using another mechanism, such as when the remote computer is part of a network that is physically secure and isolated or when the remote computer is listed as a trusted host in a WinRM configuration.\u003cbr /\u003e\u003cbr /\u003e[More information](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/new-pssessionoption?view=powershell-3.0)",
 			"groupName": "ServerSettings"
 		},
 		{
@@ -104,7 +104,7 @@
 			"visibleRule": "ProtocolOptions = HTTPS",
 			"required": false,
 			"defaultValue": "false",
-      "helpMarkDown": "Select this so the certificate common name (CN) of the server does not have to match the host name of the server.\u003cbr /\u003e\u003cbr /\u003eUse this option only for trusted computers.\u003cbr /\u003e\u003cbr /\u003e[More information](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/new-pssessionoption?view=powershell-3.0)",
+			"helpMarkDown": "Select this so the certificate common name (CN) of the server does not have to match the host name of the server.\u003cbr /\u003e\u003cbr /\u003eUse this option only for trusted computers.\u003cbr /\u003e\u003cbr /\u003e[More information](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/new-pssessionoption?view=powershell-3.0)",
 			"groupName": "ServerSettings"
 		},
 		{
@@ -114,7 +114,7 @@
 			"visibleRule": "ProtocolOptions = HTTPS",
 			"required": false,
 			"defaultValue": "false",
-      "helpMarkDown": "Select this to not validate the revocation status of the server certificate.\u003cbr /\u003e\u003cbr /\u003e[More information](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/new-pssessionoption?view=powershell-3.0)",
+			"helpMarkDown": "Select this to not validate the revocation status of the server certificate.\u003cbr /\u003e\u003cbr /\u003e[More information](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/new-pssessionoption?view=powershell-3.0)",
 			"groupName": "ServerSettings"
 		}
   ],
