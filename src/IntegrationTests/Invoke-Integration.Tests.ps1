@@ -679,9 +679,7 @@ Begin
 
 	function Uninstall-AllTestScheduledTasks
 	{
-		[hashtable] $uninstallTaskParameters = @{
-			ScheduledTaskFullName = "$CommonScheduledTaskPath*"
-		}
+		[hashtable] $uninstallTaskParameters = Get-DefaultCommonScheduledTaskParameters -scheduledTaskName "$CommonScheduledTaskPath*"
 		Invoke-Expression -Command "& $UninstallScheduledTaskEntryPointScriptPath @uninstallTaskParameters"
 	}
 
