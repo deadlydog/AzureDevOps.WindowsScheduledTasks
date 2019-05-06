@@ -100,13 +100,7 @@ Process
 			It 'Should uninstall all of the Scheduled Tasks' {
 				# Arrange.
 				[string] $taskFullNameWithWildcardForMultipleTasks = "$CommonScheduledTaskPath*"
-				[hashtable] $uninstallMultipleTasksParameters = @{
-					ScheduledTaskFullName = $taskFullNameWithWildcardForMultipleTasks
-					ComputerNames = ''
-					Username = ''
-					Password = ''
-					UseCredSsp = 'false'
-				}
+				[hashtable] $uninstallMultipleTasksParameters = Get-DefaultCommonScheduledTaskParameters -scheduledTaskName $taskFullNameWithWildcardForMultipleTasks
 
 				# Ensure multiple tasks exist before acting.
 				Install-ScheduledTask -scheduledTaskParameters $InlineAtStartupScheduledTaskParameters
@@ -139,13 +133,7 @@ Process
 		Context 'When uninstalling multiple Scheduled Tasks that do not exist' {
 			It 'Should log a warning, but still continue' {
 				# Arrange.
-				[hashtable] $uninstallMultipleTasksParameters = @{
-					ScheduledTaskFullName = '\APathThatDoesNotExist\*'
-					ComputerNames = ''
-					Username = ''
-					Password = ''
-					UseCredSsp = 'false'
-				}
+				[hashtable] $uninstallMultipleTasksParameters = Get-DefaultCommonScheduledTaskParameters -scheduledTaskName '\APathThatDoesNotExist\*'
 
 				# Act.
 				$warningOutput = Uninstall-ScheduledTask -scheduledTaskParameters $uninstallMultipleTasksParameters 3>&1
@@ -187,13 +175,7 @@ Process
 			It 'Should enable all of the Scheduled Tasks' {
 				# Arrange.
 				[string] $taskFullNameWithWildcardForMultipleTasks = "$CommonScheduledTaskPath*"
-				[hashtable] $enableMultipleTasksParameters = @{
-					ScheduledTaskFullName = $taskFullNameWithWildcardForMultipleTasks
-					ComputerNames = ''
-					Username = ''
-					Password = ''
-					UseCredSsp = 'false'
-				}
+				[hashtable] $enableMultipleTasksParameters = Get-DefaultCommonScheduledTaskParameters -scheduledTaskName $taskFullNameWithWildcardForMultipleTasks
 
 				# Ensure multiple tasks exist before acting.
 				Install-ScheduledTask -scheduledTaskParameters $DisabledScheduledTaskParameters
@@ -231,13 +213,7 @@ Process
 		Context 'When enabling multiple Scheduled Tasks that do not exist' {
 			It 'Should log a warning, but still continue' {
 				# Arrange.
-				[hashtable] $enableMultipleTasksParameters = @{
-					ScheduledTaskFullName = '\APathThatDoesNotExist\*'
-					ComputerNames = ''
-					Username = ''
-					Password = ''
-					UseCredSsp = 'false'
-				}
+				[hashtable] $enableMultipleTasksParameters = Get-DefaultCommonScheduledTaskParameters -scheduledTaskName '\APathThatDoesNotExist\*'
 
 				# Act.
 				$warningOutput = Enable-ScheduledTaskCustom -scheduledTaskParameters $enableMultipleTasksParameters 3>&1
@@ -277,13 +253,7 @@ Process
 			It 'Should disable all of the Scheduled Tasks' {
 				# Arrange.
 				[string] $taskFullNameWithWildcardForMultipleTasks = "$CommonScheduledTaskPath*"
-				[hashtable] $disableMultipleTasksParameters = @{
-					ScheduledTaskFullName = $taskFullNameWithWildcardForMultipleTasks
-					ComputerNames = ''
-					Username = ''
-					Password = ''
-					UseCredSsp = 'false'
-				}
+				[hashtable] $disableMultipleTasksParameters = Get-DefaultCommonScheduledTaskParameters -scheduledTaskName $taskFullNameWithWildcardForMultipleTasks
 
 				# Ensure multiple tasks exist before acting
 				Install-ScheduledTask -scheduledTaskParameters $XmlFileAtStartupScheduledTaskParameters
@@ -321,13 +291,7 @@ Process
 		Context 'When disabling multiple Scheduled Tasks that do not exist' {
 			It 'Should log a warning, but still continue' {
 				# Arrange.
-				[hashtable] $disableMultipleTasksParameters = @{
-					ScheduledTaskFullName = '\APathThatDoesNotExist\*'
-					ComputerNames = ''
-					Username = ''
-					Password = ''
-					UseCredSsp = 'false'
-				}
+				[hashtable] $disableMultipleTasksParameters = Get-DefaultCommonScheduledTaskParameters -scheduledTaskName '\APathThatDoesNotExist\*'
 
 				# Act.
 				$warningOutput = Disable-ScheduledTaskCustom -scheduledTaskParameters $disableMultipleTasksParameters 3>&1
@@ -367,13 +331,7 @@ Process
 			It 'Should start all of the Scheduled Tasks' {
 				# Arrange.
 				[string] $taskFullNameWithWildcardForMultipleTasks = "$CommonScheduledTaskPath*"
-				[hashtable] $startMultipleTasksParameters = @{
-					ScheduledTaskFullName = $taskFullNameWithWildcardForMultipleTasks
-					ComputerNames = ''
-					Username = ''
-					Password = ''
-					UseCredSsp = 'false'
-				}
+				[hashtable] $startMultipleTasksParameters = Get-DefaultCommonScheduledTaskParameters -scheduledTaskName $taskFullNameWithWildcardForMultipleTasks
 
 				# Ensure multiple tasks exist before acting.
 				[hashtable] $runForAFewSecondsScheduledTaskParameters2 = $RunForAFewSecondsScheduledTaskParameters.Clone()
@@ -413,13 +371,7 @@ Process
 		Context 'When starting multiple Scheduled Tasks that do not exist' {
 			It 'Should log a warning, but still continue' {
 				# Arrange.
-				[hashtable] $startMultipleTasksParameters = @{
-					ScheduledTaskFullName = '\APathThatDoesNotExist\*'
-					ComputerNames = ''
-					Username = ''
-					Password = ''
-					UseCredSsp = 'false'
-				}
+				[hashtable] $startMultipleTasksParameters = Get-DefaultCommonScheduledTaskParameters -scheduledTaskName '\APathThatDoesNotExist\*'
 
 				# Act.
 				$warningOutput = Start-ScheduledTaskCustom -scheduledTaskParameters $startMultipleTasksParameters 3>&1
@@ -472,13 +424,7 @@ Process
 			It 'Should stop all of the Scheduled Tasks' {
 				# Arrange.
 				[string] $taskFullNameWithWildcardForMultipleTasks = "$CommonScheduledTaskPath*"
-				[hashtable] $stopMultipleTasksParameters = @{
-					ScheduledTaskFullName = $taskFullNameWithWildcardForMultipleTasks
-					ComputerNames = ''
-					Username = ''
-					Password = ''
-					UseCredSsp = 'false'
-				}
+				[hashtable] $stopMultipleTasksParameters = Get-DefaultCommonScheduledTaskParameters -scheduledTaskName $taskFullNameWithWildcardForMultipleTasks
 
 				# Ensure multiple tasks exist before acting.
 				[hashtable] $runForAFewSecondsAndStartImmediatelyAfterInstallScheduledTaskParameters2 = $RunForAFewSecondsAndStartImmediatelyAfterInstallScheduledTaskParameters.Clone()
@@ -518,13 +464,7 @@ Process
 		Context 'When stopping multiple Scheduled Tasks that do not exist' {
 			It 'Should log a warning, but still continue' {
 				# Arrange.
-				[hashtable] $stopMultipleTasksParameters = @{
-					ScheduledTaskFullName = '\APathThatDoesNotExist\*'
-					ComputerNames = ''
-					Username = ''
-					Password = ''
-					UseCredSsp = 'false'
-				}
+				[hashtable] $stopMultipleTasksParameters = Get-DefaultCommonScheduledTaskParameters -scheduledTaskName '\APathThatDoesNotExist\*'
 
 				# Act.
 				$warningOutput = Stop-ScheduledTaskCustom -scheduledTaskParameters $stopMultipleTasksParameters 3>&1
@@ -644,6 +584,10 @@ Begin
 			Username = $scheduledTaskParameters.Username
 			Password = $scheduledTaskParameters.Password
 			UseCredSsp = $scheduledTaskParameters.UseCredSsp
+			ProtocolOptions = $scheduledTaskParameters.ProtocolOptions
+			ProtocolSkipCaCheckString = $scheduledTaskParameters.ProtocolSkipCaCheckString
+			ProtocolSkipCnCheckString = $scheduledTaskParameters.ProtocolSkipCnCheckString
+			ProtocolSkipRevocationCheckString = $scheduledTaskParameters.ProtocolSkipRevocationCheckString
 		}
 		Invoke-Expression -Command "& $UninstallScheduledTaskEntryPointScriptPath @uninstallTaskParameters"
 	}
@@ -657,6 +601,10 @@ Begin
 			Username = $scheduledTaskParameters.Username
 			Password = $scheduledTaskParameters.Password
 			UseCredSsp = $scheduledTaskParameters.UseCredSsp
+			ProtocolOptions = $scheduledTaskParameters.ProtocolOptions
+			ProtocolSkipCaCheckString = $scheduledTaskParameters.ProtocolSkipCaCheckString
+			ProtocolSkipCnCheckString = $scheduledTaskParameters.ProtocolSkipCnCheckString
+			ProtocolSkipRevocationCheckString = $scheduledTaskParameters.ProtocolSkipRevocationCheckString
 		}
 		Invoke-Expression -Command "& $EnableScheduledTaskEntryPointScriptPath @enableTaskParameters"
 	}
@@ -670,6 +618,10 @@ Begin
 			Username = $scheduledTaskParameters.Username
 			Password = $scheduledTaskParameters.Password
 			UseCredSsp = $scheduledTaskParameters.UseCredSsp
+			ProtocolOptions = $scheduledTaskParameters.ProtocolOptions
+			ProtocolSkipCaCheckString = $scheduledTaskParameters.ProtocolSkipCaCheckString
+			ProtocolSkipCnCheckString = $scheduledTaskParameters.ProtocolSkipCnCheckString
+			ProtocolSkipRevocationCheckString = $scheduledTaskParameters.ProtocolSkipRevocationCheckString
 		}
 		Invoke-Expression -Command "& $DisableScheduledTaskEntryPointScriptPath @disableTaskParameters"
 	}
@@ -683,6 +635,10 @@ Begin
 			Username = $scheduledTaskParameters.Username
 			Password = $scheduledTaskParameters.Password
 			UseCredSsp = $scheduledTaskParameters.UseCredSsp
+			ProtocolOptions = $scheduledTaskParameters.ProtocolOptions
+			ProtocolSkipCaCheckString = $scheduledTaskParameters.ProtocolSkipCaCheckString
+			ProtocolSkipCnCheckString = $scheduledTaskParameters.ProtocolSkipCnCheckString
+			ProtocolSkipRevocationCheckString = $scheduledTaskParameters.ProtocolSkipRevocationCheckString
 		}
 		Invoke-Expression -Command "& $StartScheduledTaskEntryPointScriptPath @startTaskParameters"
 	}
@@ -696,8 +652,29 @@ Begin
 			Username = $scheduledTaskParameters.Username
 			Password = $scheduledTaskParameters.Password
 			UseCredSsp = $scheduledTaskParameters.UseCredSsp
+			ProtocolOptions = $scheduledTaskParameters.ProtocolOptions
+			ProtocolSkipCaCheckString = $scheduledTaskParameters.ProtocolSkipCaCheckString
+			ProtocolSkipCnCheckString = $scheduledTaskParameters.ProtocolSkipCnCheckString
+			ProtocolSkipRevocationCheckString = $scheduledTaskParameters.ProtocolSkipRevocationCheckString
 		}
 		Invoke-Expression -Command "& $StopScheduledTaskEntryPointScriptPath @stopTaskParameters"
+	}
+
+	function Get-DefaultCommonScheduledTaskParameters([string] $scheduledTaskName)
+	{
+		[hashtable] $defaultCommonScheduledTaskParameters = @{
+			ScheduledTaskFullName = $scheduledTaskName
+			ComputerNames = ''
+			Username = ''
+			Password = ''
+			UseCredSsp = 'false'
+			ProtocolOptions = 'HTTP'
+			ProtocolSkipCaCheckString = 'false'
+			ProtocolSkipCnCheckString = 'false'
+			ProtocolSkipRevocationCheckString = 'false'
+		}
+
+		return $defaultCommonScheduledTaskParameters
 	}
 
 	function Uninstall-AllTestScheduledTasks
