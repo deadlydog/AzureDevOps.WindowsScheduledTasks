@@ -144,12 +144,17 @@ Process
 	[bool] $shouldScheduledTaskRunWithHighestPrivileges = Get-BoolValueFromString -string $ShouldScheduledTaskRunWithHighestPrivilegesString
 	[bool] $shouldScheduledTaskRunAfterInstall = Get-BoolValueFromString -string $ShouldScheduledTaskRunAfterInstallString
 	[bool] $useCredSsp = Get-BoolValueFromString -string $UseCredSspString
+	[bool] $protocolSkipCaCheck = Get-BoolValueFromString -string $ProtocolSkipCaCheckString
+	[bool] $protocolSkipCnCheck = Get-BoolValueFromString -string $ProtocolSkipCnCheckString
+	[bool] $protocolSkipRevocationCheck = Get-BoolValueFromString -string $ProtocolSkipRevocationCheckString
+
 	[string[]] $computers = Get-ComputersToConnectToOrNull -computerNames $ComputerNames
 	[PSCredential] $credential = Convert-UsernameAndPasswordToCredentialsOrNull -username $Username -password $Password
+	[hashtable] $taskNameAndPath = Get-ScheduledTaskNameAndPath -fullTaskName $ScheduledTaskFullName
+
+	[hashtable] $winRmSettings = Get-WinRmSettings -computers $computers -credential $credential -useCredSsp $useCredSsp -protocol $ProtocolOptions -skipCaCheck $protocolSkipCaCheck -skipCnCheck $protocolSkipCnCheck -skipRevocationCheck $protocolSkipRevocationCheck
 
 	[hashtable] $accountCredentialsToRunScheduledTaskAs = Get-AccountCredentialsToRunScheduledTaskAs -scheduldTaskAccountToRunAsOptions $ScheduledTaskAccountToRunAsOptions -customAccountToRunScheduledTaskAsUsername $CustomAccountToRunScheduledTaskAsUsername -customAccountToRunScheduledTaskAsPassword $CustomAccountToRunScheduledTaskAsPassword
-
-	[hashtable] $taskNameAndPath = Get-ScheduledTaskNameAndPath -fullTaskName $ScheduledTaskFullName
 
 	[bool] $usingXml = $false
 	if ($ScheduledTaskDefinitionSource -eq 'XmlFile')

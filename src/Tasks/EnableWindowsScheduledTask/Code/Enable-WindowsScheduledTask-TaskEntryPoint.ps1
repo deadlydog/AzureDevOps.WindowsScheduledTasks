@@ -35,9 +35,15 @@ Process
 	Write-Verbose "Will attempt to enable Windows Scheduled Task '$ScheduledTaskFullName' on '$ComputerNames'." -Verbose
 
 	[bool] $useCredSsp = Get-BoolValueFromString -string $UseCredSspString
+	[bool] $protocolSkipCaCheck = Get-BoolValueFromString -string $ProtocolSkipCaCheckString
+	[bool] $protocolSkipCnCheck = Get-BoolValueFromString -string $ProtocolSkipCnCheckString
+	[bool] $protocolSkipRevocationCheck = Get-BoolValueFromString -string $ProtocolSkipRevocationCheckString
+
 	[string[]] $computers = Get-ComputersToConnectToOrNull -computerNames $ComputerNames
 	[PSCredential] $credential = Convert-UsernameAndPasswordToCredentialsOrNull -username $Username -password $Password
 	[hashtable] $taskNameAndPath = Get-ScheduledTaskNameAndPath -fullTaskName $ScheduledTaskFullName
+
+	[hashtable] $winRmSettings = Get-WinRmSettings -computers $computers -credential $credential -useCredSsp $useCredSsp -protocol $ProtocolOptions -skipCaCheck $protocolSkipCaCheck -skipCnCheck $protocolSkipCnCheck -skipRevocationCheck $protocolSkipRevocationCheck
 
 	Enable-WindowsScheduledTask -ScheduledTaskName $taskNameAndPath.Name -ScheduledTaskPath $taskNameAndPath.Path -ComputerName $computers -Credential $credential -UseCredSsp $useCredSsp
 }
