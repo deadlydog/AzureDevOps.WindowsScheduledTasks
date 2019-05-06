@@ -40,6 +40,10 @@ function Disable-WindowsScheduledTask
 			{
 				$disableTaskCommand += ' -ComputerName $computers'
 			}
+			else
+			{
+				$disableTaskCommand += ' -ComputerName localhost'
+			}
 
 			[bool] $credentialWasSpecified = ($null -ne $winRmSettings.Credential)
 			if ($credentialWasSpecified)
