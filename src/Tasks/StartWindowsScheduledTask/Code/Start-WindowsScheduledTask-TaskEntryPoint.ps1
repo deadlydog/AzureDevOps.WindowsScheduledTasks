@@ -14,7 +14,20 @@ param
 	[string] $Password,
 
 	[parameter(Mandatory=$false,HelpMessage="If CredSSP should be used when connecting to remote computers or not.")]
-	[string] $UseCredSspString
+	[string] $UseCredSspString,
+
+	[parameter(Mandatory = $false, HelpMessage = "The protocol to use when connecting to remote computers.")]
+	[ValidateSet('HTTP', 'HTTPS')]
+	[string] $ProtocolOptions,
+
+	[parameter(Mandatory = $false, HelpMessage = "If SkipCACheck should be used when connecting to remote computers or not.")]
+	[string] $ProtocolSkipCaCheckString,
+
+	[parameter(Mandatory = $false, HelpMessage = "If SkipCNCheck should be used when connecting to remote computers or not.")]
+	[string] $ProtocolSkipCnCheckString,
+
+	[parameter(Mandatory = $false, HelpMessage = "If SkipRevocationCheck should be used when connecting to remote computers or not.")]
+	[string] $ProtocolSkipRevocationCheckString
 )
 
 Process
@@ -47,6 +60,10 @@ Begin
 	[string] $userInputToScheduledTaskMapperModuleFilePath = Join-Path -Path $codeDirectoryPath -ChildPath 'Shared\UserInputToScheduledTaskMapper.psm1'
 	Write-Debug "Importing module '$userInputToScheduledTaskMapperModuleFilePath'."
 	Import-Module -Name $userInputToScheduledTaskMapperModuleFilePath -Force
+
+	[string] $userInputToWinRmSettingsMapperModuleFilePath = Join-Path -Path $codeDirectoryPath -ChildPath 'Shared\UserInputToWinRmSettingsMapper.psm1'
+	Write-Debug "Importing module '$userInputToWinRmSettingsMapperModuleFilePath'."
+	Import-Module -Name $userInputToWinRmSettingsMapperModuleFilePath -Force
 
 	[string] $startWindowsScheduledTaskModuleFilePath = Join-Path -Path $codeDirectoryPath -ChildPath 'Start-WindowsScheduledTask.psm1'
 	Write-Debug "Importing module '$startWindowsScheduledTaskModuleFilePath'."
