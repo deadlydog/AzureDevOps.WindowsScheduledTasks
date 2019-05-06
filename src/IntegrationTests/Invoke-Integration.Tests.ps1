@@ -880,6 +880,10 @@ Begin
 		Username = ''
 		Password = ''
 		UseCredSsp = 'false'
+		ProtocolOptions = 'HTTP'
+		ProtocolSkipCaCheckString = 'false'
+		ProtocolSkipCnCheckString = 'false'
+		ProtocolSkipRevocationCheckString = 'false'
 	}
 
 	# Scheduled Task with an Inline definition and an AtStartup trigger.
@@ -920,6 +924,10 @@ Begin
 		Username = ''
 		Password = ''
 		UseCredSsp = 'false'
+		ProtocolOptions = 'HTTP'
+		ProtocolSkipCaCheckString = 'false'
+		ProtocolSkipCnCheckString = 'false'
+		ProtocolSkipRevocationCheckString = 'false'
 	}
 
 	# Scheduled Task with an XML file definition and an AtStartup trigger.
@@ -960,6 +968,10 @@ Begin
 		Username = ''
 		Password = ''
 		UseCredSsp = 'false'
+		ProtocolOptions = 'HTTP'
+		ProtocolSkipCaCheckString = 'false'
+		ProtocolSkipCnCheckString = 'false'
+		ProtocolSkipRevocationCheckString = 'false'
 	}
 
 	# Scheduled Task with an Inline definition and an AtLogOn trigger.
@@ -1000,6 +1012,10 @@ Begin
 		Username = ''
 		Password = ''
 		UseCredSsp = 'false'
+		ProtocolOptions = 'HTTP'
+		ProtocolSkipCaCheckString = 'false'
+		ProtocolSkipCnCheckString = 'false'
+		ProtocolSkipRevocationCheckString = 'false'
 	}
 
 	# Scheduled Task with an XML file definition and an AtLogOn trigger.
@@ -1090,6 +1106,10 @@ Begin
 		Username = ''
 		Password = ''
 		UseCredSsp = 'false'
+		ProtocolOptions = 'HTTP'
+		ProtocolSkipCaCheckString = 'false'
+		ProtocolSkipCnCheckString = 'false'
+		ProtocolSkipRevocationCheckString = 'false'
 	}
 
 	# Scheduled Task with an Inline definition and an DateTime trigger.
@@ -1130,6 +1150,10 @@ Begin
 		Username = ''
 		Password = ''
 		UseCredSsp = 'false'
+		ProtocolOptions = 'HTTP'
+		ProtocolSkipCaCheckString = 'false'
+		ProtocolSkipCnCheckString = 'false'
+		ProtocolSkipRevocationCheckString = 'false'
 	}
 
 	# Scheduled Task with an XML File definition and a DateTime trigger.
@@ -1170,6 +1194,10 @@ Begin
 		Username = ''
 		Password = ''
 		UseCredSsp = 'false'
+		ProtocolOptions = 'HTTP'
+		ProtocolSkipCaCheckString = 'false'
+		ProtocolSkipCnCheckString = 'false'
+		ProtocolSkipRevocationCheckString = 'false'
 	}
 
 	# Scheduled Task with an XML definition and a DateTime trigger.
@@ -1260,6 +1288,10 @@ Begin
 		Username = ''
 		Password = ''
 		UseCredSsp = 'false'
+		ProtocolOptions = 'HTTP'
+		ProtocolSkipCaCheckString = 'false'
+		ProtocolSkipCnCheckString = 'false'
+		ProtocolSkipRevocationCheckString = 'false'
 	}
 
 	# Scheduled Task with an invalid XML definition.
@@ -1305,6 +1337,10 @@ Begin
 		Username = ''
 		Password = ''
 		UseCredSsp = 'false'
+		ProtocolOptions = 'HTTP'
+		ProtocolSkipCaCheckString = 'false'
+		ProtocolSkipCnCheckString = 'false'
+		ProtocolSkipRevocationCheckString = 'false'
 	}
 
 	# Scheduled Task with an invalid empty XML definition.
@@ -1345,6 +1381,10 @@ Begin
 		Username = ''
 		Password = ''
 		UseCredSsp = 'false'
+		ProtocolOptions = 'HTTP'
+		ProtocolSkipCaCheckString = 'false'
+		ProtocolSkipCnCheckString = 'false'
+		ProtocolSkipRevocationCheckString = 'false'
 	}
 
 	# Scheduled Task with an invalid whitespace XML definition.
@@ -1385,6 +1425,10 @@ Begin
 		Username = ''
 		Password = ''
 		UseCredSsp = 'false'
+		ProtocolOptions = 'HTTP'
+		ProtocolSkipCaCheckString = 'false'
+		ProtocolSkipCnCheckString = 'false'
+		ProtocolSkipRevocationCheckString = 'false'
 	}
 
 	[hashtable] $DisabledScheduledTaskParameters = @{
@@ -1424,6 +1468,10 @@ Begin
 		Username = ''
 		Password = ''
 		UseCredSsp = 'false'
+		ProtocolOptions = 'HTTP'
+		ProtocolSkipCaCheckString = 'false'
+		ProtocolSkipCnCheckString = 'false'
+		ProtocolSkipRevocationCheckString = 'false'
 	}
 
 	[hashtable] $WeeklyScheduledTaskParameters = @{
@@ -1463,6 +1511,10 @@ Begin
 		Username = ''
 		Password = ''
 		UseCredSsp = 'false'
+		ProtocolOptions = 'HTTP'
+		ProtocolSkipCaCheckString = 'false'
+		ProtocolSkipCnCheckString = 'false'
+		ProtocolSkipRevocationCheckString = 'false'
 	}
 
 	[hashtable] $WeeklyMultipleDaysScheduledTaskParameters = @{
@@ -1502,6 +1554,10 @@ Begin
 		Username = ''
 		Password = ''
 		UseCredSsp = 'false'
+		ProtocolOptions = 'HTTP'
+		ProtocolSkipCaCheckString = 'false'
+		ProtocolSkipCnCheckString = 'false'
+		ProtocolSkipRevocationCheckString = 'false'
 	}
 
 	[hashtable] $InvalidWeeklyBecauseNoWeekdaysSpecifiedScheduledTaskParameters = @{
@@ -1541,6 +1597,10 @@ Begin
 		Username = ''
 		Password = ''
 		UseCredSsp = 'false'
+		ProtocolOptions = 'HTTP'
+		ProtocolSkipCaCheckString = 'false'
+		ProtocolSkipCnCheckString = 'false'
+		ProtocolSkipRevocationCheckString = 'false'
 	}
 
 	[hashtable] $NoDescriptionScheduledTaskParameters = @{
@@ -1580,6 +1640,10 @@ Begin
 		Username = ''
 		Password = ''
 		UseCredSsp = 'false'
+		ProtocolOptions = 'HTTP'
+		ProtocolSkipCaCheckString = 'false'
+		ProtocolSkipCnCheckString = 'false'
+		ProtocolSkipRevocationCheckString = 'false'
 	}
 
 	[hashtable] $StartImmediatelyAfterInstallScheduledTaskParameters = @{
@@ -1619,6 +1683,10 @@ Begin
 		Username = ''
 		Password = ''
 		UseCredSsp = 'false'
+		ProtocolOptions = 'HTTP'
+		ProtocolSkipCaCheckString = 'false'
+		ProtocolSkipCnCheckString = 'false'
+		ProtocolSkipRevocationCheckString = 'false'
 	}
 
 	[hashtable] $RunForAFewSecondsScheduledTaskParameters = @{
@@ -1658,6 +1726,10 @@ Begin
 		Username = ''
 		Password = ''
 		UseCredSsp = 'false'
+		ProtocolOptions = 'HTTP'
+		ProtocolSkipCaCheckString = 'false'
+		ProtocolSkipCnCheckString = 'false'
+		ProtocolSkipRevocationCheckString = 'false'
 	}
 
 	[hashtable] $RunForAFewSecondsAndStartImmediatelyAfterInstallScheduledTaskParameters = @{
@@ -1697,5 +1769,9 @@ Begin
 		Username = ''
 		Password = ''
 		UseCredSsp = 'false'
+		ProtocolOptions = 'HTTP'
+		ProtocolSkipCaCheckString = 'false'
+		ProtocolSkipCnCheckString = 'false'
+		ProtocolSkipRevocationCheckString = 'false'
 	}
 }
