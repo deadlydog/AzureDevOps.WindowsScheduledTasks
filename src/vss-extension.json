@@ -58,7 +58,7 @@
     "type": "git",
     "uri": "https://github.com/deadlydog/AzureDevOps.WindowsScheduledTasks"
 	},
-  "badges": [
+	"badges": [
     {
 			"href": "https://dev.azure.com/deadlydog/OpenSource/_build/latest?definitionId=19\u0026branchName=master",
 			"uri": "https://dev.azure.com/deadlydog/OpenSource/_apis/build/status/AzureDevOps.WindowsScheduledTasks?branchName=master",
