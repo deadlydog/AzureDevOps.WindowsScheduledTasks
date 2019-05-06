@@ -41,7 +41,7 @@ function Start-WindowsScheduledTask
 
 				# Only provide the SessionOption when connecting to remote computers, otherwise we get an ambiguous parameter set error.
 				[System.Management.Automation.Remoting.PSSessionOption] $sessionOptions = $winRmSettings.PsSessionOptions
-				$disableTaskCommand += ' -SessionOption $sessionOptions'
+				$startTaskCommand += ' -SessionOption $sessionOptions'
 			}
 
 			[bool] $credentialWasSpecified = ($null -ne $winRmSettings.Credential)
