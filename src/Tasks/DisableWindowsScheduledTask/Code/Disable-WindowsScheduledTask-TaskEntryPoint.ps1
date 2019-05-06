@@ -67,6 +67,10 @@ Begin
 	Write-Debug "Importing module '$userInputToScheduledTaskMapperModuleFilePath'."
 	Import-Module -Name $userInputToScheduledTaskMapperModuleFilePath -Force
 
+	[string] $userInputToWinRmSettingsMapperModuleFilePath = Join-Path -Path $codeDirectoryPath -ChildPath 'Shared\UserInputToWinRmSettingsMapper.psm1'
+	Write-Debug "Importing module '$userInputToWinRmSettingsMapperModuleFilePath'."
+	Import-Module -Name $userInputToWinRmSettingsMapperModuleFilePath -Force
+
 	[string] $disableWindowsScheduledTaskModuleFilePath = Join-Path -Path $codeDirectoryPath -ChildPath 'Disable-WindowsScheduledTask.psm1'
 	Write-Debug "Importing module '$disableWindowsScheduledTaskModuleFilePath'."
 	Import-Module -Name $disableWindowsScheduledTaskModuleFilePath -Force
