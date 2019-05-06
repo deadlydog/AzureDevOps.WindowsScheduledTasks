@@ -76,55 +76,32 @@ function Install-WindowsScheduledTask
 
 		function Invoke-InstallWindowsScheduledTaskOnComputers([hashtable] $scheduledTaskSettings, [hashtable] $winRmSettings)
 		{
-			[bool] $noComputersWereSpecified = ($null -eq $winRmSettings.Computers -or $winRmSettings.Computers.Count -eq 0)
-			[bool] $noCredentialWasSpecified = ($null -eq $winRmSettings.Credential)
+			[string] $installTaskCommand = 'Invoke-Command -ScriptBlock $installScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Verbose'
 
-			# If no remote computers were specified, we don't need to worry about CredSSP.
-			if ($noComputersWereSpecified)
+			[bool] $computersWereSpecified = ($null -ne $winRmSettings.Computers -and $winRmSettings.Computers.Count -gt 0)
+			if ($computersWereSpecified)
 			{
-				if ($noCredentialWasSpecified)
-				{
-					Write-Debug "Connecting to localhost to run commands..."
-					Invoke-Command -ScriptBlock $installScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Verbose
-				}
-				else
-				{
-					Write-Debug "Connecting to localhost as '$($credential.UserName)' to run commands..."
-					Invoke-Command -Credential $credential -ScriptBlock $installScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Verbose
-				}
-			}
-			else
-			{
+				$installTaskCommand += ' -ComputerName $computers'
+
 				# Only provide the SessionOption when connecting to remote computers, otherwise we get an ambiguous parameter set error.
 				[System.Management.Automation.Remoting.PSSessionOption] $sessionOptions = $winRmSettings.PsSessionOptions
-
-				if ($noCredentialWasSpecified)
-				{
-					if ($winRmSettings.UseCredSsp)
-					{
-						Write-Debug "Connecting to computers '$computers' via CredSsp to run commands..."
-						Invoke-Command -ComputerName $computers -ScriptBlock $installScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Authentication Credssp -SessionOption $sessionOptions -Verbose
-					}
-					else
-					{
-						Write-Debug "Connecting to computers '$computers' to run commands..."
-						Invoke-Command -ComputerName $computers -ScriptBlock $installScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -SessionOption $sessionOptions -Verbose
-					}
-				}
-				else
-				{
-					if ($winRmSettings.UseCredSsp)
-					{
-						Write-Debug "Connecting to computers '$computers' via CredSsp as '$($credential.UserName)' to run commands..."
-						Invoke-Command -ComputerName $computers -Credential $credential -ScriptBlock $installScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Authentication Credssp -SessionOption $sessionOptions -Verbose
-					}
-					else
-					{
-						Write-Debug "Connecting to computers '$computers' as '$($credential.UserName)' to run commands..."
-						Invoke-Command -ComputerName $computers -Credential $credential -ScriptBlock $installScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -SessionOption $sessionOptions -Verbose
-					}
-				}
+				$installTaskCommand += ' -SessionOption $sessionOptions'
 			}
+
+			[bool] $credentialWasSpecified = ($null -ne $winRmSettings.Credential)
+			if ($credentialWasSpecified)
+			{
+				$installTaskCommand += ' -Credential $credential'
+			}
+
+			if ($winRmSettings.UseCredSsp)
+			{
+				$installTaskCommand += ' -Authentication Credssp'
+			}
+
+			[string] $installTaskCommandWithVariablesExpanded = $ExecutionContext.InvokeCommand.ExpandString($installTaskCommand)
+			Write-Debug "About to invoke expression '$installTaskCommandWithVariablesExpanded'."
+			Invoke-Expression -Command $installTaskCommand -Verbose
 		}
 
 		[scriptblock] $installScheduledTaskScriptBlock = {
