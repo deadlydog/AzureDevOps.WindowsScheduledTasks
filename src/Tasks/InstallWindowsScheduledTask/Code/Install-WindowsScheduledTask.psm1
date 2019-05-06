@@ -46,14 +46,8 @@ function Install-WindowsScheduledTask
 		[parameter(Mandatory=$false,HelpMessage="If the Scheduled Task should be ran immediately after installation or not.")]
 		[bool] $ShouldScheduledTaskRunAfterInstall,
 
-		[parameter(Mandatory=$false,HelpMessage="List of the computer(s) to uninstall the scheduled task from. If null localhost will be used.")]
-		[string[]] $ComputerName,
-
-		[parameter(Mandatory=$false,HelpMessage="The credential to use to connect to the computer(s).")]
-		[PSCredential] $Credential,
-
-		[parameter(Mandatory=$false,HelpMessage="If Cred SSP should be used when connecting to the remote computers or not.")]
-		[bool] $UseCredSsp
+		[parameter(Mandatory = $false, HelpMessage = "The settings used to connect to remote computers.")]
+		[hashtable] $WinRmSettings
 	)
 
 	Process
@@ -72,7 +66,7 @@ function Install-WindowsScheduledTask
 			ShouldRunScheduledTaskAfterInstallation = $ShouldScheduledTaskRunAfterInstall
 		}
 
-		Invoke-InstallWindowsScheduledTaskOnComputers -scheduledTaskSettings $scheduledTaskSettings -computers $ComputerName -credential $Credential -useCredSsp $UseCredSsp
+		Invoke-InstallWindowsScheduledTaskOnComputers -scheduledTaskSettings $scheduledTaskSettings -winRmSettings $WinRmSettings
 	}
 
 	Begin
@@ -80,12 +74,12 @@ function Install-WindowsScheduledTask
 		# Turn on Strict Mode to help catch syntax-related errors.
 		Set-StrictMode -Version Latest
 
-		function Invoke-InstallWindowsScheduledTaskOnComputers([hashtable] $scheduledTaskSettings, [string[]] $computers, [PSCredential] $credential, [bool] $useCredSsp)
+		function Invoke-InstallWindowsScheduledTaskOnComputers([hashtable] $scheduledTaskSettings, [hashtable] $winRmSettings)
 		{
-			[bool] $noComputersWereSpecified = ($null -eq $computers -or $computers.Count -eq 0)
-			[bool] $noCredentialWasSpecified = ($null -eq $credential)
+			[bool] $noComputersWereSpecified = ($null -eq $winRmSettings.Computers -or $winRmSettings.Computers.Count -eq 0)
+			[bool] $noCredentialWasSpecified = ($null -eq $winRmSettings.Credential)
 
-			# If we are connecting to localhost, we don't need to worry about CredSSP.
+			# If no remote computers were specified, we don't need to worry about CredSSP.
 			if ($noComputersWereSpecified)
 			{
 				if ($noCredentialWasSpecified)
@@ -101,30 +95,33 @@ function Install-WindowsScheduledTask
 			}
 			else
 			{
+				# Only provide the SessionOption when connecting to remote computers, otherwise we get an ambiguous parameter set error.
+				[System.Management.Automation.Remoting.PSSessionOption] $sessionOptions = $winRmSettings.PsSessionOptions
+
 				if ($noCredentialWasSpecified)
 				{
-					if ($useCredSsp)
+					if ($winRmSettings.UseCredSsp)
 					{
 						Write-Debug "Connecting to computers '$computers' via CredSsp to run commands..."
-						Invoke-Command -ComputerName $computers -ScriptBlock $installScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Authentication Credssp -Verbose
+						Invoke-Command -ComputerName $computers -ScriptBlock $installScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Authentication Credssp -SessionOption $sessionOptions -Verbose
 					}
 					else
 					{
 						Write-Debug "Connecting to computers '$computers' to run commands..."
-						Invoke-Command -ComputerName $computers -ScriptBlock $installScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Verbose
+						Invoke-Command -ComputerName $computers -ScriptBlock $installScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -SessionOption $sessionOptions -Verbose
 					}
 				}
 				else
 				{
-					if ($useCredSsp)
+					if ($winRmSettings.UseCredSsp)
 					{
 						Write-Debug "Connecting to computers '$computers' via CredSsp as '$($credential.UserName)' to run commands..."
-						Invoke-Command -ComputerName $computers -Credential $credential -ScriptBlock $installScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Authentication Credssp -Verbose
+						Invoke-Command -ComputerName $computers -Credential $credential -ScriptBlock $installScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Authentication Credssp -SessionOption $sessionOptions -Verbose
 					}
 					else
 					{
 						Write-Debug "Connecting to computers '$computers' as '$($credential.UserName)' to run commands..."
-						Invoke-Command -ComputerName $computers -Credential $credential -ScriptBlock $installScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Verbose
+						Invoke-Command -ComputerName $computers -Credential $credential -ScriptBlock $installScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -SessionOption $sessionOptions -Verbose
 					}
 				}
 			}

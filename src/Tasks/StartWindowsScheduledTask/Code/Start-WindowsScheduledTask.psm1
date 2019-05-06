@@ -14,14 +14,8 @@ function Start-WindowsScheduledTask
 		[ValidateNotNullOrEmpty()]
 		[string] $ScheduledTaskPath,
 
-		[parameter(Mandatory=$false,HelpMessage="List of the computer(s) to start the scheduled task on. If null localhost will be used.")]
-		[string[]] $ComputerName,
-
-		[parameter(Mandatory=$false,HelpMessage="The credential to use to connect to the computer(s).")]
-		[PSCredential] $Credential,
-
-		[parameter(Mandatory=$false,HelpMessage="If CredSSP should be used when connecting to remote computers or not.")]
-		[bool] $UseCredSsp
+		[parameter(Mandatory = $false, HelpMessage = "The settings used to connect to remote computers.")]
+		[hashtable] $WinRmSettings
 	)
 
 	Process
@@ -31,28 +25,32 @@ function Start-WindowsScheduledTask
 			ScheduledTaskPath = $ScheduledTaskPath
 		}
 
-		Invoke-StartWindowsScheduledTaskFromComputers -scheduledTaskSettings $scheduledTaskSettings -computers $ComputerName -credential $Credential -useCredSsp $UseCredSsp
+		Invoke-StartWindowsScheduledTaskFromComputers -scheduledTaskSettings $scheduledTaskSettings -winRmSettings $WinRmSettings
 	}
 
 	Begin
 	{
-		function Invoke-StartWindowsScheduledTaskFromComputers([hashtable] $scheduledTaskSettings, [string[]] $computers, [PSCredential] $credential, [bool] $useCredSsp)
+		function Invoke-StartWindowsScheduledTaskFromComputers([hashtable] $scheduledTaskSettings, [hashtable] $winRmSettings)
 		{
 			[string] $startTaskCommand = 'Invoke-Command -ScriptBlock $startScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Verbose'
 
-			[bool] $computersWereSpecified = ($null -ne $computers -and $computers.Count -gt 0)
+			[bool] $computersWereSpecified = ($null -ne $winRmSettings.Computers -and $winRmSettings.Computers.Count -gt 0)
 			if ($computersWereSpecified)
 			{
 				$startTaskCommand += ' -ComputerName $computers'
+
+				# Only provide the SessionOption when connecting to remote computers, otherwise we get an ambiguous parameter set error.
+				[System.Management.Automation.Remoting.PSSessionOption] $sessionOptions = $winRmSettings.PsSessionOptions
+				$disableTaskCommand += ' -SessionOption $sessionOptions'
 			}
 
-			[bool] $credentialWasSpecified = ($null -ne $credential)
+			[bool] $credentialWasSpecified = ($null -ne $winRmSettings.Credential)
 			if ($credentialWasSpecified)
 			{
 				$startTaskCommand += ' -Credential $credential'
 			}
 
-			if ($useCredSsp)
+			if ($winRmSettings.UseCredSsp)
 			{
 				$startTaskCommand += ' -Authentication Credssp'
 			}

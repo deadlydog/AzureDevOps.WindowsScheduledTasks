@@ -14,7 +14,7 @@ function Disable-WindowsScheduledTask
 		[ValidateNotNullOrEmpty()]
 		[string] $ScheduledTaskPath,
 
-		[parameter(Mandatory=$false,HelpMessage="The settings used to connect to the remote computers.")]
+		[parameter(Mandatory=$false,HelpMessage="The settings used to connect to remote computers.")]
 		[hashtable] $WinRmSettings
 	)
 

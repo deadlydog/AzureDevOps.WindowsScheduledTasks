@@ -45,7 +45,7 @@ Process
 
 	[hashtable] $winRmSettings = Get-WinRmSettings -computers $computers -credential $credential -useCredSsp $useCredSsp -protocol $ProtocolOptions -skipCaCheck $protocolSkipCaCheck -skipCnCheck $protocolSkipCnCheck -skipRevocationCheck $protocolSkipRevocationCheck
 
-	Disable-WindowsScheduledTask -ScheduledTaskName $taskNameAndPath.Name -ScheduledTaskPath $taskNameAndPath.Path -WinRmSettings $winRmSettings
+	Disable-WindowsScheduledTask -ScheduledTaskName $taskNameAndPath.Name -ScheduledTaskPath $taskNameAndPath.Path -WinRmSettings $winRmSettings -Verbose
 }
 
 Begin
