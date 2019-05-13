@@ -3,7 +3,7 @@ Write-Output "Attempting to copy files from the 'root' SharedTaskCode directory 
 [string] $thisScriptsDirectoryName = Split-Path -Path $THIS_SCRIPTS_DIRECTORY_PATH -Leaf
 if ($thisScriptsDirectoryName -ne 'SharedTaskCode')
 {
-	throw "This script should only be ran from the SharedTaskCode directory, not a specific task's directory. Directory this is being rane from is '$THIS_SCRIPTS_DIRECTORY_PATH'."
+	throw "This script should only be ran from the SharedTaskCode directory, not a specific task's directory. Directory this is being ran from is '$THIS_SCRIPTS_DIRECTORY_PATH'."
 }
 
 [string] $srcDirectoryPath = Split-Path -Path $THIS_SCRIPTS_DIRECTORY_PATH -Parent

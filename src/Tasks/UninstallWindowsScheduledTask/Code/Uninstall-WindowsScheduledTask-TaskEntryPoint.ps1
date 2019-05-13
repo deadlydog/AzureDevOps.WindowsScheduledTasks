@@ -14,7 +14,20 @@ param
 	[string] $Password,
 
 	[parameter(Mandatory=$false,HelpMessage="If CredSSP should be used when connecting to remote computers or not.")]
-	[string] $UseCredSspString
+	[string] $UseCredSspString,
+
+	[parameter(Mandatory = $false, HelpMessage = "The protocol to use when connecting to remote computers.")]
+	[ValidateSet('HTTP', 'HTTPS')]
+	[string] $ProtocolOptions,
+
+	[parameter(Mandatory = $false, HelpMessage = "If SkipCACheck should be used when connecting to remote computers or not.")]
+	[string] $ProtocolSkipCaCheckString,
+
+	[parameter(Mandatory = $false, HelpMessage = "If SkipCNCheck should be used when connecting to remote computers or not.")]
+	[string] $ProtocolSkipCnCheckString,
+
+	[parameter(Mandatory = $false, HelpMessage = "If SkipRevocationCheck should be used when connecting to remote computers or not.")]
+	[string] $ProtocolSkipRevocationCheckString
 )
 
 Process
@@ -22,11 +35,17 @@ Process
 	Write-Verbose "Will attempt to uninstall Windows Scheduled Task '$ScheduledTaskFullName' on '$ComputerNames'." -Verbose
 
 	[bool] $useCredSsp = Get-BoolValueFromString -string $UseCredSspString
+	[bool] $protocolSkipCaCheck = Get-BoolValueFromString -string $ProtocolSkipCaCheckString
+	[bool] $protocolSkipCnCheck = Get-BoolValueFromString -string $ProtocolSkipCnCheckString
+	[bool] $protocolSkipRevocationCheck = Get-BoolValueFromString -string $ProtocolSkipRevocationCheckString
+
 	[string[]] $computers = Get-ComputersToConnectToOrNull -computerNames $ComputerNames
 	[PSCredential] $credential = Convert-UsernameAndPasswordToCredentialsOrNull -username $Username -password $Password
 	[hashtable] $taskNameAndPath = Get-ScheduledTaskNameAndPath -fullTaskName $ScheduledTaskFullName
 
-	Uninstall-WindowsScheduledTask -ScheduledTaskName $taskNameAndPath.Name -ScheduledTaskPath $taskNameAndPath.Path -ComputerName $computers -Credential $credential -UseCredSsp $useCredSsp
+	[hashtable] $winRmSettings = Get-WinRmSettings -computers $computers -credential $credential -useCredSsp $useCredSsp -protocol $ProtocolOptions -skipCaCheck $protocolSkipCaCheck -skipCnCheck $protocolSkipCnCheck -skipRevocationCheck $protocolSkipRevocationCheck
+
+	Uninstall-WindowsScheduledTask -ScheduledTaskName $taskNameAndPath.Name -ScheduledTaskPath $taskNameAndPath.Path -WinRmSettings $winRmSettings -Verbose
 }
 
 Begin
@@ -47,6 +66,10 @@ Begin
 	[string] $userInputToScheduledTaskMapperModuleFilePath = Join-Path -Path $codeDirectoryPath -ChildPath 'Shared\UserInputToScheduledTaskMapper.psm1'
 	Write-Debug "Importing module '$userInputToScheduledTaskMapperModuleFilePath'."
 	Import-Module -Name $userInputToScheduledTaskMapperModuleFilePath -Force
+
+	[string] $userInputToWinRmSettingsMapperModuleFilePath = Join-Path -Path $codeDirectoryPath -ChildPath 'Shared\UserInputToWinRmSettingsMapper.psm1'
+	Write-Debug "Importing module '$userInputToWinRmSettingsMapperModuleFilePath'."
+	Import-Module -Name $userInputToWinRmSettingsMapperModuleFilePath -Force
 
 	[string] $uninstallWindowsScheduledTaskModuleFilePath = Join-Path -Path $codeDirectoryPath -ChildPath 'Uninstall-WindowsScheduledTask.psm1'
 	Write-Debug "Importing module '$uninstallWindowsScheduledTaskModuleFilePath'."
