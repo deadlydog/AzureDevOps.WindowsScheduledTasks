@@ -2,6 +2,10 @@
 
 This page is a list of *notable* changes made to the Windows Scheduled Tasks Azure DevOps extension.
 
+## May 14, 2019 - v1.2.1
+
+- feature: Allow connecting over the HTTPS protocol.
+
 ## March 5, 2019 - v1.1.8
 
 - fix: Allow Scheduled Task to be started immediately after install when using XML definition.
