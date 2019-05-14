@@ -81,17 +81,16 @@ function Install-WindowsScheduledTask
 			[bool] $computersWereSpecified = ($null -ne $winRmSettings.Computers -and $winRmSettings.Computers.Count -gt 0)
 			if ($computersWereSpecified)
 			{
-				$installTaskCommand += ' -ComputerName $computers'
+				$installTaskCommand += ' -ComputerName $($winRmSettings.Computers)'
 
 				# Only provide the SessionOption when connecting to remote computers, otherwise we get an ambiguous parameter set error.
-				[System.Management.Automation.Remoting.PSSessionOption] $sessionOptions = $winRmSettings.PsSessionOptions
-				$installTaskCommand += ' -SessionOption $sessionOptions'
+				$installTaskCommand += ' -SessionOption $(winRmSettings.PsSessionOptions)'
 			}
 
 			[bool] $credentialWasSpecified = ($null -ne $winRmSettings.Credential)
 			if ($credentialWasSpecified)
 			{
-				$installTaskCommand += ' -Credential $credential'
+				$installTaskCommand += ' -Credential $($winRmSettings.Credential)'
 			}
 
 			if ($winRmSettings.UseCredSsp)
@@ -99,7 +98,9 @@ function Install-WindowsScheduledTask
 				$installTaskCommand += ' -Authentication Credssp'
 			}
 
+			Write-Debug "About to expand the string '$installTaskCommand' to retrieve the expression in invoke."
 			[string] $installTaskCommandWithVariablesExpanded = $ExecutionContext.InvokeCommand.ExpandString($installTaskCommand)
+
 			Write-Debug "About to invoke expression '$installTaskCommandWithVariablesExpanded'."
 			Invoke-Expression -Command $installTaskCommand -Verbose
 		}

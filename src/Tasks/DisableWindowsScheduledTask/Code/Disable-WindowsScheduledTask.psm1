@@ -37,17 +37,16 @@ function Disable-WindowsScheduledTask
 			[bool] $computersWereSpecified = ($null -ne $winRmSettings.Computers -and $winRmSettings.Computers.Count -gt 0)
 			if ($computersWereSpecified)
 			{
-				$disableTaskCommand += ' -ComputerName $computers'
+				$disableTaskCommand += ' -ComputerName $($winRmSettings.Computers)'
 
 				# Only provide the SessionOption when connecting to remote computers, otherwise we get an ambiguous parameter set error.
-				[System.Management.Automation.Remoting.PSSessionOption] $sessionOptions = $winRmSettings.PsSessionOptions
-				$disableTaskCommand += ' -SessionOption $sessionOptions'
+				$disableTaskCommand += ' -SessionOption $(winRmSettings.PsSessionOptions)'
 			}
 
 			[bool] $credentialWasSpecified = ($null -ne $winRmSettings.Credential)
 			if ($credentialWasSpecified)
 			{
-				$disableTaskCommand += ' -Credential $credential'
+				$disableTaskCommand += ' -Credential $($winRmSettings.Credential)'
 			}
 
 			if ($winRmSettings.UseCredSsp)
@@ -60,7 +59,9 @@ function Disable-WindowsScheduledTask
 				$disableTaskCommand += ' -UseSSL'
 			}
 
+			Write-Debug "About to expand the string '$disableTaskCommand' to retrieve the expression in invoke."
 			[string] $disableTaskCommandWithVariablesExpanded = $ExecutionContext.InvokeCommand.ExpandString($disableTaskCommand)
+
 			Write-Debug "About to invoke expression '$disableTaskCommandWithVariablesExpanded'."
 			Invoke-Expression -Command $disableTaskCommand -Verbose
 		}

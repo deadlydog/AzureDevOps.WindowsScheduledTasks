@@ -37,17 +37,16 @@ function Uninstall-WindowsScheduledTask
 			[bool] $computersWereSpecified = ($null -ne $winRmSettings.Computers -and $winRmSettings.Computers.Count -gt 0)
 			if ($computersWereSpecified)
 			{
-				$uninstallTaskCommand += ' -ComputerName $computers'
+				$uninstallTaskCommand += ' -ComputerName $($winRmSettings.Computers)'
 
 				# Only provide the SessionOption when connecting to remote computers, otherwise we get an ambiguous parameter set error.
-				[System.Management.Automation.Remoting.PSSessionOption] $sessionOptions = $winRmSettings.PsSessionOptions
-				$uninstallTaskCommand += ' -SessionOption $sessionOptions'
+				$uninstallTaskCommand += ' -SessionOption $(winRmSettings.PsSessionOptions)'
 			}
 
 			[bool] $credentialWasSpecified = ($null -ne $winRmSettings.Credential)
 			if ($credentialWasSpecified)
 			{
-				$uninstallTaskCommand += ' -Credential $credential'
+				$uninstallTaskCommand += ' -Credential $($winRmSettings.Credential)'
 			}
 
 			if ($winRmSettings.UseCredSsp)
@@ -55,7 +54,9 @@ function Uninstall-WindowsScheduledTask
 				$uninstallTaskCommand += ' -Authentication Credssp'
 			}
 
+			Write-Debug "About to expand the string '$uninstallTaskCommand' to retrieve the expression in invoke."
 			[string] $uninstallTaskCommandWithVariablesExpanded = $ExecutionContext.InvokeCommand.ExpandString($uninstallTaskCommand)
+
 			Write-Debug "About to invoke expression '$uninstallTaskCommandWithVariablesExpanded'."
 			Invoke-Expression -Command $uninstallTaskCommand -Verbose
 		}

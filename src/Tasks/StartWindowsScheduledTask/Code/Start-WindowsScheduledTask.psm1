@@ -37,17 +37,16 @@ function Start-WindowsScheduledTask
 			[bool] $computersWereSpecified = ($null -ne $winRmSettings.Computers -and $winRmSettings.Computers.Count -gt 0)
 			if ($computersWereSpecified)
 			{
-				$startTaskCommand += ' -ComputerName $computers'
+				$startTaskCommand += ' -ComputerName $($winRmSettings.Computers)'
 
 				# Only provide the SessionOption when connecting to remote computers, otherwise we get an ambiguous parameter set error.
-				[System.Management.Automation.Remoting.PSSessionOption] $sessionOptions = $winRmSettings.PsSessionOptions
-				$startTaskCommand += ' -SessionOption $sessionOptions'
+				$startTaskCommand += ' -SessionOption $(winRmSettings.PsSessionOptions)'
 			}
 
 			[bool] $credentialWasSpecified = ($null -ne $winRmSettings.Credential)
 			if ($credentialWasSpecified)
 			{
-				$startTaskCommand += ' -Credential $credential'
+				$startTaskCommand += ' -Credential $($winRmSettings.Credential)'
 			}
 
 			if ($winRmSettings.UseCredSsp)
@@ -55,7 +54,9 @@ function Start-WindowsScheduledTask
 				$startTaskCommand += ' -Authentication Credssp'
 			}
 
+			Write-Debug "About to expand the string '$startTaskCommand' to retrieve the expression in invoke."
 			[string] $startTaskCommandWithVariablesExpanded = $ExecutionContext.InvokeCommand.ExpandString($startTaskCommand)
+
 			Write-Debug "About to invoke expression '$startTaskCommandWithVariablesExpanded'."
 			Invoke-Expression -Command $startTaskCommand -Verbose
 		}

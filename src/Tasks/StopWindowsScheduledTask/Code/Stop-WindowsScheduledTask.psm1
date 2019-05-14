@@ -37,17 +37,16 @@ function Stop-WindowsScheduledTask
 			[bool] $computersWereSpecified = ($null -ne $winRmSettings.Computers -and $winRmSettings.Computers.Count -gt 0)
 			if ($computersWereSpecified)
 			{
-				$stopTaskCommand += ' -ComputerName $computers'
+				$stopTaskCommand += ' -ComputerName $($winRmSettings.Computers)'
 
 				# Only provide the SessionOption when connecting to remote computers, otherwise we get an ambiguous parameter set error.
-				[System.Management.Automation.Remoting.PSSessionOption] $sessionOptions = $winRmSettings.PsSessionOptions
-				$stopTaskCommand += ' -SessionOption $sessionOptions'
+				$stopTaskCommand += ' -SessionOption $(winRmSettings.PsSessionOptions)'
 			}
 
 			[bool] $credentialWasSpecified = ($null -ne $winRmSettings.Credential)
 			if ($credentialWasSpecified)
 			{
-				$stopTaskCommand += ' -Credential $credential'
+				$stopTaskCommand += ' -Credential $($winRmSettings.Credential)'
 			}
 
 			if ($winRmSettings.UseCredSsp)
@@ -55,7 +54,9 @@ function Stop-WindowsScheduledTask
 				$stopTaskCommand += ' -Authentication Credssp'
 			}
 
+			Write-Debug "About to expand the string '$stopTaskCommand' to retrieve the expression in invoke."
 			[string] $stopTaskCommandWithVariablesExpanded = $ExecutionContext.InvokeCommand.ExpandString($stopTaskCommand)
+
 			Write-Debug "About to invoke expression '$stopTaskCommandWithVariablesExpanded'."
 			Invoke-Expression -Command $stopTaskCommand -Verbose
 		}
