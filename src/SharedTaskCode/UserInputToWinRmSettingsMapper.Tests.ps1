@@ -72,13 +72,13 @@ Describe 'Convert-UsernameAndPasswordToCredentialsOrNull' {
 
 Describe 'Getting the WinRM settings' {
 	It 'Should set the UseSSL to false when HTTP is specified' {
-		$settings = Get-WinRmSettings -computers $null -credential $null -useCredSsp $false -protocol 'HTTP' -skipCaCheck $false -skipCnCheck $false -skipRevocationCheck $false
+		$settings = Get-WinRmSettings -computers $null -credential $null -authenticationMechanism 'Default' -protocol 'HTTP' -skipCaCheck $false -skipCnCheck $false -skipRevocationCheck $false
 
 		$settings.UseSSL | Should -BeFalse
 	}
 
 	It 'Should set the UseSSL to true when HTTPS is specified' {
-		$settings = Get-WinRmSettings -computers $null -credential $null -useCredSsp $false -protocol 'HTTPS' -skipCaCheck $false -skipCnCheck $false -skipRevocationCheck $false
+		$settings = Get-WinRmSettings -computers $null -credential $null -authenticationMechanism 'Default' -protocol 'HTTPS' -skipCaCheck $false -skipCnCheck $false -skipRevocationCheck $false
 
 		$settings.UseSSL | Should -BeTrue
 	}
