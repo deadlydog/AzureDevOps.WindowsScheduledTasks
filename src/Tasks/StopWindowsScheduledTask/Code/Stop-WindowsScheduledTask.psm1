@@ -40,7 +40,7 @@ function Stop-WindowsScheduledTask
 				$stopTaskCommand += ' -ComputerName $($winRmSettings.Computers)'
 
 				# Only provide the SessionOption when connecting to remote computers, otherwise we get an ambiguous parameter set error.
-				$stopTaskCommand += ' -SessionOption $(winRmSettings.PsSessionOptions)'
+				$stopTaskCommand += ' -SessionOption $($winRmSettings.PsSessionOptions)'
 			}
 
 			[bool] $credentialWasSpecified = ($null -ne $winRmSettings.Credential)

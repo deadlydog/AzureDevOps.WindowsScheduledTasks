@@ -40,7 +40,7 @@ function Uninstall-WindowsScheduledTask
 				$uninstallTaskCommand += ' -ComputerName $($winRmSettings.Computers)'
 
 				# Only provide the SessionOption when connecting to remote computers, otherwise we get an ambiguous parameter set error.
-				$uninstallTaskCommand += ' -SessionOption $(winRmSettings.PsSessionOptions)'
+				$uninstallTaskCommand += ' -SessionOption $($winRmSettings.PsSessionOptions)'
 			}
 
 			[bool] $credentialWasSpecified = ($null -ne $winRmSettings.Credential)

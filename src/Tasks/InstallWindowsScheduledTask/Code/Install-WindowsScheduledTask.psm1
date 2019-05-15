@@ -84,7 +84,7 @@ function Install-WindowsScheduledTask
 				$installTaskCommand += ' -ComputerName $($winRmSettings.Computers)'
 
 				# Only provide the SessionOption when connecting to remote computers, otherwise we get an ambiguous parameter set error.
-				$installTaskCommand += ' -SessionOption $(winRmSettings.PsSessionOptions)'
+				$installTaskCommand += ' -SessionOption $($winRmSettings.PsSessionOptions)'
 			}
 
 			[bool] $credentialWasSpecified = ($null -ne $winRmSettings.Credential)
