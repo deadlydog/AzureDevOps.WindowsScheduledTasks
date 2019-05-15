@@ -32,15 +32,15 @@ function Uninstall-WindowsScheduledTask
 	{
 		function Invoke-UninstallWindowsScheduledTaskFromComputers([hashtable] $scheduledTaskSettings, [hashtable] $winRmSettings)
 		{
-			[string] $uninstallTaskCommand = 'Invoke-Command -ScriptBlock $uninstallScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Authentication $($winRmSettings.AuthenticationMechanism) -Verbose'
+			[string] $uninstallTaskCommand = 'Invoke-Command -ScriptBlock $uninstallScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Verbose'
 
 			[bool] $computersWereSpecified = ($null -ne $winRmSettings.Computers -and $winRmSettings.Computers.Count -gt 0)
 			if ($computersWereSpecified)
 			{
 				$uninstallTaskCommand += ' -ComputerName $($winRmSettings.Computers)'
 
-				# Only provide the SessionOption when connecting to remote computers, otherwise we get an ambiguous parameter set error.
-				$uninstallTaskCommand += ' -SessionOption $($winRmSettings.PsSessionOptions)'
+				# Only provide the Authentication and SessionOption when connecting to remote computers, otherwise we get an ambiguous parameter set error.
+				$uninstallTaskCommand += ' -Authentication $($winRmSettings.AuthenticationMechanism) -SessionOption $($winRmSettings.PsSessionOptions)'
 			}
 
 			[bool] $credentialWasSpecified = ($null -ne $winRmSettings.Credential)

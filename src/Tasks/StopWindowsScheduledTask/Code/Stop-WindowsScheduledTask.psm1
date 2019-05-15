@@ -32,15 +32,15 @@ function Stop-WindowsScheduledTask
 	{
 		function Invoke-StopWindowsScheduledTaskFromComputers([hashtable] $scheduledTaskSettings, [hashtable] $winRmSettings)
 		{
-			[string] $stopTaskCommand = 'Invoke-Command -ScriptBlock $stopScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Authentication $($winRmSettings.AuthenticationMechanism) -Verbose'
+			[string] $stopTaskCommand = 'Invoke-Command -ScriptBlock $stopScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Verbose'
 
 			[bool] $computersWereSpecified = ($null -ne $winRmSettings.Computers -and $winRmSettings.Computers.Count -gt 0)
 			if ($computersWereSpecified)
 			{
 				$stopTaskCommand += ' -ComputerName $($winRmSettings.Computers)'
 
-				# Only provide the SessionOption when connecting to remote computers, otherwise we get an ambiguous parameter set error.
-				$stopTaskCommand += ' -SessionOption $($winRmSettings.PsSessionOptions)'
+				# Only provide the Authentication and SessionOption when connecting to remote computers, otherwise we get an ambiguous parameter set error.
+				$stopTaskCommand += ' -Authentication $($winRmSettings.AuthenticationMechanism) -SessionOption $($winRmSettings.PsSessionOptions)'
 			}
 
 			[bool] $credentialWasSpecified = ($null -ne $winRmSettings.Credential)

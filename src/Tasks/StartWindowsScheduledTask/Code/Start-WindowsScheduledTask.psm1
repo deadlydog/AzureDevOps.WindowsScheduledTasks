@@ -32,15 +32,15 @@ function Start-WindowsScheduledTask
 	{
 		function Invoke-StartWindowsScheduledTaskFromComputers([hashtable] $scheduledTaskSettings, [hashtable] $winRmSettings)
 		{
-			[string] $startTaskCommand = 'Invoke-Command -ScriptBlock $startScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Authentication $($winRmSettings.AuthenticationMechanism) -Verbose'
+			[string] $startTaskCommand = 'Invoke-Command -ScriptBlock $startScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Verbose'
 
 			[bool] $computersWereSpecified = ($null -ne $winRmSettings.Computers -and $winRmSettings.Computers.Count -gt 0)
 			if ($computersWereSpecified)
 			{
 				$startTaskCommand += ' -ComputerName $($winRmSettings.Computers)'
 
-				# Only provide the SessionOption when connecting to remote computers, otherwise we get an ambiguous parameter set error.
-				$startTaskCommand += ' -SessionOption $($winRmSettings.PsSessionOptions)'
+				# Only provide the Authentication and SessionOption when connecting to remote computers, otherwise we get an ambiguous parameter set error.
+				$startTaskCommand += ' -Authentication $($winRmSettings.AuthenticationMechanism) -SessionOption $($winRmSettings.PsSessionOptions)'
 			}
 
 			[bool] $credentialWasSpecified = ($null -ne $winRmSettings.Credential)
