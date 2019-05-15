@@ -5,7 +5,7 @@ This page is a list of *notable* changes made to the Windows Scheduled Tasks Azu
 ## May 15, 2019 - v2.0.0
 
 - feature: Allow all authentication types supported by WinRM; not just CredSSP.
-- UI breaking change: CredSSP checkbox was removed and replaced with a radio button of many authentication types.
+- UI breaking change: CredSSP checkbox was removed and replaced with a radio button of many authentication types, so had to update all task versions to v2.
 
 ## May 14, 2019 - v1.2.1
 
