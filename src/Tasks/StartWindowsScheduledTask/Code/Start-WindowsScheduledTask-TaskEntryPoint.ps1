@@ -13,8 +13,9 @@ param
 	[parameter(Mandatory=$false,HelpMessage="The password to use to connect to the computer(s).")]
 	[string] $Password,
 
-	[parameter(Mandatory=$false,HelpMessage="If CredSSP should be used when connecting to remote computers or not.")]
-	[string] $UseCredSspString,
+	[parameter(Mandatory = $false, HelpMessage = "The authentication mechanism to use when connecting to remote computers.")]
+	[ValidateSet('Default', 'Basic', 'CredSSP', 'Digest', 'Kerberos', 'Negotiate', 'NegotiateWithImplicitCredential')]
+	[string] $AuthenticationOptions,
 
 	[parameter(Mandatory = $false, HelpMessage = "The protocol to use when connecting to remote computers.")]
 	[ValidateSet('HTTP', 'HTTPS')]
@@ -34,7 +35,6 @@ Process
 {
 	Write-Verbose "Will attempt to start Windows Scheduled Task '$ScheduledTaskFullName' on '$ComputerNames'." -Verbose
 
-	[bool] $useCredSsp = Get-BoolValueFromString -string $UseCredSspString
 	[bool] $protocolSkipCaCheck = Get-BoolValueFromString -string $ProtocolSkipCaCheckString
 	[bool] $protocolSkipCnCheck = Get-BoolValueFromString -string $ProtocolSkipCnCheckString
 	[bool] $protocolSkipRevocationCheck = Get-BoolValueFromString -string $ProtocolSkipRevocationCheckString
@@ -43,7 +43,7 @@ Process
 	[PSCredential] $credential = Convert-UsernameAndPasswordToCredentialsOrNull -username $Username -password $Password
 	[hashtable] $taskNameAndPath = Get-ScheduledTaskNameAndPath -fullTaskName $ScheduledTaskFullName
 
-	[hashtable] $winRmSettings = Get-WinRmSettings -computers $computers -credential $credential -useCredSsp $useCredSsp -protocol $ProtocolOptions -skipCaCheck $protocolSkipCaCheck -skipCnCheck $protocolSkipCnCheck -skipRevocationCheck $protocolSkipRevocationCheck
+	[hashtable] $winRmSettings = Get-WinRmSettings -computers $computers -credential $credential -authenticationMechanism $AuthenticationOptions -protocol $ProtocolOptions -skipCaCheck $protocolSkipCaCheck -skipCnCheck $protocolSkipCnCheck -skipRevocationCheck $protocolSkipRevocationCheck
 
 	Start-WindowsScheduledTask -ScheduledTaskName $taskNameAndPath.Name -ScheduledTaskPath $taskNameAndPath.Path -WinRmSettings $winRmSettings -Verbose
 }

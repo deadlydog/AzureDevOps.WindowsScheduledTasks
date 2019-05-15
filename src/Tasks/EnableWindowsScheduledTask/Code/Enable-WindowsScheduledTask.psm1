@@ -39,19 +39,14 @@ function Enable-WindowsScheduledTask
 			{
 				$enableTaskCommand += ' -ComputerName $($winRmSettings.Computers)'
 
-				# Only provide the SessionOption when connecting to remote computers, otherwise we get an ambiguous parameter set error.
-				$enableTaskCommand += ' -SessionOption $($winRmSettings.PsSessionOptions)'
+				# Only provide the Authentication and SessionOption when connecting to remote computers, otherwise we get an ambiguous parameter set error.
+				$enableTaskCommand += ' -Authentication $($winRmSettings.AuthenticationMechanism) -SessionOption $($winRmSettings.PsSessionOptions)'
 			}
 
 			[bool] $credentialWasSpecified = ($null -ne $winRmSettings.Credential)
 			if ($credentialWasSpecified)
 			{
 				$enableTaskCommand += ' -Credential $($winRmSettings.Credential)'
-			}
-
-			if ($winRmSettings.UseCredSsp)
-			{
-				$enableTaskCommand += ' -Authentication Credssp'
 			}
 
 			Write-Debug "About to expand the string '$enableTaskCommand' to retrieve the expression in invoke."

@@ -12,7 +12,7 @@ Current build status: [![Build Status](https://dev.azure.com/deadlydog/OpenSourc
 - Enable, Disable, Start, Stop, and Uninstall a Windows Scheduled Task.
   - Supports wildcards for modifying many Schedules Tasks easily, or when you only know part of the Scheduled Task's name.
 - Multiple computers can be specified to easily run the task against all of them.
-- Supports connecting to remote computers via WinRM and optionally using [CredSSP][CredSspDocumentationUrl].
+- Supports connecting to remote computers via WinRM using many authentication options, such as [CredSSP][CredSspDocumentationUrl], as well as both HTTP and HTTPS.
 
 ## Requirements
 
@@ -27,13 +27,17 @@ If the Windows Scheduled Task is on a remote computer, it must also meet these r
 
 For more information, [read Microsoft's documentation][PowerShellRemotingRequirementsDocumentationUrl].
 
-### Connecting to a remote computer with CredSSP
+### Authentication options for connecting to a remote computer
+
+All authentication mechanisms supported by [the `Invoke-Command` PowerShell cmdlet][PowerShellInvokeCommandCmdletDocumentationUrl] are supported, such as Basic, CredSSP, Digest, Kerberos, Negotiate, and NegotiateWithImplicitCredential.
 
 If you are connecting to a remote computer and want to use CredSSP, it must have CredSSP enabled on it. You can do this by running the following command from an administrator PowerShell command prompt on the remote computer:
 
 ```PowerShell
 Enable-WSManCredSSP -Role Server -Force
 ```
+
+More information about the authentication types [can be found here][WinRmAuthenticationDocumentationUrl].
 
 ## Defining the Scheduled Task definition properties
 
@@ -96,6 +100,8 @@ Buy me some maple syrup for providing this extension open source and for free :)
 [ExtensionRatingAndReviewInAzureDevOpsMarketplaceUrl]: https://marketplace.visualstudio.com/items?itemName=deadlydog.WindowsScheduledTasksBuildAndReleaseTasks#review-details
 [PowerShellScheduledTasksDocumentationUrl]: https://docs.microsoft.com/en-us/powershell/module/scheduledtasks/?view=win10-ps
 [PowerShellExportScheduledTaskDocumentationUrl]: https://docs.microsoft.com/en-us/powershell/module/scheduledtasks/export-scheduledtask?view=win10-ps
+[PowerShellInvokeCommandCmdletDocumentationUrl]: https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/invoke-command?view=powershell-3.0
 [CredSspDocumentationUrl]: https://docs.microsoft.com/en-us/windows/desktop/secauthn/credential-security-support-provider
+[WinRmAuthenticationDocumentationUrl]: https://docs.microsoft.com/en-us/windows/desktop/winrm/authentication-for-remote-connections
 [PowerShellRemotingRequirementsDocumentationUrl]: https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_remote_requirements?view=powershell-6
 [ExportWindowsScheduledTaskScreenshotImage]: src/Images/ExportWindowsScheduledTaskScreenshot.png

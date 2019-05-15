@@ -583,7 +583,7 @@ Begin
 			ComputerNames = $scheduledTaskParameters.ComputerNames
 			Username = $scheduledTaskParameters.Username
 			Password = $scheduledTaskParameters.Password
-			UseCredSsp = $scheduledTaskParameters.UseCredSsp
+			AuthenticationOptions = $scheduledTaskParameters.AuthenticationOptions
 			ProtocolOptions = $scheduledTaskParameters.ProtocolOptions
 			ProtocolSkipCaCheckString = $scheduledTaskParameters.ProtocolSkipCaCheckString
 			ProtocolSkipCnCheckString = $scheduledTaskParameters.ProtocolSkipCnCheckString
@@ -600,7 +600,7 @@ Begin
 			ComputerNames = $scheduledTaskParameters.ComputerNames
 			Username = $scheduledTaskParameters.Username
 			Password = $scheduledTaskParameters.Password
-			UseCredSsp = $scheduledTaskParameters.UseCredSsp
+			AuthenticationOptions = $scheduledTaskParameters.AuthenticationOptions
 			ProtocolOptions = $scheduledTaskParameters.ProtocolOptions
 			ProtocolSkipCaCheckString = $scheduledTaskParameters.ProtocolSkipCaCheckString
 			ProtocolSkipCnCheckString = $scheduledTaskParameters.ProtocolSkipCnCheckString
@@ -617,7 +617,7 @@ Begin
 			ComputerNames = $scheduledTaskParameters.ComputerNames
 			Username = $scheduledTaskParameters.Username
 			Password = $scheduledTaskParameters.Password
-			UseCredSsp = $scheduledTaskParameters.UseCredSsp
+			AuthenticationOptions = $scheduledTaskParameters.AuthenticationOptions
 			ProtocolOptions = $scheduledTaskParameters.ProtocolOptions
 			ProtocolSkipCaCheckString = $scheduledTaskParameters.ProtocolSkipCaCheckString
 			ProtocolSkipCnCheckString = $scheduledTaskParameters.ProtocolSkipCnCheckString
@@ -634,7 +634,7 @@ Begin
 			ComputerNames = $scheduledTaskParameters.ComputerNames
 			Username = $scheduledTaskParameters.Username
 			Password = $scheduledTaskParameters.Password
-			UseCredSsp = $scheduledTaskParameters.UseCredSsp
+			AuthenticationOptions = $scheduledTaskParameters.AuthenticationOptions
 			ProtocolOptions = $scheduledTaskParameters.ProtocolOptions
 			ProtocolSkipCaCheckString = $scheduledTaskParameters.ProtocolSkipCaCheckString
 			ProtocolSkipCnCheckString = $scheduledTaskParameters.ProtocolSkipCnCheckString
@@ -651,7 +651,7 @@ Begin
 			ComputerNames = $scheduledTaskParameters.ComputerNames
 			Username = $scheduledTaskParameters.Username
 			Password = $scheduledTaskParameters.Password
-			UseCredSsp = $scheduledTaskParameters.UseCredSsp
+			AuthenticationOptions = $scheduledTaskParameters.AuthenticationOptions
 			ProtocolOptions = $scheduledTaskParameters.ProtocolOptions
 			ProtocolSkipCaCheckString = $scheduledTaskParameters.ProtocolSkipCaCheckString
 			ProtocolSkipCnCheckString = $scheduledTaskParameters.ProtocolSkipCnCheckString
@@ -667,7 +667,7 @@ Begin
 			ComputerNames = ''
 			Username = ''
 			Password = ''
-			UseCredSsp = 'false'
+			AuthenticationOptions = 'Default'
 			ProtocolOptions = 'HTTP'
 			ProtocolSkipCaCheckString = 'false'
 			ProtocolSkipCnCheckString = 'false'
@@ -854,7 +854,7 @@ Begin
 		ComputerNames = ''
 		Username = ''
 		Password = ''
-		UseCredSsp = 'false'
+		AuthenticationOptions = 'Default' # 'Default', 'Basic', 'CredSSP', 'Digest', 'Kerberos', 'Negotiate', 'NegotiateWithImplicitCredential'
 		ProtocolOptions = 'HTTP' # 'HTTP', 'HTTPS'
 		ProtocolSkipCaCheckString = 'false'
 		ProtocolSkipCnCheckString = 'false'
@@ -898,7 +898,7 @@ Begin
 		ComputerNames = ''
 		Username = ''
 		Password = ''
-		UseCredSsp = 'false'
+		AuthenticationOptions = 'Default' # 'Default', 'Basic', 'CredSSP', 'Digest', 'Kerberos', 'Negotiate', 'NegotiateWithImplicitCredential'
 		ProtocolOptions = 'HTTP' # 'HTTP', 'HTTPS'
 		ProtocolSkipCaCheckString = 'false'
 		ProtocolSkipCnCheckString = 'false'
@@ -942,7 +942,7 @@ Begin
 		ComputerNames = ''
 		Username = ''
 		Password = ''
-		UseCredSsp = 'false'
+		AuthenticationOptions = 'Default' # 'Default', 'Basic', 'CredSSP', 'Digest', 'Kerberos', 'Negotiate', 'NegotiateWithImplicitCredential'
 		ProtocolOptions = 'HTTP' # 'HTTP', 'HTTPS'
 		ProtocolSkipCaCheckString = 'false'
 		ProtocolSkipCnCheckString = 'false'
@@ -986,7 +986,7 @@ Begin
 		ComputerNames = ''
 		Username = ''
 		Password = ''
-		UseCredSsp = 'false'
+		AuthenticationOptions = 'Default' # 'Default', 'Basic', 'CredSSP', 'Digest', 'Kerberos', 'Negotiate', 'NegotiateWithImplicitCredential'
 		ProtocolOptions = 'HTTP' # 'HTTP', 'HTTPS'
 		ProtocolSkipCaCheckString = 'false'
 		ProtocolSkipCnCheckString = 'false'
@@ -1080,7 +1080,7 @@ Begin
 		ComputerNames = ''
 		Username = ''
 		Password = ''
-		UseCredSsp = 'false'
+		AuthenticationOptions = 'Default' # 'Default', 'Basic', 'CredSSP', 'Digest', 'Kerberos', 'Negotiate', 'NegotiateWithImplicitCredential'
 		ProtocolOptions = 'HTTP' # 'HTTP', 'HTTPS'
 		ProtocolSkipCaCheckString = 'false'
 		ProtocolSkipCnCheckString = 'false'
@@ -1124,7 +1124,7 @@ Begin
 		ComputerNames = ''
 		Username = ''
 		Password = ''
-		UseCredSsp = 'false'
+		AuthenticationOptions = 'Default' # 'Default', 'Basic', 'CredSSP', 'Digest', 'Kerberos', 'Negotiate', 'NegotiateWithImplicitCredential'
 		ProtocolOptions = 'HTTP' # 'HTTP', 'HTTPS'
 		ProtocolSkipCaCheckString = 'false'
 		ProtocolSkipCnCheckString = 'false'
@@ -1168,7 +1168,7 @@ Begin
 		ComputerNames = ''
 		Username = ''
 		Password = ''
-		UseCredSsp = 'false'
+		AuthenticationOptions = 'Default' # 'Default', 'Basic', 'CredSSP', 'Digest', 'Kerberos', 'Negotiate', 'NegotiateWithImplicitCredential'
 		ProtocolOptions = 'HTTP' # 'HTTP', 'HTTPS'
 		ProtocolSkipCaCheckString = 'false'
 		ProtocolSkipCnCheckString = 'false'
@@ -1262,7 +1262,7 @@ Begin
 		ComputerNames = ''
 		Username = ''
 		Password = ''
-		UseCredSsp = 'false'
+		AuthenticationOptions = 'Default' # 'Default', 'Basic', 'CredSSP', 'Digest', 'Kerberos', 'Negotiate', 'NegotiateWithImplicitCredential'
 		ProtocolOptions = 'HTTP' # 'HTTP', 'HTTPS'
 		ProtocolSkipCaCheckString = 'false'
 		ProtocolSkipCnCheckString = 'false'
@@ -1311,7 +1311,7 @@ Begin
 		ComputerNames = ''
 		Username = ''
 		Password = ''
-		UseCredSsp = 'false'
+		AuthenticationOptions = 'Default' # 'Default', 'Basic', 'CredSSP', 'Digest', 'Kerberos', 'Negotiate', 'NegotiateWithImplicitCredential'
 		ProtocolOptions = 'HTTP' # 'HTTP', 'HTTPS'
 		ProtocolSkipCaCheckString = 'false'
 		ProtocolSkipCnCheckString = 'false'
@@ -1355,7 +1355,7 @@ Begin
 		ComputerNames = ''
 		Username = ''
 		Password = ''
-		UseCredSsp = 'false'
+		AuthenticationOptions = 'Default' # 'Default', 'Basic', 'CredSSP', 'Digest', 'Kerberos', 'Negotiate', 'NegotiateWithImplicitCredential'
 		ProtocolOptions = 'HTTP' # 'HTTP', 'HTTPS'
 		ProtocolSkipCaCheckString = 'false'
 		ProtocolSkipCnCheckString = 'false'
@@ -1399,7 +1399,7 @@ Begin
 		ComputerNames = ''
 		Username = ''
 		Password = ''
-		UseCredSsp = 'false'
+		AuthenticationOptions = 'Default' # 'Default', 'Basic', 'CredSSP', 'Digest', 'Kerberos', 'Negotiate', 'NegotiateWithImplicitCredential'
 		ProtocolOptions = 'HTTP' # 'HTTP', 'HTTPS'
 		ProtocolSkipCaCheckString = 'false'
 		ProtocolSkipCnCheckString = 'false'
@@ -1442,7 +1442,7 @@ Begin
 		ComputerNames = ''
 		Username = ''
 		Password = ''
-		UseCredSsp = 'false'
+		AuthenticationOptions = 'Default' # 'Default', 'Basic', 'CredSSP', 'Digest', 'Kerberos', 'Negotiate', 'NegotiateWithImplicitCredential'
 		ProtocolOptions = 'HTTP' # 'HTTP', 'HTTPS'
 		ProtocolSkipCaCheckString = 'false'
 		ProtocolSkipCnCheckString = 'false'
@@ -1485,7 +1485,7 @@ Begin
 		ComputerNames = ''
 		Username = ''
 		Password = ''
-		UseCredSsp = 'false'
+		AuthenticationOptions = 'Default' # 'Default', 'Basic', 'CredSSP', 'Digest', 'Kerberos', 'Negotiate', 'NegotiateWithImplicitCredential'
 		ProtocolOptions = 'HTTP' # 'HTTP', 'HTTPS'
 		ProtocolSkipCaCheckString = 'false'
 		ProtocolSkipCnCheckString = 'false'
@@ -1528,7 +1528,7 @@ Begin
 		ComputerNames = ''
 		Username = ''
 		Password = ''
-		UseCredSsp = 'false'
+		AuthenticationOptions = 'Default' # 'Default', 'Basic', 'CredSSP', 'Digest', 'Kerberos', 'Negotiate', 'NegotiateWithImplicitCredential'
 		ProtocolOptions = 'HTTP' # 'HTTP', 'HTTPS'
 		ProtocolSkipCaCheckString = 'false'
 		ProtocolSkipCnCheckString = 'false'
@@ -1571,7 +1571,7 @@ Begin
 		ComputerNames = ''
 		Username = ''
 		Password = ''
-		UseCredSsp = 'false'
+		AuthenticationOptions = 'Default' # 'Default', 'Basic', 'CredSSP', 'Digest', 'Kerberos', 'Negotiate', 'NegotiateWithImplicitCredential'
 		ProtocolOptions = 'HTTP' # 'HTTP', 'HTTPS'
 		ProtocolSkipCaCheckString = 'false'
 		ProtocolSkipCnCheckString = 'false'
@@ -1614,7 +1614,7 @@ Begin
 		ComputerNames = ''
 		Username = ''
 		Password = ''
-		UseCredSsp = 'false'
+		AuthenticationOptions = 'Default' # 'Default', 'Basic', 'CredSSP', 'Digest', 'Kerberos', 'Negotiate', 'NegotiateWithImplicitCredential'
 		ProtocolOptions = 'HTTP' # 'HTTP', 'HTTPS'
 		ProtocolSkipCaCheckString = 'false'
 		ProtocolSkipCnCheckString = 'false'
@@ -1657,7 +1657,7 @@ Begin
 		ComputerNames = ''
 		Username = ''
 		Password = ''
-		UseCredSsp = 'false'
+		AuthenticationOptions = 'Default' # 'Default', 'Basic', 'CredSSP', 'Digest', 'Kerberos', 'Negotiate', 'NegotiateWithImplicitCredential'
 		ProtocolOptions = 'HTTP' # 'HTTP', 'HTTPS'
 		ProtocolSkipCaCheckString = 'false'
 		ProtocolSkipCnCheckString = 'false'
@@ -1700,7 +1700,7 @@ Begin
 		ComputerNames = ''
 		Username = ''
 		Password = ''
-		UseCredSsp = 'false'
+		AuthenticationOptions = 'Default' # 'Default', 'Basic', 'CredSSP', 'Digest', 'Kerberos', 'Negotiate', 'NegotiateWithImplicitCredential'
 		ProtocolOptions = 'HTTP' # 'HTTP', 'HTTPS'
 		ProtocolSkipCaCheckString = 'false'
 		ProtocolSkipCnCheckString = 'false'
@@ -1743,7 +1743,7 @@ Begin
 		ComputerNames = ''
 		Username = ''
 		Password = ''
-		UseCredSsp = 'false'
+		AuthenticationOptions = 'Default' # 'Default', 'Basic', 'CredSSP', 'Digest', 'Kerberos', 'Negotiate', 'NegotiateWithImplicitCredential'
 		ProtocolOptions = 'HTTP' # 'HTTP', 'HTTPS'
 		ProtocolSkipCaCheckString = 'false'
 		ProtocolSkipCnCheckString = 'false'
