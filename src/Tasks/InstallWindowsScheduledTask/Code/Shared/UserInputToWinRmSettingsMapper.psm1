@@ -7,7 +7,9 @@ function Get-WinRmSettings
 	(
 		[string[]] $computers,
 		[PSCredential] $credential,
-		[bool] $useCredSsp,
+
+		[ValidateSet('Default', 'Basic', 'CredSSP', 'Digest', 'Kerberos', 'Negotiate', 'NegotiateWithImplicitCredential')]
+		[string] $authenticationMechanism,
 
 		[ValidateSet('HTTP', 'HTTPS')]
 		[string] $protocol,
@@ -28,7 +30,7 @@ function Get-WinRmSettings
 	[hashtable] $winRmSettings = @{
 		Computers = $computers
 		Credential = $credential
-		UseCredSsp = $useCredSsp
+		AuthenticationMechanism = $authenticationMechanism
 		UseSsl = $useSsl
 		PsSessionOptions = $psSessionOptions
 	}
