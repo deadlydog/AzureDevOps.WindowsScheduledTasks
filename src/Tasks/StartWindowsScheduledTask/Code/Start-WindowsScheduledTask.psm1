@@ -49,6 +49,11 @@ function Start-WindowsScheduledTask
 				$startTaskCommand += ' -Credential $($winRmSettings.Credential)'
 			}
 
+			if ($winRmSettings.UseSsl)
+			{
+				$startTaskCommand += ' -UseSSL'
+			}
+
 			Write-Debug "About to expand the string '$startTaskCommand' to retrieve the expression in invoke."
 			[string] $startTaskCommandWithVariablesExpanded = $ExecutionContext.InvokeCommand.ExpandString($startTaskCommand)
 

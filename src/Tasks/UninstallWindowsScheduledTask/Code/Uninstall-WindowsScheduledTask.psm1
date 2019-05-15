@@ -49,6 +49,11 @@ function Uninstall-WindowsScheduledTask
 				$uninstallTaskCommand += ' -Credential $($winRmSettings.Credential)'
 			}
 
+			if ($winRmSettings.UseSsl)
+			{
+				$uninstallTaskCommand += ' -UseSSL'
+			}
+
 			Write-Debug "About to expand the string '$uninstallTaskCommand' to retrieve the expression in invoke."
 			[string] $uninstallTaskCommandWithVariablesExpanded = $ExecutionContext.InvokeCommand.ExpandString($uninstallTaskCommand)
 

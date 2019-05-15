@@ -49,6 +49,11 @@ function Stop-WindowsScheduledTask
 				$stopTaskCommand += ' -Credential $($winRmSettings.Credential)'
 			}
 
+			if ($winRmSettings.UseSsl)
+			{
+				$stopTaskCommand += ' -UseSSL'
+			}
+
 			Write-Debug "About to expand the string '$stopTaskCommand' to retrieve the expression in invoke."
 			[string] $stopTaskCommandWithVariablesExpanded = $ExecutionContext.InvokeCommand.ExpandString($stopTaskCommand)
 

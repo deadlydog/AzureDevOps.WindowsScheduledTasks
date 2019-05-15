@@ -49,6 +49,11 @@ function Enable-WindowsScheduledTask
 				$enableTaskCommand += ' -Credential $($winRmSettings.Credential)'
 			}
 
+			if ($winRmSettings.UseSsl)
+			{
+				$enableTaskCommand += ' -UseSSL'
+			}
+
 			Write-Debug "About to expand the string '$enableTaskCommand' to retrieve the expression in invoke."
 			[string] $enableTaskCommandWithVariablesExpanded = $ExecutionContext.InvokeCommand.ExpandString($enableTaskCommand)
 
