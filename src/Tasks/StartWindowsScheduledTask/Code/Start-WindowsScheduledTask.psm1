@@ -32,7 +32,7 @@ function Start-WindowsScheduledTask
 	{
 		function Invoke-StartWindowsScheduledTaskFromComputers([hashtable] $scheduledTaskSettings, [hashtable] $winRmSettings)
 		{
-			[string] $startTaskCommand = 'Invoke-Command -ScriptBlock $startScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Verbose'
+			[string] $startTaskCommand = 'Invoke-Command -ScriptBlock $startScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Authentication $($winRmSettings.AuthenticationMechanism) -Verbose'
 
 			[bool] $computersWereSpecified = ($null -ne $winRmSettings.Computers -and $winRmSettings.Computers.Count -gt 0)
 			if ($computersWereSpecified)
@@ -47,11 +47,6 @@ function Start-WindowsScheduledTask
 			if ($credentialWasSpecified)
 			{
 				$startTaskCommand += ' -Credential $($winRmSettings.Credential)'
-			}
-
-			if ($winRmSettings.UseCredSsp)
-			{
-				$startTaskCommand += ' -Authentication Credssp'
 			}
 
 			Write-Debug "About to expand the string '$startTaskCommand' to retrieve the expression in invoke."

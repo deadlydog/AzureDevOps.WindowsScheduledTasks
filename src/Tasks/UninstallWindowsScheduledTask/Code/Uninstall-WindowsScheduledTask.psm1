@@ -32,7 +32,7 @@ function Uninstall-WindowsScheduledTask
 	{
 		function Invoke-UninstallWindowsScheduledTaskFromComputers([hashtable] $scheduledTaskSettings, [hashtable] $winRmSettings)
 		{
-			[string] $uninstallTaskCommand = 'Invoke-Command -ScriptBlock $uninstallScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Verbose'
+			[string] $uninstallTaskCommand = 'Invoke-Command -ScriptBlock $uninstallScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Authentication $($winRmSettings.AuthenticationMechanism) -Verbose'
 
 			[bool] $computersWereSpecified = ($null -ne $winRmSettings.Computers -and $winRmSettings.Computers.Count -gt 0)
 			if ($computersWereSpecified)
@@ -47,11 +47,6 @@ function Uninstall-WindowsScheduledTask
 			if ($credentialWasSpecified)
 			{
 				$uninstallTaskCommand += ' -Credential $($winRmSettings.Credential)'
-			}
-
-			if ($winRmSettings.UseCredSsp)
-			{
-				$uninstallTaskCommand += ' -Authentication Credssp'
 			}
 
 			Write-Debug "About to expand the string '$uninstallTaskCommand' to retrieve the expression in invoke."

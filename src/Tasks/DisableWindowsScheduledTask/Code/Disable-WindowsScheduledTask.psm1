@@ -32,7 +32,7 @@ function Disable-WindowsScheduledTask
 	{
 		function Invoke-DisableWindowsScheduledTaskFromComputers([hashtable] $scheduledTaskSettings, [hashtable] $winRmSettings)
 		{
-			[string] $disableTaskCommand = 'Invoke-Command -ScriptBlock $disableScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Verbose'
+			[string] $disableTaskCommand = 'Invoke-Command -ScriptBlock $disableScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Authentication $($winRmSettings.AuthenticationMechanism) -Verbose'
 
 			[bool] $computersWereSpecified = ($null -ne $winRmSettings.Computers -and $winRmSettings.Computers.Count -gt 0)
 			if ($computersWereSpecified)
@@ -47,11 +47,6 @@ function Disable-WindowsScheduledTask
 			if ($credentialWasSpecified)
 			{
 				$disableTaskCommand += ' -Credential $($winRmSettings.Credential)'
-			}
-
-			if ($winRmSettings.UseCredSsp)
-			{
-				$disableTaskCommand += ' -Authentication Credssp'
 			}
 
 			if ($winRmSettings.UseSsl)

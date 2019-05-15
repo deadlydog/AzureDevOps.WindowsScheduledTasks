@@ -76,7 +76,7 @@ function Install-WindowsScheduledTask
 
 		function Invoke-InstallWindowsScheduledTaskOnComputers([hashtable] $scheduledTaskSettings, [hashtable] $winRmSettings)
 		{
-			[string] $installTaskCommand = 'Invoke-Command -ScriptBlock $installScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Verbose'
+			[string] $installTaskCommand = 'Invoke-Command -ScriptBlock $installScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Authentication $($winRmSettings.AuthenticationMechanism) -Verbose'
 
 			[bool] $computersWereSpecified = ($null -ne $winRmSettings.Computers -and $winRmSettings.Computers.Count -gt 0)
 			if ($computersWereSpecified)
@@ -91,11 +91,6 @@ function Install-WindowsScheduledTask
 			if ($credentialWasSpecified)
 			{
 				$installTaskCommand += ' -Credential $($winRmSettings.Credential)'
-			}
-
-			if ($winRmSettings.UseCredSsp)
-			{
-				$installTaskCommand += ' -Authentication Credssp'
 			}
 
 			Write-Debug "About to expand the string '$installTaskCommand' to retrieve the expression in invoke."

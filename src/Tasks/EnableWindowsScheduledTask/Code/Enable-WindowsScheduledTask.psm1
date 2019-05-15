@@ -32,7 +32,7 @@ function Enable-WindowsScheduledTask
 	{
 		function Invoke-EnableWindowsScheduledTaskFromComputers([hashtable] $scheduledTaskSettings, [hashtable] $winRmSettings)
 		{
-			[string] $enableTaskCommand = 'Invoke-Command -ScriptBlock $enableScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Verbose'
+			[string] $enableTaskCommand = 'Invoke-Command -ScriptBlock $enableScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Authentication $($winRmSettings.AuthenticationMechanism) -Verbose'
 
 			[bool] $computersWereSpecified = ($null -ne $winRmSettings.Computers -and $winRmSettings.Computers.Count -gt 0)
 			if ($computersWereSpecified)
@@ -47,11 +47,6 @@ function Enable-WindowsScheduledTask
 			if ($credentialWasSpecified)
 			{
 				$enableTaskCommand += ' -Credential $($winRmSettings.Credential)'
-			}
-
-			if ($winRmSettings.UseCredSsp)
-			{
-				$enableTaskCommand += ' -Authentication Credssp'
 			}
 
 			Write-Debug "About to expand the string '$enableTaskCommand' to retrieve the expression in invoke."

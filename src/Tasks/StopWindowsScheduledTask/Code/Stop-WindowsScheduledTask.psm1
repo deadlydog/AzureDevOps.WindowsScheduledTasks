@@ -32,7 +32,7 @@ function Stop-WindowsScheduledTask
 	{
 		function Invoke-StopWindowsScheduledTaskFromComputers([hashtable] $scheduledTaskSettings, [hashtable] $winRmSettings)
 		{
-			[string] $stopTaskCommand = 'Invoke-Command -ScriptBlock $stopScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Verbose'
+			[string] $stopTaskCommand = 'Invoke-Command -ScriptBlock $stopScheduledTaskScriptBlock -ArgumentList $scheduledTaskSettings -Authentication $($winRmSettings.AuthenticationMechanism) -Verbose'
 
 			[bool] $computersWereSpecified = ($null -ne $winRmSettings.Computers -and $winRmSettings.Computers.Count -gt 0)
 			if ($computersWereSpecified)
@@ -47,11 +47,6 @@ function Stop-WindowsScheduledTask
 			if ($credentialWasSpecified)
 			{
 				$stopTaskCommand += ' -Credential $($winRmSettings.Credential)'
-			}
-
-			if ($winRmSettings.UseCredSsp)
-			{
-				$stopTaskCommand += ' -Authentication Credssp'
 			}
 
 			Write-Debug "About to expand the string '$stopTaskCommand' to retrieve the expression in invoke."
