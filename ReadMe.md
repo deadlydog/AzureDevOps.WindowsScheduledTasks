@@ -85,7 +85,6 @@ Under the hood this extension uses the [PowerShell ScheduledTasks cmdlets][Power
 ### Additional ideas to implement
 
 - Add option to specify if "Can't find task with the given path and name" should be treated as a warning or an error.
-- Add option to allow using SSL to connect to remote servers.
 
 ## Donate
 
