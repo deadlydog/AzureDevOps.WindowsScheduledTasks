@@ -73,7 +73,7 @@ function Disable-WindowsScheduledTask
 			[string] $taskPath = $scheduledTaskSettings.ScheduledTaskPath
 
 			Write-Verbose "Searching for a Scheduled Task with the path '$taskPath' and name '$taskName'." -Verbose
-			$tasks = Get-ScheduledTask -TaskName $taskName -TaskPath $taskPath -ErrorAction SilentlyContinue
+			$tasks = ScheduledTasks\Get-ScheduledTask -TaskName $taskName -TaskPath $taskPath -ErrorAction SilentlyContinue
 			if ($null -eq $tasks)
 			{
 				[string] $taskPathAndName = $taskPath + $taskName
