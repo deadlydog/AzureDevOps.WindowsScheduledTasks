@@ -2,6 +2,10 @@
 
 This page is a list of *notable* changes made to the Windows Scheduled Tasks Azure DevOps extension.
 
+## November 26, 2019 - v2.0.7
+
+- fix: Use fully qualified name for `Get-ScheduledTask` to avoid conflicting with the `Carbon` module on the target servers if it's installed.
+
 ## May 15, 2019 - v2.0.0
 
 - feature: Allow all authentication types supported by WinRM; not just CredSSP.
