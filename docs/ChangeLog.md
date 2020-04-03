@@ -2,6 +2,10 @@
 
 This page is a list of *notable* changes made to the Windows Scheduled Tasks Azure DevOps extension.
 
+## April 3, 2020 - v2.0.9
+
+- fix: Make minimum required PowerShell version 4.0 explicit.
+
 ## November 26, 2019 - v2.0.7
 
 - fix: Use fully qualified name for `Get-ScheduledTask` to avoid conflicting with the `Carbon` module on the target servers if it's installed.
