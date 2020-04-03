@@ -16,6 +16,7 @@ This [Azure DevOps (i.e. TFS) extension][ExtensionInAzureDevOpsMarketplaceUrl] p
 The computer that will be hosting the Windows Scheduled Task must meet the following minimum requirements:
 
 - Be running Windows 8 or Windows Server 2012 or higher ([the PowerShell cmdlets used by this task][PowerShellScheduledTasksDocumentationUrl] were introduced in these versions).
+- Be running PowerShell 4.0 or greater.
 
 If the Windows Scheduled Task is on a remote computer, it must also meet these requirements:
 
