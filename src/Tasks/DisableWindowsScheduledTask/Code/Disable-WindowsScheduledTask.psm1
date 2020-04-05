@@ -1,5 +1,5 @@
-#Requires -Version 4.0
-#Requires -RunAsAdministrator
+#Requires -Version 3.0
+# Requires -RunAsAdministrator # Commented out because this directive was introduced in PowerShell v4 and we want to be compatible with v3.
 
 function Disable-WindowsScheduledTask
 {

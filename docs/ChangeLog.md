@@ -2,9 +2,9 @@
 
 This page is a list of *notable* changes made to the Windows Scheduled Tasks Azure DevOps extension.
 
-## April 3, 2020 - v2.0.9
+## April 3, 2020 - v2.0.10
 
-- fix: Make minimum required PowerShell version 4.0 explicit.
+- fix: Make the extension compatible with PowerShell v3.
 
 ## November 26, 2019 - v2.0.7
 

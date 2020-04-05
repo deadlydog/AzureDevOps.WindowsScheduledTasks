@@ -15,7 +15,8 @@ This [Azure DevOps (i.e. TFS) extension][ExtensionInAzureDevOpsMarketplaceUrl] p
 
 The computer running the Azure DevOps agent must meet the following minimum requirements:
 
-- Be running PowerShell 4.0 or greater.
+- Be running PowerShell 3 or greater.
+- The user that the Azure DevOps agent runs as must be an admin on the computer the Scheduled Task is being installed on.
 
 The computer that will be hosting the Windows Scheduled Task must meet the following minimum requirements:
 
