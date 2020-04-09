@@ -71,7 +71,7 @@ If your Scheduled Task already exists in the Windows `Task Scheduler`, simply ri
 
 ![Export Windows Scheduled Task screenshot][ExportWindowsScheduledTaskScreenshotImage]
 
-If your Scheduled Task does not already exist, create a new Scheduled Task in the Windows `Task Scheduler`, configure it the way you want, test it (if possible), and the export the XML file.
+If your Scheduled Task does not already exist, create a new Scheduled Task in the Windows `Task Scheduler`, configure it the way you want, test it (if possible), and then export the XML file.
 
 If you prefer, you can also export the Scheduled Task via [the `Export-ScheduledTask` PowerShell cmdlet][PowerShellExportScheduledTaskDocumentationUrl].
 
@@ -81,7 +81,7 @@ Ratings and feedback are very much appreciated. If you have a spare moment, plea
 
 If you encounter problems or would like to request new features, please do so on [the GitHub issues page][ExtensionGitHubRepositoryIssuesUrl], as it facilitates discussions much better than the marketplace Q&A and Rating/Review pages.
 
-You can also [view the change log here][ExtensionChangeLogUrl].
+You can [view the change log here][ExtensionChangeLogUrl].
 
 ### Implementation
 
