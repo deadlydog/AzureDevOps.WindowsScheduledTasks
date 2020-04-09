@@ -163,25 +163,47 @@ function Get-ScheduledTaskTrigger
 
 	if (!([string]::IsNullOrWhiteSpace($scheduleStartTimeRandomDelayInMinutes)))
 	{
-		ConvertMinutesToTimeSpanAndAddParameterToExpression -expression $createTriggerExpression -parameterName 'RandomDelay' -minutes $scheduleStartTimeRandomDelayInMinutes
+		# Add random delay parameter to the command string
+		$createTriggerExpression += ConvertMinutesToTimeSpanAndParameter -parameterName 'RandomDelay' -minutes $scheduleStartTimeRandomDelayInMinutes
 	}
 
+	# Create the trigger object
+	$scheduledTaskTrigger = Invoke-Expression -Command $createTriggerExpression
+
+	# Repetition patterns are only supported on New-ScheduledTaskTrigger when the -At is -Once
+	# However, MSFT Task Scheduler supports them on all types of schedule
+	# To get around this, we create the trigger first, then create a TaskRepetitionPattern object
+	# and assign it to the Repetition property of the trigger
 	if ($shouldScheduledTaskRunRepeatedly)
 	{
-		ConvertMinutesToTimeSpanAndAddParameterToExpression -expression $createTriggerExpression -parameterName 'RepetitionInterval' -minutes $scheduleRepetitionIntervalInMinutes
-		ConvertMinutesToTimeSpanAndAddParameterToExpression -expression $createTriggerExpression -parameterName 'RepetitionDuration' -minutes $scheduleRepetitionDurationInMinutes
-	}
+		$class = Get-CimClass MSFT_TaskRepetitionPattern root/Microsoft/Windows/TaskScheduler
+		$repeater = $class | New-CimInstance -ClientOnly
 
-	[CimInstance[]] $scheduledTaskTrigger = Invoke-Expression -Command $createTriggerExpression
-	return $scheduledTaskTrigger
+		$scheduledTaskTrigger.Repetition = $repeater
+
+		$duration = ConvertMinutesToTimeSpan -minutes $scheduleRepetitionDurationInMinutes
+		$interval = ConvertMinutesToTimeSpan -minutes $scheduleRepetitionIntervalInMinutes
+
+		$scheduledTaskTrigger.Repetition.Duration = [System.Xml.XmlConvert]::ToString($duration)
+		$scheduledTaskTrigger.Repetition.Interval = [System.Xml.XmlConvert]::ToString($interval)
+	}
+	
+	return [CimInstance[]] $scheduledTaskTrigger
 }
 
-function ConvertMinutesToTimeSpanAndAddParameterToExpression([string] $expression, [string] $parameterName, [string] $minutes)
+function ConvertMinutesToTimeSpan([string] $minutes)
+{
+	[double] $minutesAsDouble = [double]::Parse($minutes)
+	[timespan] $minutesAsTimeSpan = [timespan]::FromMinutes($minutesAsDouble)
+	Write-Output $minutesAsTimeSpan
+}
+
+function ConvertMinutesToTimeSpanAndParameter([string] $parameterName, [string] $minutes)
 {
 	[double] $minutesAsDouble = [double]::Parse($minutes)
 	[timespan] $minutesAsTimeSpan = [timespan]::FromMinutes($minutesAsDouble)
 	[string] $minutesTimeSpanAsString = $minutesAsTimeSpan.ToString()
-	$expression += " -$parameterName $minutesTimeSpanAsString"
+	Write-Output " -$parameterName $minutesTimeSpanAsString"
 }
 
 function Get-ScheduledTaskSettings([bool] $shouldBeEnabled)
