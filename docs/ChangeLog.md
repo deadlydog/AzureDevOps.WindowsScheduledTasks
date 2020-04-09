@@ -2,6 +2,10 @@
 
 This page is a list of *notable* changes made to the Windows Scheduled Tasks Azure DevOps extension.
 
+## April 8, 2020 - v2.0.11
+
+- fix: Fix repetition and random delay parameters to work when using Inline Scheduled Task settings.
+
 ## April 3, 2020 - v2.0.10
 
 - fix: Make the extension compatible with PowerShell v3.
