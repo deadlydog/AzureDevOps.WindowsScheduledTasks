@@ -48,20 +48,20 @@ More information about the authentication types [can be found here][WinRmAuthent
 
 When installing a Scheduled Task, you have a few different options for how to define the Scheduled Task properties.
 
-Reasons you may want to define all of the properties `Inline` in the Build/Release task:
+1. Reasons you may want to use an `XML file` _(recommended best practice)_:
 
-- Convenience and ease of use; no need to generate XML.
-- No need to include an XML file in your source control or build artifacts for the deployment to use.
+   - Not all Scheduled Task properties can be specified inline. If you want to configure properties that are not available inline, you _must_ use XML.
+   - Using an XML file allows you to have the Scheduled Task definition committed to source control alongside your code so you can track changes to it.
 
-Reasons you may want to use `Inline XML`:
+1. Reasons you may want to use `Inline XML`:
 
-- Not all Scheduled Task properties can be specified inline. If you want to configure properties that are not available inline, you _must_ use XML.
-- No need to include an XML file in your source control or build artifacts for the deployment to use.
+   - Not all Scheduled Task properties can be specified inline. If you want to configure properties that are not available inline, you _must_ use XML.
+   - No need to include an XML file in your source control or build artifacts for the deployment to use.
 
-Reasons you may want to use an `XML file`:
+1. Reasons you may want to define all of the properties `Inline` in the Build/Release task:
 
-- Not all Scheduled Task properties can be specified inline. If you want to configure properties that are not available inline, you _must_ use XML.
-- Using an XML file allows you to have the Scheduled Task definition committed to source control alongside your code so you can track changes to it.
+   - Convenience and ease of use; no need to generate XML.
+   - No need to include an XML file in your source control or build artifacts for the deployment to use.
 
 When using XML you will still need to specify the `Scheduled Task Name` and `User To Run As`.
 
