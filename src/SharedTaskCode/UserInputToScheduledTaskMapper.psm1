@@ -175,16 +175,19 @@ function Get-ScheduledTaskTrigger
 	# and assign it to the Repetition property of the trigger.
 	if ($shouldScheduledTaskRunRepeatedly)
 	{
-		$class = Get-CimClass MSFT_TaskRepetitionPattern root/Microsoft/Windows/TaskScheduler
-		$repeater = $class | New-CimInstance -ClientOnly
+		$scheduledTaskTrigger | ForEach-Object {
+			[CimInstance] $trigger = $_
 
-		$scheduledTaskTrigger.Repetition = $repeater
+			$class = Get-CimClass MSFT_TaskRepetitionPattern root/Microsoft/Windows/TaskScheduler
+			$repeater = $class | New-CimInstance -ClientOnly
 
-		[TimeSpan] $interval = Convert-MinutesToTimeSpan -minutes $scheduleRepetitionIntervalInMinutes
-		[TimeSpan] $duration = Convert-MinutesToTimeSpan -minutes $scheduleRepetitionDurationInMinutes
+			[TimeSpan] $interval = Convert-MinutesToTimeSpan -minutes $scheduleRepetitionIntervalInMinutes
+			[TimeSpan] $duration = Convert-MinutesToTimeSpan -minutes $scheduleRepetitionDurationInMinutes
 
-		$scheduledTaskTrigger.Repetition.Interval = [System.Xml.XmlConvert]::ToString($interval)
-		$scheduledTaskTrigger.Repetition.Duration = [System.Xml.XmlConvert]::ToString($duration)
+			$trigger.Repetition = $repeater
+			$trigger.Repetition.Interval = [System.Xml.XmlConvert]::ToString($interval)
+			$trigger.Repetition.Duration = [System.Xml.XmlConvert]::ToString($duration)
+		}
 	}
 
 	return $scheduledTaskTrigger
