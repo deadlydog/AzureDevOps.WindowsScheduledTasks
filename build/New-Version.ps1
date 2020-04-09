@@ -9,6 +9,8 @@ Process
 		Join-Path -Path $srcDirectoryPath -ChildPath 'Tasks\UninstallWindowsScheduledTask\task.json'
 		Join-Path -Path $srcDirectoryPath -ChildPath 'Tasks\EnableWindowsScheduledTask\task.json'
 		Join-Path -Path $srcDirectoryPath -ChildPath 'Tasks\DisableWindowsScheduledTask\task.json'
+		Join-Path -Path $srcDirectoryPath -ChildPath 'Tasks\StartWindowsScheduledTask\task.json'
+		Join-Path -Path $srcDirectoryPath -ChildPath 'Tasks\StopWindowsScheduledTask\task.json'
 	)
 
 	Confirm-RequiredFilesExist -extensionJsonFilePath $extensionJsonFilePath -taskJsonFilePaths $taskJsonFilePaths
