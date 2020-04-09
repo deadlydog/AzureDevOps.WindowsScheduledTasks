@@ -379,6 +379,28 @@ Describe 'Get-ScheduledTaskTrigger' {
 				scheduleStartTimeRandomDelayInMinutes = ''
 				expectExceptionToBeThrown = $true
 			}
+			@{	testDescription = 'When all parameters are provided with valid values for a Daily frequency with a repetition, it should not throw an exception.'
+				triggerType = 'DateTime'
+				dateTimeScheduleStartTime = $validDateTimeStartTime
+				dateTimeScheduleFrequencyOptions = 'Daily'
+				dateTimeScheduleFrequencyDailyInterval = '1'
+				dateTimeScheduleFrequencyWeeklyInterval = ''
+				shouldDateTimeScheduleFrequencyWeeklyRunOnMondays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnThursdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnFridays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnSundays = $false;
+				shouldScheduledTaskRunRepeatedly = $true; scheduleRepetitionIntervalInMinutes = '30'; scheduleRepetitionDurationInMinutes = '1440' # Keep repeating for a full day
+				scheduleStartTimeRandomDelayInMinutes = ''
+				expectExceptionToBeThrown = $false
+			}
+			@{	testDescription = 'When all parameters are provided with valid values for a Daily frequency with a random delay, it should not throw an exception.'
+				triggerType = 'DateTime'
+				dateTimeScheduleStartTime = $validDateTimeStartTime
+				dateTimeScheduleFrequencyOptions = 'Daily'
+				dateTimeScheduleFrequencyDailyInterval = '1'
+				dateTimeScheduleFrequencyWeeklyInterval = ''
+				shouldDateTimeScheduleFrequencyWeeklyRunOnMondays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnThursdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnFridays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays = $false; shouldDateTimeScheduleFrequencyWeeklyRunOnSundays = $false;
+				shouldScheduledTaskRunRepeatedly = $false; scheduleRepetitionIntervalInMinutes = ''; scheduleRepetitionDurationInMinutes = ''
+				scheduleStartTimeRandomDelayInMinutes = '5'
+				expectExceptionToBeThrown = $false
+			}
 		)
 		$tests | ForEach-Object {
 			[hashtable] $parameters = $_
