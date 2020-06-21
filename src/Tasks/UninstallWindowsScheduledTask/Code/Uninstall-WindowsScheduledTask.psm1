@@ -54,10 +54,7 @@ function Uninstall-WindowsScheduledTask
 				$uninstallTaskCommand += ' -UseSSL'
 			}
 
-			Write-Debug "About to expand the string '$uninstallTaskCommand' to retrieve the expression in invoke."
-			[string] $uninstallTaskCommandWithVariablesExpanded = $ExecutionContext.InvokeCommand.ExpandString($uninstallTaskCommand)
-
-			Write-Debug "About to invoke expression '$uninstallTaskCommandWithVariablesExpanded'."
+			Write-Debug "About to invoke expression '$uninstallTaskCommand'."
 			Invoke-Expression -Command $uninstallTaskCommand -Verbose
 		}
 

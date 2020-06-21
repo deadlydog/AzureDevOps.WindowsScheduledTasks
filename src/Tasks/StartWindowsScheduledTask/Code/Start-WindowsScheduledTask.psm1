@@ -54,10 +54,7 @@ function Start-WindowsScheduledTask
 				$startTaskCommand += ' -UseSSL'
 			}
 
-			Write-Debug "About to expand the string '$startTaskCommand' to retrieve the expression in invoke."
-			[string] $startTaskCommandWithVariablesExpanded = $ExecutionContext.InvokeCommand.ExpandString($startTaskCommand)
-
-			Write-Debug "About to invoke expression '$startTaskCommandWithVariablesExpanded'."
+			Write-Debug "About to invoke expression '$startTaskCommand'."
 			Invoke-Expression -Command $startTaskCommand -Verbose
 		}
 

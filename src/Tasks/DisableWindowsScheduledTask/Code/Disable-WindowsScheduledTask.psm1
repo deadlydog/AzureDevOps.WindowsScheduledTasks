@@ -54,10 +54,7 @@ function Disable-WindowsScheduledTask
 				$disableTaskCommand += ' -UseSSL'
 			}
 
-			Write-Debug "About to expand the string '$disableTaskCommand' to retrieve the expression in invoke."
-			[string] $disableTaskCommandWithVariablesExpanded = $ExecutionContext.InvokeCommand.ExpandString($disableTaskCommand)
-
-			Write-Debug "About to invoke expression '$disableTaskCommandWithVariablesExpanded'."
+			Write-Debug "About to invoke expression '$disableTaskCommand'."
 			Invoke-Expression -Command $disableTaskCommand -Verbose
 		}
 

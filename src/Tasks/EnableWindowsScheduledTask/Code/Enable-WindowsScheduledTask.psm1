@@ -54,10 +54,7 @@ function Enable-WindowsScheduledTask
 				$enableTaskCommand += ' -UseSSL'
 			}
 
-			Write-Debug "About to expand the string '$enableTaskCommand' to retrieve the expression in invoke."
-			[string] $enableTaskCommandWithVariablesExpanded = $ExecutionContext.InvokeCommand.ExpandString($enableTaskCommand)
-
-			Write-Debug "About to invoke expression '$enableTaskCommandWithVariablesExpanded'."
+			Write-Debug "About to invoke expression '$enableTaskCommand'."
 			Invoke-Expression -Command $enableTaskCommand -Verbose
 		}
 

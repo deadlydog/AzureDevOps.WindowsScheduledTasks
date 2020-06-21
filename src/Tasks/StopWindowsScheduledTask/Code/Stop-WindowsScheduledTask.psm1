@@ -54,10 +54,7 @@ function Stop-WindowsScheduledTask
 				$stopTaskCommand += ' -UseSSL'
 			}
 
-			Write-Debug "About to expand the string '$stopTaskCommand' to retrieve the expression in invoke."
-			[string] $stopTaskCommandWithVariablesExpanded = $ExecutionContext.InvokeCommand.ExpandString($stopTaskCommand)
-
-			Write-Debug "About to invoke expression '$stopTaskCommandWithVariablesExpanded'."
+			Write-Debug "About to invoke expression '$stopTaskCommand'."
 			Invoke-Expression -Command $stopTaskCommand -Verbose
 		}
 

@@ -98,10 +98,7 @@ function Install-WindowsScheduledTask
 				$installTaskCommand += ' -UseSSL'
 			}
 
-			Write-Debug "About to expand the string '$installTaskCommand' to retrieve the expression in invoke."
-			[string] $installTaskCommandWithVariablesExpanded = $ExecutionContext.InvokeCommand.ExpandString($installTaskCommand)
-
-			Write-Debug "About to invoke expression '$installTaskCommandWithVariablesExpanded'."
+			Write-Debug "About to invoke expression '$installTaskCommand'."
 			Invoke-Expression -Command $installTaskCommand -Verbose
 		}
 
