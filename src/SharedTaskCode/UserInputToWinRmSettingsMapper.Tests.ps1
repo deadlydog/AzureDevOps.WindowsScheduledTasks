@@ -1,3 +1,7 @@
+# Pester v5 introduces breaking changes that we need to update to support, so until then use v4.
+Install-Module -Name Pester -RequiredVersion 4.10.1 -Repository PSGallery
+Import-Module -Name Pester -RequiredVersion 4.10.1
+
 # Import the module to test.
 Set-StrictMode -Version Latest
 [string] $THIS_SCRIPTS_PATH = $PSCommandPath

@@ -503,6 +503,10 @@ Begin
 	# Turn on Strict Mode to help catch syntax-related errors.
 	Set-StrictMode -Version Latest
 
+	# Pester v5 introduces breaking changes that we need to update to support, so until then use v4.
+	Install-Module -Name Pester -RequiredVersion 4.10.1 -Repository PSGallery
+	Import-Module -Name Pester -RequiredVersion 4.10.1
+
 	# Global Variables
 	[string] $CommonScheduledTaskPath = '\WindowsScheduledTasksTests\'
 	[string] $XmlDefinitionsDirectoryPath = [string]::Empty # Populated dynamically below.
