@@ -207,11 +207,13 @@ function Convert-MinutesToTimeSpan([string] $minutes)
 	return $minutesAsTimeSpan
 }
 
-function Get-ScheduledTaskSettings([bool] $shouldBeEnabled)
+function Get-ScheduledTaskSettings([bool] $shouldBeEnabled, [bool] $StartWhenAvailable)
 {
 	[string] $createSettingsExpression = "New-ScheduledTaskSettingsSet"
 
 	if (!($shouldBeEnabled)) { $createSettingsExpression += ' -Disable' }
+	
+	if ($StartWhenAvailable) { $createSettingsExpression += ' -StartWhenAvailable' }
 
 	[CimInstance] $scheduledTaskSettings = Invoke-Expression -Command $createSettingsExpression
 	return $scheduledTaskSettings
