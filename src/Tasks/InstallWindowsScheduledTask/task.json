@@ -307,6 +307,16 @@
       "groupName": "ScheduledTaskSettings"
     },
     {
+      "name": "StartWhenAvailable",
+      "type": "boolean",
+      "label": "Start Task When Available",
+      "visibleRule": "ScheduledTaskDefinitionSource = Inline",
+      "required": true,
+      "defaultValue": "false",
+      "helpMarkDown": "Indicates that Task Scheduler can start the task at any time after its scheduled time has passed.",
+      "groupName": "ScheduledTaskSettings"
+    },
+    {
       "name": "ScheduledTaskAccountToRunAsOptions",
       "type": "radio",
       "label": "User To Run As",
