@@ -307,7 +307,7 @@
       "groupName": "ScheduledTaskSettings"
     },
     {
-      "name": "StartWhenAvailable",
+      "name": "StartWhenAvailableString",
       "type": "boolean",
       "label": "Start Task When Available",
       "visibleRule": "ScheduledTaskDefinitionSource = Inline",
