@@ -150,7 +150,7 @@ Process
 	[bool] $protocolSkipCaCheck = Get-BoolValueFromString -string $ProtocolSkipCaCheckString
 	[bool] $protocolSkipCnCheck = Get-BoolValueFromString -string $ProtocolSkipCnCheckString
 	[bool] $protocolSkipRevocationCheck = Get-BoolValueFromString -string $ProtocolSkipRevocationCheckString
-	[bool] $StartWhenAvailable = Get-BoolValueFromString -string $StartWhenAvailableString
+	[bool] $startWhenAvailable = Get-BoolValueFromString -string $StartWhenAvailableString
 
 	[string[]] $computers = Get-ComputersToConnectToOrNull -computerNames $ComputerNames
 	[PSCredential] $credential = Convert-UsernameAndPasswordToCredentialsOrNull -username $Username -password $Password
@@ -189,7 +189,7 @@ Process
 
 	[ciminstance[]] $scheduledTaskTrigger = Get-ScheduledTaskTrigger -triggerType $ScheduleTriggerType -atLogOnTriggerUsername $AtLogOnTriggerUsername -dateTimeScheduleStartTime $DateTimeScheduleStartTime -dateTimeScheduleFrequencyOptions $DateTimeScheduleFrequencyOptions -dateTimeScheduleFrequencyDailyInterval $DateTimeScheduleFrequencyDailyInterval -dateTimeScheduleFrequencyWeeklyInterval $DateTimeScheduleFrequencyWeeklyInterval -shouldDateTimeScheduleFrequencyWeeklyRunOnMondays $shouldDateTimeScheduleFrequencyWeeklyRunOnMondays -shouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays $shouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays -shouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays $shouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays -shouldDateTimeScheduleFrequencyWeeklyRunOnThursdays $shouldDateTimeScheduleFrequencyWeeklyRunOnThursdays -shouldDateTimeScheduleFrequencyWeeklyRunOnFridays $shouldDateTimeScheduleFrequencyWeeklyRunOnFridays -shouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays $shouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays -shouldDateTimeScheduleFrequencyWeeklyRunOnSundays $shouldDateTimeScheduleFrequencyWeeklyRunOnSundays -shouldScheduledTaskRunRepeatedly $shouldScheduledTaskRunRepeatedly -scheduleRepetitionIntervalInMinutes $ScheduleRepetitionIntervalInMinutes -scheduleRepetitionDurationInMinutes $ScheduleRepetitionDurationInMinutes -scheduleStartTimeRandomDelayInMinutes $ScheduleStartTimeRandomDelayInMinutes
 
-	[ciminstance] $scheduledTaskSettings = Get-ScheduledTaskSettings -shouldBeEnabled $shouldScheduledTaskBeEnabled -StartWhenAvailable $StartWhenAvailable
+	[ciminstance] $scheduledTaskSettings = Get-ScheduledTaskSettings -shouldBeEnabled $shouldScheduledTaskBeEnabled -startWhenAvailable $startWhenAvailable
 
 	[string] $scheduledTaskRunLevel = Get-ScheduledTaskRunLevel -shouldScheduledTaskRunWithHighestPrivileges $shouldScheduledTaskRunWithHighestPrivileges
 
