@@ -441,6 +441,34 @@ Describe 'Get-ScheduledTaskSettings' {
 			$result.Enabled | Should -Be $shouldBeEnabled
 		}
 	}
+
+	Context 'When requesting the task to not Start When Available' {
+		It 'Should be disabled in the settings' {
+			# Arrange.
+			$shouldBeAvailable = $false
+
+			# Act.
+			$result = Get-ScheduledTaskSettings -StartWhenAvailable $shouldBeAvailable
+
+			# Assert.
+			$result | Should -Not -BeNullOrEmpty
+			$result.StartWhenAvailable | Should -Be $shouldBeAvailable
+		}
+	}
+
+	Context 'When requesting the task to Start When Available' {
+		It 'Should be enabled in the settings' {
+			# Arrange.
+			$shouldBeAvailable = $true
+
+			# Act.
+			$result = Get-ScheduledTaskSettings -StartWhenAvailable $shouldBeAvailable
+
+			# Assert.
+			$result | Should -Not -BeNullOrEmpty
+			$result.StartWhenAvailable | Should -Be $shouldBeAvailable
+		}
+	}
 }
 
 Describe 'Get-ScheduledTaskRunLevel' {
