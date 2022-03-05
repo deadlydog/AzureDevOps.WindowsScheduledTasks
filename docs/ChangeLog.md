@@ -2,6 +2,11 @@
 
 This page is a list of *notable* changes made to the Windows Scheduled Tasks Azure DevOps extension.
 
+## vNext
+
+- feature: Expose the `StartWhenAvailable` property when using the Inline task mode.
+  Big thanks to @Kevinf63 for [the PR](https://github.com/deadlydog/AzureDevOps.WindowsScheduledTasks/pull/19) 😀
+
 ## June 20, 2020 - v2.0.23
 
 - fix: Remove unnecessary code that caused an error to be thrown in PowerShell v4.
