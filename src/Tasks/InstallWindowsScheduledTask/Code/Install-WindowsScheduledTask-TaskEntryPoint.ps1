@@ -82,6 +82,9 @@ param
 
 	[parameter(Mandatory=$false,HelpMessage="How much potential delay after the Scheduled Tasks specified start time to wait for before starting the Scheduled Task.")]
 	[string] $ScheduleStartTimeRandomDelayInMinutes,
+	
+	[parameter(Mandatory=$false,HelpMessage="Indicates that Task Scheduler can start the task at any time after its scheduled time has passed.")]
+	[string] $StartWhenAvailableString,
 
 	[parameter(Mandatory=$false,HelpMessage="Options for the account that the Scheduled Task should run as.")]
 	[ValidateSet('System', 'LocalService', 'NetworkService', 'CustomAccount')]
@@ -147,6 +150,7 @@ Process
 	[bool] $protocolSkipCaCheck = Get-BoolValueFromString -string $ProtocolSkipCaCheckString
 	[bool] $protocolSkipCnCheck = Get-BoolValueFromString -string $ProtocolSkipCnCheckString
 	[bool] $protocolSkipRevocationCheck = Get-BoolValueFromString -string $ProtocolSkipRevocationCheckString
+	[bool] $startWhenAvailable = Get-BoolValueFromString -string $StartWhenAvailableString
 
 	[string[]] $computers = Get-ComputersToConnectToOrNull -computerNames $ComputerNames
 	[PSCredential] $credential = Convert-UsernameAndPasswordToCredentialsOrNull -username $Username -password $Password
@@ -185,7 +189,7 @@ Process
 
 	[ciminstance[]] $scheduledTaskTrigger = Get-ScheduledTaskTrigger -triggerType $ScheduleTriggerType -atLogOnTriggerUsername $AtLogOnTriggerUsername -dateTimeScheduleStartTime $DateTimeScheduleStartTime -dateTimeScheduleFrequencyOptions $DateTimeScheduleFrequencyOptions -dateTimeScheduleFrequencyDailyInterval $DateTimeScheduleFrequencyDailyInterval -dateTimeScheduleFrequencyWeeklyInterval $DateTimeScheduleFrequencyWeeklyInterval -shouldDateTimeScheduleFrequencyWeeklyRunOnMondays $shouldDateTimeScheduleFrequencyWeeklyRunOnMondays -shouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays $shouldDateTimeScheduleFrequencyWeeklyRunOnTuesdays -shouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays $shouldDateTimeScheduleFrequencyWeeklyRunOnWednesdays -shouldDateTimeScheduleFrequencyWeeklyRunOnThursdays $shouldDateTimeScheduleFrequencyWeeklyRunOnThursdays -shouldDateTimeScheduleFrequencyWeeklyRunOnFridays $shouldDateTimeScheduleFrequencyWeeklyRunOnFridays -shouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays $shouldDateTimeScheduleFrequencyWeeklyRunOnSaturdays -shouldDateTimeScheduleFrequencyWeeklyRunOnSundays $shouldDateTimeScheduleFrequencyWeeklyRunOnSundays -shouldScheduledTaskRunRepeatedly $shouldScheduledTaskRunRepeatedly -scheduleRepetitionIntervalInMinutes $ScheduleRepetitionIntervalInMinutes -scheduleRepetitionDurationInMinutes $ScheduleRepetitionDurationInMinutes -scheduleStartTimeRandomDelayInMinutes $ScheduleStartTimeRandomDelayInMinutes
 
-	[ciminstance] $scheduledTaskSettings = Get-ScheduledTaskSettings -shouldBeEnabled $shouldScheduledTaskBeEnabled
+	[ciminstance] $scheduledTaskSettings = Get-ScheduledTaskSettings -shouldBeEnabled $shouldScheduledTaskBeEnabled -startWhenAvailable $startWhenAvailable
 
 	[string] $scheduledTaskRunLevel = Get-ScheduledTaskRunLevel -shouldScheduledTaskRunWithHighestPrivileges $shouldScheduledTaskRunWithHighestPrivileges
 
