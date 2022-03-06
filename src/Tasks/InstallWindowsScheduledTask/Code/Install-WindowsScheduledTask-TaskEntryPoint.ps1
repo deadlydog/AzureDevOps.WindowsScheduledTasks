@@ -82,9 +82,6 @@ param
 
 	[parameter(Mandatory=$false,HelpMessage="How much potential delay after the Scheduled Tasks specified start time to wait for before starting the Scheduled Task.")]
 	[string] $ScheduleStartTimeRandomDelayInMinutes,
-	
-	[parameter(Mandatory=$false,HelpMessage="Indicates that Task Scheduler can start the task at any time after its scheduled time has passed.")]
-	[string] $StartWhenAvailableString,
 
 	[parameter(Mandatory=$false,HelpMessage="Options for the account that the Scheduled Task should run as.")]
 	[ValidateSet('System', 'LocalService', 'NetworkService', 'CustomAccount')]
@@ -98,6 +95,9 @@ param
 
 	[parameter(Mandatory=$false,HelpMessage="Should the Scheduled Task be enabled when it's installed or not.")]
 	[string] $ShouldScheduledTaskBeEnabledString,
+
+	[parameter(Mandatory=$false, HelpMessage="Indicates that Task Scheduler can start the task at any time after its scheduled time has passed.")]
+	[string] $StartWhenAvailableString,
 
 	[parameter(Mandatory=$false,HelpMessage="Should the Scheduled Task run with the highest privileges.")]
 	[string] $ShouldScheduledTaskRunWithHighestPrivilegesString,
@@ -145,12 +145,12 @@ Process
 	[bool] $shouldDateTimeScheduleFrequencyWeeklyRunOnSundays = Get-BoolValueFromString -string $ShouldDateTimeScheduleFrequencyWeeklyRunOnSundaysString
 	[bool] $shouldScheduledTaskRunRepeatedly = Get-BoolValueFromString -string $ShouldScheduledTaskRunRepeatedlyString
 	[bool] $shouldScheduledTaskBeEnabled = Get-BoolValueFromString -string $ShouldScheduledTaskBeEnabledString
+	[bool] $startWhenAvailable = Get-BoolValueFromString -string $StartWhenAvailableString
 	[bool] $shouldScheduledTaskRunWithHighestPrivileges = Get-BoolValueFromString -string $ShouldScheduledTaskRunWithHighestPrivilegesString
 	[bool] $shouldScheduledTaskRunAfterInstall = Get-BoolValueFromString -string $ShouldScheduledTaskRunAfterInstallString
 	[bool] $protocolSkipCaCheck = Get-BoolValueFromString -string $ProtocolSkipCaCheckString
 	[bool] $protocolSkipCnCheck = Get-BoolValueFromString -string $ProtocolSkipCnCheckString
 	[bool] $protocolSkipRevocationCheck = Get-BoolValueFromString -string $ProtocolSkipRevocationCheckString
-	[bool] $startWhenAvailable = Get-BoolValueFromString -string $StartWhenAvailableString
 
 	[string[]] $computers = Get-ComputersToConnectToOrNull -computerNames $ComputerNames
 	[PSCredential] $credential = Convert-UsernameAndPasswordToCredentialsOrNull -username $Username -password $Password
