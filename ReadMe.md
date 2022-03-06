@@ -87,6 +87,10 @@ You can [view the change log here][ExtensionChangeLogUrl].
 
 Under the hood this extension uses the [PowerShell ScheduledTasks cmdlets][PowerShellScheduledTasksDocumentationUrl], so the functionality it can offer is limited to what those cmdlets provide.
 
+## Changelog
+
+See what's changed in the extension over time by viewing [the changelog](docs/Changelog.md).
+
 ### Additional ideas to implement
 
 - Add option to specify if "Can't find task with the given path and name" should be treated as a warning or an error.
