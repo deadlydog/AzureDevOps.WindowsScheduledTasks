@@ -354,7 +354,7 @@
 		{
 			"name": "StartWhenAvailableString",
 			"type": "boolean",
-			"label": "Start Task When Available",
+			"label": "Start task when available",
 			"visibleRule": "ScheduledTaskDefinitionSource = Inline",
 			"required": true,
 			"defaultValue": "false",
@@ -364,7 +364,7 @@
 		{
 			"name": "ShouldScheduledTaskRunWithHighestPrivilegesString",
 			"type": "boolean",
-			"label": "Run With Highest Privileges",
+			"label": "Run with highest privileges",
 			"visibleRule": "ScheduledTaskDefinitionSource = Inline",
 			"required": true,
 			"defaultValue": "true",
