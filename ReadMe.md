@@ -91,7 +91,7 @@ Under the hood this extension uses the [PowerShell ScheduledTasks cmdlets][Power
 
 See what's changed in the extension over time by viewing [the changelog](docs/Changelog.md).
 
-### Additional ideas to implement
+## Additional ideas to implement
 
 - Add option to specify if "Can't find task with the given path and name" should be treated as a warning or an error.
 
