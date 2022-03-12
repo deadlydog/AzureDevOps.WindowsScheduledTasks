@@ -112,6 +112,7 @@ function Install-WindowsScheduledTask
 
 			[bool] $installFromXml = !([string]::IsNullOrWhiteSpace($scheduledTaskSettings.Xml))
 			[string] $taskPathAndName = $scheduledTaskSettings.ScheduledTaskPath + $scheduledTaskSettings.ScheduledTaskName
+			[bool] $userWasSupplied = !([string]::IsNullOrWhiteSpace($scheduledTaskSettings.AccountToRunScheduledTaskAsUsername))
 			[bool] $passwordWasSupplied = !([string]::IsNullOrEmpty($scheduledTaskSettings.AccountToRunScheduledTaskAsPassword))
 
 			# An empty description will fail the Register-ScheduledTask parameter validation, so make it a space if it's empty.
@@ -122,30 +123,35 @@ function Install-WindowsScheduledTask
 
 			$scheduledTask = $null
 			$installError = $null
-			if ($installFromXml)
-			{
+
+			$registerParams = @{
+				TaskName = $scheduledTaskSettings.ScheduledTaskName;
+				TaskPath = $scheduledTaskSettings.ScheduledTaskPath;
+				Force = $true;
+			}
+
+			if($userWasSupplied) {
+				$registerParams.Add("User", $scheduledTaskSettings.AccountToRunScheduledTaskAsUsername)
+
+				if($passwordWasSupplied) {
+					$registerParams.Add("Password", $scheduledTaskSettings.AccountToRunScheduledTaskAsPassword)
+				}
+			}
+
+			if($installFromXml) {
 				Write-Output "Installing Scheduled Task '$taskPathAndName' on computer '$computerName' using specifed XML definition." -Verbose
-				if ($passwordWasSupplied)
-				{
-					$scheduledTask = Register-ScheduledTask -TaskName $scheduledTaskSettings.ScheduledTaskName -TaskPath $scheduledTaskSettings.ScheduledTaskPath -User $scheduledTaskSettings.AccountToRunScheduledTaskAsUsername -Password $scheduledTaskSettings.AccountToRunScheduledTaskAsPassword -Force -Xml $scheduledTaskSettings.Xml -ErrorVariable installError -ErrorAction SilentlyContinue
-				}
-				else
-				{
-					$scheduledTask = Register-ScheduledTask -TaskName $scheduledTaskSettings.ScheduledTaskName -TaskPath $scheduledTaskSettings.ScheduledTaskPath -User $scheduledTaskSettings.AccountToRunScheduledTaskAsUsername -Force -Xml $scheduledTaskSettings.Xml -ErrorVariable installError -ErrorAction SilentlyContinue
-				}
-			}
-			else
-			{
+				$registerParams.Add("Xml", $scheduledTaskSettings.Xml)
+			} 
+			else {
 				Write-Output "Installing Scheduled Task '$taskPathAndName' on computer '$computerName' using inline definition." -Verbose
-				if ($passwordWasSupplied)
-				{
-					$scheduledTask = Register-ScheduledTask -TaskName $scheduledTaskSettings.ScheduledTaskName -TaskPath $scheduledTaskSettings.ScheduledTaskPath -User $scheduledTaskSettings.AccountToRunScheduledTaskAsUsername -Password $scheduledTaskSettings.AccountToRunScheduledTaskAsPassword -Force -Description $scheduledTaskSettings.ScheduledTaskDescription -Action $scheduledTaskSettings.ScheduledTaskAction -Settings $scheduledTaskSettings.ScheduledTaskSettings -Trigger $scheduledTaskSettings.ScheduledTaskTrigger -RunLevel $scheduledTaskSettings.ScheduledTaskRunLevel -ErrorVariable installError -ErrorAction SilentlyContinue
-				}
-				else
-				{
-					$scheduledTask = Register-ScheduledTask -TaskName $scheduledTaskSettings.ScheduledTaskName -TaskPath $scheduledTaskSettings.ScheduledTaskPath -User $scheduledTaskSettings.AccountToRunScheduledTaskAsUsername -Force -Description $scheduledTaskSettings.ScheduledTaskDescription -Action $scheduledTaskSettings.ScheduledTaskAction -Settings $scheduledTaskSettings.ScheduledTaskSettings -Trigger $scheduledTaskSettings.ScheduledTaskTrigger -RunLevel $scheduledTaskSettings.ScheduledTaskRunLevel -ErrorVariable installError -ErrorAction SilentlyContinue
-				}
+				$registerParams.Add("Description", $scheduledTaskSettings.ScheduledTaskDescription)
+				$registerParams.Add("Action", $scheduledTaskSettings.ScheduledTaskAction)
+				$registerParams.Add("Settings", $scheduledTaskSettings.ScheduledTaskSettings)
+				$registerParams.Add("Trigger", $scheduledTaskSettings.ScheduledTaskTrigger)
+				$registerParams.Add("RunLevel", $scheduledTaskSettings.ScheduledTaskRunLevel)
 			}
+			
+			$scheduledTask = Register-ScheduledTask @registerParams -ErrorVariable installError -ErrorAction SilentlyContinue
 
 			# If an error occurred installing the Scheduled Task, throw the error before trying to start the task.
 			if ($installError)
