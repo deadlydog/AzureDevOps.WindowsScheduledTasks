@@ -42,7 +42,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      [bool] $isMainBranch = $(isMainBranch)
+      [bool] $isMainBranch = $$(isMainBranch)
       [string] $versionNumber = "$(prereleaseVersionNumber)"
       if ($isMainBranch)
       {
