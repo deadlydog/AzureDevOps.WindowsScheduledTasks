@@ -67,7 +67,7 @@ steps:
     rootFolder: 'src'
     patternManifest: 'vss-extension.json'
     outputPath: '$(Build.ArtifactStagingDirectory)\$(VsixFileName)'
-    extensionVersion: '$(Build.BuildNumber)'
+    extensionVersion: '$(versionNumber)'
     updateTasksVersion: true
 
 - task: PublishBuildArtifacts@1
