@@ -104,7 +104,7 @@ Buy me some maple syrup for providing this extension open source and for free :)
 <!-- Links -->
 [ExtensionInAzureDevOpsMarketplaceUrl]: https://marketplace.visualstudio.com/items?itemName=deadlydog.WindowsScheduledTasksBuildAndReleaseTasks
 [ExtensionGitHubRepositoryIssuesUrl]: https://github.com/deadlydog/AzureDevOps.WindowsScheduledTasks/issues
-[ExtensionChangeLogUrl]: https://github.com/deadlydog/AzureDevOps.WindowsScheduledTasks/blob/master/docs/ChangeLog.md
+[ExtensionChangeLogUrl]: https://github.com/deadlydog/AzureDevOps.WindowsScheduledTasks/blob/main/docs/ChangeLog.md
 [ExtensionRatingAndReviewInAzureDevOpsMarketplaceUrl]: https://marketplace.visualstudio.com/items?itemName=deadlydog.WindowsScheduledTasksBuildAndReleaseTasks#review-details
 [PowerShellScheduledTasksDocumentationUrl]: https://docs.microsoft.com/en-us/powershell/module/scheduledtasks/?view=win10-ps
 [PowerShellExportScheduledTaskDocumentationUrl]: https://docs.microsoft.com/en-us/powershell/module/scheduledtasks/export-scheduledtask?view=win10-ps

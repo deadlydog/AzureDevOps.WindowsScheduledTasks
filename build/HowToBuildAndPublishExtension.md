@@ -2,11 +2,11 @@
 
 ## Automated builds and deployment
 
-The building and publishing of this extension is fully automated via an Azure DevOps pipeline.
+The building and publishing of this extension is fully automated via Azure DevOps [build](/pipelines/azure-devops-build.yaml) and release pipelines.
 
-Every time a change is committed to the `master` branch [a new build][AzureDevOpsBuildPipelineUrl] is made.
+Every time a change is committed to the `main` branch [a new build][AzureDevOpsBuildPipelineUrl] is made.
 
-If the build succeeds, [a new release][AzureDevOpsReleasePipelineUrl] will automatically be created which will publish the new version to [the Azure DevOps marketplace][ExtensionsAzureDevOpsMarketplaceUrl].
+If the build succeeds, [a new release][AzureDevOpsReleasePipelineUrl] will automatically be created which will publish the new version to a private extension on the marketplace and integration tests will run against it. If those succeed, the release can be manually approved to publish it to [the Azure DevOps marketplace][ExtensionsAzureDevOpsMarketplaceUrl].
 
 ## Manual builds and deployments
 
@@ -45,7 +45,7 @@ You can manually publish a new version of the extension at [my personal Azure De
 
 <!-- Links -->
 [ExtensionsAzureDevOpsMarketplaceUrl]: https://marketplace.visualstudio.com/items?itemName=deadlydog.WindowsScheduledTasksBuildAndReleaseTasks
-[AzureDevOpsBuildPipelineUrl]: https://dev.azure.com/deadlydog/OpenSource/_build?definitionId=19
+[AzureDevOpsBuildPipelineUrl]: https://dev.azure.com/deadlydog/OpenSource/_build?definitionId=32
 [AzureDevOpsReleasePipelineUrl]: https://dev.azure.com/deadlydog/OpenSource/_release?view=all&definitionId=1
 [MyAzureDevOpsMarketplaceExtensionsUrl]: https://marketplace.visualstudio.com/manage/publishers/deadlydog
 [NodeJsDownloadUrl]: https://nodejs.org/en/download

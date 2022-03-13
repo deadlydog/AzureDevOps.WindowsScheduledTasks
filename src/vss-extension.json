@@ -34,10 +34,10 @@
   },
   "links": {
     "support": {
-      "uri": "https://github.com/deadlydog/AzureDevOps.WindowsScheduledTasks/blob/master/ReadMe.md"
+      "uri": "https://github.com/deadlydog/AzureDevOps.WindowsScheduledTasks/blob/main/ReadMe.md"
     },
     "license": {
-      "uri": "https://github.com/deadlydog/AzureDevOps.WindowsScheduledTasks/blob/master/License.md"
+      "uri": "https://github.com/deadlydog/AzureDevOps.WindowsScheduledTasks/blob/main/License.md"
     }
   },
   "icons": {
@@ -60,8 +60,8 @@
 	},
 	"badges": [
 		{
-			"href": "https://dev.azure.com/deadlydog/OpenSource/_build/latest?definitionId=19\u0026branchName=master",
-			"uri": "https://dev.azure.com/deadlydog/OpenSource/_apis/build/status/AzureDevOps.WindowsScheduledTasks?branchName=master",
+			"href": "https://dev.azure.com/deadlydog/OpenSource/_build/latest?definitionId=32\u0026branchName=main",
+			"uri": "https://dev.azure.com/deadlydog/OpenSource/_apis/build/status/AzureDevOps.WindowsScheduledTasks?branchName=main",
 			"description": "Azure DevOps build for the project"
 		},
 		{
