@@ -19,10 +19,38 @@ pool:
 variables:
   version.MajorMinor: '2.3' # Manually adjust the version number as needed for semantic versioning. Revision is auto-incremented.
   version.Revision: $[counter(variables['version.MajorMinor'], 0)]
-  versionNumber: '$(version.MajorMinor).$(version.Revision)'
+  stableVersionNumber: '$(version.MajorMinor).$(version.Revision)'
+  prereleaseVersionNumber: 'Set dynamically below in a task'
+  versionNumber: 'Set dynamically below in a task' # Will be set to the stableVersionNumber or prereleaseVersionNumber based on the branch.
+  isMainBranch: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')] # Determine if we're building the 'main' branch or not.
   VsixFileName: 'deadlydog.WindowsScheduledTasksBuildAndReleaseTasks.vsix'
 
 steps:
+- task: PowerShell@2
+  displayName: Set the prereleaseVersionNumber variable value
+  inputs:
+    targetType: 'inline'
+    script: |
+      [string] $dateTime = (Get-Date -Format 'yyyyMMddTHHmmss')
+      [int] $revision = [System.Math]::Max(0, $(version.Revision) - 1) # Don't increment the revision number for the prerelease versions.
+      [string] $prereleaseVersionNumber = "$(version.MajorMinor).$revision-ci$dateTime+$(Build.SourceVersion)"
+      Write-Host "Setting the prerelease version number variable to '$prereleaseVersionNumber'."
+      Write-Host "##vso[task.setvariable variable=prereleaseVersionNumber]$prereleaseVersionNumber"
+
+- task: PowerShell@2
+  displayName: Set the versionNumber to the stable or prerelease version number based on if the 'main' branch is being built or not
+  inputs:
+    targetType: 'inline'
+    script: |
+      [bool] $isMainBranch = $(isMainBranch)
+      [string] $versionNumber = "$(prereleaseVersionNumber)"
+      if ($isMainBranch)
+      {
+        $versionNumber = "$(stableVersionNumber)"
+      }
+      Write-Host "Setting the version number to use to '$versionNumber'."
+      Write-Host "##vso[task.setvariable variable=versionNumber]$versionNumber"
+
 - task: PowerShell@2
   displayName: Set the name of the build (i.e. the Build.BuildNumber)
   inputs:
