@@ -1,5 +1,9 @@
 name: 'Set dynamically below in a task'
 
+# Only build the 'main' branch. PRs to main are automatically built as well, but configured in Azure DevOps branch policies.
+trigger:
+- main
+
 pool:
   name: Azure Pipelines
   demands: npm
