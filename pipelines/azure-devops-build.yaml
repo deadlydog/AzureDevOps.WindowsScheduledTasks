@@ -1,7 +1,10 @@
 name: 'Set dynamically below in a task'
 
 # Only trigger builds on the 'main' branch and PRs for the 'main' branch.
-trigger: main
+trigger:
+  batch: true
+  branches:
+    include: main
 pr: main
 
 pool:
