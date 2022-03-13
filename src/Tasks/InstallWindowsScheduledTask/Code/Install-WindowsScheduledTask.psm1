@@ -112,7 +112,7 @@ function Install-WindowsScheduledTask
 
 			[bool] $installFromXml = !([string]::IsNullOrWhiteSpace($scheduledTaskSettings.Xml))
 			[string] $taskPathAndName = $scheduledTaskSettings.ScheduledTaskPath + $scheduledTaskSettings.ScheduledTaskName
-			[bool] $userWasSupplied = !([string]::IsNullOrWhiteSpace($scheduledTaskSettings.AccountToRunScheduledTaskAsUsername))
+			[bool] $usernameWasSupplied = !([string]::IsNullOrWhiteSpace($scheduledTaskSettings.AccountToRunScheduledTaskAsUsername))
 			[bool] $passwordWasSupplied = !([string]::IsNullOrEmpty($scheduledTaskSettings.AccountToRunScheduledTaskAsPassword))
 
 			# An empty description will fail the Register-ScheduledTask parameter validation, so make it a space if it's empty.
@@ -130,19 +130,23 @@ function Install-WindowsScheduledTask
 				Force = $true;
 			}
 
-			if($userWasSupplied) {
+			if ($usernameWasSupplied)
+			{
 				$registerParams.Add("User", $scheduledTaskSettings.AccountToRunScheduledTaskAsUsername)
 
-				if($passwordWasSupplied) {
+				if ($passwordWasSupplied)
+				{
 					$registerParams.Add("Password", $scheduledTaskSettings.AccountToRunScheduledTaskAsPassword)
 				}
 			}
 
-			if($installFromXml) {
-				Write-Output "Installing Scheduled Task '$taskPathAndName' on computer '$computerName' using specifed XML definition." -Verbose
+			if ($installFromXml)
+			{
+				Write-Output "Installing Scheduled Task '$taskPathAndName' on computer '$computerName' using specified XML definition." -Verbose
 				$registerParams.Add("Xml", $scheduledTaskSettings.Xml)
-			} 
-			else {
+			}
+			else
+			{
 				Write-Output "Installing Scheduled Task '$taskPathAndName' on computer '$computerName' using inline definition." -Verbose
 				$registerParams.Add("Description", $scheduledTaskSettings.ScheduledTaskDescription)
 				$registerParams.Add("Action", $scheduledTaskSettings.ScheduledTaskAction)
@@ -150,7 +154,7 @@ function Install-WindowsScheduledTask
 				$registerParams.Add("Trigger", $scheduledTaskSettings.ScheduledTaskTrigger)
 				$registerParams.Add("RunLevel", $scheduledTaskSettings.ScheduledTaskRunLevel)
 			}
-			
+
 			$scheduledTask = Register-ScheduledTask @registerParams -ErrorVariable installError -ErrorAction SilentlyContinue
 
 			# If an error occurred installing the Scheduled Task, throw the error before trying to start the task.
