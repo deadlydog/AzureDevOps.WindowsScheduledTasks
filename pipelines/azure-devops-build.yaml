@@ -1,0 +1,57 @@
+name: 'Set dynamically below in a task'
+
+pool:
+  name: Azure Pipelines
+  demands: npm
+
+variables:
+  version.MajorMinor: '2.3' # Manually adjust the version number as needed for semantic versioning. Revision is auto-incremented.
+  version.Revision: $[counter(variables['version.MajorMinor'], 0)]
+  versionNumber: '$(version.MajorMinor).$(version.Revision)'
+  VsixFileName: 'deadlydog.WindowsScheduledTasksBuildAndReleaseTasks.vsix'
+
+steps:
+- task: PowerShell@2
+  displayName: Set the name of the build (i.e. the Build.BuildNumber)
+  inputs:
+    targetType: 'inline'
+    script: |
+      [string] $buildName = "$(versionNumber)_$(Build.SourceBranchName)"
+      Write-Host "Setting the name of the build to '$buildName'."
+      Write-Host "##vso[build.updatebuildnumber]$buildName"
+
+- task: Pester.PesterRunner.Pester-Task.Pester@9
+  displayName: 'Pester Test Runner'
+  inputs:
+    CodeCoverageOutputFile: '$(System.DefaultWorkingDirectory)\CodeCoverage.xml'
+    PesterVersion: OtherVersion
+    preferredPesterVersion: 4.10.1
+
+- task: PublishTestResults@2
+  displayName: 'Publish Test Results **/TEST-*.xml'
+  inputs:
+    testResultsFormat: NUnit
+  condition: succeededOrFailed()
+
+- task: PublishCodeCoverageResults@1
+  displayName: 'Publish code coverage from $(System.DefaultWorkingDirectory)\CodeCoverage.xml'
+  inputs:
+    summaryFileLocation: '$(System.DefaultWorkingDirectory)\CodeCoverage.xml'
+    reportDirectory: '$(System.DefaultWorkingDirectory)\JaCoCo'
+
+- task: ms-devlabs.vsts-developer-tools-build-tasks.tfx-installer-build-task.TfxInstaller@3
+  displayName: 'Install Node CLI for Azure DevOps (tfx-cli)'
+  inputs:
+    version: v0.6.x
+
+- task: ms-devlabs.vsts-developer-tools-build-tasks.package-extension-build-task.PackageAzureDevOpsExtension@3
+  displayName: 'Package Extension into a VSIX file'
+  inputs:
+    rootFolder: 'src'
+    patternManifest: 'vss-extension.json'
+    outputPath: '$(Build.ArtifactStagingDirectory)\$(VsixFileName)'
+    extensionVersion: '$(Build.BuildNumber)'
+    updateTasksVersion: true
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: drop'
