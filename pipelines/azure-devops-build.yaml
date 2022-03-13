@@ -4,7 +4,8 @@ name: 'Set dynamically below in a task'
 trigger:
   batch: true
   branches:
-    include: main
+    include:
+    - main
 pr: main
 
 pool:
