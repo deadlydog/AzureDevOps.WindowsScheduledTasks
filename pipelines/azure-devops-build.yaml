@@ -26,6 +26,11 @@ variables:
   VsixFileName: 'deadlydog.WindowsScheduledTasksBuildAndReleaseTasks.vsix'
 
 steps:
+# Only download the branch files, rather than the entire repo with all it's history (faster), and don't bother with Git LFS since we're not using it.
+- checkout: self
+  fetchDepth: 1
+  lfs: false
+  
 - task: PowerShell@2
   displayName: Set the prereleaseVersionNumber variable value
   inputs:
