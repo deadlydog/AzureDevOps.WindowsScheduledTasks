@@ -2,10 +2,15 @@
 
 This page is a list of *notable* changes made to the Windows Scheduled Tasks Azure DevOps extension.
 
-## March 5, 2022 - v2.1.0
+## March 21, 2022 - v2.2.1
+
+- feature: Allow a blank username to be used when installing a Scheduled Task.
+  Thanks go to @glatzert for opening [the issue](https://github.com/deadlydog/AzureDevOps.WindowsScheduledTasks/issues/20) and submitting [the PR](https://github.com/deadlydog/AzureDevOps.WindowsScheduledTasks/pull/21/files) 🎉
+
+## March 5, 2022 - v2.1.1
 
 - feature: Add the `StartWhenAvailable` property when using the Inline task mode.
-  Big thanks to @Kevinf63 for [the PR](https://github.com/deadlydog/AzureDevOps.WindowsScheduledTasks/pull/19) 😀
+  Big thanks to @Kevinf63 for submitting both [the issue](https://github.com/deadlydog/AzureDevOps.WindowsScheduledTasks/issues/17) and [the PR](https://github.com/deadlydog/AzureDevOps.WindowsScheduledTasks/pull/19) 😀
 
 ## June 20, 2020 - v2.0.23
 
