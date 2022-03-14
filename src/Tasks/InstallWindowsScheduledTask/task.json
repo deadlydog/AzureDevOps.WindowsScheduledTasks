@@ -317,7 +317,8 @@
 				"System": "System",
 				"LocalService": "Local Service",
 				"NetworkService": "Network Service",
-				"CustomAccount": "Custom User or Service Account"
+				"CustomAccount": "Custom User or Service Account",
+				"PrincipalFromXml": "Principal from XML"
 			},
 			"groupName": "ScheduledTaskSettings"
 		},

@@ -84,7 +84,7 @@ param
 	[string] $ScheduleStartTimeRandomDelayInMinutes,
 
 	[parameter(Mandatory=$false,HelpMessage="Options for the account that the Scheduled Task should run as.")]
-	[ValidateSet('System', 'LocalService', 'NetworkService', 'CustomAccount')]
+	[ValidateSet('System', 'LocalService', 'NetworkService', 'CustomAccount', 'PrincipalFromXml')]
 	[string] $ScheduledTaskAccountToRunAsOptions,
 
 	[parameter(Mandatory=$false,HelpMessage="The Username of the custom account that the Scheduled Task should run as.")]
