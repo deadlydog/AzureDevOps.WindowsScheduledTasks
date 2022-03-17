@@ -19,7 +19,7 @@ function Get-AccountCredentialsToRunScheduledTaskAs
 {
 	param
 	(
-		[ValidateSet('System', 'LocalService', 'NetworkService', 'CustomAccount')]
+		[ValidateSet('System', 'LocalService', 'NetworkService', 'CustomAccount', 'PrincipalFromXml')]
 		[string] $scheduldTaskAccountToRunAsOptions,
 		[string] $customAccountToRunScheduledTaskAsUsername,
 		[string] $customAccountToRunScheduledTaskAsPassword
@@ -32,6 +32,7 @@ function Get-AccountCredentialsToRunScheduledTaskAs
 		"System" { $username = 'NT AUTHORITY\SYSTEM'; break }
 		"LocalService" { $username = 'NT AUTHORITY\LOCALSERVICE'; break }
 		"NetworkService" { $username = 'NT AUTHORITY\NETWORKSERVICE'; break }
+		"PrincipalFromXml" { $username = $null; break; }
 		default
 		{
 			$username = $customAccountToRunScheduledTaskAsUsername
