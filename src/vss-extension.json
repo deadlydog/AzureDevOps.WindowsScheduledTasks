@@ -1,7 +1,7 @@
 {
   "manifestVersion": 1,
   "id": "WindowsScheduledTasksBuildAndReleaseTasks",
-  "name": "Windows Scheduled Tasks",
+  "name": "Manage Scheduled Tasks",
   "version": "0.0.0",
   "publisher": "deadlydog",
   "targets": [

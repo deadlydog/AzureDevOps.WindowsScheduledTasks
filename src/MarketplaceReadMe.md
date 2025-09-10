@@ -1,6 +1,8 @@
-# Windows Scheduled Tasks Azure DevOps Extension
+# Manage Scheduled Tasks Azure DevOps Extension
 
 This [Azure DevOps (i.e. TFS) extension][ExtensionInAzureDevOpsMarketplaceUrl] provides Build and Release Pipeline tasks that allow Windows Scheduled Tasks to easily be installed, uninstalled, enabled, disabled, started, and stopped on the local or remote computer(s).
+
+> Note: This extension was previously named "Windows Scheduled Tasks", but has been renamed at the request of Microsoft.
 
 ## Features
 
