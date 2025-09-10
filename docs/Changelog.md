@@ -2,9 +2,13 @@
 
 This page is a list of *notable* changes made to the Windows Scheduled Tasks Azure DevOps extension.
 
-## September 10, 2025 - v2.2.2
+## September 10, 2025 - v2.3.16
 
 - refactor: Update the extension name from "Windows Scheduled Tasks" to "Manage Scheduled Tasks" at the request of Microsoft to comply with their branding policies.
+
+## November 8, 2022 - v2.3.12
+
+- feature: Allow an empty user to be used with XML file import.
 
 ## March 21, 2022 - v2.2.1
 
