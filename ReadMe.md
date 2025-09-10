@@ -5,7 +5,7 @@ This [Azure DevOps (i.e. TFS) extension][ExtensionInAzureDevOpsMarketplaceUrl] p
 Current build status: [![Build Status](https://dev.azure.com/deadlydog/OpenSource/_apis/build/status/deadlydog.AzureDevOps.WindowsScheduledTasks?branchName=main)](https://dev.azure.com/deadlydog/OpenSource/_build/latest?definitionId=32&branchName=main)
 [![Deployment Status](https://vsrm.dev.azure.com/deadlydog/_apis/public/Release/badge/baf297a4-1582-49bd-b9ca-6d38492faafa/1/1)](https://dev.azure.com/deadlydog/OpenSource/_release?definitionId=1)
 
-> Note: This extension was previously named "Windows Scheduled Tasks", but has been renamed at the request of Microsoft.
+> Note: This extension was previously named "Windows Scheduled Tasks", but was renamed at Microsoft's request.
 
 ## Features
 
