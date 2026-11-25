@@ -471,10 +471,8 @@
 		}
 	],
   "execution": {
-    "PowerShell": {
-      "target": "$(currentDirectory)/Code/Install-WindowsScheduledTask-TaskEntryPoint.ps1",
-      "argumentFormat": "",
-      "workingDirectory": "$(currentDirectory)"
+    "PowerShell3": {
+      "target": "Install-WindowsScheduledTask.ps1"
     }
   }
 }

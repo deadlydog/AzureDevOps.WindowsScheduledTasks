@@ -37,9 +37,16 @@ steps:
       Write-Host "Setting the name of the build to '$buildName'."
       Write-Host "##vso[build.updatebuildnumber]$buildName"
 
+- task: PowerShell@2
+  displayName: 'Bundle PowerShell task SDK'
+  inputs:
+    targetType: filePath
+    filePath: 'build\Restore-TaskSdk.ps1'
+
 - task: Pester.PesterRunner.Pester-Task.Pester@9
   displayName: 'Pester Test Runner'
   inputs:
+    scriptFolder: '$(System.DefaultWorkingDirectory)\src\SharedTaskCode'
     CodeCoverageOutputFile: '$(System.DefaultWorkingDirectory)\CodeCoverage.xml'
     PesterVersion: OtherVersion
     preferredPesterVersion: 4.10.1

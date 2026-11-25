@@ -89,6 +89,8 @@ You can [view the change log here][ExtensionChangeLogUrl].
 
 Under the hood this extension uses the [PowerShell ScheduledTasks cmdlets][PowerShellScheduledTasksDocumentationUrl], so the functionality it can offer is limited to what those cmdlets provide.
 
+The pipeline tasks use Azure DevOps' supported `PowerShell3` handler with a bundled [PowerShell task SDK](https://github.com/microsoft/azure-pipelines-task-lib/blob/master/powershell/Docs/README.md). This handler runs Windows PowerShell; it does not require PowerShell 7 or a runtime SDK download. Existing pipelines pinned to the older v1 tasks must select the current v2 task version to receive this update.
+
 ## Changelog
 
 See what's changed in the extension over time by viewing [the changelog](docs/Changelog.md).

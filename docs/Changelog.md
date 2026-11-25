@@ -2,6 +2,11 @@
 
 This page is a list of *notable* changes made to the Windows Scheduled Tasks Azure DevOps extension.
 
+## Unreleased
+
+- fix: Migrate all six pipeline tasks from the deprecated PowerShell execution handler to the supported PowerShell3 handler and bundle VstsTaskSdk with each task. Existing task inputs and Scheduled Task behavior are unchanged.
+- build: Restore the pinned PowerShell task SDK automatically for CI and manual packaging; no runtime download is required.
+
 ## September 10, 2025 - v2.3.16
 
 - refactor: Update the extension name from "Windows Scheduled Tasks" to "Manage Scheduled Tasks" at the request of Microsoft to comply with their branding policies.

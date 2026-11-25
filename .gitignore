@@ -1,4 +1,5 @@
 *.vsix
+src/Tasks/*/ps_modules/VstsTaskSdk/
 
 ### VisualStudioCode ###
 .vscode/*
