@@ -15,6 +15,8 @@ Process
 
 	Confirm-RequiredFilesExist -extensionJsonFilePath $extensionJsonFilePath -taskJsonFilePaths $taskJsonFilePaths
 
+	& (Join-Path $THIS_SCRIPTS_DIRECTORY_PATH 'Restore-TaskSdk.ps1')
+
 	Set-VersionNumberInFiles -extensionJsonFilePath $extensionJsonFilePath -taskJsonFilePaths $taskJsonFilePaths
 
 	New-VsixPackage -extensionJsonFilePath $extensionJsonFilePath
@@ -22,6 +24,7 @@ Process
 
 Begin
 {
+	$ErrorActionPreference = 'Stop'
 	[string] $THIS_SCRIPTS_DIRECTORY_PATH = $PSScriptRoot
 
 	function Confirm-RequiredFilesExist([string] $extensionJsonFilePath, [string[]] $taskJsonFilePaths)
